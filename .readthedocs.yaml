@@ -14,7 +14,7 @@ build:
   
 
 conda:
-  environment: akhdefov2.yml
+  environment: akhdefo_conda_env.yml
     # You can also specify other tool versions:
     # nodejs: "20"
     # rust: "1.70"
