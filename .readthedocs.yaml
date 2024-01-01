@@ -15,7 +15,7 @@ build:
     - pip install .
 
 conda:
-  environment: env.txt
+  environment: environment.yml
     # You can also specify other tool versions:
     # nodejs: "20"
     # rust: "1.70"
