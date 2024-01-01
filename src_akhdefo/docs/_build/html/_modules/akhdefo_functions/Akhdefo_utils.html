@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,18 +27,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script src="../../_static/documentation_options.js?v=5e1f2621"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/akhdefo_functions/Akhdefo_utils';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -284,7 +283,9 @@ document.write(`
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 <span class="kn">import</span> <span class="nn">gstools</span> <span class="k">as</span> <span class="nn">gs</span>
 
-<div class="viewcode-block" id="Akhdefo_resample"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.Akhdefo_resample">[docs]</a><span class="k">def</span> <span class="nf">Akhdefo_resample</span><span class="p">(</span><span class="n">input_raster</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_raster</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">xres</span><span class="o">=</span><span class="mf">3.125</span> <span class="p">,</span> <span class="n">yres</span><span class="o">=</span><span class="mf">3.125</span><span class="p">,</span> <span class="n">SavFig</span><span class="o">=</span><span class="kc">False</span> <span class="p">,</span> <span class="n">convert_units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Akhdefo_resample">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.Akhdefo_resample">[docs]</a>
+<span class="k">def</span> <span class="nf">Akhdefo_resample</span><span class="p">(</span><span class="n">input_raster</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_raster</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">xres</span><span class="o">=</span><span class="mf">3.125</span> <span class="p">,</span> <span class="n">yres</span><span class="o">=</span><span class="mf">3.125</span><span class="p">,</span> <span class="n">SavFig</span><span class="o">=</span><span class="kc">False</span> <span class="p">,</span> <span class="n">convert_units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This program performs raster resampling for  rasters</span>
 <span class="sd">   </span>
@@ -371,7 +372,10 @@ document.write(`
         <span class="n">rs</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Akhdefo_inversion"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.Akhdefo_inversion">[docs]</a><span class="k">def</span> <span class="nf">Akhdefo_inversion</span><span class="p">(</span><span class="n">horizontal_InSAR</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">Vertical_InSAR</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">EW_Akhdefo</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">NS_Akhdefo</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">demFile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Akhdefo_inversion">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.Akhdefo_inversion">[docs]</a>
+<span class="k">def</span> <span class="nf">Akhdefo_inversion</span><span class="p">(</span><span class="n">horizontal_InSAR</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">Vertical_InSAR</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">EW_Akhdefo</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">NS_Akhdefo</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">demFile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This program calculates 3D displacement velocity (East-West,North-South and vertical) using combined optical and InSAR products</span>
 <span class="sd">   </span>
@@ -505,6 +509,7 @@ document.write(`
     <span class="n">outputfileName</span><span class="o">=</span><span class="s2">&quot;trend.jpg&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmocean</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">noDATA_Mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
+
         
         
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -521,7 +526,9 @@ document.write(`
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">mask_raster</span>
 
-<div class="viewcode-block" id="Auto_Variogram"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.Auto_Variogram">[docs]</a><span class="k">def</span> <span class="nf">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">overlap_percentage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;interpolated_kriging&#39;</span><span class="p">,</span> 
+<div class="viewcode-block" id="Auto_Variogram">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.Auto_Variogram">[docs]</a>
+<span class="k">def</span> <span class="nf">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">overlap_percentage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;interpolated_kriging&#39;</span><span class="p">,</span> 
                    <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;kriging_plots&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;geo_rasterFolder&#39;</span><span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">UTM_Zone</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Automatically selects the best variogram model for interpolating datapoints and clips the results </span>
@@ -904,7 +911,10 @@ document.write(`
 
     <span class="k">return</span> <span class="n">z_grid</span></div>
 
-<div class="viewcode-block" id="check_shapefile_columns"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.check_shapefile_columns">[docs]</a><span class="k">def</span> <span class="nf">check_shapefile_columns</span><span class="p">(</span><span class="n">geodata</span><span class="p">,</span> <span class="n">latlon</span><span class="p">):</span>
+
+<div class="viewcode-block" id="check_shapefile_columns">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.check_shapefile_columns">[docs]</a>
+<span class="k">def</span> <span class="nf">check_shapefile_columns</span><span class="p">(</span><span class="n">geodata</span><span class="p">,</span> <span class="n">latlon</span><span class="p">):</span>
     <span class="n">required_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">latlon</span> <span class="k">else</span> <span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">required_columns</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">geodata</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
@@ -912,7 +922,10 @@ document.write(`
 
 
 
-<div class="viewcode-block" id="akhdefo_download_planet"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.akhdefo_download_planet">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">akhdefo_download_planet</span><span class="p">(</span><span class="n">planet_api_key</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="s2">&quot;plinth.json&quot;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span> <span class="s2">&quot;May 1, 2016&quot;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> 
+
+<div class="viewcode-block" id="akhdefo_download_planet">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.akhdefo_download_planet">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">akhdefo_download_planet</span><span class="p">(</span><span class="n">planet_api_key</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="s2">&quot;plinth.json&quot;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span> <span class="s2">&quot;May 1, 2016&quot;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> 
                            <span class="n">item_type</span><span class="o">=</span><span class="s2">&quot;PSOrthoTile&quot;</span><span class="p">,</span> <span class="n">product_bundle</span><span class="o">=</span><span class="s2">&quot;analytic_sr_udm2&quot;</span><span class="p">,</span> <span class="n">clear_percent</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">cloud_filter</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s2">&quot;raw_data&quot;</span><span class="p">,</span> <span class="n">clip_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download_data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; Parameters</span>
@@ -1342,7 +1355,10 @@ document.write(`
         <span class="n">search_and_move_zip_files</span><span class="p">(</span><span class="n">source_folder</span><span class="p">,</span> <span class="n">destination_folder</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="akhdefo_orthorectify"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.akhdefo_orthorectify">[docs]</a><span class="k">def</span> <span class="nf">akhdefo_orthorectify</span><span class="p">(</span><span class="n">input_Dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dem_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ortho_usingRpc</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">file_ex</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="akhdefo_orthorectify">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.akhdefo_orthorectify">[docs]</a>
+<span class="k">def</span> <span class="nf">akhdefo_orthorectify</span><span class="p">(</span><span class="n">input_Dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dem_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ortho_usingRpc</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">file_ex</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">    Parameteres</span>
@@ -1422,11 +1438,14 @@ document.write(`
 
 
 
+
 <span class="kn">import</span> <span class="nn">asf_search</span> <span class="k">as</span> <span class="nn">asf</span>
 <span class="kn">import</span> <span class="nn">hyp3_sdk</span> <span class="k">as</span> <span class="nn">sdk</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<div class="viewcode-block" id="download_RTC"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.download_RTC">[docs]</a><span class="k">def</span> <span class="nf">download_RTC</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">asf_datapool_results_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="download_RTC">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.download_RTC">[docs]</a>
+<span class="k">def</span> <span class="nf">download_RTC</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">asf_datapool_results_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
                  <span class="n">job_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;rtc-test&#39;</span><span class="p">,</span> <span class="n">dem_matching</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">include_dem</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                  <span class="n">include_inc_map</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">include_rgb</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
                  <span class="n">include_scattering_area</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;amplitude&#39;</span><span class="p">,</span>
@@ -1585,6 +1604,7 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;set value download= </span><span class="si">{</span><span class="n">download</span><span class="si">}</span><span class="s2"> to True to submit the jobs and download RTC data&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;List of granules: </span><span class="si">{</span><span class="n">granules_to_download</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
     
     
    
@@ -1598,7 +1618,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">rasterio.mask</span> <span class="kn">import</span> <span class="n">mask</span>
 <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">exposure</span>
 
-<div class="viewcode-block" id="reproject_raster_to_match_shapefile"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.reproject_raster_to_match_shapefile">[docs]</a><span class="k">def</span> <span class="nf">reproject_raster_to_match_shapefile</span><span class="p">(</span><span class="n">src_path</span><span class="p">,</span> <span class="n">dst_path</span><span class="p">,</span> <span class="n">dst_crs</span><span class="p">):</span>
+<div class="viewcode-block" id="reproject_raster_to_match_shapefile">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.reproject_raster_to_match_shapefile">[docs]</a>
+<span class="k">def</span> <span class="nf">reproject_raster_to_match_shapefile</span><span class="p">(</span><span class="n">src_path</span><span class="p">,</span> <span class="n">dst_path</span><span class="p">,</span> <span class="n">dst_crs</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reproject a raster to match the coordinate reference system (CRS) of a shapefile.</span>
@@ -1634,7 +1656,10 @@ document.write(`
                     <span class="n">dst_crs</span><span class="o">=</span><span class="n">dst_crs</span><span class="p">,</span>
                     <span class="n">resampling</span><span class="o">=</span><span class="n">Resampling</span><span class="o">.</span><span class="n">nearest</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="create_vegetation_mask"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.create_vegetation_mask">[docs]</a><span class="k">def</span> <span class="nf">create_vegetation_mask</span><span class="p">(</span><span class="n">red_band_path</span><span class="p">,</span> <span class="n">nir_band_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">shapefile_path</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">save_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_path</span><span class="o">=</span><span class="s2">&quot;plot.png&quot;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="create_vegetation_mask">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.create_vegetation_mask">[docs]</a>
+<span class="k">def</span> <span class="nf">create_vegetation_mask</span><span class="p">(</span><span class="n">red_band_path</span><span class="p">,</span> <span class="n">nir_band_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">shapefile_path</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">save_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_path</span><span class="o">=</span><span class="s2">&quot;plot.png&quot;</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a binary vegetation mask based on the NDVI (Normalized Difference Vegetation Index) calculation.</span>
@@ -1708,6 +1733,7 @@ document.write(`
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vegetation mask created and saved to </span><span class="si">{</span><span class="n">output_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
     
     
     
@@ -1724,7 +1750,9 @@ document.write(`
 <span class="kn">import</span> <span class="nn">time</span>
 
 <span class="c1"># Function to measure displacement using Dense Optical Flow</span>
-<div class="viewcode-block" id="measure_displacement_from_camera"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.measure_displacement_from_camera">[docs]</a><span class="k">def</span> <span class="nf">measure_displacement_from_camera</span><span class="p">(</span><span class="n">hls_url</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">save_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ssim_threshold</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> 
+<div class="viewcode-block" id="measure_displacement_from_camera">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.measure_displacement_from_camera">[docs]</a>
+<span class="k">def</span> <span class="nf">measure_displacement_from_camera</span><span class="p">(</span><span class="n">hls_url</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">save_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ssim_threshold</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> 
                                      <span class="n">pyr_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">poly_n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">poly_sigma</span><span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">1</span> <span class="p">,</span> <span class="n">show_video</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">streamer_option</span><span class="o">=</span><span class="s1">&#39;mag&#39;</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -2192,13 +2220,16 @@ document.write(`
     
     <span class="k">del</span> <span class="n">fig</span>
     <span class="k">del</span> <span class="n">fig2</span></div>
+
      
 <span class="c1">############################################</span>
 
 <span class="c1">############################## The below program works to save the processing video into video file#############</span>
 
 <span class="c1"># Function to measure displacement using Dense Optical Flow</span>
-<div class="viewcode-block" id="measure_displacement_from_camera_toFile"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.measure_displacement_from_camera_toFile">[docs]</a><span class="k">def</span> <span class="nf">measure_displacement_from_camera_toFile</span><span class="p">(</span><span class="n">hls_url</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">save_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ssim_threshold</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> 
+<div class="viewcode-block" id="measure_displacement_from_camera_toFile">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.measure_displacement_from_camera_toFile">[docs]</a>
+<span class="k">def</span> <span class="nf">measure_displacement_from_camera_toFile</span><span class="p">(</span><span class="n">hls_url</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">save_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ssim_threshold</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> 
                                      <span class="n">pyr_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">poly_n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">poly_sigma</span><span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">1</span> <span class="p">,</span> <span class="n">show_video</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -2517,6 +2548,7 @@ document.write(`
     <span class="k">return</span> <span class="n">vid</span></div>
 
 
+
 <span class="c1">##########################################</span>
 
 <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">osr</span>
@@ -2525,7 +2557,9 @@ document.write(`
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">box</span>
 
-<div class="viewcode-block" id="calculate_new_geotransform"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.calculate_new_geotransform">[docs]</a><span class="k">def</span> <span class="nf">calculate_new_geotransform</span><span class="p">(</span><span class="n">overlap_box</span><span class="p">,</span> <span class="n">src_transform</span><span class="p">):</span>
+<div class="viewcode-block" id="calculate_new_geotransform">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.calculate_new_geotransform">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_new_geotransform</span><span class="p">(</span><span class="n">overlap_box</span><span class="p">,</span> <span class="n">src_transform</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate a new geotransform matrix based on the overlap of image boundaries.</span>
 
@@ -2540,7 +2574,10 @@ document.write(`
     <span class="n">new_transform</span> <span class="o">=</span> <span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">src_transform</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">src_transform</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">src_transform</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">src_transform</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">new_transform</span></div>
 
-<div class="viewcode-block" id="crop_to_overlap"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.crop_to_overlap">[docs]</a><span class="k">def</span> <span class="nf">crop_to_overlap</span><span class="p">(</span><span class="n">folder_path</span><span class="p">):</span>
+
+<div class="viewcode-block" id="crop_to_overlap">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.crop_to_overlap">[docs]</a>
+<span class="k">def</span> <span class="nf">crop_to_overlap</span><span class="p">(</span><span class="n">folder_path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Crop all valid image files in the specified folder to the overlapping area.</span>
 
@@ -2640,6 +2677,7 @@ document.write(`
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected error while overwriting </span><span class="si">{</span><span class="n">image_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
+
 <span class="c1"># # Test the function with your paths</span>
 <span class="c1"># input_folder = &#39;geo/flowx&#39;</span>
 <span class="c1"># crop_to_overlap(input_folder)</span>
@@ -2648,7 +2686,9 @@ document.write(`
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
 
-<div class="viewcode-block" id="crop_point_shapefile_with_aoi"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.crop_point_shapefile_with_aoi">[docs]</a><span class="k">def</span> <span class="nf">crop_point_shapefile_with_aoi</span><span class="p">(</span><span class="n">point_shapefile</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">):</span>
+<div class="viewcode-block" id="crop_point_shapefile_with_aoi">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.crop_point_shapefile_with_aoi">[docs]</a>
+<span class="k">def</span> <span class="nf">crop_point_shapefile_with_aoi</span><span class="p">(</span><span class="n">point_shapefile</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Crop a point shapefile with an Area of Interest (AOI) polygon shapefile.</span>
@@ -2723,6 +2763,7 @@ document.write(`
        
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The resulting GeoDataFrame is empty. No file will be written.&quot;</span><span class="p">)</span></div>
+
         
 
 <span class="c1">####################</span>

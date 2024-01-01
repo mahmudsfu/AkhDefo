@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,18 +27,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script src="../../_static/documentation_options.js?v=5e1f2621"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/akhdefo_functions/OpticalFlow';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -262,7 +261,9 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <h1>Source code for akhdefo_functions.OpticalFlow</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="binary_mask"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.OpticalFlow.binary_mask">[docs]</a><span></span><span class="k">def</span> <span class="nf">binary_mask</span><span class="p">(</span><span class="n">raster_path</span> <span class="p">,</span> <span class="n">shape_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">file_name</span> <span class="p">):</span>
+<div class="viewcode-block" id="binary_mask">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.OpticalFlow.binary_mask">[docs]</a>
+<span></span><span class="k">def</span> <span class="nf">binary_mask</span><span class="p">(</span><span class="n">raster_path</span> <span class="p">,</span> <span class="n">shape_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">file_name</span> <span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    </span>
@@ -333,7 +334,10 @@ document.write(`
         <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="DynamicChangeDetection"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.OpticalFlow.DynamicChangeDetection">[docs]</a><span class="k">def</span> <span class="nf">DynamicChangeDetection</span><span class="p">(</span><span class="n">Path_working_Directory</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">Path_UDM2_folder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">AOI_shapefile</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+
+<div class="viewcode-block" id="DynamicChangeDetection">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.OpticalFlow.DynamicChangeDetection">[docs]</a>
+<span class="k">def</span> <span class="nf">DynamicChangeDetection</span><span class="p">(</span><span class="n">Path_working_Directory</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">Path_UDM2_folder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">AOI_shapefile</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
  <span class="n">Path_to_DEMFile</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">out_dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">Coh_Thresh</span><span class="o">=</span><span class="mf">0.75</span> <span class="p">,</span> <span class="n">vel_thresh</span><span class="o">=</span><span class="mf">0.063</span> <span class="p">,</span> <span class="n">image_sensor_resolution</span><span class="o">=</span><span class="mf">3125.0</span><span class="p">,</span> <span class="n">udm_mask_option</span><span class="o">=</span><span class="kc">False</span> <span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span> 
  <span class="n">Median_Filter</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_option</span><span class="o">=</span><span class="s2">&quot;origional&quot;</span><span class="p">,</span> <span class="n">xres</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">yres</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span>
@@ -1540,6 +1544,7 @@ document.write(`
         
         
     <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot; process is compeleted&quot;</span><span class="p">)</span></div>
+
    
         
 

@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,18 +27,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script src="../../_static/documentation_options.js?v=5e1f2621"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/akhdefo_functions/Akhdefo_Tools';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -273,7 +272,9 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<div class="viewcode-block" id="resample_raster"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.resample_raster">[docs]</a><span class="k">def</span> <span class="nf">resample_raster</span><span class="p">(</span><span class="n">src_array</span><span class="p">,</span> <span class="n">src_transform</span><span class="p">,</span> <span class="n">src_crs</span><span class="p">,</span> <span class="n">dst_transform</span><span class="p">,</span> <span class="n">dst_crs</span><span class="p">,</span> <span class="n">dst_shape</span><span class="p">,</span> <span class="n">resampling_method</span><span class="o">=</span><span class="n">rasterio</span><span class="o">.</span><span class="n">enums</span><span class="o">.</span><span class="n">Resampling</span><span class="o">.</span><span class="n">nearest</span><span class="p">):</span>
+<div class="viewcode-block" id="resample_raster">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.resample_raster">[docs]</a>
+<span class="k">def</span> <span class="nf">resample_raster</span><span class="p">(</span><span class="n">src_array</span><span class="p">,</span> <span class="n">src_transform</span><span class="p">,</span> <span class="n">src_crs</span><span class="p">,</span> <span class="n">dst_transform</span><span class="p">,</span> <span class="n">dst_crs</span><span class="p">,</span> <span class="n">dst_shape</span><span class="p">,</span> <span class="n">resampling_method</span><span class="o">=</span><span class="n">rasterio</span><span class="o">.</span><span class="n">enums</span><span class="o">.</span><span class="n">Resampling</span><span class="o">.</span><span class="n">nearest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Resample the source raster array to match the destination raster&#39;s resolution and extent.</span>
 <span class="sd">    </span>
@@ -308,7 +309,10 @@ document.write(`
 
 
 
-<div class="viewcode-block" id="scatter_area_mask"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.scatter_area_mask">[docs]</a><span class="k">def</span> <span class="nf">scatter_area_mask</span><span class="p">(</span><span class="n">input_folder</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">plot_folder</span><span class="p">,</span> <span class="n">shapefile_path</span><span class="p">,</span> <span class="n">scatter_Area_threshold</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">vegetation_mask_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="scatter_area_mask">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.scatter_area_mask">[docs]</a>
+<span class="k">def</span> <span class="nf">scatter_area_mask</span><span class="p">(</span><span class="n">input_folder</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">plot_folder</span><span class="p">,</span> <span class="n">shapefile_path</span><span class="p">,</span> <span class="n">scatter_Area_threshold</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">vegetation_mask_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create an accumulated scatter area mask from a set of raster images based on a given threshold. the input dataset is taken from ASF RTC processing.</span>
 <span class="sd">    The scattering area for each pixel in the RTC image in square meters. The values are calculated based on the effectively illuminated gamma-0 terrain surface using a digital elevation model, </span>
@@ -444,10 +448,13 @@ document.write(`
         <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plot_folder</span><span class="p">,</span> <span class="s2">&quot;SAR_scatterArea_mask.png&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">pad_inches</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
         
 
 
-<div class="viewcode-block" id="utm_to_latlon"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.utm_to_latlon">[docs]</a><span class="k">def</span> <span class="nf">utm_to_latlon</span><span class="p">(</span><span class="n">easting</span><span class="p">,</span> <span class="n">northing</span><span class="p">,</span> <span class="n">zone_number</span><span class="p">,</span> <span class="n">zone_letter</span><span class="p">):</span>
+<div class="viewcode-block" id="utm_to_latlon">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.utm_to_latlon">[docs]</a>
+<span class="k">def</span> <span class="nf">utm_to_latlon</span><span class="p">(</span><span class="n">easting</span><span class="p">,</span> <span class="n">northing</span><span class="p">,</span> <span class="n">zone_number</span><span class="p">,</span> <span class="n">zone_letter</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    This program converts geographic projection of shapefiles from UTM to LATLONG</span>
 <span class="sd">    </span>
@@ -474,6 +481,7 @@ document.write(`
     
     <span class="k">return</span> <span class="p">[</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">]</span></div>
 
+
 <span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -482,7 +490,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">rasterio.transform</span> <span class="kn">import</span> <span class="n">Affine</span>
 
 
-<div class="viewcode-block" id="flip_geotiff_180"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.flip_geotiff_180">[docs]</a><span class="k">def</span> <span class="nf">flip_geotiff_180</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+<div class="viewcode-block" id="flip_geotiff_180">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.flip_geotiff_180">[docs]</a>
+<span class="k">def</span> <span class="nf">flip_geotiff_180</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
     <span class="c1"># List all files in the directory</span>
     <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
         <span class="c1"># Only process files with the .tif extension</span>
@@ -507,7 +517,10 @@ document.write(`
                 <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="assign_fake_projection"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.assign_fake_projection">[docs]</a><span class="k">def</span> <span class="nf">assign_fake_projection</span><span class="p">(</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
+
+<div class="viewcode-block" id="assign_fake_projection">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.assign_fake_projection">[docs]</a>
+<span class="k">def</span> <span class="nf">assign_fake_projection</span><span class="p">(</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Note</span>
 <span class="sd">    ====</span>
@@ -611,12 +624,15 @@ document.write(`
             <span class="c1"># Write the data to the same file, overwriting the original</span>
             <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;GTiff&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">count</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">src</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
                 <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  </div>
+
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 
 
-<div class="viewcode-block" id="move_files"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.move_files">[docs]</a><span class="k">def</span> <span class="nf">move_files</span><span class="p">(</span><span class="n">base_directory</span><span class="p">):</span>
+<div class="viewcode-block" id="move_files">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.move_files">[docs]</a>
+<span class="k">def</span> <span class="nf">move_files</span><span class="p">(</span><span class="n">base_directory</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function reorganizes files in the specified directory. </span>
 <span class="sd">    It searches for timestamps in filenames, creates subdirectories based on the hour part of the timestamp,</span>
@@ -669,14 +685,19 @@ document.write(`
 
 
 
+
 <span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">K</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Activation</span><span class="p">,</span> <span class="n">Conv2D</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Flatten</span><span class="p">,</span>
                                      <span class="n">MaxPooling2D</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
 
 
-<div class="viewcode-block" id="LeNet"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.LeNet">[docs]</a><span class="k">class</span> <span class="nc">LeNet</span><span class="p">:</span>
-<div class="viewcode-block" id="LeNet.build"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.LeNet.build">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="LeNet">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.LeNet">[docs]</a>
+<span class="k">class</span> <span class="nc">LeNet</span><span class="p">:</span>
+<div class="viewcode-block" id="LeNet.build">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.LeNet.build">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">classes</span><span class="p">):</span>
         <span class="c1"># initialize the model</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
@@ -707,9 +728,13 @@ document.write(`
         <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s2">&quot;softmax&quot;</span><span class="p">))</span>
 
         <span class="c1"># return the constructed network architecture</span>
-        <span class="k">return</span> <span class="n">model</span></div></div>
+        <span class="k">return</span> <span class="n">model</span></div>
+</div>
 
-<div class="viewcode-block" id="Lenet_Model_training"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.Lenet_Model_training">[docs]</a><span class="k">def</span> <span class="nf">Lenet_Model_training</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s2">&quot;DataForTraining&quot;</span><span class="p">,</span> <span class="n">model_out</span><span class="o">=</span><span class="s2">&quot;foggy_not_foggy.model&quot;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="s2">&quot;Model_stat_plot.png&quot;</span><span class="p">,</span> <span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Lenet_Model_training">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.Lenet_Model_training">[docs]</a>
+<span class="k">def</span> <span class="nf">Lenet_Model_training</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s2">&quot;DataForTraining&quot;</span><span class="p">,</span> <span class="n">model_out</span><span class="o">=</span><span class="s2">&quot;foggy_not_foggy.model&quot;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="s2">&quot;Model_stat_plot.png&quot;</span><span class="p">,</span> <span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
     <span class="n">INIT_LR</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">,</span>  <span class="n">BS</span> <span class="o">=</span> <span class="mi">32</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -876,6 +901,7 @@ document.write(`
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
 
+
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span><span class="p">,</span> <span class="n">makedirs</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isdir</span><span class="p">,</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
 
@@ -887,7 +913,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
 
-<div class="viewcode-block" id="classification"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.classification">[docs]</a><span class="k">def</span> <span class="nf">classification</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;dataset_imagery&quot;</span><span class="p">,</span> <span class="n">trained_model</span><span class="o">=</span><span class="s2">&quot;foggy_not_foggy.model&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="classification">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.classification">[docs]</a>
+<span class="k">def</span> <span class="nf">classification</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;dataset_imagery&quot;</span><span class="p">,</span> <span class="n">trained_model</span><span class="o">=</span><span class="s2">&quot;foggy_not_foggy.model&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Classifies images in the specified directory using a trained model.</span>
 
@@ -966,13 +994,16 @@ document.write(`
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">No more files left to process&quot;</span><span class="p">)</span>  <span class="c1"># Print final message on a new line</span></div>
 
 
+
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">rasterio</span>
 <span class="kn">from</span> <span class="nn">rasterio.transform</span> <span class="kn">import</span> <span class="n">Affine</span>
 
 
-<div class="viewcode-block" id="calculate_volume"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.calculate_volume">[docs]</a><span class="k">def</span> <span class="nf">calculate_volume</span><span class="p">(</span><span class="n">elevation_map</span><span class="p">,</span> <span class="n">slope_map</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">plot_map</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="calculate_volume">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.calculate_volume">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_volume</span><span class="p">(</span><span class="n">elevation_map</span><span class="p">,</span> <span class="n">slope_map</span><span class="p">,</span> <span class="n">cell_size</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">plot_map</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the volume based on an elevation map and a slope map,</span>
 <span class="sd">    and save the volume map as a GeoTIFF file. Optionally, plot the volume map as a figure and save it.</span>
@@ -1043,6 +1074,7 @@ document.write(`
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">volume_map</span></div>
+
 
 
 
@@ -1414,7 +1446,9 @@ document.write(`
 <span class="c1">############################################################</span>
 
 
-<div class="viewcode-block" id="akhdefo_fitPlane"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.akhdefo_fitPlane">[docs]</a><span class="k">def</span> <span class="nf">akhdefo_fitPlane</span><span class="p">(</span><span class="n">dem_data</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">line_shapefile</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">out_planeFolder</span><span class="o">=</span><span class="s1">&#39;Planes_out&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="akhdefo_fitPlane">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.akhdefo_fitPlane">[docs]</a>
+<span class="k">def</span> <span class="nf">akhdefo_fitPlane</span><span class="p">(</span><span class="n">dem_data</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">line_shapefile</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">out_planeFolder</span><span class="o">=</span><span class="s1">&#39;Planes_out&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fit planes to points in a Digital Elevation Model (DEM) and visualize the results.</span>
 
@@ -2198,6 +2232,7 @@ document.write(`
 
     
     <span class="n">plot_dem</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">projection</span><span class="p">,</span> <span class="n">line_shapefile</span><span class="p">)</span></div>
+
    
     
 <span class="c1">#akhdefo_fitPlane(dem_data=&#39;currie/dem_1m.tif&#39;, line_shapefile=&#39;currie/lines.shp&#39;, out_planeFolder=&#39;Planes_out/new&#39;, limit_extend=False)</span>
@@ -2205,7 +2240,9 @@ document.write(`
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 
-<div class="viewcode-block" id="move_files_with_string"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.move_files_with_string">[docs]</a><span class="k">def</span> <span class="nf">move_files_with_string</span><span class="p">(</span><span class="n">source_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dest_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">search_string</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="move_files_with_string">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.move_files_with_string">[docs]</a>
+<span class="k">def</span> <span class="nf">move_files_with_string</span><span class="p">(</span><span class="n">source_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dest_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">search_string</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Move files from a source directory to a destination directory based on a search string present in their paths.</span>
 
@@ -2249,13 +2286,16 @@ document.write(`
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error moving file </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">dest_file_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
+
 <span class="c1">#############################################</span>
 <span class="c1">#This part is still under construction</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">rasterio</span>
 
-<div class="viewcode-block" id="calculate_slope"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.calculate_slope">[docs]</a><span class="k">def</span> <span class="nf">calculate_slope</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">aspect</span><span class="p">,</span> <span class="n">dx</span><span class="p">):</span>
+<div class="viewcode-block" id="calculate_slope">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.calculate_slope">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_slope</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">aspect</span><span class="p">,</span> <span class="n">dx</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the slope at each pixel using the aspect to determine direction.</span>
 
@@ -2273,7 +2313,10 @@ document.write(`
     <span class="n">slope_degrees</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">directional_grad</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">slope_degrees</span></div>
 
-<div class="viewcode-block" id="calculate_height_change"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.calculate_height_change">[docs]</a><span class="k">def</span> <span class="nf">calculate_height_change</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+
+<div class="viewcode-block" id="calculate_height_change">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.calculate_height_change">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_height_change</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the height change using the slope and distance for each pixel.</span>
 
@@ -2288,7 +2331,10 @@ document.write(`
     <span class="n">height_change</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">slope_radians</span><span class="p">)</span> <span class="o">*</span> <span class="n">distance</span>
     <span class="k">return</span> <span class="n">height_change</span></div>
 
-<div class="viewcode-block" id="calculate_volume_change"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.calculate_volume_change">[docs]</a><span class="k">def</span> <span class="nf">calculate_volume_change</span><span class="p">(</span><span class="n">height_change</span><span class="p">,</span> <span class="n">pixel_area</span><span class="p">):</span>
+
+<div class="viewcode-block" id="calculate_volume_change">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.calculate_volume_change">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_volume_change</span><span class="p">(</span><span class="n">height_change</span><span class="p">,</span> <span class="n">pixel_area</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the volume change for each pixel.</span>
 
@@ -2302,7 +2348,10 @@ document.write(`
     <span class="n">volume_change</span> <span class="o">=</span> <span class="n">height_change</span> <span class="o">*</span> <span class="n">pixel_area</span>
     <span class="k">return</span> <span class="n">volume_change</span></div>
 
-<div class="viewcode-block" id="displacement_to_volume"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.displacement_to_volume">[docs]</a><span class="k">def</span> <span class="nf">displacement_to_volume</span><span class="p">(</span><span class="n">dem_path</span><span class="p">,</span> <span class="n">aspect_path</span><span class="p">,</span> <span class="n">displacement_path</span><span class="p">,</span> <span class="n">slope_output_path</span><span class="p">,</span> <span class="n">height_output_path</span><span class="p">,</span> <span class="n">volume_output_path</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">pixel_area</span><span class="p">):</span>
+
+<div class="viewcode-block" id="displacement_to_volume">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.displacement_to_volume">[docs]</a>
+<span class="k">def</span> <span class="nf">displacement_to_volume</span><span class="p">(</span><span class="n">dem_path</span><span class="p">,</span> <span class="n">aspect_path</span><span class="p">,</span> <span class="n">displacement_path</span><span class="p">,</span> <span class="n">slope_output_path</span><span class="p">,</span> <span class="n">height_output_path</span><span class="p">,</span> <span class="n">volume_output_path</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">pixel_area</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Process the DEM, aspect, and displacement rasters to calculate and export the slope, height change, and volume change.</span>
 
@@ -2352,10 +2401,13 @@ document.write(`
 
 
 
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
 
-<div class="viewcode-block" id="calculate_and_save_aspect_raster"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.calculate_and_save_aspect_raster">[docs]</a><span class="k">def</span> <span class="nf">calculate_and_save_aspect_raster</span><span class="p">(</span><span class="n">ew_raster_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ns_raster_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_raster_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="calculate_and_save_aspect_raster">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.calculate_and_save_aspect_raster">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_and_save_aspect_raster</span><span class="p">(</span><span class="n">ew_raster_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ns_raster_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_raster_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the aspect raster from east-west and north-south displacement rasters and save it.</span>
 
@@ -2406,6 +2458,7 @@ document.write(`
     <span class="c1"># Calculate the aspect and save the result</span>
     <span class="n">aspect_data</span> <span class="o">=</span> <span class="n">calculate_aspect</span><span class="p">(</span><span class="n">ew_data</span><span class="p">,</span> <span class="n">ns_data</span><span class="p">)</span>
     <span class="n">save_raster</span><span class="p">(</span><span class="n">output_raster_path</span><span class="p">,</span> <span class="n">aspect_data</span><span class="p">,</span> <span class="n">geo_transform</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span></div>
+
 
 <span class="c1"># Example usage:</span>
 <span class="c1"># calculate_and_save_aspect_raster(&#39;path_to_ew_raster.tif&#39;, &#39;path_to_ns_raster.tif&#39;, &#39;path_to_output_aspect_raster.tif&#39;)</span>

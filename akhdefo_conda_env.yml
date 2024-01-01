@@ -19,6 +19,11 @@ dependencies:
   - numpy
   - gdal
   - pandas
+  -recommonmark
+  -sphinx
+  -nbsphinx
+  -sphinx-book-theme
+  -myst-parser
   - pathlib2  # pathlib is part of the standard library
   - plotly
   - pykrige

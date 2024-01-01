@@ -19,7 +19,7 @@ release = '2.2.58'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc', 'recommonmark' , 'nbsphinx' ]
+extensions = ['sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc', 'myst_parser' , 'nbsphinx' ]
 
 
 html_short_title = "Akhdefo"

@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,18 +27,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script src="../../_static/documentation_options.js?v=5e1f2621"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/akhdefo_functions/Mosaic_Crop';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -265,7 +264,9 @@ document.write(`
 <span></span>
 
 
-<div class="viewcode-block" id="Mosaic"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Mosaic_Crop.Mosaic">[docs]</a><span class="k">def</span> <span class="nf">Mosaic</span><span class="p">(</span><span class="n">Path_to_WorkingDir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_MosaicDir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">img_mode</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="n">file_ex</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Mosaic">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Mosaic_Crop.Mosaic">[docs]</a>
+<span class="k">def</span> <span class="nf">Mosaic</span><span class="p">(</span><span class="n">Path_to_WorkingDir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_MosaicDir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">img_mode</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="n">file_ex</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This program mosiacs raster images in geotif format as well as grab dates of the satellite image taken for further processing. </span>
@@ -388,6 +389,7 @@ document.write(`
             <span class="n">vrt</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">BuildVRT</span><span class="p">(</span><span class="s2">&quot;merged1.vrt&quot;</span><span class="p">,</span> <span class="n">img_similar_datesList</span><span class="p">)</span>
             <span class="n">gdal</span><span class="o">.</span><span class="n">Translate</span><span class="p">(</span><span class="n">merged_name</span><span class="p">,</span> <span class="n">vrt</span><span class="p">,</span> <span class="n">xRes</span> <span class="o">=</span> <span class="mf">3.125</span><span class="p">,</span> <span class="n">yRes</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.125</span><span class="p">)</span>
             <span class="n">vrt</span> <span class="o">=</span> <span class="kc">None</span> </div>
+
            
         
       
@@ -401,7 +403,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">ogr</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<div class="viewcode-block" id="rasterClip"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Mosaic_Crop.rasterClip">[docs]</a><span class="k">def</span> <span class="nf">rasterClip</span><span class="p">(</span><span class="n">rasterpath</span><span class="p">,</span> <span class="n">aoi</span><span class="p">,</span> <span class="n">outfilename</span><span class="p">):</span>
+<div class="viewcode-block" id="rasterClip">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Mosaic_Crop.rasterClip">[docs]</a>
+<span class="k">def</span> <span class="nf">rasterClip</span><span class="p">(</span><span class="n">rasterpath</span><span class="p">,</span> <span class="n">aoi</span><span class="p">,</span> <span class="n">outfilename</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Clip a raster file using an Area Of Interest (AOI) defined by a shapefile.</span>
 <span class="sd">    Uses GDAL for processing.</span>
@@ -458,7 +462,10 @@ document.write(`
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;An error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> </div>
 
-<div class="viewcode-block" id="Crop_to_AOI"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Mosaic_Crop.Crop_to_AOI">[docs]</a><span class="k">def</span> <span class="nf">Crop_to_AOI</span><span class="p">(</span><span class="n">Path_to_WorkingDir</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">Path_to_AOI_shapefile</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_CroppedDir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">file_ex</span><span class="o">=</span> <span class="s1">&#39;.tif&#39;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Crop_to_AOI">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Mosaic_Crop.Crop_to_AOI">[docs]</a>
+<span class="k">def</span> <span class="nf">Crop_to_AOI</span><span class="p">(</span><span class="n">Path_to_WorkingDir</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">Path_to_AOI_shapefile</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_CroppedDir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">file_ex</span><span class="o">=</span> <span class="s1">&#39;.tif&#39;</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This program used to clip multiple  raster files</span>
@@ -517,6 +524,7 @@ document.write(`
         <span class="n">path_to_file</span> <span class="o">=</span> <span class="n">name</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path_to_file</span><span class="p">)</span>
         <span class="n">rasterClip</span><span class="p">(</span><span class="n">raster_path</span><span class="p">,</span> <span class="n">Path_to_AOI_shapefile</span> <span class="p">,</span><span class="n">name</span> <span class="p">)</span></div>
+
         
 </pre></div>
 

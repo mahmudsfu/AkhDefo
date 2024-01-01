@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,18 +27,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script src="../../_static/documentation_options.js?v=5e1f2621"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/akhdefo_functions/Akhdefo_TS';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -263,7 +262,9 @@ document.write(`
                   
   <h1>Source code for akhdefo_functions.Akhdefo_TS</h1><div class="highlight"><pre>
 <span></span>
-<div class="viewcode-block" id="Time_Series"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_TS.Time_Series">[docs]</a><span class="k">def</span> <span class="nf">Time_Series</span><span class="p">(</span><span class="n">stacked_raster_EW</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">stacked_raster_NS</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">velocity_points</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dates_name</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">outputFilename</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="Time_Series">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_TS.Time_Series">[docs]</a>
+<span class="k">def</span> <span class="nf">Time_Series</span><span class="p">(</span><span class="n">stacked_raster_EW</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">stacked_raster_NS</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">velocity_points</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dates_name</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">outputFilename</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
                  <span class="n">std</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">VEL_Scale</span><span class="o">=</span><span class="s1">&#39;year&#39;</span> <span class="p">,</span> <span class="n">velocity_mode</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="n">master_reference</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -689,12 +690,15 @@ document.write(`
     <span class="n">corrected_mean_products_geo</span><span class="o">=</span><span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">corrected_mean_products</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">gdf_ew</span><span class="o">.</span><span class="n">crs</span><span class="p">)</span>
     
     <span class="n">corrected_mean_products_geo</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">output_folder</span> <span class="o">+</span><span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">outputFilename</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;_mean.shp&quot;</span><span class="p">)</span></div>
+
     
     
 
    
 
-<div class="viewcode-block" id="akhdefo_dashApp"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_TS.akhdefo_dashApp">[docs]</a><span class="k">def</span> <span class="nf">akhdefo_dashApp</span><span class="p">(</span><span class="n">Path_to_Shapefile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span><span class="mi">8051</span> <span class="p">,</span> <span class="n">Column_Name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">BaseMap</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">basemap_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="akhdefo_dashApp">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_TS.akhdefo_dashApp">[docs]</a>
+<span class="k">def</span> <span class="nf">akhdefo_dashApp</span><span class="p">(</span><span class="n">Path_to_Shapefile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span><span class="mi">8051</span> <span class="p">,</span> <span class="n">Column_Name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">BaseMap</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">basemap_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initializes and runs a Dash web application for geospatial data analysis based on a provided shapefile.</span>
 <span class="sd">    This application provides a user interface to visualize geospatial data on maps and time-series plots.</span>
@@ -1193,6 +1197,7 @@ document.write(`
 
 
     <span class="k">return</span> <span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span></div>
+
 
 
 

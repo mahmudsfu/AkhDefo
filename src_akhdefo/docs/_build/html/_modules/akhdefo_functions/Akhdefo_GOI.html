@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,18 +27,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script src="../../_static/documentation_options.js?v=5e1f2621"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/akhdefo_functions/Akhdefo_GOI';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -269,7 +268,9 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">gc</span>
 
-<div class="viewcode-block" id="mask_raster_with_template"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.mask_raster_with_template">[docs]</a><span class="k">def</span> <span class="nf">mask_raster_with_template</span><span class="p">(</span><span class="n">input_raster_path</span><span class="p">,</span> <span class="n">mask_raster_path</span><span class="p">,</span> <span class="n">noData_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">):</span>
+<div class="viewcode-block" id="mask_raster_with_template">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.mask_raster_with_template">[docs]</a>
+<span class="k">def</span> <span class="nf">mask_raster_with_template</span><span class="p">(</span><span class="n">input_raster_path</span><span class="p">,</span> <span class="n">mask_raster_path</span><span class="p">,</span> <span class="n">noData_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Masks a georeferenced raster file using a binary raster mask template.</span>
 
@@ -324,7 +325,10 @@ document.write(`
 
 
 
-<div class="viewcode-block" id="mask_all_rasters_in_directory"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.mask_all_rasters_in_directory">[docs]</a><span class="k">def</span> <span class="nf">mask_all_rasters_in_directory</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mask_raster_path</span><span class="p">):</span>
+
+<div class="viewcode-block" id="mask_all_rasters_in_directory">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.mask_all_rasters_in_directory">[docs]</a>
+<span class="k">def</span> <span class="nf">mask_all_rasters_in_directory</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mask_raster_path</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Masks all georeferenced raster files in a specified directory using a binary raster mask template.</span>
@@ -344,6 +348,7 @@ document.write(`
             <span class="n">mask_raster_with_template</span><span class="p">(</span><span class="n">input_raster_path</span><span class="p">,</span> <span class="n">mask_raster_path</span><span class="p">)</span></div>
 
 
+
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -354,7 +359,9 @@ document.write(`
 
 
 <span class="c1">#Calculate Linear Velocity for each data point</span>
-<div class="viewcode-block" id="linear_VEL"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.linear_VEL">[docs]</a><span class="k">def</span> <span class="nf">linear_VEL</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dnames</span><span class="p">):</span>
+<div class="viewcode-block" id="linear_VEL">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.linear_VEL">[docs]</a>
+<span class="k">def</span> <span class="nf">linear_VEL</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dnames</span><span class="p">):</span>
     
     <span class="n">dd_list</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dnames</span><span class="p">]</span>
     <span class="n">dates_list</span><span class="o">=</span><span class="p">([</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dd_list</span><span class="p">])</span>
@@ -375,6 +382,7 @@ document.write(`
         <span class="n">dslope</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slope</span><span class="p">)</span>
         <span class="n">std_slope</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">std_err</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dslope</span><span class="p">,</span> <span class="n">std_slope</span></div>
+
 
 <span class="c1"># def replace_outliers_with_nan_zscore(gdf, column_name, threshold):</span>
 <span class="c1">#     # Create a copy of the GeoDataFrame to avoid modifying the original</span>
@@ -608,7 +616,9 @@ document.write(`
 
 <span class="c1">######################################</span>
 
-<div class="viewcode-block" id="process_shapefile_with_rasters"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.process_shapefile_with_rasters">[docs]</a><span class="k">def</span> <span class="nf">process_shapefile_with_rasters</span><span class="p">(</span><span class="n">shapefile_path</span><span class="p">,</span> <span class="n">rasterfile_paths</span><span class="p">):</span>
+<div class="viewcode-block" id="process_shapefile_with_rasters">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.process_shapefile_with_rasters">[docs]</a>
+<span class="k">def</span> <span class="nf">process_shapefile_with_rasters</span><span class="p">(</span><span class="n">shapefile_path</span><span class="p">,</span> <span class="n">rasterfile_paths</span><span class="p">):</span>
     <span class="c1"># Load the shapefile</span>
     <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">shapefile_path</span><span class="p">)</span>
 
@@ -680,7 +690,10 @@ document.write(`
 
     <span class="k">return</span> <span class="n">gdf</span></div>
 
-<div class="viewcode-block" id="find_best_match"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.find_best_match">[docs]</a><span class="k">def</span> <span class="nf">find_best_match</span><span class="p">(</span><span class="n">gdf</span><span class="p">):</span>
+
+<div class="viewcode-block" id="find_best_match">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.find_best_match">[docs]</a>
+<span class="k">def</span> <span class="nf">find_best_match</span><span class="p">(</span><span class="n">gdf</span><span class="p">):</span>
     <span class="c1"># # Check if the dataframe is empty</span>
     <span class="k">if</span> <span class="n">gdf</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: The dataframe is empty. No data to process.&quot;</span><span class="p">)</span>
@@ -720,6 +733,7 @@ document.write(`
     <span class="k">return</span> <span class="n">best_match_index</span></div>
 
 
+
 <span class="c1">######################################3</span>
 
 
@@ -733,7 +747,9 @@ document.write(`
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
 
-<div class="viewcode-block" id="calculate_slopes_std_and_residuals"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.calculate_slopes_std_and_residuals">[docs]</a><span class="k">def</span> <span class="nf">calculate_slopes_std_and_residuals</span><span class="p">(</span><span class="n">geodataframe</span><span class="p">):</span>
+<div class="viewcode-block" id="calculate_slopes_std_and_residuals">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.calculate_slopes_std_and_residuals">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_slopes_std_and_residuals</span><span class="p">(</span><span class="n">geodataframe</span><span class="p">):</span>
     <span class="n">L_slopes</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">M_slopes</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">L_std_devs</span> <span class="o">=</span> <span class="p">[]</span>
@@ -774,8 +790,11 @@ document.write(`
 
 
 
+
 <span class="n">best_match_index</span><span class="o">=</span><span class="kc">None</span>
-<div class="viewcode-block" id="update_nodata_values"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.update_nodata_values">[docs]</a><span class="k">def</span> <span class="nf">update_nodata_values</span><span class="p">(</span><span class="n">shapefile_path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
+<div class="viewcode-block" id="update_nodata_values">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.update_nodata_values">[docs]</a>
+<span class="k">def</span> <span class="nf">update_nodata_values</span><span class="p">(</span><span class="n">shapefile_path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
                          <span class="n">rasterfile_paths</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
                          <span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">VEL_Mode</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">VEL_scale</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">master_reference</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">Total_days</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     
@@ -1076,13 +1095,16 @@ document.write(`
     <span class="c1">#     f.write(&quot;UTF-8&quot;)</span>
     <span class="k">return</span> <span class="n">gdf</span> <span class="p">,</span> <span class="n">update_dir_shapefile</span></div>
 
+
 <span class="c1">##################################################################################################</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
-<div class="viewcode-block" id="merge_geodataframes_generator"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.merge_geodataframes_generator">[docs]</a><span class="k">def</span> <span class="nf">merge_geodataframes_generator</span><span class="p">(</span><span class="n">gdfs</span><span class="p">):</span>
+<div class="viewcode-block" id="merge_geodataframes_generator">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.merge_geodataframes_generator">[docs]</a>
+<span class="k">def</span> <span class="nf">merge_geodataframes_generator</span><span class="p">(</span><span class="n">gdfs</span><span class="p">):</span>
     <span class="n">total_gdfs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">gdfs</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">gdf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">gdfs</span><span class="p">):</span>
@@ -1098,6 +1120,7 @@ document.write(`
 
         <span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Merging GeoDataFrame </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total_gdfs</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">yield</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">description</span></div>
+
 
 
 
@@ -1117,7 +1140,9 @@ document.write(`
         <span class="k">return</span> <span class="n">col</span>
 
 
-<div class="viewcode-block" id="merge_geodataframes"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.merge_geodataframes">[docs]</a><span class="k">def</span> <span class="nf">merge_geodataframes</span><span class="p">(</span><span class="n">gdfs</span><span class="p">):</span>
+<div class="viewcode-block" id="merge_geodataframes">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.merge_geodataframes">[docs]</a>
+<span class="k">def</span> <span class="nf">merge_geodataframes</span><span class="p">(</span><span class="n">gdfs</span><span class="p">):</span>
     <span class="c1">############3</span>
     
     <span class="c1">################</span>
@@ -1138,6 +1163,7 @@ document.write(`
     
     
     <span class="k">return</span> <span class="n">final_gdf</span></div>
+
 
 
 <span class="c1">###################################################################</span>
@@ -1161,7 +1187,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">skimage.metrics</span> <span class="kn">import</span> <span class="n">structural_similarity</span> <span class="k">as</span> <span class="n">ssim</span>
 
 
-<div class="viewcode-block" id="mask_raster"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.mask_raster">[docs]</a><span class="k">def</span> <span class="nf">mask_raster</span><span class="p">(</span><span class="n">dem_array</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mask_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">scatter_x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scatter_y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="mask_raster">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.mask_raster">[docs]</a>
+<span class="k">def</span> <span class="nf">mask_raster</span><span class="p">(</span><span class="n">dem_array</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mask_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">scatter_x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scatter_y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters:</span>
 <span class="sd">        - Mask a given raster (DEM) array using a binary mask and optionally filter scatter plot data based on the same mask.</span>
@@ -1238,8 +1266,11 @@ document.write(`
         <span class="k">return</span> <span class="n">scatter_x_masked</span><span class="p">,</span> <span class="n">scatter_y_masked</span></div>
 
 
+
 <span class="c1"># Correcting the date format in column names and filtering columns</span>
-<div class="viewcode-block" id="correct_date_format"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.correct_date_format">[docs]</a><span class="k">def</span> <span class="nf">correct_date_format</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+<div class="viewcode-block" id="correct_date_format">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.correct_date_format">[docs]</a>
+<span class="k">def</span> <span class="nf">correct_date_format</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">):</span>
         <span class="n">date_part</span> <span class="o">=</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1253,7 +1284,10 @@ document.write(`
         <span class="c1"># Return non-date columns as is</span>
         <span class="k">return</span> <span class="n">col</span></div>
 
-<div class="viewcode-block" id="Optical_flow_akhdefo"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.Optical_flow_akhdefo">[docs]</a><span class="k">def</span> <span class="nf">Optical_flow_akhdefo</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="mi">2</span> <span class="p">,</span> <span class="n">ssim_thresh</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">image_resolution</span><span class="o">=</span><span class="s1">&#39;3125mm&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Optical_flow_akhdefo">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.Optical_flow_akhdefo">[docs]</a>
+<span class="k">def</span> <span class="nf">Optical_flow_akhdefo</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="mi">2</span> <span class="p">,</span> <span class="n">ssim_thresh</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">image_resolution</span><span class="o">=</span><span class="s1">&#39;3125mm&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                           <span class="n">dem_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">smoothing_kernel_size</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">Vegetation_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">VEL_scale</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">VEL_Mode</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span>
                             <span class="n">good_match_option</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">hillshade_option</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shapefile_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_triplet_interval</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span>
                             <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">overlap_percentage</span><span class="o">=</span><span class="mi">0</span> <span class="p">,</span> <span class="n">pyr_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">poly_n</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span><span class="n">poly_sigma</span><span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
@@ -2615,6 +2649,7 @@ document.write(`
 
     <span class="n">feature_matching</span><span class="p">(</span><span class="n">folder_path</span><span class="o">=</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="n">zscore_threshold</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="n">AOI</span><span class="p">,</span> <span class="n">conversion_factor</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">img_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">ssim_thresh</span><span class="o">=</span><span class="n">ssim_thresh</span><span class="p">)</span></div>
 
+
    
 
     
@@ -2622,7 +2657,9 @@ document.write(`
 
 
 
-<div class="viewcode-block" id="interpolate_xyz"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.interpolate_xyz">[docs]</a><span class="k">def</span> <span class="nf">interpolate_xyz</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">reference_raster</span><span class="p">,</span> <span class="n">shapefile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+<div class="viewcode-block" id="interpolate_xyz">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.interpolate_xyz">[docs]</a>
+<span class="k">def</span> <span class="nf">interpolate_xyz</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">reference_raster</span><span class="p">,</span> <span class="n">shapefile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
                         <span class="n">smoothing_kernel_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2762,6 +2799,7 @@ document.write(`
         <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">zi</span></div>
+
 </pre></div>
 
                 </article>

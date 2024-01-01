@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,18 +27,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script src="../../_static/documentation_options.js?v=5e1f2621"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/akhdefo_functions/AkhdefoPlot';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -310,7 +309,9 @@ document.write(`
 
 
 
-<div class="viewcode-block" id="akhdefo_viewer"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.AkhdefoPlot.akhdefo_viewer">[docs]</a><span class="k">def</span> <span class="nf">akhdefo_viewer</span><span class="p">(</span><span class="n">Path_to_DEMFile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">rasterfile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">pixel_resolution_meter</span><span class="o">=</span><span class="mf">3.125</span><span class="p">,</span>
+<div class="viewcode-block" id="akhdefo_viewer">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.AkhdefoPlot.akhdefo_viewer">[docs]</a>
+<span class="k">def</span> <span class="nf">akhdefo_viewer</span><span class="p">(</span><span class="n">Path_to_DEMFile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">rasterfile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">pixel_resolution_meter</span><span class="o">=</span><span class="mf">3.125</span><span class="p">,</span>
                     <span class="n">outputfolder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">outputfileName</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">noDATA_Mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span> 
                     <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -433,7 +434,10 @@ document.write(`
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="plot_stackNetwork"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.AkhdefoPlot.plot_stackNetwork">[docs]</a><span class="k">def</span> <span class="nf">plot_stackNetwork</span><span class="p">(</span><span class="n">src_folder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;tab20&#39;</span><span class="p">,</span> <span class="n">date_plot_interval</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">marker_size</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
+
+<div class="viewcode-block" id="plot_stackNetwork">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.AkhdefoPlot.plot_stackNetwork">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_stackNetwork</span><span class="p">(</span><span class="n">src_folder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;tab20&#39;</span><span class="p">,</span> <span class="n">date_plot_interval</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">marker_size</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    This Program plots temporal network of triplets to be stacked for calculating </span>
 <span class="sd">    Annual Mean Velocity from stacked optical images.</span>
@@ -565,9 +569,12 @@ document.write(`
 
 
 
+
     
 
-<div class="viewcode-block" id="akhdefo_ts_plot"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.AkhdefoPlot.akhdefo_ts_plot">[docs]</a><span class="k">def</span> <span class="nf">akhdefo_ts_plot</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dem_path</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;turbo&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="akhdefo_ts_plot">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.AkhdefoPlot.akhdefo_ts_plot">[docs]</a>
+<span class="k">def</span> <span class="nf">akhdefo_ts_plot</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dem_path</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;turbo&quot;</span><span class="p">,</span>
                     <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">MinMaxRange</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">]</span> <span class="p">,</span> <span class="n">color_field</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span><span class="p">,</span> <span class="n">user_data_points</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> 
                     <span class="n">path_saveData_points</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">save_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">Fig_outputDir</span><span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="p">,</span> <span class="n">VEL_Scale</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">filename_dates</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -1110,6 +1117,7 @@ document.write(`
          
     
     <span class="n">cid</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s1">&#39;button_press_event&#39;</span><span class="p">,</span> <span class="n">onclick</span><span class="p">)</span></div>
+
     
     
     
@@ -1118,7 +1126,9 @@ document.write(`
    
    
 
-<div class="viewcode-block" id="MeanProducts_plot_ts"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.AkhdefoPlot.MeanProducts_plot_ts">[docs]</a><span class="k">def</span> <span class="nf">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dem_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">out_folder</span><span class="o">=</span><span class="s2">&quot;Figs_analysis&quot;</span><span class="p">,</span> <span class="n">color_field</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">MinMaxRange</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span>
+<div class="viewcode-block" id="MeanProducts_plot_ts">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.AkhdefoPlot.MeanProducts_plot_ts">[docs]</a>
+<span class="k">def</span> <span class="nf">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dem_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">out_folder</span><span class="o">=</span><span class="s2">&quot;Figs_analysis&quot;</span><span class="p">,</span> <span class="n">color_field</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">MinMaxRange</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span>
                    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;jet&quot;</span> <span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cbar_label</span><span class="o">=</span><span class="s2">&quot;mm/year&quot;</span> <span class="p">,</span> <span class="n">batch_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dates_list</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1407,6 +1417,7 @@ document.write(`
             <span class="k">else</span><span class="p">:</span>
                 
                 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
                 
             
             
