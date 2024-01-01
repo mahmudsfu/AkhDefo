@@ -1,4 +1,3 @@
-
 name: akhdefo_env
 channels:
   - conda-forge
@@ -6,6 +5,7 @@ channels:
 dependencies:
   - python  # Assuming Python 3.8, can be changed as needed
   - cmocean
+  - pip
   - opencv
   - earthpy
   - flask
@@ -19,11 +19,11 @@ dependencies:
   - numpy
   - gdal
   - pandas
-  -recommonmark
-  -sphinx
-  -nbsphinx
-  -sphinx-book-theme
-  -myst-parser
+  - recommonmark
+  - sphinx
+  - nbsphinx
+  - sphinx-book-theme
+  - myst-parser
   - pathlib2  # pathlib is part of the standard library
   - plotly
   - pykrige
@@ -39,3 +39,12 @@ dependencies:
   - tensorflow
   - tqdm
   - xmltodict  # for working with XML, similar to xml.etree.ElementTree
+  - pip:
+    - sphinx
+    - recommonmark
+    - nbsphinx
+    - sphinx_book_theme
+    - myst-parser
+    - nbsphinx
+    - sphinx-gallery
+    - sphinx-theme
