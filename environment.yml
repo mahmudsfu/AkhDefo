@@ -399,3 +399,17 @@ dependencies:
   - libprotobuf==3.21.12=h12be248_0
   - geotiff==1.7.1=hb4c6682_7
 prefix: C:\Users\mahmud\anaconda3\envs\akhdefov2
+name: myenv
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - gdal
+  - opencv
+  - rasterio
+  - scikit-image
+  - scikit-learn
+  - numpy
+  - matplotlib
+  - pykriging  # Assuming you meant pykriging. Note that this might need to be installed from a specific channel or via pip if not available in Conda channels.
+  - gstools
