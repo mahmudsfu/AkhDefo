@@ -9,11 +9,11 @@ sphinx:
 # Set the OS, Python version and other tools you might need
 build:
   os: "ubuntu-20.04"
-  tools:
-    python: "mambaforge-22.9"
+  # tools:
+  #   python: "mambaforge-22.9"
 
 conda:
-  environment: environment.yml
+  environment: env.txt
     # You can also specify other tool versions:
     # nodejs: "20"
     # rust: "1.70"
