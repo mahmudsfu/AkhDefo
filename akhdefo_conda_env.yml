@@ -1,0 +1,37 @@
+
+name: akhdefo_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8  # Assuming Python 3.8, can be changed as needed
+  - argparse
+  - cmocean
+  - opencv
+  - earthpy
+  - flask
+  - geopandas
+  - glob2  # glob is part of the standard library, glob2 is an enhanced version
+  - gstools
+  - hyp3_sdk
+  - ipywidgets
+  - json5  # json is part of the standard library, json5 is an enhanced version
+  - matplotlib
+  - numpy
+  - gdal
+  - pandas
+  - pathlib  # pathlib is part of the standard library
+  - plotly
+  - pykrige
+  - rasterio
+  - requests
+  - rioxarray
+  - scipy
+  - seaborn
+  - shapely
+  - scikit-image  # skimage
+  - scikit-learn  # sklearn
+  - statsmodels
+  - tensorflow
+  - tqdm
+  - xmltodict  # for working with XML, similar to xml.etree.ElementTree
