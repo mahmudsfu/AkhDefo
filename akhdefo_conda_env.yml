@@ -4,8 +4,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.8  # Assuming Python 3.8, can be changed as needed
-  - argparse
+  - python  # Assuming Python 3.8, can be changed as needed
   - cmocean
   - opencv
   - earthpy
@@ -20,7 +19,7 @@ dependencies:
   - numpy
   - gdal
   - pandas
-  - pathlib  # pathlib is part of the standard library
+  - pathlib2  # pathlib is part of the standard library
   - plotly
   - pykrige
   - rasterio
