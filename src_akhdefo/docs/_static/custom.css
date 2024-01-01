@@ -1,0 +1,48 @@
+/* Custom CSS for Sphinx Book Theme */
+
+/* General body styling */
+body {
+    font-family: Arial, sans-serif; /* Change to your preferred font */
+    color: #333333; /* Text color */
+    background-color: #f8f8f8; /* Background color */
+}
+
+/* Header styling */
+.navbar {
+    background-color: #007bff; /* Background color for the navbar */
+    color: white; /* Text color for the navbar */
+}
+
+.navbar a {
+    color: white; /* Text color for navbar links */
+}
+
+/* Sidebar styling */
+.bd-sidebar {
+    background-color: #f0f0f0; /* Background color for the sidebar */
+}
+
+.bd-sidebar a {
+    color: #007bff; /* Text color for sidebar links */
+}
+
+/* Main content area styling */
+.bd-main {
+    background-color: white; /* Background color for the main content area */
+    padding: 20px; /* Padding around the main content */
+}
+
+/* Footer styling */
+.bd-footer {
+    background-color: #007bff; /* Background color for the footer */
+    color: white; /* Text color for the footer */
+}
+
+/* Custom button styling */
+.btn-custom {
+    background-color: #28a745; /* Background color for custom buttons */
+    color: white; /* Text color for custom buttons */
+}
+
+/* Add additional custom styles below */
+

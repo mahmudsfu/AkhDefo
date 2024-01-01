@@ -1,0 +1,589 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>akhdefo_functions.Mosaic_Crop &#8212; AkhDefo Software 2.2.58 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/akhdefo_functions/Mosaic_Crop';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/akhdefo_logo.svg" class="logo__image only-light" alt="AkhDefo Software 2.2.58 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/akhdefo_logo.svg" class="logo__image only-dark" alt="AkhDefo Software 2.2.58 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">Akhdefo:</a></li>
+
+
+
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../akhdefo_functions.html">akhdefo_functions package</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for akhdefo_functions.Mosaic_Crop</h1><div class="highlight"><pre>
+<span></span>
+
+
+<div class="viewcode-block" id="Mosaic"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Mosaic_Crop.Mosaic">[docs]</a><span class="k">def</span> <span class="nf">Mosaic</span><span class="p">(</span><span class="n">Path_to_WorkingDir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_MosaicDir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">img_mode</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="n">file_ex</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This program mosiacs raster images in geotif format as well as grab dates of the satellite image taken for further processing. </span>
+<span class="sd">    The current version only supports PlanetLabs ortho SurfaceReflectance products.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    Path_to_WorkingDir: str</span>
+
+<span class="sd">    output_MosaicDir: str</span>
+
+<span class="sd">    img_mode: int</span>
+<span class="sd">         if img_mode=0 the the programs mosaics only the udm maskraster images.</span>
+<span class="sd">         </span>
+<span class="sd">         if img_mode=1 the program mosiacs only  rasters data images</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Mosaiced raster images</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">glob</span>
+    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+    <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+    <span class="kn">import</span> <span class="nn">glob</span>
+    <span class="kn">import</span> <span class="nn">re</span>
+
+
+<span class="c1">#5851965_1062413_2022-08-12_24a4_BGRN_SR_clip.tif</span>
+<span class="c1">#5851965_1062413_2022-08-12_24a4_udm2_clip.tif</span>
+    
+    <span class="n">Working_Dir</span><span class="o">=</span><span class="n">Path_to_WorkingDir</span>
+    <span class="n">output_MosaicDir</span><span class="o">=</span><span class="n">output_MosaicDir</span>
+    <span class="k">if</span> <span class="n">img_mode</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">file_ex</span><span class="o">=</span><span class="n">file_ex</span>
+        <span class="c1">#count_left=16</span>
+        <span class="c1">#count_right=-22</span>
+    <span class="k">elif</span> <span class="n">img_mode</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">file_ex</span><span class="o">=</span><span class="n">file_ex</span>
+        <span class="n">count_left</span><span class="o">=</span><span class="mi">16</span>
+        <span class="n">count_right</span><span class="o">=-</span><span class="mi">19</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;image mode is invalide </span>
+<span class="s2">        please enter 1 to process image data or </span>
+<span class="s2">        enter 0 to processes UDM2 Mask data. Alternatively, manually set the file_ex&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">file_ex</span><span class="o">=</span><span class="n">file_ex</span>
+
+    <span class="c1">#imglist = sorted(glob.glob(Working_Dir +&quot;/&quot;+ ext))</span>
+    <span class="k">def</span> <span class="nf">get_file_paths</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+        <span class="n">file_paths</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">file_ex</span><span class="p">):</span>
+                    <span class="n">file_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">file_paths</span>
+
+    <span class="c1"># replace &#39;your_directory_path&#39; with the path to the directory you want to iterate through</span>
+    <span class="n">imglist</span> <span class="o">=</span> <span class="n">get_file_paths</span><span class="p">(</span><span class="n">Working_Dir</span><span class="p">)</span>
+    
+    
+    
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">Working_Dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">Working_Dir</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_MosaicDir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_MosaicDir</span><span class="p">)</span>
+
+    <span class="n">outputfolder</span><span class="o">=</span><span class="n">output_MosaicDir</span>
+    
+    
+    <span class="c1"># Regular expression pattern to extract dates</span>
+    <span class="n">date_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d</span><span class="si">{4}</span><span class="s2">[-]?\d</span><span class="si">{2}</span><span class="s2">[-]?\d</span><span class="si">{2}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Extract dates from file names</span>
+    <span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">date_pattern</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">()</span> <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">imglist</span><span class="p">]</span>
+
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span> <span class="n">imglist</span><span class="p">):</span>
+        <span class="c1">#for item2 in imglist[idx+1:]:</span>
+            
+        <span class="n">filepath1</span><span class="p">,</span> <span class="n">filename1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">imglist</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">img_mode</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            
+            <span class="c1">#track_dates1=filename1[:10]</span>
+            <span class="c1"># Regular expression pattern to extract dates</span>
+            <span class="n">date_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d</span><span class="si">{4}</span><span class="s2">[-]?\d</span><span class="si">{2}</span><span class="s2">[-]?\d</span><span class="si">{2}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># Extract dates from the string</span>
+            <span class="n">track_dates1</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">date_pattern</span><span class="p">,</span> <span class="n">filename1</span><span class="p">)</span>
+
+
+            <span class="c1">#img_similar_datesList = [s for s in imglist if track_dates1 in s]</span>
+            <span class="n">img_similar_datesList</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">imglist</span> <span class="k">if</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">track_dates1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+
+            <span class="n">merged_name</span><span class="o">=</span> <span class="n">outputfolder</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="p">)</span>  <span class="o">+</span> <span class="s2">&quot;.tif&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mosaic file Name: &quot;</span> <span class="p">,</span> <span class="n">img_similar_datesList</span> <span class="p">)</span>
+            <span class="n">vrt</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">BuildVRT</span><span class="p">(</span><span class="s2">&quot;merged1.vrt&quot;</span><span class="p">,</span> <span class="n">img_similar_datesList</span><span class="p">)</span>
+            <span class="n">gdal</span><span class="o">.</span><span class="n">Translate</span><span class="p">(</span><span class="n">merged_name</span><span class="p">,</span> <span class="n">vrt</span><span class="p">,</span> <span class="n">xRes</span> <span class="o">=</span> <span class="mf">3.125</span><span class="p">,</span> <span class="n">yRes</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.125</span><span class="p">)</span>
+            <span class="n">vrt</span> <span class="o">=</span> <span class="kc">None</span> 
+                     
+        <span class="k">elif</span> <span class="n">img_mode</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="c1">#ext=&quot;*udm2*.tif&quot;</span>
+            <span class="c1">#count_left=16</span>
+            <span class="c1">#count_right=-19</span>
+            <span class="c1">#track_dates1=filename1[:10]</span>
+            <span class="c1"># Regular expression pattern to extract dates</span>
+            <span class="n">date_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d</span><span class="si">{4}</span><span class="s2">[-]?\d</span><span class="si">{2}</span><span class="s2">[-]?\d</span><span class="si">{2}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># Extract dates from the string</span>
+            <span class="n">track_dates1</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">date_pattern</span><span class="p">,</span> <span class="n">filename1</span><span class="p">)</span>
+
+
+            <span class="c1">#img_similar_datesList = [s for s in imglist if track_dates1 in s]</span>
+            <span class="n">img_similar_datesList</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">imglist</span> <span class="k">if</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">track_dates1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+
+            <span class="n">merged_name</span><span class="o">=</span> <span class="n">outputfolder</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="p">)</span>  <span class="o">+</span> <span class="s2">&quot;.tif&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mosaic file Name: &quot;</span> <span class="p">,</span> <span class="n">img_similar_datesList</span> <span class="p">)</span>
+            <span class="n">vrt</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">BuildVRT</span><span class="p">(</span><span class="s2">&quot;merged1.vrt&quot;</span><span class="p">,</span> <span class="n">img_similar_datesList</span><span class="p">)</span>
+            <span class="n">gdal</span><span class="o">.</span><span class="n">Translate</span><span class="p">(</span><span class="n">merged_name</span><span class="p">,</span> <span class="n">vrt</span><span class="p">,</span> <span class="n">xRes</span> <span class="o">=</span> <span class="mf">3.125</span><span class="p">,</span> <span class="n">yRes</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.125</span><span class="p">)</span>
+            <span class="n">vrt</span> <span class="o">=</span> <span class="kc">None</span> </div>
+           
+        
+      
+         
+           
+        
+      
+        
+
+
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">ogr</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="viewcode-block" id="rasterClip"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Mosaic_Crop.rasterClip">[docs]</a><span class="k">def</span> <span class="nf">rasterClip</span><span class="p">(</span><span class="n">rasterpath</span><span class="p">,</span> <span class="n">aoi</span><span class="p">,</span> <span class="n">outfilename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clip a raster file using an Area Of Interest (AOI) defined by a shapefile.</span>
+<span class="sd">    Uses GDAL for processing.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rasterpath : str</span>
+<span class="sd">        Path to the input raster file.</span>
+<span class="sd">    aoi : str</span>
+<span class="sd">        Path to the Area Of Interest shapefile.</span>
+<span class="sd">    outfilename : str</span>
+<span class="sd">        Path to the output clipped raster file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Open the input raster and read its projection</span>
+        <span class="n">srcRaster</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">rasterpath</span><span class="p">)</span>
+        <span class="n">srcProj</span> <span class="o">=</span> <span class="n">srcRaster</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">()</span>
+
+        <span class="c1"># Open the shapefile</span>
+        <span class="n">srcShape</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">aoi</span><span class="p">)</span>
+        <span class="n">layer</span> <span class="o">=</span> <span class="n">srcShape</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+
+        <span class="c1"># Create a temporary file to store the clipping geometry</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="s1">&#39;temp.shp&#39;</span>
+        <span class="n">driver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;ESRI Shapefile&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tmp</span><span class="p">):</span>
+            <span class="n">driver</span><span class="o">.</span><span class="n">DeleteDataSource</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="n">outShape</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">CreateDataSource</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="n">outLayer</span> <span class="o">=</span> <span class="n">outShape</span><span class="o">.</span><span class="n">CreateLayer</span><span class="p">(</span><span class="s1">&#39;temp&#39;</span><span class="p">,</span> <span class="n">geom_type</span><span class="o">=</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbPolygon</span><span class="p">)</span>
+        <span class="n">outLayer</span><span class="o">.</span><span class="n">CreateFields</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
+        <span class="n">outDefn</span> <span class="o">=</span> <span class="n">outLayer</span><span class="o">.</span><span class="n">GetLayerDefn</span><span class="p">()</span>
+        <span class="n">outFeature</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">outDefn</span><span class="p">)</span>
+
+        <span class="c1"># Loop through the features in the shapefile</span>
+        <span class="k">for</span> <span class="n">inFeature</span> <span class="ow">in</span> <span class="n">layer</span><span class="p">:</span>
+            <span class="n">geom</span> <span class="o">=</span> <span class="n">inFeature</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
+            <span class="n">outFeature</span><span class="o">.</span><span class="n">SetGeometry</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
+            <span class="n">outLayer</span><span class="o">.</span><span class="n">CreateFeature</span><span class="p">(</span><span class="n">outFeature</span><span class="p">)</span>
+
+        <span class="c1"># Close the shapefiles</span>
+        <span class="n">outShape</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">srcShape</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        
+
+        <span class="c1"># Clip the raster</span>
+        <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">outfilename</span><span class="p">,</span> <span class="n">srcRaster</span><span class="p">,</span> <span class="n">cutlineDSName</span><span class="o">=</span><span class="n">aoi</span><span class="p">,</span> <span class="n">cropToCutline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dstNodata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+        <span class="c1"># Close the raster</span>
+        <span class="n">srcRaster</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Delete the temporary shapefile</span>
+        <span class="n">driver</span><span class="o">.</span><span class="n">DeleteDataSource</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;An error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> </div>
+
+<div class="viewcode-block" id="Crop_to_AOI"><a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Mosaic_Crop.Crop_to_AOI">[docs]</a><span class="k">def</span> <span class="nf">Crop_to_AOI</span><span class="p">(</span><span class="n">Path_to_WorkingDir</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">Path_to_AOI_shapefile</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_CroppedDir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">file_ex</span><span class="o">=</span> <span class="s1">&#39;.tif&#39;</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This program used to clip multiple  raster files</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    Path_to_WorkingDir: str</span>
+<span class="sd">        path to raster working directory </span>
+
+<span class="sd">    Path_to_AOI_shapefile: str</span>
+<span class="sd">        path to Area of interest in shapefile format</span>
+
+<span class="sd">    output_CroppedDir: str </span>
+<span class="sd">        path to save cropped raster files</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cropped raster files</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">os</span> 
+    <span class="kn">import</span> <span class="nn">glob</span>
+    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+    <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_CroppedDir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_CroppedDir</span><span class="p">)</span>
+        
+    <span class="n">Path_to_WorkingDir</span><span class="o">=</span><span class="n">Path_to_WorkingDir</span>
+    <span class="n">output_CroppedDir</span><span class="o">=</span><span class="n">output_CroppedDir</span>
+
+    <span class="n">cropped_dest</span><span class="o">=</span><span class="n">output_CroppedDir</span>
+    <span class="c1">#imglist=glob.glob(Path_to_WorkingDir+ &quot;/&quot;+ &#39;*.tif&#39;)</span>
+    <span class="c1">#imglist.sort(key=os.path.getctime)</span>
+    <span class="k">def</span> <span class="nf">get_file_paths</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+        <span class="n">file_paths</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">file_ex</span><span class="p">):</span>
+                    <span class="n">file_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">file_paths</span>
+
+    <span class="c1"># replace &#39;your_directory_path&#39; with the path to the directory you want to iterate through</span>
+    <span class="n">imglist</span> <span class="o">=</span> <span class="n">get_file_paths</span><span class="p">(</span><span class="n">Path_to_WorkingDir</span><span class="p">)</span>
+    
+            
+    <span class="n">Path_to_AOI_shapefile</span><span class="o">=</span><span class="n">Path_to_AOI_shapefile</span>
+    
+    <span class="k">for</span>  <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">imglist</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">imglist</span><span class="p">)):</span>
+        <span class="n">item</span><span class="o">=</span><span class="n">imglist</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">filepath1</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">name</span><span class="o">=</span> <span class="n">cropped_dest</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">filename</span>
+        <span class="n">raster_path</span><span class="o">=</span><span class="n">item</span>
+        <span class="c1">#print(name, &quot; index: &quot;, idx)</span>
+        <span class="n">path_to_file</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path_to_file</span><span class="p">)</span>
+        <span class="n">rasterClip</span><span class="p">(</span><span class="n">raster_path</span><span class="p">,</span> <span class="n">Path_to_AOI_shapefile</span> <span class="p">,</span><span class="n">name</span> <span class="p">)</span></div>
+        
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mahmud Mustafa
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Mahmud Mustafa Muhammad.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
