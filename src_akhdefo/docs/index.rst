@@ -34,6 +34,9 @@ Tutorials!
 
    notebooks/RockGlacier_optical
    notebooks/RockGlacier_radar
+   notebooks/MudCreek_Landslide_optical
+   notebooks/Meager_radar
+
 
 Indices and tables
 ==================

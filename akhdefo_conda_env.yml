@@ -10,11 +10,11 @@ dependencies:
   - earthpy
   - flask
   - geopandas
-  - glob2  # glob is part of the standard library, glob2 is an enhanced version
+  - glob2
   - gstools
   - hyp3_sdk
   - ipywidgets
-  - json5  # json is part of the standard library, json5 is an enhanced version
+  - json5
   - matplotlib
   - numpy
   - gdal
@@ -24,7 +24,6 @@ dependencies:
   - nbsphinx
   - sphinx-book-theme
   - myst-parser
-  - pathlib2  # pathlib is part of the standard library
   - plotly
   - pykrige
   - rasterio
@@ -38,15 +37,9 @@ dependencies:
   - statsmodels
   - tensorflow
   - tqdm
-  - xmltodict  # for working with XML, similar to xml.etree.ElementTree
+  - xmltodict
   - pip:
-    - sphinx
-    - recommonmark
-    - nbsphinx
-    - sphinx_book_theme
-    - myst-parser
-    - nbsphinx
     - sphinx-gallery
     - sphinx-theme
-    -sphinx-autopackagesummary
-    -autodocsumm
+    - sphinx-autopackagesummary
+    - autodocsumm
