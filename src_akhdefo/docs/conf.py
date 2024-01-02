@@ -14,12 +14,12 @@ sys.path.insert(0, os.path.abspath('..'))
 project = 'AkhDefo Software'
 copyright = '2023, Mahmud Mustafa Muhammad'
 author = 'Mahmud Mustafa'
-release = '2.2.58'
+release = '2.2.59'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc', 'myst_parser' , 'nbsphinx' ]
+extensions = ['sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc', 'myst_parser' , 'nbsphinx' , 'autodocsumm' ]
 
 
 html_short_title = "Akhdefo"
@@ -37,3 +37,9 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'sphinx_book_theme'
 html_static_path = ['_static']
+
+autodoc_default_options = {
+    'autosummary': True,
+}
+
+nbsphinx_allow_errors = True

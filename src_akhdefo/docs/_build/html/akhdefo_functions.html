@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>akhdefo_functions package &#8212; AkhDefo Software 2.2.58 documentation</title>
+    <title>akhdefo_functions package &#8212; AkhDefo Software 2.2.59 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script src="_static/documentation_options.js?v=5e1f2621"></script>
+    <script src="_static/documentation_options.js?v=e5e3a43c"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -44,6 +44,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'akhdefo_functions';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Morenney Rock Glacier Example" href="notebooks/RockGlacier_optical.html" />
     <link rel="prev" title="Documentation" href="modules.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -131,8 +132,8 @@
       
     
     
-    <img src="_static/akhdefo_logo.svg" class="logo__image only-light" alt="AkhDefo Software 2.2.58 documentation - Home"/>
-    <script>document.write(`<img src="_static/akhdefo_logo.svg" class="logo__image only-dark" alt="AkhDefo Software 2.2.58 documentation - Home"/>`);</script>
+    <img src="_static/akhdefo_logo.svg" class="logo__image only-light" alt="AkhDefo Software 2.2.59 documentation - Home"/>
+    <script>document.write(`<img src="_static/akhdefo_logo.svg" class="logo__image only-dark" alt="AkhDefo Software 2.2.59 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -149,17 +150,28 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Home:</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="README.html">Akhdefo:</a></li>
 
 
 
 
+<li class="toctree-l1"><a class="reference internal" href="Stawamus_Chief.html">Stawamus Chief Rockfall Monitoring Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aboutMe.html">About The Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aboutUS.html">PHYSICAL VOLCANOLOGY RESEARCH GROUP</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">Documentation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">akhdefo_functions package</a></li>
 </ul>
 </li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/RockGlacier_optical.html">Morenney Rock Glacier Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/RockGlacier_radar.html">Morenney Rock Glacier Example</a></li>
 </ul>
 
     </div>
@@ -438,6 +450,23 @@ document.write(`
 </section>
 <section id="module-akhdefo_functions.AkhdefoPlot">
 <span id="akhdefo-functions-akhdefoplot-module"></span><h2>akhdefo_functions.AkhdefoPlot module<a class="headerlink" href="#module-akhdefo_functions.AkhdefoPlot" title="Link to this heading">#</a></h2>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.AkhdefoPlot.MeanProducts_plot_ts" title="akhdefo_functions.AkhdefoPlot.MeanProducts_plot_ts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MeanProducts_plot_ts</span></code></a>([path_to_shapefile, ...])</p></td>
+<td><p>This program used to plot shapefile data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.AkhdefoPlot.akhdefo_ts_plot" title="akhdefo_functions.AkhdefoPlot.akhdefo_ts_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">akhdefo_ts_plot</span></code></a>([path_to_shapefile, ...])</p></td>
+<td><p>This program used for analysis time-series velocity profiles</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.AkhdefoPlot.akhdefo_viewer" title="akhdefo_functions.AkhdefoPlot.akhdefo_viewer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">akhdefo_viewer</span></code></a>([Path_to_DEMFile, ...])</p></td>
+<td><p>This function overlays a raster file on a DEM hillshade and saves the plot as a .png image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.AkhdefoPlot.plot_stackNetwork" title="akhdefo_functions.AkhdefoPlot.plot_stackNetwork"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_stackNetwork</span></code></a>([src_folder, ...])</p></td>
+<td><p>This Program plots temporal network of triplets to be stacked for calculating  Annual Mean Velocity from stacked optical images.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.AkhdefoPlot.MeanProducts_plot_ts">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.AkhdefoPlot.</span></span><span class="sig-name descname"><span class="pre">MeanProducts_plot_ts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_shapefile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dem_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Figs_analysis'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Set_fig_MinMax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MinMaxRange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[-100,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'jet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mm/year'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dates_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/AkhdefoPlot.html#MeanProducts_plot_ts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.AkhdefoPlot.MeanProducts_plot_ts" title="Link to this definition">#</a></dt>
@@ -568,6 +597,17 @@ Annual Mean Velocity from stacked optical images.</p>
 </section>
 <section id="module-akhdefo_functions.Akhdefo_Coreg">
 <span id="akhdefo-functions-akhdefo-coreg-module"></span><h2>akhdefo_functions.Akhdefo_Coreg module<a class="headerlink" href="#module-akhdefo_functions.Akhdefo_Coreg" title="Link to this heading">#</a></h2>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Coreg.Coregistration" title="akhdefo_functions.Akhdefo_Coreg.Coregistration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Coregistration</span></code></a>([input_Folder, ...])</p></td>
+<td><p>Coregister multiple rasters using both the structural similarity index and the feature matching technique.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Coreg.raster_alignment" title="akhdefo_functions.Akhdefo_Coreg.raster_alignment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">raster_alignment</span></code></a>(src_directory, ref_filename)</p></td>
+<td><p>Aligns raster images in a given source directory to a reference image.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Coreg.Coregistration">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Coreg.</span></span><span class="sig-name descname"><span class="pre">Coregistration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_Folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_res</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_reliability</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(64,</span> <span class="pre">64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_figures</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showFig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">single_ref_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Coreg.html#Coregistration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Coreg.Coregistration" title="Link to this definition">#</a></dt>
@@ -624,6 +664,50 @@ str: Path to the directory containing all registered images.</p>
 </section>
 <section id="module-akhdefo_functions.Akhdefo_GOI">
 <span id="akhdefo-functions-akhdefo-goi-module"></span><h2>akhdefo_functions.Akhdefo_GOI module<a class="headerlink" href="#module-akhdefo_functions.Akhdefo_GOI" title="Link to this heading">#</a></h2>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.Optical_flow_akhdefo" title="akhdefo_functions.Akhdefo_GOI.Optical_flow_akhdefo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optical_flow_akhdefo</span></code></a>([input_dir, ...])</p></td>
+<td><p>Performs feature matching and velocity/displacement calculations across a series of images.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.calculate_slopes_std_and_residuals" title="akhdefo_functions.Akhdefo_GOI.calculate_slopes_std_and_residuals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_slopes_std_and_residuals</span></code></a>(geodataframe)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.correct_date_format" title="akhdefo_functions.Akhdefo_GOI.correct_date_format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_date_format</span></code></a>(col)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.find_best_match" title="akhdefo_functions.Akhdefo_GOI.find_best_match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_best_match</span></code></a>(gdf)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.interpolate_xyz" title="akhdefo_functions.Akhdefo_GOI.interpolate_xyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interpolate_xyz</span></code></a>(x, y, z, filename, ...[, ...])</p></td>
+<td><p>Save XYZ data as a GeoTIFF file using a reference raster for geospatial context.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.linear_VEL" title="akhdefo_functions.Akhdefo_GOI.linear_VEL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linear_VEL</span></code></a>(df, dnames)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.mask_all_rasters_in_directory" title="akhdefo_functions.Akhdefo_GOI.mask_all_rasters_in_directory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_all_rasters_in_directory</span></code></a>(directory, ...)</p></td>
+<td><p>Masks all georeferenced raster files in a specified directory using a binary raster mask template.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.mask_raster" title="akhdefo_functions.Akhdefo_GOI.mask_raster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_raster</span></code></a>([dem_array, mask_path, ...])</p></td>
+<td><p>Parameters:</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.mask_raster_with_template" title="akhdefo_functions.Akhdefo_GOI.mask_raster_with_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_raster_with_template</span></code></a>(input_raster_path, ...)</p></td>
+<td><p>Masks a georeferenced raster file using a binary raster mask template.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.merge_geodataframes" title="akhdefo_functions.Akhdefo_GOI.merge_geodataframes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_geodataframes</span></code></a>(gdfs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.merge_geodataframes_generator" title="akhdefo_functions.Akhdefo_GOI.merge_geodataframes_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_geodataframes_generator</span></code></a>(gdfs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.process_shapefile_with_rasters" title="akhdefo_functions.Akhdefo_GOI.process_shapefile_with_rasters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_shapefile_with_rasters</span></code></a>(...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_GOI.update_nodata_values" title="akhdefo_functions.Akhdefo_GOI.update_nodata_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_nodata_values</span></code></a>([shapefile_path, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_GOI.Optical_flow_akhdefo">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_GOI.</span></span><span class="sig-name descname"><span class="pre">Optical_flow_akhdefo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AOI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zscore_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssim_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3125mm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dem_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_kernel_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Vegetation_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VEL_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'year'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VEL_Mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">good_match_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hillshade_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shapefile_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_triplet_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_chunks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap_percentage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyr_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">master_reference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'single'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selection_Mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'triplet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_GOI.html#Optical_flow_akhdefo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_GOI.Optical_flow_akhdefo" title="Link to this definition">#</a></dt>
@@ -829,6 +913,17 @@ None. The input raster file will be replaced by the masked raster.</p>
 </section>
 <section id="module-akhdefo_functions.Akhdefo_TS">
 <span id="akhdefo-functions-akhdefo-ts-module"></span><h2>akhdefo_functions.Akhdefo_TS module<a class="headerlink" href="#module-akhdefo_functions.Akhdefo_TS" title="Link to this heading">#</a></h2>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_TS.Time_Series" title="akhdefo_functions.Akhdefo_TS.Time_Series"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Time_Series</span></code></a>([stacked_raster_EW, ...])</p></td>
+<td><p>This program uses candiate velocity points from stackprep function and performs linear interpolation in time-domain to calibrate stacked velocity.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_TS.akhdefo_dashApp" title="akhdefo_functions.Akhdefo_TS.akhdefo_dashApp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">akhdefo_dashApp</span></code></a>([Path_to_Shapefile, port, ...])</p></td>
+<td><p>Initializes and runs a Dash web application for geospatial data analysis based on a provided shapefile.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_TS.Time_Series">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_TS.</span></span><span class="sig-name descname"><span class="pre">Time_Series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stacked_raster_EW</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stacked_raster_NS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dates_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputFilename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VEL_Scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'year'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">master_reference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_TS.html#Time_Series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_TS.Time_Series" title="Link to this definition">#</a></dt>
@@ -927,10 +1022,79 @@ Access the app in a web browser by navigating to <cite>http://127.0.0.1:&lt;port
 </section>
 <section id="module-akhdefo_functions.Akhdefo_Tools">
 <span id="akhdefo-functions-akhdefo-tools-module"></span><h2>akhdefo_functions.Akhdefo_Tools module<a class="headerlink" href="#module-akhdefo_functions.Akhdefo_Tools" title="Link to this heading">#</a></h2>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.LeNet" title="akhdefo_functions.Akhdefo_Tools.LeNet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LeNet</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.Lenet_Model_training" title="akhdefo_functions.Akhdefo_Tools.Lenet_Model_training"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Lenet_Model_training</span></code></a>([dataset, model_out, ...])</p></td>
+<td><p>This function, Lenet_Model_train(), is designed to train a convolutional neural network (CNN) using the LeNet architecture.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.akhdefo_fitPlane" title="akhdefo_functions.Akhdefo_Tools.akhdefo_fitPlane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">akhdefo_fitPlane</span></code></a>([dem_data, line_shapefile, ...])</p></td>
+<td><p>Fit planes to points in a Digital Elevation Model (DEM) and visualize the results.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.assign_fake_projection" title="akhdefo_functions.Akhdefo_Tools.assign_fake_projection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assign_fake_projection</span></code></a>(input_dir, output_dir)</p></td>
+<td><p>Note</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.calculate_and_save_aspect_raster" title="akhdefo_functions.Akhdefo_Tools.calculate_and_save_aspect_raster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_and_save_aspect_raster</span></code></a>([...])</p></td>
+<td><p>Calculate the aspect raster from east-west and north-south displacement rasters and save it.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.calculate_height_change" title="akhdefo_functions.Akhdefo_Tools.calculate_height_change"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_height_change</span></code></a>(slope, distance)</p></td>
+<td><p>Calculate the height change using the slope and distance for each pixel.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.calculate_slope" title="akhdefo_functions.Akhdefo_Tools.calculate_slope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_slope</span></code></a>(dem, aspect, dx)</p></td>
+<td><p>Calculate the slope at each pixel using the aspect to determine direction.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.calculate_volume" title="akhdefo_functions.Akhdefo_Tools.calculate_volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_volume</span></code></a>(elevation_map, slope_map, ...)</p></td>
+<td><p>Calculate the volume based on an elevation map and a slope map, and save the volume map as a GeoTIFF file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.calculate_volume_change" title="akhdefo_functions.Akhdefo_Tools.calculate_volume_change"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_volume_change</span></code></a>(height_change, ...)</p></td>
+<td><p>Calculate the volume change for each pixel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.classification" title="akhdefo_functions.Akhdefo_Tools.classification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">classification</span></code></a>([input_dir, trained_model])</p></td>
+<td><p>Classifies images in the specified directory using a trained model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.displacement_to_volume" title="akhdefo_functions.Akhdefo_Tools.displacement_to_volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">displacement_to_volume</span></code></a>(dem_path, ...)</p></td>
+<td><p>Process the DEM, aspect, and displacement rasters to calculate and export the slope, height change, and volume change.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.flip_geotiff_180" title="akhdefo_functions.Akhdefo_Tools.flip_geotiff_180"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flip_geotiff_180</span></code></a>(directory)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.move_files" title="akhdefo_functions.Akhdefo_Tools.move_files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_files</span></code></a>(base_directory)</p></td>
+<td><p>This function reorganizes files in the specified directory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.move_files_with_string" title="akhdefo_functions.Akhdefo_Tools.move_files_with_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_files_with_string</span></code></a>([source_dir, ...])</p></td>
+<td><p>Move files from a source directory to a destination directory based on a search string present in their paths.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.resample_raster" title="akhdefo_functions.Akhdefo_Tools.resample_raster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resample_raster</span></code></a>(src_array, src_transform, ...)</p></td>
+<td><p>Resample the source raster array to match the destination raster's resolution and extent.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.scatter_area_mask" title="akhdefo_functions.Akhdefo_Tools.scatter_area_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scatter_area_mask</span></code></a>(input_folder, ...[, ...])</p></td>
+<td><p>Create an accumulated scatter area mask from a set of raster images based on a given threshold.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.utm_to_latlon" title="akhdefo_functions.Akhdefo_Tools.utm_to_latlon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">utm_to_latlon</span></code></a>(easting, northing, ...)</p></td>
+<td><p>This program converts geographic projection of shapefiles from UTM to LATLONG</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py class">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.LeNet">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">LeNet</span></span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#LeNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.LeNet" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.LeNet.build" title="akhdefo_functions.Akhdefo_Tools.LeNet.build"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build</span></code></a>(width, height, depth, classes)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py method">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.LeNet.build">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#LeNet.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.LeNet.build" title="Link to this definition">#</a></dt>
@@ -1230,6 +1394,57 @@ the accumulated mask will have a value of 1 only if all rasters have a value of 
 </section>
 <section id="module-akhdefo_functions.Akhdefo_utils">
 <span id="akhdefo-functions-akhdefo-utils-module"></span><h2>akhdefo_functions.Akhdefo_utils module<a class="headerlink" href="#module-akhdefo_functions.Akhdefo_utils" title="Link to this heading">#</a></h2>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.Akhdefo_inversion" title="akhdefo_functions.Akhdefo_utils.Akhdefo_inversion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Akhdefo_inversion</span></code></a>([horizontal_InSAR, ...])</p></td>
+<td><p>This program calculates 3D displacement velocity (East-West,North-South and vertical) using combined optical and InSAR products</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.Akhdefo_resample" title="akhdefo_functions.Akhdefo_utils.Akhdefo_resample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Akhdefo_resample</span></code></a>([input_raster, ...])</p></td>
+<td><p>This program performs raster resampling for  rasters</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.Auto_Variogram" title="akhdefo_functions.Akhdefo_utils.Auto_Variogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Auto_Variogram</span></code></a>([data, column_attribute, ...])</p></td>
+<td><p>Automatically selects the best variogram model for interpolating datapoints and clips the results  to a provided AOI shapefile.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.akhdefo_download_planet" title="akhdefo_functions.Akhdefo_utils.akhdefo_download_planet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">akhdefo_download_planet</span></code></a>([planet_api_key, ...])</p></td>
+<td><p>Parameters</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.akhdefo_orthorectify" title="akhdefo_functions.Akhdefo_utils.akhdefo_orthorectify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">akhdefo_orthorectify</span></code></a>(input_Dir, dem_path, ...)</p></td>
+<td><p>Parameteres
+
+input_Dir: str
+
+input unortho image directory path</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.calculate_new_geotransform" title="akhdefo_functions.Akhdefo_utils.calculate_new_geotransform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_new_geotransform</span></code></a>(overlap_box, ...)</p></td>
+<td><p>Calculate a new geotransform matrix based on the overlap of image boundaries.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.check_shapefile_columns" title="akhdefo_functions.Akhdefo_utils.check_shapefile_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_shapefile_columns</span></code></a>(geodata, latlon)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.create_vegetation_mask" title="akhdefo_functions.Akhdefo_utils.create_vegetation_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_vegetation_mask</span></code></a>(red_band_path, ...[, ...])</p></td>
+<td><p>Create a binary vegetation mask based on the NDVI (Normalized Difference Vegetation Index) calculation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.crop_point_shapefile_with_aoi" title="akhdefo_functions.Akhdefo_utils.crop_point_shapefile_with_aoi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">crop_point_shapefile_with_aoi</span></code></a>(...)</p></td>
+<td><p>Crop a point shapefile with an Area of Interest (AOI) polygon shapefile.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.crop_to_overlap" title="akhdefo_functions.Akhdefo_utils.crop_to_overlap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">crop_to_overlap</span></code></a>(folder_path)</p></td>
+<td><p>Crop all valid image files in the specified folder to the overlapping area.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.download_RTC" title="akhdefo_functions.Akhdefo_utils.download_RTC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_RTC</span></code></a>([username, password, prompt, ...])</p></td>
+<td><p>Initiates the download of Synthetic Aperture Radar (SAR) products from ASF's HyP3 platform.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.measure_displacement_from_camera" title="akhdefo_functions.Akhdefo_utils.measure_displacement_from_camera"><code class="xref py py-obj docutils literal notranslate"><span class="pre">measure_displacement_from_camera</span></code></a>(hls_url[, ...])</p></td>
+<td><p>Test data URLs; hls_url = &quot;<a class="reference external" href="https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4">https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4</a>&quot; or &quot;<a class="reference external" href="https://chiefcam.com/video/hls/live/1080p/index.m3u8">https://chiefcam.com/video/hls/live/1080p/index.m3u8</a>&quot;</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.measure_displacement_from_camera_toFile" title="akhdefo_functions.Akhdefo_utils.measure_displacement_from_camera_toFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">measure_displacement_from_camera_toFile</span></code></a>(hls_url)</p></td>
+<td><p>Test data URLs; hls_url = &quot;<a class="reference external" href="https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4">https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4</a>&quot; or &quot;<a class="reference external" href="https://chiefcam.com/video/hls/live/1080p/index.m3u8">https://chiefcam.com/video/hls/live/1080p/index.m3u8</a>&quot;</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Akhdefo_utils.reproject_raster_to_match_shapefile" title="akhdefo_functions.Akhdefo_utils.reproject_raster_to_match_shapefile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reproject_raster_to_match_shapefile</span></code></a>(...)</p></td>
+<td><p>Reproject a raster to match the coordinate reference system (CRS) of a shapefile.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_utils.Akhdefo_inversion">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_utils.</span></span><span class="sig-name descname"><span class="pre">Akhdefo_inversion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">horizontal_InSAR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Vertical_InSAR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EW_Akhdefo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NS_Akhdefo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">demFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_utils.html#Akhdefo_inversion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_utils.Akhdefo_inversion" title="Link to this definition">#</a></dt>
@@ -1658,6 +1873,17 @@ None. The reprojected raster is written to dst_path.</p>
 </section>
 <section id="module-akhdefo_functions.Filter_PreProc">
 <span id="akhdefo-functions-filter-preproc-module"></span><h2>akhdefo_functions.Filter_PreProc module<a class="headerlink" href="#module-akhdefo_functions.Filter_PreProc" title="Link to this heading">#</a></h2>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Filter_PreProc.Filter_PreProcess" title="akhdefo_functions.Filter_PreProc.Filter_PreProcess"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Filter_PreProcess</span></code></a>([unfiltered_folderPath, ...])</p></td>
+<td><p>This program prepare and uses filters to balanace raster image brightness</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Filter_PreProc.Raster_Correction" title="akhdefo_functions.Filter_PreProc.Raster_Correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Raster_Correction</span></code></a>(input_path, output_path[, ...])</p></td>
+<td><p>Performs a series of image correction and enhancement operations on raster images, specifically tailored for Synthetic Aperture Radar (SAR) data, but can be used for other rasters too.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Filter_PreProc.Filter_PreProcess">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Filter_PreProc.</span></span><span class="sig-name descname"><span class="pre">Filter_PreProcess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unfiltered_folderPath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UDM2_maskfolderPath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outpath_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Udm_Mask_Option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Filter_PreProc.html#Filter_PreProcess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Filter_PreProc.Filter_PreProcess" title="Link to this definition">#</a></dt>
@@ -1729,6 +1955,20 @@ might still be computationally intensive.</p></li>
 </section>
 <section id="module-akhdefo_functions.Mosaic_Crop">
 <span id="akhdefo-functions-mosaic-crop-module"></span><h2>akhdefo_functions.Mosaic_Crop module<a class="headerlink" href="#module-akhdefo_functions.Mosaic_Crop" title="Link to this heading">#</a></h2>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Mosaic_Crop.Crop_to_AOI" title="akhdefo_functions.Mosaic_Crop.Crop_to_AOI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Crop_to_AOI</span></code></a>([Path_to_WorkingDir, ...])</p></td>
+<td><p>This program used to clip multiple  raster files</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Mosaic_Crop.Mosaic" title="akhdefo_functions.Mosaic_Crop.Mosaic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Mosaic</span></code></a>([Path_to_WorkingDir, ...])</p></td>
+<td><p>This program mosiacs raster images in geotif format as well as grab dates of the satellite image taken for further processing.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Mosaic_Crop.rasterClip" title="akhdefo_functions.Mosaic_Crop.rasterClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rasterClip</span></code></a>(rasterpath, aoi, outfilename)</p></td>
+<td><p>Clip a raster file using an Area Of Interest (AOI) defined by a shapefile.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Mosaic_Crop.Crop_to_AOI">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Mosaic_Crop.</span></span><span class="sig-name descname"><span class="pre">Crop_to_AOI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Path_to_WorkingDir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Path_to_AOI_shapefile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_CroppedDir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_ex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.tif'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Mosaic_Crop.html#Crop_to_AOI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Mosaic_Crop.Crop_to_AOI" title="Link to this definition">#</a></dt>
@@ -1792,6 +2032,17 @@ Uses GDAL for processing.</p>
 </section>
 <section id="module-akhdefo_functions.OpticalFlow">
 <span id="akhdefo-functions-opticalflow-module"></span><h2>akhdefo_functions.OpticalFlow module<a class="headerlink" href="#module-akhdefo_functions.OpticalFlow" title="Link to this heading">#</a></h2>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.OpticalFlow.DynamicChangeDetection" title="akhdefo_functions.OpticalFlow.DynamicChangeDetection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicChangeDetection</span></code></a>([...])</p></td>
+<td><p>This program calculates optical flow velocity from triplets of daily optical satellite images.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.OpticalFlow.binary_mask" title="akhdefo_functions.OpticalFlow.binary_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">binary_mask</span></code></a>(raster_path, shape_path, ...)</p></td>
+<td><p>Function that generates a binary mask from a vector file (shp)</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.OpticalFlow.DynamicChangeDetection">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.OpticalFlow.</span></span><span class="sig-name descname"><span class="pre">DynamicChangeDetection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Path_working_Directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Path_UDM2_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AOI_shapefile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Path_to_DEMFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Coh_Thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.063</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_sensor_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3125.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">udm_mask_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'jet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Median_Filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Set_fig_MinMax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'origional'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/OpticalFlow.html#DynamicChangeDetection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.OpticalFlow.DynamicChangeDetection" title="Link to this definition">#</a></dt>
@@ -1873,6 +2124,14 @@ Velocity in Y direction(NS)</p>
 </section>
 <section id="module-akhdefo_functions.Stacked_Velocity">
 <span id="akhdefo-functions-stacked-velocity-module"></span><h2>akhdefo_functions.Stacked_Velocity module<a class="headerlink" href="#module-akhdefo_functions.Stacked_Velocity" title="Link to this heading">#</a></h2>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Stacked_Velocity.stackprep" title="akhdefo_functions.Stacked_Velocity.stackprep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stackprep</span></code></a>([path_to_flowxnFolder, ...])</p></td>
+<td><p>This program collects velocity candiate points for time-series analysis.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Stacked_Velocity.stackprep">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Stacked_Velocity.</span></span><span class="sig-name descname"><span class="pre">stackprep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_flowxnFolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_toFlowynFolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'YYYYMMDD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'YYYYMMDD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_stackedFolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VEL_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('month',</span> <span class="pre">'year')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.125</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.125</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Velocity_shapeFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Resampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Raster_stack_correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Stacked_Velocity.html#stackprep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Stacked_Velocity.stackprep" title="Link to this definition">#</a></dt>
@@ -1925,6 +2184,23 @@ Velocity in Y direction(NS)</p>
 </section>
 <section id="module-akhdefo_functions.Unzip_CopyFiles">
 <span id="akhdefo-functions-unzip-copyfiles-module"></span><h2>akhdefo_functions.Unzip_CopyFiles module<a class="headerlink" href="#module-akhdefo_functions.Unzip_CopyFiles" title="Link to this heading">#</a></h2>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Unzip_CopyFiles.copyImage_Data" title="akhdefo_functions.Unzip_CopyFiles.copyImage_Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copyImage_Data</span></code></a>([path_to_unzipped_folders, ...])</p></td>
+<td><p>This program copy all the data images into one single folder from subdirectories.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Unzip_CopyFiles.copyUDM2_Mask_Data" title="akhdefo_functions.Unzip_CopyFiles.copyUDM2_Mask_Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copyUDM2_Mask_Data</span></code></a>([...])</p></td>
+<td><p>This program copy all  raster masks.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.Unzip_CopyFiles.read_data_prep" title="akhdefo_functions.Unzip_CopyFiles.read_data_prep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_data_prep</span></code></a>([zip_dir, image_dir, ...])</p></td>
+<td><p>This program reads planetlabs orthoimagery in zipfolder format create different directory for the raster images and corresponding unusable data masks(udm) the udm mask include snow, haze, etc.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.Unzip_CopyFiles.unzip" title="akhdefo_functions.Unzip_CopyFiles.unzip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unzip</span></code></a>(zipdir, dst_dir)</p></td>
+<td><p>This program unzips all the zip products into one folder</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Unzip_CopyFiles.copyImage_Data">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Unzip_CopyFiles.</span></span><span class="sig-name descname"><span class="pre">copyImage_Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_unzipped_folders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Path_to_raster_tifs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_ext</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Unzip_CopyFiles.html#copyImage_Data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Unzip_CopyFiles.copyImage_Data" title="Link to this definition">#</a></dt>
@@ -2010,6 +2286,14 @@ udm_mask_dir</p>
 </section>
 <section id="module-akhdefo_functions.video_streamer">
 <span id="akhdefo-functions-video-streamer-module"></span><h2>akhdefo_functions.video_streamer module<a class="headerlink" href="#module-akhdefo_functions.video_streamer" title="Link to this heading">#</a></h2>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.video_streamer.VideoStreamer" title="akhdefo_functions.video_streamer.VideoStreamer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VideoStreamer</span></code></a>()</p></td>
+<td><p>A Flask-based web application for streaming video from a camera or video file.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py class">
 <dt class="sig sig-object py" id="akhdefo_functions.video_streamer.VideoStreamer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akhdefo_functions.video_streamer.</span></span><span class="sig-name descname"><span class="pre">VideoStreamer</span></span><a class="reference internal" href="_modules/akhdefo_functions/video_streamer.html#VideoStreamer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.video_streamer.VideoStreamer" title="Link to this definition">#</a></dt>
@@ -2041,6 +2325,23 @@ and accessible to the script. If using custom modules, they should be in the sam
 as the script or in a location where Python can find them.</p>
 </dd>
 </dl>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.video_streamer.VideoStreamer.generate_frames1" title="akhdefo_functions.video_streamer.VideoStreamer.generate_frames1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_frames1</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.video_streamer.VideoStreamer.generate_frames2" title="akhdefo_functions.video_streamer.VideoStreamer.generate_frames2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_frames2</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#akhdefo_functions.video_streamer.VideoStreamer.run" title="akhdefo_functions.video_streamer.VideoStreamer.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#akhdefo_functions.video_streamer.VideoStreamer.setup_routes" title="akhdefo_functions.video_streamer.VideoStreamer.setup_routes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_routes</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py method">
 <dt class="sig sig-object py" id="akhdefo_functions.video_streamer.VideoStreamer.generate_frames1">
 <span class="sig-name descname"><span class="pre">generate_frames1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/video_streamer.html#VideoStreamer.generate_frames1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.video_streamer.VideoStreamer.generate_frames1" title="Link to this definition">#</a></dt>
@@ -2090,6 +2391,15 @@ as the script or in a location where Python can find them.</p>
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Documentation</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="notebooks/RockGlacier_optical.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Morenney Rock Glacier Example</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

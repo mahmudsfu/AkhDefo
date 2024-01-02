@@ -7,12 +7,33 @@ Welcome to AkhDefo Software's Documentation!
 ============================================
 
 .. toctree::
-   :maxdepth: 4
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Home:
 
    README.md
+   Stawamus_Chief
+   aboutMe
+   aboutUS
+
+
+Documentation!
+==============
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Documentation:
+
    modules
-   
+
+
+Tutorials!
+==========
+.. toctree::
+   :maxdepth: 1
+   :caption: Tutorials:
+
+   notebooks/RockGlacier_optical
+   notebooks/RockGlacier_radar
 
 Indices and tables
 ==================

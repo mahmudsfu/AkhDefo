@@ -1,0 +1,38 @@
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+
+[project]
+name = "akhdefo_functions"
+version = "2.2.59"
+authors = [
+  { name="Mahmud Mustafa Muhammad", email="mahmud.muhamm1@gmail.com" },
+]
+description = "Land Deformation Monitoring Using Optical Satellite Imagery"
+readme = "README.md"
+requires-python = ">=3.7"
+
+classifiers = [
+    'Development Status :: 3 - Alpha',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: Academic Free License (AFL)',  
+        'Operating System :: Microsoft :: Windows :: Windows 10',
+        'Operating System :: POSIX :: Linux',        
+        'Programming Language :: Python :: 3',  'Programming Language :: Python :: 3.6',  
+        'Programming Language :: Python :: 3.7', "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/mahmudsfu/AkhDefo"
+"Bug Tracker" = "https://github.com/mahmudsfu/AkhDefo/issues"
+"Documentation" = "https://akhdefo.readthedocs.io/en/latest/README.html"
+"repository" = "https://akhdefo.readthedocs.io/en/latest/"
+
+
+
+

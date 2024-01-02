@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>akhdefo_functions.Akhdefo_TS &#8212; AkhDefo Software 2.2.58 documentation</title>
+    <title>akhdefo_functions.Akhdefo_TS &#8212; AkhDefo Software 2.2.59 documentation</title>
   
   
   
@@ -35,7 +35,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script src="../../_static/documentation_options.js?v=5e1f2621"></script>
+    <script src="../../_static/documentation_options.js?v=e5e3a43c"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../../_static/akhdefo_logo.svg" class="logo__image only-light" alt="AkhDefo Software 2.2.58 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/akhdefo_logo.svg" class="logo__image only-dark" alt="AkhDefo Software 2.2.58 documentation - Home"/>`);</script>
+    <img src="../../_static/akhdefo_logo.svg" class="logo__image only-light" alt="AkhDefo Software 2.2.59 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/akhdefo_logo.svg" class="logo__image only-dark" alt="AkhDefo Software 2.2.59 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -147,17 +147,28 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Home:</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">Akhdefo:</a></li>
 
 
 
 
+<li class="toctree-l1"><a class="reference internal" href="../../Stawamus_Chief.html">Stawamus Chief Rockfall Monitoring Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutMe.html">About The Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutUS.html">PHYSICAL VOLCANOLOGY RESEARCH GROUP</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../akhdefo_functions.html">akhdefo_functions package</a></li>
 </ul>
 </li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/RockGlacier_optical.html">Morenney Rock Glacier Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/RockGlacier_radar.html">Morenney Rock Glacier Example</a></li>
 </ul>
 
     </div>
@@ -764,44 +775,7 @@ document.write(`
     <span class="kn">import</span> <span class="nn">earthpy.plot</span> <span class="k">as</span> <span class="nn">ep</span>
     <span class="kn">import</span> <span class="nn">rioxarray</span> <span class="k">as</span> <span class="nn">rxr</span>
     
-    <span class="c1"># # Load DEM data and calculate hillshade using EarthPy</span>
-    <span class="c1"># def load_dem_and_hillshade(filename):</span>
-    <span class="c1">#     with rasterio.open(filename) as src:</span>
-    <span class="c1">#         dem = src.read(1)</span>
-    <span class="c1">#         hillshade = es.hillshade(dem)</span>
-    <span class="c1">#         return dem, hillshade, src.transform</span>
-
-    
-
-    
-    <span class="c1"># if DEM_path is not None: </span>
-
-    <span class="c1">#     # Load the DEM data</span>
-    <span class="c1">#     dem = rxr.open_rasterio(DEM_path, masked=True).squeeze()</span>
-
-    <span class="c1">#     # Load the shapefile</span>
-    <span class="c1">#     gdf = gpd.read_file(Path_to_Shapefile)</span>
-    <span class="c1">#     gdf = gdf.to_crs(epsg=4326)</span>
-
-    <span class="c1">#     # Reproject the DEM data using the CRS from the shapefile</span>
-    <span class="c1">#     dem = dem.rio.reproject(&quot;EPSG:4326&quot;)</span>
-    <span class="c1">#     elevation = dem.values</span>
-
-    <span class="c1">#     # Create and plot the hillshade with earthpy</span>
-    <span class="c1">#     hillshade = es.hillshade(elevation)</span>
-
-    <span class="c1">#     # Corrected variable name (transform -&gt; trasnform)</span>
-    <span class="c1">#     transform = dem.rio.transform()</span>
-
-    <span class="c1">#     # Generate longitude and latitude arrays</span>
-    <span class="c1">#     cols, rows = np.meshgrid(np.arange(hillshade.shape[1]), np.arange(hillshade.shape[0]))</span>
-    <span class="c1">#     lon, lat = rasterio.transform.xy(transform, rows, cols, offset=&#39;center&#39;)</span>
-
-    <span class="c1">#     # Convert lon and lat to 2D NumPy arrays</span>
-    <span class="c1">#     lon_array = np.array(lon)</span>
-    <span class="c1">#     lat_array = np.array(lat)</span>
-    
-    <span class="c1">#####################################</span>
+   
     
         
     <span class="c1"># Get all the Matplotlib colormaps</span>
@@ -1034,7 +1008,7 @@ document.write(`
                     <span class="c1">#scatter_fig.add_trace(scatter.data[0])</span>
                     
                     <span class="n">scatter_fig</span><span class="o">=</span><span class="n">px</span><span class="o">.</span><span class="n">scatter_mapbox</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="n">gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="n">gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>  <span class="n">color</span><span class="o">=</span><span class="n">vel_color</span><span class="p">,</span>
-                    <span class="n">color_continuous_scale</span><span class="o">=</span><span class="n">plotly_colorscale</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">10</span> <span class="p">,</span> <span class="n">range_color</span><span class="o">=</span><span class="p">[</span><span class="n">vel_min</span><span class="p">,</span> <span class="n">vel_max</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
+                    <span class="n">color_continuous_scale</span><span class="o">=</span><span class="n">plotly_colorscale</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">10</span> <span class="p">,</span> <span class="n">range_color</span><span class="o">=</span><span class="p">[</span><span class="n">vel_min</span><span class="p">,</span> <span class="n">vel_max</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">800</span> <span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Velocity Scatter Plot For </span><span class="si">{</span><span class="n">basename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     
                     <span class="k">if</span> <span class="n">basemap_type</span><span class="o">==</span><span class="s1">&#39;image&#39;</span><span class="p">:</span>
                         <span class="n">scatter_fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">mapbox_style</span><span class="o">=</span><span class="s2">&quot;satellite&quot;</span><span class="p">,</span> <span class="n">mapbox_accesstoken</span><span class="o">=</span><span class="s1">&#39;pk.eyJ1IjoibWFobXVkbSIsImEiOiJjbHFlOW1tN2owbHZyMmtxZjRnZGdqYWx3In0.XPSKGgiiQ1IKkQ6IXOxfeg&#39;</span><span class="p">)</span>
@@ -1144,9 +1118,12 @@ document.write(`
                 <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span>
                 <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Average&#39;</span>
             <span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        
+        <span class="n">xaxis_label</span><span class="o">=</span><span class="n">xaxis_label</span> <span class="k">if</span> <span class="n">xaxis_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;Dates&#39;</span>
+        <span class="n">yaxis_label</span><span class="o">=</span><span class="n">yaxis_label</span> <span class="k">if</span> <span class="n">yaxis_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;mm&#39;</span>
         <span class="c1"># Set the default y-label to &#39;mm&#39;</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;mm&#39;</span><span class="p">)</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Date&#39;</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">yaxis_label</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">xaxis_label</span><span class="p">)</span>
         <span class="c1"># If trendline_option is set to &#39;ols&#39;, adjust the color</span>
         <span class="k">if</span> <span class="n">trendline_option</span> <span class="o">==</span> <span class="s1">&#39;ols&#39;</span><span class="p">:</span>
             <span class="c1"># Assume the last trace added is the trendline</span>
@@ -1156,23 +1133,31 @@ document.write(`
             <span class="n">cumulative_change</span> <span class="o">=</span> <span class="n">filtered_df</span><span class="p">[</span><span class="s1">&#39;Average&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">filtered_df</span><span class="p">[</span><span class="s1">&#39;Average&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">mean_value</span> <span class="o">=</span> <span class="n">filtered_df</span><span class="p">[</span><span class="s1">&#39;Average&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
             <span class="n">mean_std</span><span class="o">=</span><span class="n">filtered_df</span><span class="p">[</span><span class="s1">&#39;Average&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+            
+            
+             <span class="c1"># Here, replace &#39;mm/year&#39; with the user-provided y-axis title followed by &#39;/year&#39;</span>
+            <span class="n">yaxis_unit</span> <span class="o">=</span> <span class="n">yaxis_label</span> <span class="k">if</span> <span class="n">yaxis_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;mm&#39;</span>
+            <span class="n">unit_per_year</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">yaxis_unit</span><span class="si">}</span><span class="s2">/year&quot;</span>
             <span class="n">fig</span><span class="o">.</span><span class="n">add_annotation</span><span class="p">(</span>
                 <span class="n">xref</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span>
                 <span class="n">yref</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span>
                 <span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
                 <span class="n">y</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span>
-                <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Cumulative Change: </span><span class="si">{</span><span class="n">cumulative_change</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Cumulative Change: </span><span class="si">{</span><span class="n">cumulative_change</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">yaxis_unit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                 <span class="n">showarrow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">),</span>
                 <span class="n">xanchor</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
                 <span class="n">yanchor</span><span class="o">=</span><span class="s2">&quot;top&quot;</span>
             <span class="p">)</span>
+            
+            
+            
             <span class="n">fig</span><span class="o">.</span><span class="n">add_annotation</span><span class="p">(</span>
                 <span class="n">xref</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span>
                 <span class="n">yref</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span>
                 <span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
                 <span class="n">y</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
-                <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Mean: </span><span class="si">{</span><span class="n">mean_value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, std_dev: </span><span class="si">{</span><span class="n">mean_std</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Mean: </span><span class="si">{</span><span class="n">mean_value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">unit_per_year</span><span class="si">}</span><span class="s2">, std_dev: </span><span class="si">{</span><span class="n">mean_std</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                 <span class="n">showarrow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">),</span>
                 <span class="n">xanchor</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
@@ -1181,19 +1166,61 @@ document.write(`
             
             
                 
+             <span class="c1"># Here, replace &#39;mm/year&#39; with the user-provided y-axis title followed by &#39;/year&#39;</span>
+            <span class="n">yaxis_unit</span> <span class="o">=</span> <span class="n">yaxis_label</span> <span class="k">if</span> <span class="n">yaxis_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;mm&#39;</span>
+            <span class="n">unit_per_year</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">yaxis_unit</span><span class="si">}</span><span class="s2">/year&quot;</span>
+
+            <span class="c1"># Add or modify the annotation with the updated unit</span>
             <span class="n">fig</span><span class="o">.</span><span class="n">add_annotation</span><span class="p">(</span>
                 <span class="n">xref</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span>
                 <span class="n">yref</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span>
                 <span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
                 <span class="n">y</span><span class="o">=</span><span class="mf">1.15</span><span class="p">,</span>  <span class="c1"># Adjusted for the new annotation</span>
-                <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Annual Linear Change: </span><span class="si">{</span><span class="n">annual_change</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> mm/year , std_dev:</span><span class="si">{</span><span class="n">std_dev</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Annual Linear Change: </span><span class="si">{</span><span class="n">annual_change</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">unit_per_year</span><span class="si">}</span><span class="s2">, std_dev:</span><span class="si">{</span><span class="n">std_dev</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                 <span class="n">showarrow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">),</span>
                 <span class="n">xanchor</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
                 <span class="n">yanchor</span><span class="o">=</span><span class="s2">&quot;top&quot;</span>
             <span class="p">)</span>
+            
+            
 
         <span class="k">return</span> <span class="n">fig</span>
+    
+    <span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;time-series-plot&#39;</span><span class="p">,</span> <span class="s1">&#39;layout&#39;</span><span class="p">),</span>
+        <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;map-plot&#39;</span><span class="p">,</span> <span class="s1">&#39;layout&#39;</span><span class="p">)</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+        <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;update-plot-button&#39;</span><span class="p">,</span> <span class="s1">&#39;n_clicks&#39;</span><span class="p">)</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+        <span class="n">State</span><span class="p">(</span><span class="s1">&#39;xaxis-label-input&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">),</span>
+        <span class="n">State</span><span class="p">(</span><span class="s1">&#39;yaxis-label-input&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">),</span>
+        <span class="n">State</span><span class="p">(</span><span class="s1">&#39;plot-title-input&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+    <span class="k">def</span> <span class="nf">update_plot_labels</span><span class="p">(</span><span class="n">n_clicks</span><span class="p">,</span> <span class="n">xaxis_label</span><span class="p">,</span> <span class="n">yaxis_label</span><span class="p">,</span> <span class="n">plot_title</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">n_clicks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+           
+            <span class="k">raise</span> <span class="n">dash</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">PreventUpdate</span>
+        
+        <span class="c1"># Update the layout for each plot with the new labels and title</span>
+        <span class="n">time_series_layout_update</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;xaxis&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">xaxis_label</span><span class="p">},</span>
+            <span class="s1">&#39;yaxis&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">yaxis_label</span><span class="p">},</span>
+            <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">plot_title</span>
+        <span class="p">}</span>
+
+        <span class="n">map_plot_layout_update</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;xaxis&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">xaxis_label</span><span class="p">},</span>
+            <span class="s1">&#39;yaxis&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">yaxis_label</span><span class="p">},</span>
+            <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">plot_title</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">time_series_layout_update</span><span class="p">,</span> <span class="n">map_plot_layout_update</span>
+
 
 
     <span class="k">return</span> <span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span></div>

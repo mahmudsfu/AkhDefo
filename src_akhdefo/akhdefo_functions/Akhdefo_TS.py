@@ -496,44 +496,7 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
     import earthpy.plot as ep
     import rioxarray as rxr
     
-    # # Load DEM data and calculate hillshade using EarthPy
-    # def load_dem_and_hillshade(filename):
-    #     with rasterio.open(filename) as src:
-    #         dem = src.read(1)
-    #         hillshade = es.hillshade(dem)
-    #         return dem, hillshade, src.transform
-
-    
-
-    
-    # if DEM_path is not None: 
-
-    #     # Load the DEM data
-    #     dem = rxr.open_rasterio(DEM_path, masked=True).squeeze()
-
-    #     # Load the shapefile
-    #     gdf = gpd.read_file(Path_to_Shapefile)
-    #     gdf = gdf.to_crs(epsg=4326)
-
-    #     # Reproject the DEM data using the CRS from the shapefile
-    #     dem = dem.rio.reproject("EPSG:4326")
-    #     elevation = dem.values
-
-    #     # Create and plot the hillshade with earthpy
-    #     hillshade = es.hillshade(elevation)
-
-    #     # Corrected variable name (transform -> trasnform)
-    #     transform = dem.rio.transform()
-
-    #     # Generate longitude and latitude arrays
-    #     cols, rows = np.meshgrid(np.arange(hillshade.shape[1]), np.arange(hillshade.shape[0]))
-    #     lon, lat = rasterio.transform.xy(transform, rows, cols, offset='center')
-
-    #     # Convert lon and lat to 2D NumPy arrays
-    #     lon_array = np.array(lon)
-    #     lat_array = np.array(lat)
-    
-    #####################################
+   
     
         
     # Get all the Matplotlib colormaps
@@ -766,7 +729,7 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
                     #scatter_fig.add_trace(scatter.data[0])
                     
                     scatter_fig=px.scatter_mapbox(gdf, lat=gdf.geometry.y, lon=gdf.geometry.x,  color=vel_color,
-                    color_continuous_scale=plotly_colorscale, zoom=10 , range_color=[vel_min, vel_max], width=1000, height=800)
+                    color_continuous_scale=plotly_colorscale, zoom=10 , range_color=[vel_min, vel_max], width=1000, height=800 , title=f"Velocity Scatter Plot For {basename}")
                     
                     if basemap_type=='image':
                         scatter_fig.update_layout(mapbox_style="satellite", mapbox_accesstoken='pk.eyJ1IjoibWFobXVkbSIsImEiOiJjbHFlOW1tN2owbHZyMmtxZjRnZGdqYWx3In0.XPSKGgiiQ1IKkQ6IXOxfeg')
@@ -876,9 +839,12 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
                 x='Date',
                 y='Average'
             ).data)
+        
+        xaxis_label=xaxis_label if xaxis_label is not None else 'Dates'
+        yaxis_label=yaxis_label if yaxis_label is not None else 'mm'
         # Set the default y-label to 'mm'
-        fig.update_yaxes(title='mm')
-        fig.update_xaxes(title='Date')
+        fig.update_yaxes(title=yaxis_label)
+        fig.update_xaxes(title=xaxis_label)
         # If trendline_option is set to 'ols', adjust the color
         if trendline_option == 'ols':
             # Assume the last trace added is the trendline
@@ -888,23 +854,31 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
             cumulative_change = filtered_df['Average'].iloc[-1] - filtered_df['Average'].iloc[0]
             mean_value = filtered_df['Average'].mean()
             mean_std=filtered_df['Average'].std()
+            
+            
+             # Here, replace 'mm/year' with the user-provided y-axis title followed by '/year'
+            yaxis_unit = yaxis_label if yaxis_label is not None else 'mm'
+            unit_per_year = f"{yaxis_unit}/year"
             fig.add_annotation(
                 xref="paper",
                 yref="paper",
                 x=0.5,
                 y=1.1,
-                text=f"Cumulative Change: {cumulative_change:.4f}",
+                text=f"Cumulative Change: {cumulative_change:.4f} {yaxis_unit}",
                 showarrow=False,
                 font=dict(size=14, color="blue"),
                 xanchor="center",
                 yanchor="top"
             )
+            
+            
+            
             fig.add_annotation(
                 xref="paper",
                 yref="paper",
                 x=0.5,
                 y=1.2,
-                text=f"Mean: {mean_value:.4f}, std_dev: {mean_std:.4f}",
+                text=f"Mean: {mean_value:.4f}, {unit_per_year}, std_dev: {mean_std:.4f}",
                 showarrow=False,
                 font=dict(size=14, color="red"),
                 xanchor="center",
@@ -913,19 +887,61 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
             
             
                 
+             # Here, replace 'mm/year' with the user-provided y-axis title followed by '/year'
+            yaxis_unit = yaxis_label if yaxis_label is not None else 'mm'
+            unit_per_year = f"{yaxis_unit}/year"
+
+            # Add or modify the annotation with the updated unit
             fig.add_annotation(
                 xref="paper",
                 yref="paper",
                 x=0.5,
                 y=1.15,  # Adjusted for the new annotation
-                text=f"Annual Linear Change: {annual_change:.4f} mm/year , std_dev:{std_dev:.4f}",
+                text=f"Annual Linear Change: {annual_change:.4f} {unit_per_year}, std_dev:{std_dev:.4f}",
                 showarrow=False,
                 font=dict(size=14, color="green"),
                 xanchor="center",
                 yanchor="top"
             )
+            
+            
 
         return fig
+    
+    @app.callback(
+    [
+        Output('time-series-plot', 'layout'),
+        Output('map-plot', 'layout')
+    ],
+    [
+        Input('update-plot-button', 'n_clicks')
+    ],
+    [
+        State('xaxis-label-input', 'value'),
+        State('yaxis-label-input', 'value'),
+        State('plot-title-input', 'value')
+    ]
+)
+    def update_plot_labels(n_clicks, xaxis_label, yaxis_label, plot_title):
+        if n_clicks is None:
+           
+            raise dash.exceptions.PreventUpdate
+        
+        # Update the layout for each plot with the new labels and title
+        time_series_layout_update = {
+            'xaxis': {'title': xaxis_label},
+            'yaxis': {'title': yaxis_label},
+            'title': plot_title
+        }
+
+        map_plot_layout_update = {
+            'xaxis': {'title': xaxis_label},
+            'yaxis': {'title': yaxis_label},
+            'title': plot_title
+        }
+
+        return time_series_layout_update, map_plot_layout_update
+
 
 
     return app.run_server(port=port)

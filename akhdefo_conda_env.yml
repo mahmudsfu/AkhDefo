@@ -48,3 +48,5 @@ dependencies:
     - nbsphinx
     - sphinx-gallery
     - sphinx-theme
+    -sphinx-autopackagesummary
+    -autodocsumm
