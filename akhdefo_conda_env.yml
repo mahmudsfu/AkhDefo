@@ -45,3 +45,4 @@ dependencies:
     - autodocsumm
     - sphinx_adc_theme
     - furo
+    - pallets_sphinx_themes
