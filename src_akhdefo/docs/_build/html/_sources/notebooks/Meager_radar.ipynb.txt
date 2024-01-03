@@ -4,14 +4,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Morenney Rock Glacier Example"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## Optical Imagery"
+    "# Mount Meager Radar Imagery Example"
    ]
   },
   {
@@ -34,17 +27,6 @@
    "metadata": {},
    "outputs": [],
    "source": []
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {
-    "vscode": {
-     "languageId": "plaintext"
-    }
-   },
-   "source": [
-    "## Radar Imagery"
-   ]
   },
   {
    "cell_type": "code",

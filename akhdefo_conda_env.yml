@@ -44,3 +44,4 @@ dependencies:
     - sphinx-autopackagesummary
     - autodocsumm
     - sphinx_adc_theme
+    - furo

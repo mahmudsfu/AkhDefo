@@ -37,7 +37,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 #html_theme='sphinx_book_theme'
 # import sphinx_adc_theme
-html_theme = 'sphinxdoc'
+html_theme = 'furo'
 # html_theme_path = [sphinx_adc_theme.get_html_theme_path()]
 
 # import hachibee_sphinx_theme
