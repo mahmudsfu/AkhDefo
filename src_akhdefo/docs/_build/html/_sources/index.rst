@@ -3,14 +3,22 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+
+
+
 Welcome to AkhDefo Software's Documentation!
 ============================================
+.. image:: ./_static/akhdefo_logo.svg
+   :alt: Akhdefo Project Image
+   :align: right
+   :width: 200px
+
 
 .. toctree::
    :maxdepth: 1
    :caption: Home:
 
-   README.md
+   README
    Stawamus_Chief
    aboutMe
    aboutUS

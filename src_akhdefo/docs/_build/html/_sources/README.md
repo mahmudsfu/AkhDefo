@@ -1,40 +1,50 @@
 
-# Akhdefo: 
-Computer Vision for Slope Stability: Land Deformation Monitoring Using Optical Satellite Imagery
-# Background of Akh-Defo:
-AKh-Defo is combination of two different words 1) Akh in Kurdish language means land, earth or soil (origion of the word is from Kurdish badini dailect) 2) Defo is short of English word deformation.
+# Akhdefo
 
-# Recommended Citation:
-Muhammad M, Williams-Jones G, Stead D, Tortini R, Falorni G and Donati D (2022) Applications of ImageBased Computer Vision for Remote Surveillance of Slope Instability.Front. Earth Sci. 10:909078. doi: 10.3389/feart.2022.909078
+<img src="./_static/akhdefo_logo.svg" alt="Akhdefo Project Image" align="right" width="200px"/>
 
-# Updates:
-* Akhdefo version one is deprecated please use Akhdefo version 2.
-* Akhdefo now can run on the cloud for real-time processing
-* Akhdefo now consist more than 20 Modules that performs end to end python-based GIS and Image Processing and Custumized Figure generation
-*Capability to access, filter and download planet labs data using planet lab API
-*Capability to Ortho-rectify satellite images.
+## Computer Vision for Slope Stability: Land Deformation Monitoring
 
-# Installation of Akhdefo Software:
 
-1.[download anaconda environment akhdefov2.yml file](akhdefov2.yml) 
 
-2.[download python package  requirement  pip_req.txt file](pip_req.txt) 
+## Background of Akh-Defo
 
-3.Create new python Anaconda environment using the below command
+**Akh-Defo** is derived from two distinct words: 
+1. 'Akh' in the Kurdish language, representing land, earth, or soil (originating from the Kurdish Badini dialect).
+2. 'Defo', a shorthand for the English term 'deformation'.
 
-```python
-conda env create -f akhdefov2.yml
+## Recommended Citation
 
-```
+Muhammad M, Williams-Jones G, Stead D, Tortini R, Falorni G, and Donati D (2022) Applications of Image-Based Computer Vision for Remote Surveillance of Slope Instability. *Front. Earth Sci.* 10:909078. doi: [10.3389/feart.2022.909078](https://doi.org/10.3389/feart.2022.909078)
 
-4.Install required python packages using below command
+## Updates
 
-```python
-pip install -r pip_req.txt
-```
+- **Deprecated:** Akhdefo version one. *Current recommendation:* Use Akhdefo version 2.
+- **New Feature:** Cloud-based real-time processing capabilities.
+- **Expansion:** Over 20 modules for end-to-end Python-based GIS and Image Processing, and Customized Figure generation.
+- **Integration:** Access, filter, and download capabilities for Planet Labs data using the Planet Lab API.
+- **Enhancement:** Orthorectification feature for satellite images.
 
-5.Now install Akhdefo using the below command
+## Installation of Akhdefo Software
 
-```python
-pip install akhdefo-functions
-```
+Follow these steps to install the Akhdefo software:
+
+1. Download the Anaconda environment file: [akhdefov2.yml](akhdefov2.yml).
+2. Download the Python package requirement file: [pip_req.txt](pip_req.txt).
+3. Create a new Python Anaconda environment using the command:
+
+   ```python
+   conda env create -f akhdefov2.yml
+   ```
+
+4. Install required Python packages with the command:
+
+   ```python
+   pip install -r pip_req.txt
+   ```
+
+5. Install Akhdefo using the following command:
+
+   ```python
+   pip install akhdefo-functions
+   ```

@@ -15,7 +15,7 @@ Welcome to AkhDefo Software's Documentation!
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Home:
 
    README
@@ -28,7 +28,7 @@ Documentation!
 ==============
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Documentation:
 
    modules
@@ -37,7 +37,7 @@ Documentation!
 Tutorials!
 ==========
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Tutorials:
 
    notebooks/RockGlacier_optical
