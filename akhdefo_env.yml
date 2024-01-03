@@ -1,0 +1,48 @@
+
+name: akhdefo_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python
+  - cmocean
+  - pip
+  - opencv
+  - earthpy
+  - flask
+  - geopandas
+  - glob2
+  - gstools
+  - hyp3_sdk
+  - ipywidgets
+  - json5
+  - matplotlib
+  - numpy
+  - gdal
+  - pandas
+  - recommonmark
+  - sphinx
+  - nbsphinx
+  - sphinx-book-theme
+  - myst-parser
+  - plotly
+  - pykrige
+  - rasterio
+  - requests
+  - rioxarray
+  - scipy
+  - seaborn
+  - shapely
+  - scikit-image  # skimage
+  - scikit-learn  # sklearn
+  - statsmodels
+  - tensorflow
+  - tqdm
+  - xmltodict
+  - pip:
+    - sphinx-gallery
+    - sphinx-theme
+    - sphinx-autopackagesummary
+    - autodocsumm
+    - sphinx_adc_theme
+    - furo

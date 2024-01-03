@@ -6,8 +6,8 @@
 
 
 
-Welcome to AkhDefo Software's Documentation!
-============================================
+Home!
+=====
 .. image:: ./_static/akhdefo_logo.svg
    :alt: Akhdefo Project Image
    :align: right
@@ -15,7 +15,7 @@ Welcome to AkhDefo Software's Documentation!
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Home:
 
    README
@@ -28,7 +28,7 @@ Documentation!
 ==============
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Documentation:
 
    modules
@@ -37,7 +37,7 @@ Documentation!
 Tutorials!
 ==========
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Tutorials:
 
    notebooks/RockGlacier_optical

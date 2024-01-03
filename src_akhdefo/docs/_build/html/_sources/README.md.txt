@@ -29,13 +29,55 @@ Muhammad M, Williams-Jones G, Stead D, Tortini R, Falorni G, and Donati D (2022)
 
 Follow these steps to install the Akhdefo software:
 
-1. Download the Anaconda environment file: [akhdefov2.yml](akhdefov2.yml).
-2. Download the Python package requirement file: [pip_req.txt](pip_req.txt).
-3. Create a new Python Anaconda environment using the command:
+1. Create a new Python Anaconda environment using the command:
 
    ```python
-   conda env create -f akhdefov2.yml
+   conda create --name akhdefo_env
    ```
+
+2. Create  Anaconda environment and install the following libraries with Anaconda
+
+```yaml
+
+dependencies:
+  - python=3.8  # Assuming Python 3.8, can be changed as needed
+  - cmocean
+  - pip
+  - opencv
+  - earthpy
+  - flask
+  - geopandas
+  - glob2
+  - gstools
+  - hyp3_sdk
+  - ipywidgets
+  - json5
+  - matplotlib
+  - numpy
+  - gdal
+  - pandas
+  - recommonmark
+  - sphinx
+  - nbsphinx
+  - sphinx-book-theme
+  - myst-parser
+  - plotly
+  - pykrige
+  - rasterio
+  - requests
+  - rioxarray
+  - scipy
+  - seaborn
+  - shapely
+  - scikit-image  # skimage
+  - scikit-learn  # sklearn
+  - statsmodels
+  - tensorflow
+  - tqdm
+  - xmltodict
+
+```
+3. Download the Python package requirement file: [pip_req.txt](pip_req.txt).
 
 4. Install required Python packages with the command:
 
