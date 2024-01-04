@@ -1382,19 +1382,21 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                                      s=10, bounds=[10,10,10,10], dem_file=dem_path, hillshade_option=hillshade_option):
         
         
-        if hillshade_option:
+        if hillshade_option==True:
             
             hillshade=calculate_hillshade(dem_file , hillshade_option=hillshade_option)
         
-        else:
-            if len(image1.shape) == 2:  # It's already grayscale
-                gray=image1
+        elif hillshade_option==False:
+            # if len(image1.shape) == 2:  # It's already grayscale
+            #     gray=image1
                 
-            elif len(image1.shape) == 3 and image1.shape[2] == 3:  # It's RGB
-                # Convert RGB to grayscale using the weighted method
-                gray = 0.299 * image1[:, :, 0] + 0.587 * image1[:, :, 1] + 0.114 * image1[:, :, 2]
-                gray=gray.astype(np.uint8)
-            hillshade=calculate_hillshade(gray , hillshade_option=hillshade_option)
+            # elif len(image1.shape) == 3 and image1.shape[2] == 3:  # It's RGB
+            #     # Convert RGB to grayscale using the weighted method
+            #     gray = 0.299 * image1[:, :, 0] + 0.587 * image1[:, :, 1] + 0.114 * image1[:, :, 2]
+            #     gray=gray.astype(np.uint8)
+            
+            # hillshade=calculate_hillshade(gray , hillshade_option=hillshade_option)
+            hillshade=image1
                 
            
             
@@ -1478,6 +1480,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
 
         # Plot Velocity Magnitude
         #ep.plot_rgb(image1, ax=axes[1, 0], extent=bounds, title=f'Velocity - {date1} to {date2}')
+        
         axes[1, 0].imshow(hillshade, cmap='gray', extent=bounds)
         minmax = np.max(np.abs(velocity))
         min_v= np.nanmin(velocity)
