@@ -1,4 +1,4 @@
-# Current Affiliation 
+# Affiliation 
 
 <iframe
     width="900"
