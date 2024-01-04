@@ -41,7 +41,7 @@ Tutorials!
    notebooks/RockGlacier_radar
    notebooks/MudCreek_Landslide_optical
    notebooks/Meager_radar
-   CV_Mahmud_2023
+   
 
 About!
 ==========
