@@ -15,15 +15,12 @@ Home!
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Home:
 
    README
    Stawamus_Chief
-   aboutMe
-   aboutUS
-
-
+   
 Documentation!
 ==============
 
@@ -44,6 +41,17 @@ Tutorials!
    notebooks/RockGlacier_radar
    notebooks/MudCreek_Landslide_optical
    notebooks/Meager_radar
+   CV_Mahmud_2023
+
+About!
+==========
+.. toctree::
+   :maxdepth: 1
+   :caption: About:
+
+   aboutMe
+   aboutUS
+   CV_Mahmud_2023
 
 
 Indices and tables
