@@ -87,7 +87,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 # Setup configuration
 setup(
     name='akhdefo_functions',
-    version='2.2.59',
+    version='2.2.61',
     description='Land Deformation Monitoring Using Optical Satellite Imagery',
     url='https://github.com/mahmudsfu/AkhDefo',
     author='Mahmud Mustafa Muhammad',

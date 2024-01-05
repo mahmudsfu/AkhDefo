@@ -43,106 +43,163 @@ import plotly.io as pio
 import re
 
 
+import os
+import re
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import TwoSlopeNorm, Normalize
+from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
+import rasterio
+import rasterio.plot
+import earthpy.spatial as es
+import earthpy.plot as ep
 
 
-
-def akhdefo_viewer(Path_to_DEMFile="", rasterfile="", title='', pixel_resolution_meter=3.125,
-                    outputfolder="", outputfileName="", alpha=0.5, unit=None, noDATA_Mask=False, cmap='jet', 
-                    min_value=None, max_value=None, normalize=False, colorbar_label=None, show_figure=True):
+def akhdefo_viewer(path_to_dem_file, raster_file, output_folder, title='', 
+                   pixel_resolution_meters=3.125, output_file_name="", 
+                   alpha=0.5, unit_conversion=None, no_data_mask=False, 
+                   colormap='jet', min_value=None, max_value=None, 
+                   normalize=False, colorbar_label=None, show_figure=True):
     """
-    This function overlays a raster file on a DEM hillshade and saves the plot as a .png image. 
+    Overlays a raster file on a DEM hillshade and saves the plot as a PNG image.
 
     Parameters:
-    Path_to_DEMFile (str): Path to the DEM file.
-    rasterfile (str): Path to the raster file.
-    title (str, optional): Title of the plot. If None, the basename of the raster file is used.
-    pixel_resolution_meter (float, optional): Pixel resolution of the raster in meters. Default is 3.125.
-    outputfolder (str): Path to the folder where the output image will be saved.
-    outputfileName (str): Name of the output .png image.
+    path_to_dem_file (str): Path to the DEM file.
+    raster_file (str): Path to the raster file.
+    output_folder (str): Path to the folder where the output image will be saved.
+    title (str, optional): Title of the plot. Defaults to the raster file's basename.
+    pixel_resolution_meters (float, optional): Pixel resolution of the raster in meters. Default is None get resolution from raster input.
+    output_file_name (str, optional): Name of the output PNG image. Defaults to the raster file's basename.
     alpha (float, optional): Alpha value for the raster overlay. Default is 0.5.
-    unit (int, optional): Unit conversion factor for the raster values. Default is ''. "100cm" if your data in meters want to convert to cm, adjust to your need e.g. "1000mm", etc..
-    noDATA_Mask (bool, optional): If True, pixels with a value of 0 in the raster are masked. Default is False.
-    cmap (str, optional): Colormap to use for the raster. Default is 'jet'.
-    min_value (float, optional): Minimum value to use for the normalization. If None, the minimum raster value is used.
-    max_value (float, optional): Maximum value to use for the normalization. If None, the maximum raster value is used.
-    normalize (bool, optional): If True, the raster values are normalized. Default is False.
-    colorbar_label (str, optional): Label for the colorbar. If None, no label is added. 
+    unit_conversion (str, optional): Unit conversion factor for the raster values. For example, '100cm' for meters to centimeters conversion.
+    no_data_mask (bool, optional): If True, masks pixels with a value of 0 in the raster. Default is False.
+    colormap (str, optional): Colormap to use for the raster. Default is 'jet'.
+    min_value (float, optional): Minimum value for normalization. Uses raster's minimum if None.
+    max_value (float, optional): Maximum value for normalization. Uses raster's maximum if None.
+    normalize (bool, optional): If True, normalizes the raster values. Default is False.
+    colorbar_label (str, optional): Label for the colorbar. 
+    show_figure (bool, optional): Whether to display the figure. Default is True.
 
     Returns:
     None
     """
-    with rasterio.open(Path_to_DEMFile) as src:
-        dem = src.read(1)
-        dem_transform = src.transform
+    try:
+        with rasterio.open(path_to_dem_file) as src:
+            dem = src.read(1, masked=True)
+            dem_transform = src.transform
+            
+        hillshade = es.hillshade(dem)
 
-    hillshade = es.hillshade(dem)
+        with rasterio.open(raster_file) as src:
+            raster = src.read(1, masked=True)
+            raster_transform = src.transform
+            raster_crs = src.crs
+            xres, yres=src.res
 
-    with rasterio.open(rasterfile) as src:
-        raster = src.read(1)
-        raster_transform = src.transform
-        raster_crs = src.crs
+        if no_data_mask:
+            raster = np.ma.masked_where(raster == 0, raster)
 
-    if noDATA_Mask:
-        raster = np.ma.masked_where(raster == 0, raster)
+        if unit_conversion:
+            unit_type, unit_factor = _separate_floats_letters(unit_conversion)
+            raster *= float(unit_factor)
 
-    
-    def separate_floats_letters(input_string):
-        floats = re.findall(r'\d+\.\d+|\d+', input_string)
-        letters = re.findall(r'[a-zA-Z]+', input_string)
-        return letters[0], floats[0]
+        if pixel_resolution_meters is None:
+            pixel_resolution_meters=xres
 
-    input_string = unit
-    if unit is not None:
-        letters, unit_val = separate_floats_letters(input_string)
-    
-   
-    
-    if  unit:
-        raster = raster * float(unit_val)
+        # Set the output file name if it's not provided
+        if not output_file_name:
+            output_file_name = os.path.splitext(os.path.basename(raster_file))[0] + ".png"
 
-    if normalize:
-        if min_value is None:
-            min_value = raster.min()
-        if max_value is None:
-            max_value = raster.max()
+        _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs, alpha, colormap, normalize,
+                     title, output_folder, output_file_name, colorbar_label, pixel_resolution_meters, min_value, max_value)
 
-        if raster.min() < 0:
-            norm = TwoSlopeNorm(vmin=min_value, vcenter=0, vmax=max_value)
+        if show_figure:
+            plt.show()
         else:
-            norm = Normalize(vmin=min_value, vmax=max_value)
-    else:
-        norm = None
+            plt.close()
 
+    except Exception as e:
+        raise RuntimeError(f"An error occurred: {e}")
+
+def _separate_floats_letters(input_string):
+    """
+    Separates floats and letters from a string.
+    """
+    floats = re.findall(r'\d+\.\d+|\d+', input_string)
+    letters = re.findall(r'[a-zA-Z]+', input_string)
+    if not floats or not letters:
+        raise ValueError("Invalid input string for unit conversion.")
+    return letters[0], floats[0]
+
+def _normalize_raster(raster, min_value, max_value):
+    """
+    Normalizes raster values between given minimum and maximum values.
+    """
+    if min_value is None and max_value is None:
+        min_value = np.nanmin(raster)
+        max_value = np.nanmax(raster)
+    else:
+        min_value=min_value
+        max_value=max_value
+       
+
+    if np.nanmin(raster) < 0 and np.nanmax(raster) >0:
+        norm = TwoSlopeNorm(vmin=min_value, vcenter=0, vmax=max_value)
+    else:
+        norm = Normalize(vmin=min_value, vmax=max_value)
+    
+    
+    
+    return raster, norm
+
+
+def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs, alpha, colormap, normalize,
+                 title, output_folder, output_file_name, colorbar_label, pixel_resolution_meters, min_value, max_value):
+    """
+    Creates and saves a plot of hillshade and raster overlay.
+    """
     fig, ax = plt.subplots(figsize=(7, 7))
 
-    # Plot the hillshade layer
+    # Plot the hillshade layer using dem_transform for its extent
     ep.plot_bands(
         hillshade,
         ax=ax,
         cmap='gray',
         scale=False,
         cbar=False,
-        extent=plotting_extent(src)
+        extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform)  # ensure correct transform
     )
 
-    if not title:
-        title = os.path.splitext(os.path.basename(rasterfile))[0]
-    if not outputfileName:
-        outputfileName=os.path.splitext(os.path.basename(rasterfile))[0]
+    
+    if normalize:
+        raster, norm = _normalize_raster(raster, min_value, max_value)
+        
+    if normalize==True:
+    # Overlay the raster with alpha for transparency using raster_transform for its extent
+        img = ax.imshow(raster, alpha=alpha, cmap=colormap, norm=norm,
+                    extent=rasterio.plot.plotting_extent(raster, transform=raster_transform))  # ensure correct transform
+    
+    if normalize==False:
+        
+        if min_value is None and max_value is None:
+            min_value = np.nanmin(raster)
+            max_value = np.nanmax(raster)
+        else:
+            min_value=min_value
+            max_value=max_value
+        
+        # Overlay the raster with alpha for transparency using raster_transform for its extent
+        img = ax.imshow(raster, alpha=alpha, cmap=colormap, vmin=min_value , vmax=max_value,
+                    extent=rasterio.plot.plotting_extent(raster, transform=raster_transform))  # ensure correct transform
+        
+    
 
-    # Overlay the raster with alpha for transparency
-    img = ax.imshow(raster, alpha=alpha, cmap=cmap, norm=norm,
-                    extent=plotting_extent(src))
-
+    # Add colorbar
     if colorbar_label:
         cbar_ax = fig.add_axes([0.92, 0.22, 0.02, 0.5])
         fig.colorbar(img, cax=cbar_ax, label=colorbar_label, extend='both')
 
-    elif unit is not None and colorbar_label is None:
-        cbar_ax = fig.add_axes([0.92, 0.22, 0.02, 0.5])
-        fig.colorbar(img, cax=cbar_ax, label=letters, extend='both')
-        
-        
+    # Set axis labels based on CRS
     if raster_crs.is_geographic:
         ax.set_xlabel('Longitude')
         ax.set_ylabel('Latitude')
@@ -153,20 +210,18 @@ def akhdefo_viewer(Path_to_DEMFile="", rasterfile="", title='', pixel_resolution
     ax.grid(True, which='major')
     ax.set_title(title)
 
-    if pixel_resolution_meter is not None:
-        scalebar = AnchoredSizeBar(ax.transData, 500, f'{500 * pixel_resolution_meter} m', 'lower right',
-                               pad=0.6,
-                               color='black',
-                               frameon=True,
-                               size_vertical=1)
+    # Add scale bar
+    if pixel_resolution_meters is not None:
+        scalebar = AnchoredSizeBar(ax.transData, 100, f'{100 * pixel_resolution_meters} m', 'lower right',
+                                   pad=0.6, color='black', frameon=True, size_vertical=1)
         ax.add_artist(scalebar)
 
-    plt.savefig(os.path.join(outputfolder, outputfileName), dpi=100, bbox_inches='tight')
-    
-    if show_figure==True:
-        plt.show()
-    else:
-        plt.close()
+    # Save the plot
+    plt.savefig(os.path.join(output_folder, output_file_name), dpi=100, bbox_inches='tight')
+
+
+
+
 
 
 def plot_stackNetwork(src_folder=r"", output_folder=r"" , cmap='tab20', date_plot_interval=(5, 30), marker_size=15):

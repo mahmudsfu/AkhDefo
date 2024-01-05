@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.AkhdefoPlot &#8212; AkhDefo Software 2.2.59 documentation</title>
+    <title>akhdefo_functions.AkhdefoPlot &#8212; AkhDefo Software 2.2.6 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=a7e1452c"></script>
+    <script src="../../_static/documentation_options.js?v=ddecf0d5"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -81,108 +81,166 @@
 <span class="kn">import</span> <span class="nn">re</span>
 
 
-
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">TwoSlopeNorm</span><span class="p">,</span> <span class="n">Normalize</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.axes_grid1.anchored_artists</span> <span class="kn">import</span> <span class="n">AnchoredSizeBar</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="kn">import</span> <span class="nn">rasterio.plot</span>
+<span class="kn">import</span> <span class="nn">earthpy.spatial</span> <span class="k">as</span> <span class="nn">es</span>
+<span class="kn">import</span> <span class="nn">earthpy.plot</span> <span class="k">as</span> <span class="nn">ep</span>
 
 
 <div class="viewcode-block" id="akhdefo_viewer">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.AkhdefoPlot.akhdefo_viewer">[docs]</a>
-<span class="k">def</span> <span class="nf">akhdefo_viewer</span><span class="p">(</span><span class="n">Path_to_DEMFile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">rasterfile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">pixel_resolution_meter</span><span class="o">=</span><span class="mf">3.125</span><span class="p">,</span>
-                    <span class="n">outputfolder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">outputfileName</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">noDATA_Mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span> 
-                    <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">akhdefo_viewer</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="p">,</span> <span class="n">raster_file</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
+                   <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="mf">3.125</span><span class="p">,</span> <span class="n">output_file_name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                   <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                   <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                   <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function overlays a raster file on a DEM hillshade and saves the plot as a .png image. </span>
+<span class="sd">    Overlays a raster file on a DEM hillshade and saves the plot as a PNG image.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    Path_to_DEMFile (str): Path to the DEM file.</span>
-<span class="sd">    rasterfile (str): Path to the raster file.</span>
-<span class="sd">    title (str, optional): Title of the plot. If None, the basename of the raster file is used.</span>
-<span class="sd">    pixel_resolution_meter (float, optional): Pixel resolution of the raster in meters. Default is 3.125.</span>
-<span class="sd">    outputfolder (str): Path to the folder where the output image will be saved.</span>
-<span class="sd">    outputfileName (str): Name of the output .png image.</span>
+<span class="sd">    path_to_dem_file (str): Path to the DEM file.</span>
+<span class="sd">    raster_file (str): Path to the raster file.</span>
+<span class="sd">    output_folder (str): Path to the folder where the output image will be saved.</span>
+<span class="sd">    title (str, optional): Title of the plot. Defaults to the raster file&#39;s basename.</span>
+<span class="sd">    pixel_resolution_meters (float, optional): Pixel resolution of the raster in meters. Default is None get resolution from raster input.</span>
+<span class="sd">    output_file_name (str, optional): Name of the output PNG image. Defaults to the raster file&#39;s basename.</span>
 <span class="sd">    alpha (float, optional): Alpha value for the raster overlay. Default is 0.5.</span>
-<span class="sd">    unit (int, optional): Unit conversion factor for the raster values. Default is &#39;&#39;. &quot;100cm&quot; if your data in meters want to convert to cm, adjust to your need e.g. &quot;1000mm&quot;, etc..</span>
-<span class="sd">    noDATA_Mask (bool, optional): If True, pixels with a value of 0 in the raster are masked. Default is False.</span>
-<span class="sd">    cmap (str, optional): Colormap to use for the raster. Default is &#39;jet&#39;.</span>
-<span class="sd">    min_value (float, optional): Minimum value to use for the normalization. If None, the minimum raster value is used.</span>
-<span class="sd">    max_value (float, optional): Maximum value to use for the normalization. If None, the maximum raster value is used.</span>
-<span class="sd">    normalize (bool, optional): If True, the raster values are normalized. Default is False.</span>
-<span class="sd">    colorbar_label (str, optional): Label for the colorbar. If None, no label is added. </span>
+<span class="sd">    unit_conversion (str, optional): Unit conversion factor for the raster values. For example, &#39;100cm&#39; for meters to centimeters conversion.</span>
+<span class="sd">    no_data_mask (bool, optional): If True, masks pixels with a value of 0 in the raster. Default is False.</span>
+<span class="sd">    colormap (str, optional): Colormap to use for the raster. Default is &#39;jet&#39;.</span>
+<span class="sd">    min_value (float, optional): Minimum value for normalization. Uses raster&#39;s minimum if None.</span>
+<span class="sd">    max_value (float, optional): Maximum value for normalization. Uses raster&#39;s maximum if None.</span>
+<span class="sd">    normalize (bool, optional): If True, normalizes the raster values. Default is False.</span>
+<span class="sd">    colorbar_label (str, optional): Label for the colorbar. </span>
+<span class="sd">    show_figure (bool, optional): Whether to display the figure. Default is True.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">Path_to_DEMFile</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
-        <span class="n">dem</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">dem_transform</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+            <span class="n">dem</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">dem_transform</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span>
+            
+        <span class="n">hillshade</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">hillshade</span><span class="p">(</span><span class="n">dem</span><span class="p">)</span>
 
-    <span class="n">hillshade</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">hillshade</span><span class="p">(</span><span class="n">dem</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">raster_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+            <span class="n">raster</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">raster_transform</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span>
+            <span class="n">raster_crs</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">crs</span>
+            <span class="n">xres</span><span class="p">,</span> <span class="n">yres</span><span class="o">=</span><span class="n">src</span><span class="o">.</span><span class="n">res</span>
 
-    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">rasterfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
-        <span class="n">raster</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">raster_transform</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span>
-        <span class="n">raster_crs</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">crs</span>
+        <span class="k">if</span> <span class="n">no_data_mask</span><span class="p">:</span>
+            <span class="n">raster</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">raster</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">raster</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">noDATA_Mask</span><span class="p">:</span>
-        <span class="n">raster</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">raster</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">raster</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">unit_conversion</span><span class="p">:</span>
+            <span class="n">unit_type</span><span class="p">,</span> <span class="n">unit_factor</span> <span class="o">=</span> <span class="n">_separate_floats_letters</span><span class="p">(</span><span class="n">unit_conversion</span><span class="p">)</span>
+            <span class="n">raster</span> <span class="o">*=</span> <span class="nb">float</span><span class="p">(</span><span class="n">unit_factor</span><span class="p">)</span>
 
-    
-    <span class="k">def</span> <span class="nf">separate_floats_letters</span><span class="p">(</span><span class="n">input_string</span><span class="p">):</span>
-        <span class="n">floats</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+\.\d+|\d+&#39;</span><span class="p">,</span> <span class="n">input_string</span><span class="p">)</span>
-        <span class="n">letters</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[a-zA-Z]+&#39;</span><span class="p">,</span> <span class="n">input_string</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">letters</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">floats</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">pixel_resolution_meters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="n">xres</span>
 
-    <span class="n">input_string</span> <span class="o">=</span> <span class="n">unit</span>
-    <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">letters</span><span class="p">,</span> <span class="n">unit_val</span> <span class="o">=</span> <span class="n">separate_floats_letters</span><span class="p">(</span><span class="n">input_string</span><span class="p">)</span>
-    
-   
-    
-    <span class="k">if</span>  <span class="n">unit</span><span class="p">:</span>
-        <span class="n">raster</span> <span class="o">=</span> <span class="n">raster</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">unit_val</span><span class="p">)</span>
+        <span class="c1"># Set the output file name if it&#39;s not provided</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">output_file_name</span><span class="p">:</span>
+            <span class="n">output_file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">raster_file</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span>
 
-    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">min_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">min_value</span> <span class="o">=</span> <span class="n">raster</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">max_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">max_value</span> <span class="o">=</span> <span class="n">raster</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">_create_plot</span><span class="p">(</span><span class="n">hillshade</span><span class="p">,</span> <span class="n">raster</span><span class="p">,</span> <span class="n">dem_transform</span><span class="p">,</span> <span class="n">raster_transform</span><span class="p">,</span> <span class="n">raster_crs</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">colormap</span><span class="p">,</span> <span class="n">normalize</span><span class="p">,</span>
+                     <span class="n">title</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">output_file_name</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="p">,</span> <span class="n">pixel_resolution_meters</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">raster</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">norm</span> <span class="o">=</span> <span class="n">TwoSlopeNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">min_value</span><span class="p">,</span> <span class="n">vcenter</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">max_value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">show_figure</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">norm</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">min_value</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">max_value</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">norm</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;An error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_separate_floats_letters</span><span class="p">(</span><span class="n">input_string</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Separates floats and letters from a string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">floats</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+\.\d+|\d+&#39;</span><span class="p">,</span> <span class="n">input_string</span><span class="p">)</span>
+    <span class="n">letters</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[a-zA-Z]+&#39;</span><span class="p">,</span> <span class="n">input_string</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">floats</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">letters</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid input string for unit conversion.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">letters</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">floats</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_normalize_raster</span><span class="p">(</span><span class="n">raster</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Normalizes raster values between given minimum and maximum values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">min_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">max_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">min_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">raster</span><span class="p">)</span>
+        <span class="n">max_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">raster</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">min_value</span><span class="o">=</span><span class="n">min_value</span>
+        <span class="n">max_value</span><span class="o">=</span><span class="n">max_value</span>
+       
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">raster</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">raster</span><span class="p">)</span> <span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">TwoSlopeNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">min_value</span><span class="p">,</span> <span class="n">vcenter</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">max_value</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">min_value</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">max_value</span><span class="p">)</span>
+    
+    
+    
+    <span class="k">return</span> <span class="n">raster</span><span class="p">,</span> <span class="n">norm</span>
+
+
+<span class="k">def</span> <span class="nf">_create_plot</span><span class="p">(</span><span class="n">hillshade</span><span class="p">,</span> <span class="n">raster</span><span class="p">,</span> <span class="n">dem_transform</span><span class="p">,</span> <span class="n">raster_transform</span><span class="p">,</span> <span class="n">raster_crs</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">colormap</span><span class="p">,</span> <span class="n">normalize</span><span class="p">,</span>
+                 <span class="n">title</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">output_file_name</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="p">,</span> <span class="n">pixel_resolution_meters</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates and saves a plot of hillshade and raster overlay.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
 
-    <span class="c1"># Plot the hillshade layer</span>
+    <span class="c1"># Plot the hillshade layer using dem_transform for its extent</span>
     <span class="n">ep</span><span class="o">.</span><span class="n">plot_bands</span><span class="p">(</span>
         <span class="n">hillshade</span><span class="p">,</span>
         <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
         <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span>
         <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">extent</span><span class="o">=</span><span class="n">plotting_extent</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+        <span class="n">extent</span><span class="o">=</span><span class="n">rasterio</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">plotting_extent</span><span class="p">(</span><span class="n">hillshade</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">dem_transform</span><span class="p">)</span>  <span class="c1"># ensure correct transform</span>
     <span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">rasterfile</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">outputfileName</span><span class="p">:</span>
-        <span class="n">outputfileName</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">rasterfile</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">raster</span><span class="p">,</span> <span class="n">norm</span> <span class="o">=</span> <span class="n">_normalize_raster</span><span class="p">(</span><span class="n">raster</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">normalize</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+    <span class="c1"># Overlay the raster with alpha for transparency using raster_transform for its extent</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">raster</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
+                    <span class="n">extent</span><span class="o">=</span><span class="n">rasterio</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">plotting_extent</span><span class="p">(</span><span class="n">raster</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">raster_transform</span><span class="p">))</span>  <span class="c1"># ensure correct transform</span>
+    
+    <span class="k">if</span> <span class="n">normalize</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+        
+        <span class="k">if</span> <span class="n">min_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">max_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">min_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">raster</span><span class="p">)</span>
+            <span class="n">max_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">raster</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">min_value</span><span class="o">=</span><span class="n">min_value</span>
+            <span class="n">max_value</span><span class="o">=</span><span class="n">max_value</span>
+        
+        <span class="c1"># Overlay the raster with alpha for transparency using raster_transform for its extent</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">raster</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">min_value</span> <span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">max_value</span><span class="p">,</span>
+                    <span class="n">extent</span><span class="o">=</span><span class="n">rasterio</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">plotting_extent</span><span class="p">(</span><span class="n">raster</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">raster_transform</span><span class="p">))</span>  <span class="c1"># ensure correct transform</span>
+        
+    
 
-    <span class="c1"># Overlay the raster with alpha for transparency</span>
-    <span class="n">img</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">raster</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
-                    <span class="n">extent</span><span class="o">=</span><span class="n">plotting_extent</span><span class="p">(</span><span class="n">src</span><span class="p">))</span>
-
+    <span class="c1"># Add colorbar</span>
     <span class="k">if</span> <span class="n">colorbar_label</span><span class="p">:</span>
         <span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.92</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">colorbar_label</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">colorbar_label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.92</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">letters</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
-        
-        
+    <span class="c1"># Set axis labels based on CRS</span>
     <span class="k">if</span> <span class="n">raster_crs</span><span class="o">.</span><span class="n">is_geographic</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Longitude&#39;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Latitude&#39;</span><span class="p">)</span>
@@ -193,20 +251,17 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">pixel_resolution_meter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">scalebar</span> <span class="o">=</span> <span class="n">AnchoredSizeBar</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">500</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pixel_resolution_meter</span><span class="si">}</span><span class="s1"> m&#39;</span><span class="p">,</span> <span class="s1">&#39;lower right&#39;</span><span class="p">,</span>
-                               <span class="n">pad</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
-                               <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
-                               <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                               <span class="n">size_vertical</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># Add scale bar</span>
+    <span class="k">if</span> <span class="n">pixel_resolution_meters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">scalebar</span> <span class="o">=</span> <span class="n">AnchoredSizeBar</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pixel_resolution_meters</span><span class="si">}</span><span class="s1"> m&#39;</span><span class="p">,</span> <span class="s1">&#39;lower right&#39;</span><span class="p">,</span>
+                                   <span class="n">pad</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">size_vertical</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">scalebar</span><span class="p">)</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outputfolder</span><span class="p">,</span> <span class="n">outputfileName</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="n">show_figure</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+    <span class="c1"># Save the plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">output_file_name</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+
+
+
 
 
 
@@ -1239,7 +1294,7 @@
     </div>
   
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023, Mahmud Mustafa Muhammad.
+    &#169; Copyright 2024, Mahmud Mustafa Muhammad.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   <script src="../../_static/version_warning_offset.js"></script>

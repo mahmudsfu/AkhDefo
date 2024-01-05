@@ -12,9 +12,9 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 
 project = 'AkhDefo Software'
-copyright = '2023, Mahmud Mustafa Muhammad'
-author = 'Mahmud Mustafa'
-release = '2.2.59'
+copyright = '2024, Mahmud Mustafa Muhammad'
+author = 'Mahmud Mustafa Muhammad'
+release = '2.2.61'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

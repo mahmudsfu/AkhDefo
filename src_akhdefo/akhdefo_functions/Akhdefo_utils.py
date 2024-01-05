@@ -146,34 +146,48 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
     
     ##################
         # Open and read the raster files
+   # Open the raster files and read the data
     with rio.open(EW_Akhdefo) as src_east:
         east_data = src_east.read(1, masked=True)
-        meta = src_east.meta
-        
-    with rio.open(horizontal_InSAR) as src_east:
-        east_data = src_east.read(1, masked=True)
-        meta = src_east.meta
+        east_meta = src_east.meta
+
+    with rio.open(horizontal_InSAR) as src_horizontal:
+        horizontal_data = src_horizontal.read(1, masked=True)
+        horizontal_meta = src_horizontal.meta
 
     with rio.open(NS_Akhdefo) as src_north:
         north_data = src_north.read(1, masked=True)
+        north_meta = src_north.meta
 
     with rio.open(Vertical_InSAR) as src_vertical:
         vertical_data = src_vertical.read(1, masked=True)
+        vertical_meta = src_vertical.meta
 
+    from scipy.ndimage import zoom
+
+    # Calculate the zoom factors for each dataset
+    zoom_factor_east = (north_data.shape[0] / east_data.shape[0], north_data.shape[1] / east_data.shape[1])
+    zoom_factor_horizontal = (north_data.shape[0] / horizontal_data.shape[0], north_data.shape[1] / horizontal_data.shape[1])
+    zoom_factor_vertical = (north_data.shape[0] / vertical_data.shape[0], north_data.shape[1] / vertical_data.shape[1])
+
+    # Resize each dataset
+    resized_east_data = zoom(east_data, zoom_factor_east, order=1)  # Using order=1 (bilinear) for continuous data
+    resized_horizontal_data = zoom(horizontal_data, zoom_factor_horizontal, order=1)
+    resized_vertical_data = zoom(vertical_data, zoom_factor_vertical, order=1)
     
-    D3D=np.hypot(east_data, vertical_data )
+    D3D=np.hypot(resized_east_data, resized_vertical_data )
 
-    plung_radians=np.arcsin(vertical_data/D3D)
+    plung_radians=np.arcsin(resized_vertical_data/D3D)
     plung_degree=np.degrees(plung_radians)
     
-    DH=np.hypot(east_data, north_data)
+    DH=np.hypot(resized_east_data, north_data)
 
     trend_radians=np.arcsin(north_data/DH)
     trend_degrees=np.degrees(trend_radians)
     print ("Trend in degree raw data: ", trend_degrees.min(), trend_degrees.max())
     trend_degrees=(450 - trend_degrees ) % 360
    
-    
+    meta=north_meta
     
     ####################
     
@@ -223,6 +237,7 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
     trend=output_folder+ "/" + "trend_degrees.tif"
     # with rio.open("DH.tif", 'w', **meta) as dst:
     #         dst.write(DH, indexes=1)
+    meta.update(nodata=np.nan)
     with rio.open(_3D_vel, 'w', **meta) as dst:
             dst.write(D3D, indexes=1)
     with rio.open(trend, 'w', **meta) as dst:
@@ -232,13 +247,31 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
 
 
     
-    p1=akhdefo_viewer(Path_to_DEMFile=demFile, rasterfile=_3D_vel , colorbar_label="mm/year", title="3D Velocity", pixel_resolution_meter=3.125, outputfolder=output_folder,
-    outputfileName="3D_Disp.jpg",  cmap=cmocean.cm.speed, alpha=0.8, noDATA_Mask=True, normalize=True)
+    # p1=akhdefo_viewer(Path_to_DEMFile=demFile, rasterfile=_3D_vel , colorbar_label="mm/year", title="3D Velocity", pixel_resolution_meter=3.125, outputfolder=output_folder,
+    # outputfileName="3D_Disp.jpg",  cmap=cmocean.cm.speed, alpha=0.8, noDATA_Mask=True, normalize=True)
     
-    p2=akhdefo_viewer(Path_to_DEMFile=demFile, rasterfile=plung , colorbar_label="degrees", title="Plunge of Dispalcement Velocity", pixel_resolution_meter=3.125, outputfolder=output_folder,
-    outputfileName="plunge.jpg", cmap=cmocean.cm.delta, alpha=0.8, noDATA_Mask=True, normalize=True)
-    p3=akhdefo_viewer(Path_to_DEMFile=demFile, rasterfile=trend , colorbar_label="degress", title="Trend of Dispalcement Velocity", pixel_resolution_meter=3.125, outputfolder=output_folder,
-    outputfileName="trend.jpg", cmap=cmocean.cm.phase, alpha=0.8, noDATA_Mask=True, normalize=True)
+    # p2=akhdefo_viewer(Path_to_DEMFile=demFile, rasterfile=plung , colorbar_label="degrees", title="Plunge of Dispalcement Velocity", pixel_resolution_meter=3.125, outputfolder=output_folder,
+    # outputfileName="plunge.jpg", cmap=cmocean.cm.delta, alpha=0.8, noDATA_Mask=True, normalize=True)
+    # p3=akhdefo_viewer(Path_to_DEMFile=demFile, rasterfile=trend , colorbar_label="degress", title="Trend of Dispalcement Velocity", pixel_resolution_meter=3.125, outputfolder=output_folder,
+    # outputfileName="trend.jpg", cmap=cmocean.cm.phase, alpha=0.8, noDATA_Mask=True, normalize=True)
+    
+    akhdefo_viewer(path_to_dem_file=demFile, raster_file=_3D_vel, output_folder=output_folder, title='3D Velocity', 
+                   pixel_resolution_meters=None, output_file_name="3D_Disp.jpg", 
+                   alpha=0.5, unit_conversion=None, no_data_mask=True, 
+                   colormap=cmocean.cm.speed, min_value=None, max_value=None, 
+                   normalize=True, colorbar_label=' ', show_figure=True)
+    
+    akhdefo_viewer(path_to_dem_file=demFile, raster_file=plung, output_folder=output_folder, title='Plunge of Dispalcement Velocity', 
+                   pixel_resolution_meters=None, output_file_name="plunge.jpg", 
+                   alpha=0.5, unit_conversion=None, no_data_mask=True, 
+                   colormap='hsv', min_value=None, max_value=None, 
+                   normalize=True, colorbar_label='degrees', show_figure=True)
+    
+    akhdefo_viewer(path_to_dem_file=demFile, raster_file=trend, output_folder=output_folder, title='Trend of Dispalcement Velocity', 
+                   pixel_resolution_meters=None, output_file_name="trend.jpg", 
+                   alpha=0.5, unit_conversion=None, no_data_mask=True, 
+                   colormap=cmocean.cm.phase, min_value=None, max_value=None, 
+                   normalize=True, colorbar_label='degrees', show_figure=True)
 
 
         

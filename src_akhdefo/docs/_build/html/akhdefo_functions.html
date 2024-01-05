@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions package &#8212; AkhDefo Software 2.2.59 documentation</title>
+    <title>akhdefo_functions package &#8212; AkhDefo Software 2.2.6 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
-    <script src="_static/documentation_options.js?v=a7e1452c"></script>
+    <script src="_static/documentation_options.js?v=ddecf0d5"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -130,23 +130,24 @@ you save your profile plots in interactive html file and jpg image</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.AkhdefoPlot.akhdefo_viewer">
-<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.AkhdefoPlot.</span></span><span class="sig-name descname"><span class="pre">akhdefo_viewer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Path_to_DEMFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rasterfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_resolution_meter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.125</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputfolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputfileName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noDATA_Mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'jet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/AkhdefoPlot.html#akhdefo_viewer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.AkhdefoPlot.akhdefo_viewer" title="Link to this definition">¶</a></dt>
-<dd><p>This function overlays a raster file on a DEM hillshade and saves the plot as a .png image.</p>
+<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.AkhdefoPlot.</span></span><span class="sig-name descname"><span class="pre">akhdefo_viewer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_dem_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raster_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_resolution_meters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.125</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_conversion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_data_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colormap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'jet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/AkhdefoPlot.html#akhdefo_viewer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.AkhdefoPlot.akhdefo_viewer" title="Link to this definition">¶</a></dt>
+<dd><p>Overlays a raster file on a DEM hillshade and saves the plot as a PNG image.</p>
 <p>Parameters:
-Path_to_DEMFile (str): Path to the DEM file.
-rasterfile (str): Path to the raster file.
-title (str, optional): Title of the plot. If None, the basename of the raster file is used.
-pixel_resolution_meter (float, optional): Pixel resolution of the raster in meters. Default is 3.125.
-outputfolder (str): Path to the folder where the output image will be saved.
-outputfileName (str): Name of the output .png image.
+path_to_dem_file (str): Path to the DEM file.
+raster_file (str): Path to the raster file.
+output_folder (str): Path to the folder where the output image will be saved.
+title (str, optional): Title of the plot. Defaults to the raster file’s basename.
+pixel_resolution_meters (float, optional): Pixel resolution of the raster in meters. Default is None get resolution from raster input.
+output_file_name (str, optional): Name of the output PNG image. Defaults to the raster file’s basename.
 alpha (float, optional): Alpha value for the raster overlay. Default is 0.5.
-unit (int, optional): Unit conversion factor for the raster values. Default is ‘’. “100cm” if your data in meters want to convert to cm, adjust to your need e.g. “1000mm”, etc..
-noDATA_Mask (bool, optional): If True, pixels with a value of 0 in the raster are masked. Default is False.
-cmap (str, optional): Colormap to use for the raster. Default is ‘jet’.
-min_value (float, optional): Minimum value to use for the normalization. If None, the minimum raster value is used.
-max_value (float, optional): Maximum value to use for the normalization. If None, the maximum raster value is used.
-normalize (bool, optional): If True, the raster values are normalized. Default is False.
-colorbar_label (str, optional): Label for the colorbar. If None, no label is added.</p>
+unit_conversion (str, optional): Unit conversion factor for the raster values. For example, ‘100cm’ for meters to centimeters conversion.
+no_data_mask (bool, optional): If True, masks pixels with a value of 0 in the raster. Default is False.
+colormap (str, optional): Colormap to use for the raster. Default is ‘jet’.
+min_value (float, optional): Minimum value for normalization. Uses raster’s minimum if None.
+max_value (float, optional): Maximum value for normalization. Uses raster’s maximum if None.
+normalize (bool, optional): If True, normalizes the raster values. Default is False.
+colorbar_label (str, optional): Label for the colorbar. 
+show_figure (bool, optional): Whether to display the figure. Default is True.</p>
 <p>Returns:
 None</p>
 </dd></dl>
@@ -653,12 +654,13 @@ numpy.ndarray: Array of height changes.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.calculate_slope">
-<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">calculate_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#calculate_slope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.calculate_slope" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">calculate_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#calculate_slope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.calculate_slope" title="Link to this definition">¶</a></dt>
 <dd><p>Calculate the slope at each pixel using the aspect to determine direction.</p>
 <p>Parameters:
 dem (numpy.ndarray): Digital Elevation Model (DEM) array.
 aspect (numpy.ndarray): Aspect array.
-dx (float): Spatial resolution of the DEM (distance between pixels).</p>
+dx (float):  x Spatial resolution of the raster (distance between pixels).
+dy (float):  y Spatial resolution of the raster (distance between pixels).</p>
 <p>Returns:
 numpy.ndarray: Array of slope values in degrees.</p>
 </dd></dl>
@@ -719,7 +721,7 @@ numpy.ndarray: Array of volume changes.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.displacement_to_volume">
-<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">displacement_to_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dem_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspect_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">displacement_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slope_output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height_output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume_output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_area</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#displacement_to_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.displacement_to_volume" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">displacement_to_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dem_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspect_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">displacement_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slope_output_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height_output_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume_output_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#displacement_to_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.displacement_to_volume" title="Link to this definition">¶</a></dt>
 <dd><p>Process the DEM, aspect, and displacement rasters to calculate and export the slope, height change, and volume change.</p>
 <p>Parameters:
 dem_path (str): Path to the DEM raster file.
@@ -728,7 +730,8 @@ displacement_path (str): Path to the displacement raster file.
 slope_output_path (str): Path for the slope output GeoTIFF file.
 height_output_path (str): Path for the height change output GeoTIFF file.
 volume_output_path (str): Path for the volume change output GeoTIFF file.
-dx (float): Spatial resolution of the DEM.
+dx (float):  x Spatial resolution of the raster (distance between pixels).
+dy (float):  y Spatial resolution of the raster (distance between pixels).
 pixel_area (float): Area of a single pixel.</p>
 <p>Returns:
 None: Outputs GeoTIFF files at the specified output paths.</p>
@@ -1844,7 +1847,7 @@ as the script or in a location where Python can find them.</p>
     </div>
   
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023, Mahmud Mustafa Muhammad.
+    &#169; Copyright 2024, Mahmud Mustafa Muhammad.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   <script src="_static/version_warning_offset.js"></script>

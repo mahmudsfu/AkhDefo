@@ -1991,19 +1991,36 @@ def move_files_with_string(source_dir: str ="", dest_dir: str ="", search_string
 import numpy as np
 import rasterio
 
-def calculate_slope(dem, aspect, dx):
+def calculate_slope(dem, aspect, dx , dy):
     """
     Calculate the slope at each pixel using the aspect to determine direction.
 
     Parameters:
     dem (numpy.ndarray): Digital Elevation Model (DEM) array.
     aspect (numpy.ndarray): Aspect array.
-    dx (float): Spatial resolution of the DEM (distance between pixels).
+    dx (float):  x Spatial resolution of the raster (distance between pixels).
+    dy (float):  y Spatial resolution of the raster (distance between pixels).
 
     Returns:
     numpy.ndarray: Array of slope values in degrees.
     """
+    
+    grad_y, grad_x = np.gradient(dem, dx, dy)
+    
+    
+    # Assuming 'dem' and 'aspect' are your existing numpy arrays
+    # Check if the shapes are different
+    # if dem.shape != aspect.shape:
+    #     # Resize 'dem' to match the shape of 'aspect'
+    #     aspect = np.resize(aspect, dem.shape)
+    # else:
+    #     aspect = aspect
+
     grad_y, grad_x = np.gradient(dem, dx, dx)
+
+    if grad_x.shape != grad_y.shape:
+        raise ValueError("Gradient arrays have mismatched shapes.")
+    
     aspect_radians = np.deg2rad(aspect)
     directional_grad = np.cos(aspect_radians) * grad_x + np.sin(aspect_radians) * grad_y
     slope_degrees = np.rad2deg(np.arctan(directional_grad))
@@ -2022,7 +2039,10 @@ def calculate_height_change(slope, distance):
     """
     slope_radians = np.deg2rad(slope)
     height_change = np.tan(slope_radians) * distance
-    return height_change
+    
+    
+    
+    return height_change 
 
 def calculate_volume_change(height_change, pixel_area):
     """
@@ -2036,9 +2056,10 @@ def calculate_volume_change(height_change, pixel_area):
     numpy.ndarray: Array of volume changes.
     """
     volume_change = height_change * pixel_area
+    print (f'Total Volume: {np.nansum(volume_change)}')
     return volume_change
 
-def displacement_to_volume(dem_path, aspect_path, displacement_path, slope_output_path, height_output_path, volume_output_path, dx, pixel_area):
+def displacement_to_volume(dem_path="", aspect_path="", displacement_path="", slope_output_path="", height_output_path="", volume_output_path="", dx=None , dy=None , pixel_area=None):
     """
     Process the DEM, aspect, and displacement rasters to calculate and export the slope, height change, and volume change.
 
@@ -2049,7 +2070,8 @@ def displacement_to_volume(dem_path, aspect_path, displacement_path, slope_outpu
     slope_output_path (str): Path for the slope output GeoTIFF file.
     height_output_path (str): Path for the height change output GeoTIFF file.
     volume_output_path (str): Path for the volume change output GeoTIFF file.
-    dx (float): Spatial resolution of the DEM.
+    dx (float):  x Spatial resolution of the raster (distance between pixels).
+    dy (float):  y Spatial resolution of the raster (distance between pixels).
     pixel_area (float): Area of a single pixel.
 
     Returns:
@@ -2059,12 +2081,38 @@ def displacement_to_volume(dem_path, aspect_path, displacement_path, slope_outpu
          rasterio.open(aspect_path) as aspect_raster, \
          rasterio.open(displacement_path) as displacement_raster:
 
-        dem = dem_raster.read(1)
-        aspect = aspect_raster.read(1)
-        displacement = displacement_raster.read(1)
+        dem = dem_raster.read(1,  masked=True)
+        aspect = aspect_raster.read(1,  masked=True)
+        displacement = displacement_raster.read(1,  masked=True)
+        
+        x_resolution, y_resolution = aspect_raster.res
+        
+        if dx is None:
+            dx=x_resolution
+        if dy is None:
+            dy=y_resolution
+        if pixel_area is None:
+            pixel_area=dx * dy
+        from scipy.ndimage import zoom
 
-        slope = calculate_slope(dem, aspect, dx)
-        height_change = calculate_height_change(slope, displacement)
+        # Example dimensions - replace these with actual dimensions
+        dem_shape = dem.shape
+        aspect_shape = aspect.shape
+        displacement_shape = displacement.shape
+
+        # Calculating zoom factors
+        zoom_factor_aspect = [dem_dim / aspect_dim for dem_dim, aspect_dim in zip(dem_shape, aspect_shape)]
+        zoom_factor_displacement = [dem_dim / displacement_dim for dem_dim, displacement_dim in zip(dem_shape, displacement_shape)]
+
+        # Resizing aspect and displacement arrays
+        aspect = zoom(aspect, zoom_factor_aspect, order=1)  # cubic interpolation
+        displacement = zoom(displacement, zoom_factor_displacement, order=1)  # cubic interpolation
+        
+        # aspect = np.resize(aspect, dem.shape)
+        # displacement = np.resize(displacement, dem.shape)
+        
+        slope = calculate_slope(dem, aspect, dx , dy )
+        height_change  = calculate_height_change(slope, displacement)
         volume_change = calculate_volume_change(height_change, pixel_area)
 
         # Define a function to export data to a GeoTIFF
@@ -2075,9 +2123,9 @@ def displacement_to_volume(dem_path, aspect_path, displacement_path, slope_outpu
                 height=data.shape[0],
                 width=data.shape[1],
                 count=1,
-                dtype=data.dtype,
+                dtype=np.float32,
                 crs=reference_raster.crs,
-                transform=reference_raster.transform
+                transform=reference_raster.transform, nodata=np.nan
             ) as output_raster:
                 output_raster.write(data, 1)
 
@@ -2111,11 +2159,38 @@ def calculate_and_save_aspect_raster(ew_raster_path: str ="", ns_raster_path: st
     """
     def read_raster(file_path):
         """Read a raster file and return the data array and geotransform."""
+
+        # Open the dataset
         dataset = gdal.Open(file_path)
+        if dataset is None:
+            raise IOError("Could not open file at {}".format(file_path))
+
+        # Get the first raster band
         band = dataset.GetRasterBand(1)
+
+        # Read the data as a numpy array
         data = band.ReadAsArray()
+
+        # Get no-data value from the band
+        nodata_value = band.GetNoDataValue()
+
+        # Check if there is a no-data value defined
+        if nodata_value is not None:
+            # Create a mask that is True for valid pixels
+            mask = data != nodata_value
+
+            # Apply the mask to filter out no-data pixels
+            valid_data = np.where(mask, data, np.nan)  # Replace no-data with NaN
+        else:
+            valid_data = data  # All data is valid if there is no no-data value
+
+        # Retrieve geotransformation
         geotransform = dataset.GetGeoTransform()
-        return data, geotransform, dataset
+
+        # Close the dataset
+        #dataset = None
+
+        return valid_data, geotransform, dataset
 
     def calculate_aspect(ew_data, ns_data):
         """Calculate the aspect from EW and NS displacement data."""

@@ -4,7 +4,7 @@ akhdefo_functions
 collection of python modules performs geospatial image processing to moniter land deformation
 """
 
-__version__ = "2.2.58"
+__version__ = "2.2.61"
 __author__ = 'Mahmud Mustafa Muhammad'
 __credits__ = 'Simon Fraser university-Department of Earth Sciences'
 

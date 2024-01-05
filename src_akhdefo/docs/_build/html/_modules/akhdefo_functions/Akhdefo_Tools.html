@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.Akhdefo_Tools &#8212; AkhDefo Software 2.2.59 documentation</title>
+    <title>akhdefo_functions.Akhdefo_Tools &#8212; AkhDefo Software 2.2.6 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=a7e1452c"></script>
+    <script src="../../_static/documentation_options.js?v=ddecf0d5"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -2070,19 +2070,36 @@
 
 <div class="viewcode-block" id="calculate_slope">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.calculate_slope">[docs]</a>
-<span class="k">def</span> <span class="nf">calculate_slope</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">aspect</span><span class="p">,</span> <span class="n">dx</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">calculate_slope</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">aspect</span><span class="p">,</span> <span class="n">dx</span> <span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the slope at each pixel using the aspect to determine direction.</span>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    dem (numpy.ndarray): Digital Elevation Model (DEM) array.</span>
 <span class="sd">    aspect (numpy.ndarray): Aspect array.</span>
-<span class="sd">    dx (float): Spatial resolution of the DEM (distance between pixels).</span>
+<span class="sd">    dx (float):  x Spatial resolution of the raster (distance between pixels).</span>
+<span class="sd">    dy (float):  y Spatial resolution of the raster (distance between pixels).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    numpy.ndarray: Array of slope values in degrees.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">grad_y</span><span class="p">,</span> <span class="n">grad_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+    
+    
+    <span class="c1"># Assuming &#39;dem&#39; and &#39;aspect&#39; are your existing numpy arrays</span>
+    <span class="c1"># Check if the shapes are different</span>
+    <span class="c1"># if dem.shape != aspect.shape:</span>
+    <span class="c1">#     # Resize &#39;dem&#39; to match the shape of &#39;aspect&#39;</span>
+    <span class="c1">#     aspect = np.resize(aspect, dem.shape)</span>
+    <span class="c1"># else:</span>
+    <span class="c1">#     aspect = aspect</span>
+
     <span class="n">grad_y</span><span class="p">,</span> <span class="n">grad_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">grad_x</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">grad_y</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Gradient arrays have mismatched shapes.&quot;</span><span class="p">)</span>
+    
     <span class="n">aspect_radians</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">aspect</span><span class="p">)</span>
     <span class="n">directional_grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">aspect_radians</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad_x</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">aspect_radians</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad_y</span>
     <span class="n">slope_degrees</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">directional_grad</span><span class="p">))</span>
@@ -2104,7 +2121,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">slope_radians</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">slope</span><span class="p">)</span>
     <span class="n">height_change</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">slope_radians</span><span class="p">)</span> <span class="o">*</span> <span class="n">distance</span>
-    <span class="k">return</span> <span class="n">height_change</span></div>
+    
+    
+    
+    <span class="k">return</span> <span class="n">height_change</span> </div>
 
 
 <div class="viewcode-block" id="calculate_volume_change">
@@ -2121,12 +2141,13 @@
 <span class="sd">    numpy.ndarray: Array of volume changes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">volume_change</span> <span class="o">=</span> <span class="n">height_change</span> <span class="o">*</span> <span class="n">pixel_area</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Total Volume: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">volume_change</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">volume_change</span></div>
 
 
 <div class="viewcode-block" id="displacement_to_volume">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.displacement_to_volume">[docs]</a>
-<span class="k">def</span> <span class="nf">displacement_to_volume</span><span class="p">(</span><span class="n">dem_path</span><span class="p">,</span> <span class="n">aspect_path</span><span class="p">,</span> <span class="n">displacement_path</span><span class="p">,</span> <span class="n">slope_output_path</span><span class="p">,</span> <span class="n">height_output_path</span><span class="p">,</span> <span class="n">volume_output_path</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">pixel_area</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">displacement_to_volume</span><span class="p">(</span><span class="n">dem_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">aspect_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">displacement_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">slope_output_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">height_output_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">volume_output_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">pixel_area</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Process the DEM, aspect, and displacement rasters to calculate and export the slope, height change, and volume change.</span>
 
@@ -2137,7 +2158,8 @@
 <span class="sd">    slope_output_path (str): Path for the slope output GeoTIFF file.</span>
 <span class="sd">    height_output_path (str): Path for the height change output GeoTIFF file.</span>
 <span class="sd">    volume_output_path (str): Path for the volume change output GeoTIFF file.</span>
-<span class="sd">    dx (float): Spatial resolution of the DEM.</span>
+<span class="sd">    dx (float):  x Spatial resolution of the raster (distance between pixels).</span>
+<span class="sd">    dy (float):  y Spatial resolution of the raster (distance between pixels).</span>
 <span class="sd">    pixel_area (float): Area of a single pixel.</span>
 
 <span class="sd">    Returns:</span>
@@ -2147,12 +2169,38 @@
          <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">aspect_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">aspect_raster</span><span class="p">,</span> \
          <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">displacement_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">displacement_raster</span><span class="p">:</span>
 
-        <span class="n">dem</span> <span class="o">=</span> <span class="n">dem_raster</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">aspect</span> <span class="o">=</span> <span class="n">aspect_raster</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">displacement</span> <span class="o">=</span> <span class="n">displacement_raster</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">dem</span> <span class="o">=</span> <span class="n">dem_raster</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>  <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">aspect</span> <span class="o">=</span> <span class="n">aspect_raster</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>  <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">displacement</span> <span class="o">=</span> <span class="n">displacement_raster</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>  <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="n">x_resolution</span><span class="p">,</span> <span class="n">y_resolution</span> <span class="o">=</span> <span class="n">aspect_raster</span><span class="o">.</span><span class="n">res</span>
+        
+        <span class="k">if</span> <span class="n">dx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dx</span><span class="o">=</span><span class="n">x_resolution</span>
+        <span class="k">if</span> <span class="n">dy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dy</span><span class="o">=</span><span class="n">y_resolution</span>
+        <span class="k">if</span> <span class="n">pixel_area</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pixel_area</span><span class="o">=</span><span class="n">dx</span> <span class="o">*</span> <span class="n">dy</span>
+        <span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">zoom</span>
 
-        <span class="n">slope</span> <span class="o">=</span> <span class="n">calculate_slope</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">aspect</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
-        <span class="n">height_change</span> <span class="o">=</span> <span class="n">calculate_height_change</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">displacement</span><span class="p">)</span>
+        <span class="c1"># Example dimensions - replace these with actual dimensions</span>
+        <span class="n">dem_shape</span> <span class="o">=</span> <span class="n">dem</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">aspect_shape</span> <span class="o">=</span> <span class="n">aspect</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">displacement_shape</span> <span class="o">=</span> <span class="n">displacement</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="c1"># Calculating zoom factors</span>
+        <span class="n">zoom_factor_aspect</span> <span class="o">=</span> <span class="p">[</span><span class="n">dem_dim</span> <span class="o">/</span> <span class="n">aspect_dim</span> <span class="k">for</span> <span class="n">dem_dim</span><span class="p">,</span> <span class="n">aspect_dim</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dem_shape</span><span class="p">,</span> <span class="n">aspect_shape</span><span class="p">)]</span>
+        <span class="n">zoom_factor_displacement</span> <span class="o">=</span> <span class="p">[</span><span class="n">dem_dim</span> <span class="o">/</span> <span class="n">displacement_dim</span> <span class="k">for</span> <span class="n">dem_dim</span><span class="p">,</span> <span class="n">displacement_dim</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dem_shape</span><span class="p">,</span> <span class="n">displacement_shape</span><span class="p">)]</span>
+
+        <span class="c1"># Resizing aspect and displacement arrays</span>
+        <span class="n">aspect</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span><span class="n">aspect</span><span class="p">,</span> <span class="n">zoom_factor_aspect</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># cubic interpolation</span>
+        <span class="n">displacement</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span><span class="n">displacement</span><span class="p">,</span> <span class="n">zoom_factor_displacement</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># cubic interpolation</span>
+        
+        <span class="c1"># aspect = np.resize(aspect, dem.shape)</span>
+        <span class="c1"># displacement = np.resize(displacement, dem.shape)</span>
+        
+        <span class="n">slope</span> <span class="o">=</span> <span class="n">calculate_slope</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">aspect</span><span class="p">,</span> <span class="n">dx</span> <span class="p">,</span> <span class="n">dy</span> <span class="p">)</span>
+        <span class="n">height_change</span>  <span class="o">=</span> <span class="n">calculate_height_change</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">displacement</span><span class="p">)</span>
         <span class="n">volume_change</span> <span class="o">=</span> <span class="n">calculate_volume_change</span><span class="p">(</span><span class="n">height_change</span><span class="p">,</span> <span class="n">pixel_area</span><span class="p">)</span>
 
         <span class="c1"># Define a function to export data to a GeoTIFF</span>
@@ -2163,9 +2211,9 @@
                 <span class="n">height</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">width</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                 <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">dtype</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
                 <span class="n">crs</span><span class="o">=</span><span class="n">reference_raster</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
-                <span class="n">transform</span><span class="o">=</span><span class="n">reference_raster</span><span class="o">.</span><span class="n">transform</span>
+                <span class="n">transform</span><span class="o">=</span><span class="n">reference_raster</span><span class="o">.</span><span class="n">transform</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
             <span class="p">)</span> <span class="k">as</span> <span class="n">output_raster</span><span class="p">:</span>
                 <span class="n">output_raster</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -2202,11 +2250,38 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">read_raster</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Read a raster file and return the data array and geotransform.&quot;&quot;&quot;</span>
+
+        <span class="c1"># Open the dataset</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dataset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;Could not open file at </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_path</span><span class="p">))</span>
+
+        <span class="c1"># Get the first raster band</span>
         <span class="n">band</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Read the data as a numpy array</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+
+        <span class="c1"># Get no-data value from the band</span>
+        <span class="n">nodata_value</span> <span class="o">=</span> <span class="n">band</span><span class="o">.</span><span class="n">GetNoDataValue</span><span class="p">()</span>
+
+        <span class="c1"># Check if there is a no-data value defined</span>
+        <span class="k">if</span> <span class="n">nodata_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Create a mask that is True for valid pixels</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span> <span class="o">!=</span> <span class="n">nodata_value</span>
+
+            <span class="c1"># Apply the mask to filter out no-data pixels</span>
+            <span class="n">valid_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>  <span class="c1"># Replace no-data with NaN</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">valid_data</span> <span class="o">=</span> <span class="n">data</span>  <span class="c1"># All data is valid if there is no no-data value</span>
+
+        <span class="c1"># Retrieve geotransformation</span>
         <span class="n">geotransform</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">geotransform</span><span class="p">,</span> <span class="n">dataset</span>
+
+        <span class="c1"># Close the dataset</span>
+        <span class="c1">#dataset = None</span>
+
+        <span class="k">return</span> <span class="n">valid_data</span><span class="p">,</span> <span class="n">geotransform</span><span class="p">,</span> <span class="n">dataset</span>
 
     <span class="k">def</span> <span class="nf">calculate_aspect</span><span class="p">(</span><span class="n">ew_data</span><span class="p">,</span> <span class="n">ns_data</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the aspect from EW and NS displacement data.&quot;&quot;&quot;</span>
@@ -2285,7 +2360,7 @@
     </div>
   
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023, Mahmud Mustafa Muhammad.
+    &#169; Copyright 2024, Mahmud Mustafa Muhammad.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   <script src="../../_static/version_warning_offset.js"></script>
