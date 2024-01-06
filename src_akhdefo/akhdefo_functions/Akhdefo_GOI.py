@@ -1130,7 +1130,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
         return ssim_map
 
 
-    def match_features(image1, image2, descriptor1, descriptor2, zscore_threshold=2, good_match_option=None):
+    def match_features(image1, image2, descriptor1, descriptor2, zscore_threshold=zscore_threshold, good_match_option=good_match_option):
         good_matches = [] # Initialize an empty list for good_matches
     
         bf = cv2.BFMatcher()

@@ -107,7 +107,7 @@ def Akhdefo_resample(input_raster="", output_raster="" , xres=3.125 , yres=3.125
         rs.write(array, indexes=1)
     plt.show()
 
-def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_Akhdefo="", demFile="", output_folder=r""):
+def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_Akhdefo="", demFile="", output_folder=r"" , dem_path=None):
     """
     This program calculates 3D displacement velocity (East-West,North-South and vertical) using combined optical and InSAR products
    
@@ -162,13 +162,22 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
     with rio.open(Vertical_InSAR) as src_vertical:
         vertical_data = src_vertical.read(1, masked=True)
         vertical_meta = src_vertical.meta
-
+       
     from scipy.ndimage import zoom
+    if dem_path is not None:
+        with rio.open(Vertical_InSAR) as dem_src:
+            dem = dem_src.read(1, masked=True)
+            dem_meta = src_vertical.meta
+            xres, yres=dem_src.res
+        zoom_factor_dem = (north_data.shape[0] / dem.shape[0], north_data.shape[1] / dem.shape[1])
+        resized_dem_data = zoom(dem, zoom_factor_dem, order=1)
+    
 
     # Calculate the zoom factors for each dataset
     zoom_factor_east = (north_data.shape[0] / east_data.shape[0], north_data.shape[1] / east_data.shape[1])
     zoom_factor_horizontal = (north_data.shape[0] / horizontal_data.shape[0], north_data.shape[1] / horizontal_data.shape[1])
     zoom_factor_vertical = (north_data.shape[0] / vertical_data.shape[0], north_data.shape[1] / vertical_data.shape[1])
+   
 
     # Resize each dataset
     resized_east_data = zoom(east_data, zoom_factor_east, order=1)  # Using order=1 (bilinear) for continuous data
@@ -186,6 +195,15 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
     trend_degrees=np.degrees(trend_radians)
     print ("Trend in degree raw data: ", trend_degrees.min(), trend_degrees.max())
     trend_degrees=(450 - trend_degrees ) % 360
+    
+    
+    if dem_path is not None:
+        zoom_factor_D3D = (north_data.shape[0] / D3D.shape[0], north_data.shape[1] / D3D.shape[1])
+        resized_D3D_data = zoom(D3D, zoom_factor_D3D, order=1)
+        
+        elevation_change = np.tan(plung_radians) * resized_D3D_data
+        # Example of combining with DEM (this part depends on what exactly you want to achieve)
+        modified_dem = elevation_change+elevation_change
    
     meta=north_meta
     
@@ -244,6 +262,12 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
             dst.write(trend_degrees, indexes=1)
     with rio.open(plung, 'w', **meta) as dst:
             dst.write(plung_degree, indexes=1)
+            
+    if dem_path is not None:
+        dempath=output_folder+ "/" + "modified_dem.tif"
+        with rio.open(dempath, 'w', **meta) as dst:
+            dst.write(modified_dem, indexes=1)
+        
 
 
     

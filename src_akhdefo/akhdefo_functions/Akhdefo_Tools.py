@@ -2005,7 +2005,7 @@ def calculate_slope(dem, aspect, dx , dy):
     numpy.ndarray: Array of slope values in degrees.
     """
     
-    grad_y, grad_x = np.gradient(dem, dx, dy)
+    # grad_y, grad_x = np.gradient(dem, dx, dy)
     
     
     # Assuming 'dem' and 'aspect' are your existing numpy arrays
@@ -2016,17 +2016,30 @@ def calculate_slope(dem, aspect, dx , dy):
     # else:
     #     aspect = aspect
 
-    grad_y, grad_x = np.gradient(dem, dx, dx)
+    grad_y, grad_x = np.gradient(dem, dx, dy)
 
     if grad_x.shape != grad_y.shape:
         raise ValueError("Gradient arrays have mismatched shapes.")
     
     aspect_radians = np.deg2rad(aspect)
     directional_grad = np.cos(aspect_radians) * grad_x + np.sin(aspect_radians) * grad_y
-    slope_degrees = np.rad2deg(np.arctan(directional_grad))
-    return slope_degrees
+    #slope_degrees = np.rad2deg(np.arctan(directional_grad))
+   
+    # Calculate slope in radians
+    slope_radians = np.arctan(directional_grad)
 
-def calculate_height_change(slope, distance):
+    # Ensure slope is within 0 to π/2 radians (0 to 90 degrees) range
+    #slope_radians = slope_radians % (np.pi / 2)
+
+    # Convert slope to degrees
+    slope_degrees = np.rad2deg(slope_radians)
+    #slope_degrees= (135-slope_degrees)% 90 
+    
+   
+    
+    return slope_degrees, directional_grad
+
+def calculate_height_change(slope, distance, dem):
     """
     Calculate the height change using the slope and distance for each pixel.
 
@@ -2085,7 +2098,7 @@ def displacement_to_volume(dem_path="", aspect_path="", displacement_path="", sl
         aspect = aspect_raster.read(1,  masked=True)
         displacement = displacement_raster.read(1,  masked=True)
         
-        x_resolution, y_resolution = aspect_raster.res
+        x_resolution, y_resolution = displacement_raster.res
         
         if dx is None:
             dx=x_resolution
@@ -2111,9 +2124,10 @@ def displacement_to_volume(dem_path="", aspect_path="", displacement_path="", sl
         # aspect = np.resize(aspect, dem.shape)
         # displacement = np.resize(displacement, dem.shape)
         
-        slope = calculate_slope(dem, aspect, dx , dy )
-        height_change  = calculate_height_change(slope, displacement)
+        slope, directional_grad = calculate_slope(dem, aspect, dx , dy )
+        height_change  = calculate_height_change(slope, directional_grad, dem)
         volume_change = calculate_volume_change(height_change, pixel_area)
+       
 
         # Define a function to export data to a GeoTIFF
         def export_to_geotiff(data, output_path, reference_raster):
@@ -2133,6 +2147,7 @@ def displacement_to_volume(dem_path="", aspect_path="", displacement_path="", sl
         export_to_geotiff(slope, slope_output_path, dem_raster)
         export_to_geotiff(height_change, height_output_path, dem_raster)
         export_to_geotiff(volume_change, volume_output_path, dem_raster)
+       
 
 
 
@@ -2196,7 +2211,8 @@ def calculate_and_save_aspect_raster(ew_raster_path: str ="", ns_raster_path: st
         """Calculate the aspect from EW and NS displacement data."""
         with np.errstate(divide='ignore', invalid='ignore'):
             aspect = np.arctan2(ew_data, ns_data)
-            aspect_deg = (450 - np.degrees(aspect)) % 360
+            aspect_deg=np.degrees(aspect)
+            aspect_deg = (450 -aspect_deg ) % 360
         return aspect_deg
 
     def save_raster(output_path, data, geo_transform, reference_dataset):
