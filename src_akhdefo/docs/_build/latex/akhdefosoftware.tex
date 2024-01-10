@@ -65,8 +65,8 @@
 
 
 \title{AkhDefo Software}
-\date{Jan 04, 2024}
-\release{2.2.6}
+\date{Jan 09, 2024}
+\release{2.2.61}
 \author{Mahmud Mustafa Muhammad}
 \newcommand{\sphinxlogo}{\vbox{}}
 \renewcommand{\releasename}{Release}
@@ -432,7 +432,7 @@ Interactive Figures
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{akhdefo_functions:akhdefo_functions.AkhdefoPlot.akhdefo_viewer}}
 \pysigstartsignatures
-\pysiglinewithargsret{\sphinxcode{\sphinxupquote{akhdefo\_functions.AkhdefoPlot.}}\sphinxbfcode{\sphinxupquote{akhdefo\_viewer}}}{\sphinxparam{\DUrole{n}{path\_to\_dem\_file}}\sphinxparamcomma \sphinxparam{\DUrole{n}{raster\_file}}\sphinxparamcomma \sphinxparam{\DUrole{n}{output\_folder}}\sphinxparamcomma \sphinxparam{\DUrole{n}{title}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{pixel\_resolution\_meters}\DUrole{o}{=}\DUrole{default_value}{3.125}}\sphinxparamcomma \sphinxparam{\DUrole{n}{output\_file\_name}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{alpha}\DUrole{o}{=}\DUrole{default_value}{0.5}}\sphinxparamcomma \sphinxparam{\DUrole{n}{unit\_conversion}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{no\_data\_mask}\DUrole{o}{=}\DUrole{default_value}{False}}\sphinxparamcomma \sphinxparam{\DUrole{n}{colormap}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}jet\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{min\_value}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{max\_value}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{normalize}\DUrole{o}{=}\DUrole{default_value}{False}}\sphinxparamcomma \sphinxparam{\DUrole{n}{colorbar\_label}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{show\_figure}\DUrole{o}{=}\DUrole{default_value}{True}}}{}
+\pysiglinewithargsret{\sphinxcode{\sphinxupquote{akhdefo\_functions.AkhdefoPlot.}}\sphinxbfcode{\sphinxupquote{akhdefo\_viewer}}}{\sphinxparam{\DUrole{n}{path\_to\_dem\_file}}\sphinxparamcomma \sphinxparam{\DUrole{n}{raster\_file}}\sphinxparamcomma \sphinxparam{\DUrole{n}{output\_folder}}\sphinxparamcomma \sphinxparam{\DUrole{n}{title}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{pixel\_resolution\_meters}\DUrole{o}{=}\DUrole{default_value}{3.125}}\sphinxparamcomma \sphinxparam{\DUrole{n}{output\_file\_name}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{alpha}\DUrole{o}{=}\DUrole{default_value}{0.5}}\sphinxparamcomma \sphinxparam{\DUrole{n}{unit\_conversion}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{no\_data\_mask}\DUrole{o}{=}\DUrole{default_value}{False}}\sphinxparamcomma \sphinxparam{\DUrole{n}{colormap}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}jet\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{min\_value}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{max\_value}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{normalize}\DUrole{o}{=}\DUrole{default_value}{False}}\sphinxparamcomma \sphinxparam{\DUrole{n}{colorbar\_label}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{show\_figure}\DUrole{o}{=}\DUrole{default_value}{True}}\sphinxparamcomma \sphinxparam{\DUrole{n}{aspect\_raster}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{cmap\_aspect}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{step}\DUrole{o}{=}\DUrole{default_value}{10}}}{}
 \pysigstopsignatures
 \sphinxAtStartPar
 Overlays a raster file on a DEM hillshade and saves the plot as a PNG image.
@@ -454,6 +454,9 @@ max\_value (float, optional): Maximum value for normalization. Uses raster’s m
 normalize (bool, optional): If True, normalizes the raster values. Default is False.
 colorbar\_label (str, optional): Label for the colorbar. 
 show\_figure (bool, optional): Whether to display the figure. Default is True.
+aspect\_raster (str, optional): whetehr to plot displacement vector. Dedulat is None 
+cmap\_aspect (str, optional): colormap to sue for the vector arrows
+step (int, optional): density of the aspect vector arraows. Defulat is 10 pixel unit draw 1 arrow
 
 \sphinxAtStartPar
 Returns:
@@ -607,7 +610,7 @@ str: Path to the directory containing all registered images.
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{akhdefo_functions:akhdefo_functions.Akhdefo_GOI.Optical_flow_akhdefo}}
 \pysigstartsignatures
-\pysiglinewithargsret{\sphinxcode{\sphinxupquote{akhdefo\_functions.Akhdefo\_GOI.}}\sphinxbfcode{\sphinxupquote{Optical\_flow\_akhdefo}}}{\sphinxparam{\DUrole{n}{input\_dir}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{output\_dir}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{AOI}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{zscore\_threshold}\DUrole{o}{=}\DUrole{default_value}{2}}\sphinxparamcomma \sphinxparam{\DUrole{n}{ssim\_thresh}\DUrole{o}{=}\DUrole{default_value}{0.75}}\sphinxparamcomma \sphinxparam{\DUrole{n}{image\_resolution}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}3125mm\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{interpolate}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{show\_figure}\DUrole{o}{=}\DUrole{default_value}{False}}\sphinxparamcomma \sphinxparam{\DUrole{n}{point\_size}\DUrole{o}{=}\DUrole{default_value}{2}}\sphinxparamcomma \sphinxparam{\DUrole{n}{dem\_path}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{smoothing\_kernel\_size}\DUrole{o}{=}\DUrole{default_value}{11}}\sphinxparamcomma \sphinxparam{\DUrole{n}{Vegetation\_mask}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{VEL\_scale}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}year\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{VEL\_Mode}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}linear\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{good\_match\_option}\DUrole{o}{=}\DUrole{default_value}{0.75}}\sphinxparamcomma \sphinxparam{\DUrole{n}{hillshade\_option}\DUrole{o}{=}\DUrole{default_value}{True}}\sphinxparamcomma \sphinxparam{\DUrole{n}{shapefile\_output}\DUrole{o}{=}\DUrole{default_value}{False}}\sphinxparamcomma \sphinxparam{\DUrole{n}{max\_triplet\_interval}\DUrole{o}{=}\DUrole{default_value}{24}}\sphinxparamcomma \sphinxparam{\DUrole{n}{pixel\_size}\DUrole{o}{=}\DUrole{default_value}{20}}\sphinxparamcomma \sphinxparam{\DUrole{n}{num\_chunks}\DUrole{o}{=}\DUrole{default_value}{10}}\sphinxparamcomma \sphinxparam{\DUrole{n}{overlap\_percentage}\DUrole{o}{=}\DUrole{default_value}{0}}\sphinxparamcomma \sphinxparam{\DUrole{n}{pyr\_scale}\DUrole{o}{=}\DUrole{default_value}{0.5}}\sphinxparamcomma \sphinxparam{\DUrole{n}{levels}\DUrole{o}{=}\DUrole{default_value}{15}}\sphinxparamcomma \sphinxparam{\DUrole{n}{winsize}\DUrole{o}{=}\DUrole{default_value}{32}}\sphinxparamcomma \sphinxparam{\DUrole{n}{iterations}\DUrole{o}{=}\DUrole{default_value}{7}}\sphinxparamcomma \sphinxparam{\DUrole{n}{poly\_n}\DUrole{o}{=}\DUrole{default_value}{7}}\sphinxparamcomma \sphinxparam{\DUrole{n}{poly\_sigma}\DUrole{o}{=}\DUrole{default_value}{1.5}}\sphinxparamcomma \sphinxparam{\DUrole{n}{flags}\DUrole{o}{=}\DUrole{default_value}{1}}\sphinxparamcomma \sphinxparam{\DUrole{n}{master\_reference}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}single\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{selection\_Mode}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}triplet\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{start\_date}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{end\_date}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+\pysiglinewithargsret{\sphinxcode{\sphinxupquote{akhdefo\_functions.Akhdefo\_GOI.}}\sphinxbfcode{\sphinxupquote{Optical\_flow\_akhdefo}}}{\sphinxparam{\DUrole{n}{input\_dir}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{output\_dir}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{AOI}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{zscore\_threshold}\DUrole{o}{=}\DUrole{default_value}{2}}\sphinxparamcomma \sphinxparam{\DUrole{n}{ssim\_thresh}\DUrole{o}{=}\DUrole{default_value}{0.75}}\sphinxparamcomma \sphinxparam{\DUrole{n}{image\_resolution}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}3125mm\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{interpolate}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{show\_figure}\DUrole{o}{=}\DUrole{default_value}{False}}\sphinxparamcomma \sphinxparam{\DUrole{n}{point\_size}\DUrole{o}{=}\DUrole{default_value}{2}}\sphinxparamcomma \sphinxparam{\DUrole{n}{dem\_path}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{smoothing\_kernel\_size}\DUrole{o}{=}\DUrole{default_value}{11}}\sphinxparamcomma \sphinxparam{\DUrole{n}{Vegetation\_mask}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{VEL\_scale}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}year\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{VEL\_Mode}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}linear\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{good\_match\_option}\DUrole{o}{=}\DUrole{default_value}{0.75}}\sphinxparamcomma \sphinxparam{\DUrole{n}{hillshade\_option}\DUrole{o}{=}\DUrole{default_value}{True}}\sphinxparamcomma \sphinxparam{\DUrole{n}{shapefile\_output}\DUrole{o}{=}\DUrole{default_value}{False}}\sphinxparamcomma \sphinxparam{\DUrole{n}{max\_triplet\_interval}\DUrole{o}{=}\DUrole{default_value}{24}}\sphinxparamcomma \sphinxparam{\DUrole{n}{pixel\_size}\DUrole{o}{=}\DUrole{default_value}{20}}\sphinxparamcomma \sphinxparam{\DUrole{n}{num\_chunks}\DUrole{o}{=}\DUrole{default_value}{10}}\sphinxparamcomma \sphinxparam{\DUrole{n}{overlap\_percentage}\DUrole{o}{=}\DUrole{default_value}{0}}\sphinxparamcomma \sphinxparam{\DUrole{n}{pyr\_scale}\DUrole{o}{=}\DUrole{default_value}{0.5}}\sphinxparamcomma \sphinxparam{\DUrole{n}{levels}\DUrole{o}{=}\DUrole{default_value}{15}}\sphinxparamcomma \sphinxparam{\DUrole{n}{winsize}\DUrole{o}{=}\DUrole{default_value}{32}}\sphinxparamcomma \sphinxparam{\DUrole{n}{iterations}\DUrole{o}{=}\DUrole{default_value}{7}}\sphinxparamcomma \sphinxparam{\DUrole{n}{poly\_n}\DUrole{o}{=}\DUrole{default_value}{7}}\sphinxparamcomma \sphinxparam{\DUrole{n}{poly\_sigma}\DUrole{o}{=}\DUrole{default_value}{1.5}}\sphinxparamcomma \sphinxparam{\DUrole{n}{flags}\DUrole{o}{=}\DUrole{default_value}{1}}\sphinxparamcomma \sphinxparam{\DUrole{n}{master\_reference}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}single\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{selection\_Mode}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}triplet\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{start\_date}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{end\_date}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{krig\_method}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}ordinary\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{spatial\_ref}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
 \pysigstopsignatures
 \sphinxAtStartPar
 Performs feature matching and velocity/displacement calculations across a series of images.
@@ -700,13 +703,17 @@ operation flags that can be a combination of the following:
 usually, this option gives z more accurate flow than with a box filter, at the cost of lower speed; 
 normally, winsize for a Gaussian window should be set to a larger value to achieve the same level of robustness.
 
-\sphinxlineitem{start\_date}{[}str (example 20210203){]}
+\sphinxlineitem{start\_date: str (example 20210203)}
 \sphinxAtStartPar
 The start date of the image series.
 
-\sphinxlineitem{end\_date}{[}str (example 20210503){]}
+\sphinxlineitem{end\_date: str (example 20210503)}
 \sphinxAtStartPar
 The end date of the image series.
+
+\sphinxlineitem{krig\_method: str ‘ordinary’ , ‘simple’ , ‘universal’}
+\sphinxAtStartPar
+selection of kriging interpolation method, the workflow is based on gstools library. default is ‘ordinary’
 
 \end{description}
 
@@ -966,7 +973,7 @@ None. The input raster file will be replaced by the masked raster.
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{akhdefo_functions:akhdefo_functions.Akhdefo_GOI.update_nodata_values}}
 \pysigstartsignatures
-\pysiglinewithargsret{\sphinxcode{\sphinxupquote{akhdefo\_functions.Akhdefo\_GOI.}}\sphinxbfcode{\sphinxupquote{update\_nodata\_values}}}{\sphinxparam{\DUrole{n}{shapefile\_path}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{rasterfile\_paths}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{interpolate}\DUrole{o}{=}\DUrole{default_value}{True}}\sphinxparamcomma \sphinxparam{\DUrole{n}{VEL\_Mode}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{VEL\_scale}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{master\_reference}\DUrole{o}{=}\DUrole{default_value}{True}}\sphinxparamcomma \sphinxparam{\DUrole{n}{Total\_days}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+\pysiglinewithargsret{\sphinxcode{\sphinxupquote{akhdefo\_functions.Akhdefo\_GOI.}}\sphinxbfcode{\sphinxupquote{update\_nodata\_values}}}{\sphinxparam{\DUrole{n}{shapefile\_path}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{rasterfile\_paths}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{interpolate}\DUrole{o}{=}\DUrole{default_value}{True}}\sphinxparamcomma \sphinxparam{\DUrole{n}{VEL\_Mode}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{VEL\_scale}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{master\_reference}\DUrole{o}{=}\DUrole{default_value}{True}}\sphinxparamcomma \sphinxparam{\DUrole{n}{Total\_days}\DUrole{o}{=}\DUrole{default_value}{None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{spatial\_ref}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
 \pysigstopsignatures
 \end{fulllineitems}
 
@@ -1345,7 +1352,7 @@ None. The result is saved as a new raster file at the specified output path.
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{akhdefo_functions:akhdefo_functions.Akhdefo_Tools.calculate_height_change}}
 \pysigstartsignatures
-\pysiglinewithargsret{\sphinxcode{\sphinxupquote{akhdefo\_functions.Akhdefo\_Tools.}}\sphinxbfcode{\sphinxupquote{calculate\_height\_change}}}{\sphinxparam{\DUrole{n}{slope}}\sphinxparamcomma \sphinxparam{\DUrole{n}{distance}}}{}
+\pysiglinewithargsret{\sphinxcode{\sphinxupquote{akhdefo\_functions.Akhdefo\_Tools.}}\sphinxbfcode{\sphinxupquote{calculate\_height\_change}}}{\sphinxparam{\DUrole{n}{slope}}\sphinxparamcomma \sphinxparam{\DUrole{n}{distance}}\sphinxparamcomma \sphinxparam{\DUrole{n}{dem}}}{}
 \pysigstopsignatures
 \sphinxAtStartPar
 Calculate the height change using the slope and distance for each pixel.
@@ -1692,7 +1699,7 @@ zone\_letter: “N” or “S”
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{akhdefo_functions:akhdefo_functions.Akhdefo_utils.Akhdefo_inversion}}
 \pysigstartsignatures
-\pysiglinewithargsret{\sphinxcode{\sphinxupquote{akhdefo\_functions.Akhdefo\_utils.}}\sphinxbfcode{\sphinxupquote{Akhdefo\_inversion}}}{\sphinxparam{\DUrole{n}{horizontal\_InSAR}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{Vertical\_InSAR}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{EW\_Akhdefo}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{NS\_Akhdefo}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{demFile}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{output\_folder}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}}{}
+\pysiglinewithargsret{\sphinxcode{\sphinxupquote{akhdefo\_functions.Akhdefo\_utils.}}\sphinxbfcode{\sphinxupquote{Akhdefo\_inversion}}}{\sphinxparam{\DUrole{n}{horizontal\_InSAR}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{Vertical\_InSAR}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{EW\_Akhdefo}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{NS\_Akhdefo}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{output\_folder}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{dem\_path}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
 \pysigstopsignatures
 \sphinxAtStartPar
 This program calculates 3D displacement velocity (East\sphinxhyphen{}West,North\sphinxhyphen{}South and vertical) using combined optical and InSAR products
@@ -1716,7 +1723,7 @@ path to east\sphinxhyphen{}west velocity  akhdefo(optical) product in geotif for
 \sphinxAtStartPar
 path to north\sphinxhyphen{}south velocity  akhdefo(optical) product in geotif format
 
-\sphinxlineitem{demFile: str}
+\sphinxlineitem{dem\_path: str}
 \sphinxAtStartPar
 path to DEM raster in geotif format
 
@@ -1785,70 +1792,83 @@ if not None converts raster value units from meter to mm: depends on your raster
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{akhdefo_functions:akhdefo_functions.Akhdefo_utils.Auto_Variogram}}
 \pysigstartsignatures
-\pysiglinewithargsret{\sphinxcode{\sphinxupquote{akhdefo\_functions.Akhdefo\_utils.}}\sphinxbfcode{\sphinxupquote{Auto\_Variogram}}}{\sphinxparam{\DUrole{n}{data=\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{column\_attribute=\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{latlon=False}}\sphinxparamcomma \sphinxparam{\DUrole{n}{aoi\_shapefile=\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{pixel\_size=20}}\sphinxparamcomma \sphinxparam{\DUrole{n}{num\_chunks=10}}\sphinxparamcomma \sphinxparam{\DUrole{n}{overlap\_percentage=0}}\sphinxparamcomma \sphinxparam{\DUrole{n}{out\_fileName=\textquotesingle{}interpolated\_kriging\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{plot\_folder=\textquotesingle{}kriging\_plots\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{geo\_folder=\textquotesingle{}geo\_rasterFolder\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{smoothing\_kernel=2}}\sphinxparamcomma \sphinxparam{\DUrole{n}{mask: {[}\textless{}class \textquotesingle{}numpy.ndarray\textquotesingle{}\textgreater{}{]} = None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{UTM\_Zone=None}}}{}
+\pysiglinewithargsret{\sphinxcode{\sphinxupquote{akhdefo\_functions.Akhdefo\_utils.}}\sphinxbfcode{\sphinxupquote{Auto\_Variogram}}}{\sphinxparam{\DUrole{n}{data=\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{column\_attribute=\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{latlon=False}}\sphinxparamcomma \sphinxparam{\DUrole{n}{aoi\_shapefile=\textquotesingle{}\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{pixel\_size=20}}\sphinxparamcomma \sphinxparam{\DUrole{n}{num\_chunks=10}}\sphinxparamcomma \sphinxparam{\DUrole{n}{overlap\_percentage=0}}\sphinxparamcomma \sphinxparam{\DUrole{n}{out\_fileName=\textquotesingle{}interpolated\_kriging\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{plot\_folder=\textquotesingle{}kriging\_plots\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{geo\_folder=\textquotesingle{}geo\_rasterFolder\textquotesingle{}}}\sphinxparamcomma \sphinxparam{\DUrole{n}{smoothing\_kernel=2}}\sphinxparamcomma \sphinxparam{\DUrole{n}{mask: {[}\textless{}class \textquotesingle{}numpy.ndarray\textquotesingle{}\textgreater{}{]} = None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{UTM\_Zone=None}}\sphinxparamcomma \sphinxparam{\DUrole{n}{krig\_method=\textquotesingle{}ordinary\textquotesingle{}}}}{}
 \pysigstopsignatures
 \sphinxAtStartPar
-Automatically selects the best variogram model for interpolating datapoints and clips the results 
-to a provided AOI shapefile. The function supports both direct GeoDataFrame input or file path 
-(specifically .shp) as data input.
+This function performs automatic selection of the optimal variogram model for spatial data interpolation. 
+It also supports clipping of the interpolation results to a specified Area of Interest (AOI). The function 
+accepts both GeoDataFrame objects and file paths (specifically, shapefile paths) as input data sources.
 
 
 \paragraph{Parameters}
 \label{\detokenize{akhdefo_functions:id21}}\begin{description}
 \sphinxlineitem{data}{[}str or gpd.GeoDataFrame, optional{]}
 \sphinxAtStartPar
-Path to the shapefile containing point data or a GeoDataFrame directly.
-If it’s a shapefile, it must have x, y (or lat, lon if latlon=True) columns. 
-Default is an empty string.
+The path to a shapefile containing point data, or a GeoDataFrame. For shapefiles, they must include 
+‘x’, ‘y’ coordinates (or ‘lat’, ‘lon’ if latlon is set to True). Defaults to an empty string.
 
 \sphinxlineitem{column\_attribute}{[}str, optional{]}
 \sphinxAtStartPar
-Name of the field in the shapefile or GeoDataFrame that contains the data to be interpolated.
+The name of the attribute within the shapefile or GeoDataFrame to be interpolated.
 
 \sphinxlineitem{latlon}{[}bool, optional{]}
 \sphinxAtStartPar
-Specifies if the input data uses latitude and longitude instead of Cartesian coordinates. 
-If True, the shapefile or GeoDataFrame must have ‘lat’ and ‘lon’ columns.
-Default is False.
+Indicates whether the input data uses latitude and longitude (True) or Cartesian coordinates (False). 
+Defaults to False.
 
 \sphinxlineitem{aoi\_shapefile}{[}str, optional{]}
 \sphinxAtStartPar
-Path to a shapefile that defines the Area of Interest (AOI) for clipping the interpolation result. 
-Default is an empty string.
+The path to a shapefile that defines the Area of Interest (AOI) for clipping the interpolation results. 
+Defaults to an empty string.
 
 \sphinxlineitem{pixel\_size}{[}int, optional{]}
 \sphinxAtStartPar
-Desired pixel size (resolution) for the interpolated grid. Default is 20.
+The resolution size for the interpolated grid. Defaults to 20.
+
+\sphinxlineitem{num\_chunks}{[}int, optional{]}
+\sphinxAtStartPar
+The number of chunks for processing to mitigate memory issues. Adjust as needed. Defaults to 10.
+
+\sphinxlineitem{overlap\_percentage}{[}float, optional{]}
+\sphinxAtStartPar
+The percentage of overlap between chunks, ranging from 0 to 1.0. Defaults to 0.
 
 \sphinxlineitem{out\_fileName}{[}str, optional{]}
 \sphinxAtStartPar
-Name of the output GeoTIFF file where the interpolated results will be saved. 
-The “.tif” extension will be appended to the provided name. Default is an empty string.
+The name for the output GeoTIFF file storing the interpolation results. Defaults to ‘interpolated\_kriging’.
 
-\sphinxlineitem{pixel\_size: int, optional deafult is 20}
+\sphinxlineitem{plot\_folder}{[}str, optional{]}
 \sphinxAtStartPar
-pixel resolution for the interpolated grid
+Directory path to save plots. Defaults to ‘kriging\_plots’.
 
-\sphinxlineitem{num\_chunks: int, default is 10}
+\sphinxlineitem{geo\_folder}{[}str, optional{]}
 \sphinxAtStartPar
-this signifacntly helps to avoid memory issue when performing kriging interpolation, adjust the number of chuncks as you like
+Directory path for saving geospatial raster files. Defaults to ‘geo\_rasterFolder’.
 
-\sphinxlineitem{overlap\_percentage: float, default value is 0  zero percent}
+\sphinxlineitem{smoothing\_kernel}{[}int, optional{]}
 \sphinxAtStartPar
-the accepted value range between 0 to 1.0
+The size of the smoothing kernel to be used. Defaults to 2.
+
+\sphinxlineitem{mask}{[}{[}np.ndarray{]}, optional{]}
+\sphinxAtStartPar
+A numpy array to be used as a mask for the interpolation.
+
+\sphinxlineitem{UTM\_Zone}{[}str, optional{]}
+\sphinxAtStartPar
+The UTM Zone designation (‘N’ for Northern Hemisphere or ‘S’ for Southern Hemisphere).
+
+\sphinxlineitem{krig\_method}{[}str, optional{]}
+\sphinxAtStartPar
+The method of kriging to be used, either ‘ordinary’ or ‘universal’. Defaults to ‘ordinary’.
 
 \end{description}
-
-\sphinxAtStartPar
-UTM\_Zone: str, “N” or “S”
 
 
 \paragraph{Returns}
 \label{\detokenize{akhdefo_functions:id22}}\begin{description}
 \sphinxlineitem{numpy.ndarray}
 \sphinxAtStartPar
-A 2D grid containing interpolated values. This grid is clipped to the provided AOI if an 
-AOI shapefile is specified.
+A 2D grid of interpolated values, clipped to the specified AOI if an AOI shapefile is provided.
 
 \end{description}
 
@@ -1857,8 +1877,8 @@ AOI shapefile is specified.
 \label{\detokenize{akhdefo_functions:raises}}\begin{description}
 \sphinxlineitem{ValueError}
 \sphinxAtStartPar
-If the input data is neither a valid path to a shapefile nor a GeoDataFrame.
-If required columns (x, y or lat, lon) are missing in the input data.
+If the input data is not a valid shapefile path or GeoDataFrame.
+If essential columns (x, y or lat, lon) are missing in the input data.
 
 \end{description}
 
@@ -1866,15 +1886,15 @@ If required columns (x, y or lat, lon) are missing in the input data.
 \paragraph{Notes}
 \label{\detokenize{akhdefo_functions:id23}}
 \sphinxAtStartPar
-The function visualizes two plots:
+The function generates two types of plots:
 1. Fitted variogram models against the experimental variogram.
-2. Interpolated data using the best\sphinxhyphen{}fitting variogram model.
+2. The interpolation result using the selected variogram model.
 
 
 \paragraph{Dependencies}
 \label{\detokenize{akhdefo_functions:dependencies}}
 \sphinxAtStartPar
-This function relies on several libraries including geopandas, gstools, pykrige, matplotlib, and rasterio.
+Requires geopandas, gstools, pykrige, matplotlib, and rasterio libraries.
 
 \end{fulllineitems}
 
@@ -3097,7 +3117,7 @@ Create an Account or Log In: To access data, you generally need an account with 
 \begin{sphinxuseclass}{nblast}
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[1]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
 \PYG{c+c1}{\PYGZsh{}Functions for data preparations}
 \PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
 \PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{akhdefo\PYGZus{}download\PYGZus{}planet}
@@ -3195,8 +3215,8 @@ Create an Account or Log In: To access data, you generally need an account with 
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{c+c1}{\PYGZsh{} This function will move all the data from each granules subdir to a single folder}
-\PYG{n}{move\PYGZus{}files\PYGZus{}with\PYGZus{}string}\PYG{p}{(}\PYG{n}{source\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/RS\PYGZus{}dir\PYGZus{}path129/}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{dest\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/RS\PYGZus{}path129}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{search\PYGZus{}string}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
-\PYG{n}{move\PYGZus{}files\PYGZus{}with\PYGZus{}string}\PYG{p}{(}\PYG{n}{source\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/scatter\PYGZus{}dir/}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{dest\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/scatter\PYGZus{}rs}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{search\PYGZus{}string}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} move\PYGZus{}files\PYGZus{}with\PYGZus{}string(source\PYGZus{}dir=\PYGZsq{}./data/morenny/optical/RS\PYGZus{}dir\PYGZus{}path129/\PYGZsq{}, dest\PYGZus{}dir=\PYGZsq{}./data/morenny/optical/RS\PYGZus{}path129\PYGZsq{}, search\PYGZus{}string=\PYGZsq{}.tif\PYGZsq{})}
+\PYG{c+c1}{\PYGZsh{} move\PYGZus{}files\PYGZus{}with\PYGZus{}string(source\PYGZus{}dir=\PYGZsq{}./data/morenny/optical/scatter\PYGZus{}dir/\PYGZsq{}, dest\PYGZus{}dir=\PYGZsq{}./data/morenny/optical/scatter\PYGZus{}rs\PYGZsq{}, search\PYGZus{}string=\PYGZsq{}.tif\PYGZsq{})}
 
 \end{sphinxVerbatim}
 }
@@ -3254,15 +3274,76 @@ The data needs to be converted to “uint8” format and be calibrated and norma
 \begin{sphinxuseclass}{nblast}
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{n}{Optical\PYGZus{}flow\PYGZus{}akhdefo}\PYG{p}{(}\PYG{n}{input\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/optical/image\PYGZus{}dir\PYGZus{}aoi\PYGZus{}filt}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{output\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/optical/geo}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{AOI}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{zscore\PYGZus{}threshold}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,}
-                                       \PYG{n}{ssim\PYGZus{}thresh}\PYG{o}{=}\PYG{l+m+mf}{0.75}\PYG{p}{,} \PYG{n}{image\PYGZus{}resolution}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{3.125m}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{interpolate}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{linear}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
-                                       \PYG{n}{show\PYGZus{}figure}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{point\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{dem\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/dem.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel\PYGZus{}size}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{warnings}
+\PYG{n}{warnings}\PYG{o}{.}\PYG{n}{filterwarnings}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ignore}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{n}{Optical\PYGZus{}flow\PYGZus{}akhdefo}\PYG{p}{(}\PYG{n}{input\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/optical/image\PYGZus{}dir\PYGZus{}aoi\PYGZus{}filt}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{output\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/optical/geo}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{AOI}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{zscore\PYGZus{}threshold}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,}
+                                       \PYG{n}{ssim\PYGZus{}thresh}\PYG{o}{=}\PYG{l+m+mf}{0.65}\PYG{p}{,} \PYG{n}{image\PYGZus{}resolution}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{3.125m}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{interpolate}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{kriging}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{show\PYGZus{}figure}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{point\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{dem\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/dem.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,}
                                        \PYG{n}{Vegetation\PYGZus{}mask}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{VEL\PYGZus{}scale}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{year}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{VEL\PYGZus{}Mode}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{linear}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{good\PYGZus{}match\PYGZus{}option}\PYG{o}{=}\PYG{l+m+mf}{0.75}\PYG{p}{,}
-                                       \PYG{n}{hillshade\PYGZus{}option}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{shapefile\PYGZus{}output}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{max\PYGZus{}triplet\PYGZus{}interval}\PYG{o}{=}\PYG{l+m+mi}{30}\PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{overlap\PYGZus{}percentage}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{pyr\PYGZus{}scale}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{,} \PYG{n}{levels}\PYG{o}{=}\PYG{l+m+mi}{15}\PYG{p}{,}
+                                       \PYG{n}{hillshade\PYGZus{}option}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{shapefile\PYGZus{}output}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{max\PYGZus{}triplet\PYGZus{}interval}\PYG{o}{=}\PYG{l+m+mi}{300}\PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{overlap\PYGZus{}percentage}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{pyr\PYGZus{}scale}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{,} \PYG{n}{levels}\PYG{o}{=}\PYG{l+m+mi}{15}\PYG{p}{,}
                                        \PYG{n}{winsize}\PYG{o}{=}\PYG{l+m+mi}{128}\PYG{p}{,} \PYG{n}{iterations}\PYG{o}{=}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{n}{poly\PYGZus{}n}\PYG{o}{=}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{n}{poly\PYGZus{}sigma}\PYG{o}{=}\PYG{l+m+mf}{1.5}\PYG{p}{,}
                                        \PYG{n}{flags}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{master\PYGZus{}reference}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{single}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
-                                       \PYG{n}{selection\PYGZus{}Mode}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{pair}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{start\PYGZus{}date}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{end\PYGZus{}date}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{)}
+                                       \PYG{n}{selection\PYGZus{}Mode}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{pair}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{start\PYGZus{}date}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{end\PYGZus{}date}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{krig\PYGZus{}method}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{universal}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{spatial\PYGZus{}ref}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
 \end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nbinput}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[1]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{Auto\PYGZus{}Variogram}
+
+\PYG{c+c1}{\PYGZsh{} Auto\PYGZus{}Variogram(data=\PYGZsq{}./data/morenny/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20180627\PYGZus{}20220926\PYGZus{}20220926\PYGZus{}N.shp\PYGZsq{}, column\PYGZus{}attribute=\PYGZsq{}VEL\PYGZsq{}}
+\PYG{c+c1}{\PYGZsh{}                , pixel\PYGZus{}size=20, num\PYGZus{}chunks=1, out\PYGZus{}fileName=\PYGZsq{}N\PYGZsq{}, geo\PYGZus{}folder=\PYGZsq{}./data/morenny/optical/VEL\PYGZus{}Folder\PYGZsq{}, plot\PYGZus{}folder=\PYGZsq{}./data/morenny/optical/VEL\PYGZus{}Folder\PYGZsq{}}
+\PYG{c+c1}{\PYGZsh{}                , smoothing\PYGZus{}kernel=2, latlon=False, aoi\PYGZus{}shapefile=\PYGZsq{}./data/morenny/AOI.shp\PYGZsq{} , krig\PYGZus{}method=\PYGZsq{}universal\PYGZsq{})}
+
+
+\PYG{c+c1}{\PYGZsh{} Auto\PYGZus{}Variogram(data=\PYGZsq{}./data/morenny/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20180627\PYGZus{}20220926\PYGZus{}20220926\PYGZus{}E.shp\PYGZsq{}, column\PYGZus{}attribute=\PYGZsq{}VEL\PYGZsq{}}
+\PYG{c+c1}{\PYGZsh{}                , pixel\PYGZus{}size=20, num\PYGZus{}chunks=1, out\PYGZus{}fileName=\PYGZsq{}E\PYGZsq{}, geo\PYGZus{}folder=\PYGZsq{}./data/morenny/optical/VEL\PYGZus{}Folder\PYGZsq{}, plot\PYGZus{}folder=\PYGZsq{}./data/morenny/optical/VEL\PYGZus{}Folder\PYGZsq{}}
+\PYG{c+c1}{\PYGZsh{}                , smoothing\PYGZus{}kernel=2, latlon=False, aoi\PYGZus{}shapefile=\PYGZsq{}./data/morenny/AOI.shp\PYGZsq{} , krig\PYGZus{}method=\PYGZsq{}universal\PYGZsq{})}
+
+
+
+\PYG{c+c1}{\PYGZsh{} Auto\PYGZus{}Variogram(data=\PYGZsq{}./data/morenny/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20180627\PYGZus{}20220926\PYGZus{}20220926\PYGZus{}2DVEL.shp\PYGZsq{}, column\PYGZus{}attribute=\PYGZsq{}VEL\PYGZsq{}}
+\PYG{c+c1}{\PYGZsh{}                , pixel\PYGZus{}size=20, num\PYGZus{}chunks=1, out\PYGZus{}fileName=\PYGZsq{}2DVEL\PYGZsq{}, geo\PYGZus{}folder=\PYGZsq{}./data/morenny/optical/VEL\PYGZus{}Folder\PYGZsq{}, plot\PYGZus{}folder=\PYGZsq{}./data/morenny/optical/VEL\PYGZus{}Folder\PYGZsq{}}
+\PYG{c+c1}{\PYGZsh{}                , smoothing\PYGZus{}kernel=2, latlon=False, aoi\PYGZus{}shapefile=\PYGZsq{}./data/morenny/AOI.shp\PYGZsq{} , krig\PYGZus{}method=\PYGZsq{}universal\PYGZsq{})}
+
+
+
+\PYG{n}{Auto\PYGZus{}Variogram}\PYG{p}{(}\PYG{n}{data}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20180627\PYGZus{}20220926\PYGZus{}20220926\PYGZus{}2DVEL.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{column\PYGZus{}attribute}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{aspect}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{out\PYGZus{}fileName}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{aspect}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{geo\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/optical/VEL\PYGZus{}Folder}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{plot\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/optical/VEL\PYGZus{}Folder}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{latlon}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{aoi\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{,} \PYG{n}{krig\PYGZus{}method}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{simple}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\begin{sphinxuseclass}{nblast}
+{
+
+\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
+\kern+\FrameHeightAdjust\kern-\fboxrule
+\vspace{\nbsphinxcodecellspacing}
+
+\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{stderr}
+
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+c:\textbackslash{}Users\textbackslash{}mahmud\textbackslash{}anaconda3\textbackslash{}envs\textbackslash{}akhdefov2\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}gstools\textbackslash{}covmodel\textbackslash{}plot.py:114: UserWarning:
+
+Matplotlib is currently using module://matplotlib\_inline.backend\_inline, which is a non-GUI backend, so cannot show the figure.
+
+\end{sphinxVerbatim}
+
+
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
 }
 
 \end{sphinxuseclass}
@@ -3271,9 +3352,28 @@ The data needs to be converted to “uint8” format and be calibrated and norma
 \subsection{Visualize Displacement Products}
 \label{\detokenize{notebooks/RockGlacier_optical:Visualize-Displacement-Products}}
 \begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[4]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{c+c1}{\PYGZsh{}Visualize Mean Velocity East\PYGZhy{}West}
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+\PYG{k+kn}{import} \PYG{n+nn}{cmocean}\PYG{n+nn}{.}\PYG{n+nn}{cm} \PYG{k}{as} \PYG{n+nn}{cmo}
+
+\PYG{n}{akhdefo\PYGZus{}functions}\PYG{o}{.}\PYG{n}{akhdefo\PYGZus{}viewer}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}dem\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/basemap.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{raster\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/optical/VEL\PYGZus{}Folder/2DVEL.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{output\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/optical/Figs\PYGZus{}analysis/}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{title}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{2D Velocity with Vector Motion}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                   \PYG{n}{pixel\PYGZus{}resolution\PYGZus{}meters}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{output\PYGZus{}file\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{2DVEL\PYGZus{}WithVectorMotion.png}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                   \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.4}\PYG{p}{,} \PYG{n}{unit\PYGZus{}conversion}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{no\PYGZus{}data\PYGZus{}mask}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                   \PYG{n}{colormap}\PYG{o}{=}\PYG{n}{cmo}\PYG{o}{.}\PYG{n}{thermal}
+                   \PYG{p}{,} \PYG{n}{min\PYGZus{}value}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{max\PYGZus{}value}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
+                   \PYG{n}{normalize}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{colorbar\PYGZus{}label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{meter/year}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{show\PYGZus{}figure}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{aspect\PYGZus{}raster}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/optical/VEL\PYGZus{}Folder/aspect.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{cmap\PYGZus{}aspect}\PYG{o}{=}\PYG{k+kc}{None} \PYG{p}{,} \PYG{n}{step}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{c+c1}{\PYGZsh{}Visualize Mean Velocity East\PYGZhy{}West}
 \PYG{c+c1}{\PYGZsh{} if set batch\PYGZus{}plot=True it will plot static time series figure for each date acquisition}
 
 \PYG{n}{MeanProducts\PYGZus{}plot\PYGZus{}ts}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20180627\PYGZus{}20220926\PYGZus{}20220926\PYGZus{}E.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
@@ -3305,58 +3405,6 @@ The data needs to be converted to “uint8” format and be calibrated and norma
 }
 
 \end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-\hrule height -\fboxrule\relax
-\vspace{\nbsphinxcodecellspacing}
-
-\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
-
-\begin{nbsphinxfancyoutput}
-
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-\noindent\sphinxincludegraphics[width=384\sphinxpxdimen,height=690\sphinxpxdimen]{{notebooks_RockGlacier_optical_15_0}.png}
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-\end{nbsphinxfancyoutput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-\hrule height -\fboxrule\relax
-\vspace{\nbsphinxcodecellspacing}
-
-\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
-
-\begin{nbsphinxfancyoutput}
-
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-\noindent\sphinxincludegraphics[width=384\sphinxpxdimen,height=690\sphinxpxdimen]{{notebooks_RockGlacier_optical_15_1}.png}
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-\end{nbsphinxfancyoutput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-\begin{sphinxuseclass}{nblast}
-\hrule height -\fboxrule\relax
-\vspace{\nbsphinxcodecellspacing}
-
-\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
-
-\begin{nbsphinxfancyoutput}
-
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-\noindent\sphinxincludegraphics[width=384\sphinxpxdimen,height=690\sphinxpxdimen]{{notebooks_RockGlacier_optical_15_2}.png}
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-\end{nbsphinxfancyoutput}
-
-\end{sphinxuseclass}
 \end{sphinxuseclass}
 
 \subsection{Interactive Time Series Analysis in a Dash Web App}
@@ -3375,9 +3423,9 @@ users can download their analysis and the generated figures directly from the we
 \begin{sphinxuseclass}{nblast}
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
 
-\PYG{n}{akhdefo\PYGZus{}dashApp}\PYG{p}{(}
+\PYG{n}{akhdefo\PYGZus{}functions}\PYG{o}{.}\PYG{n}{akhdefo\PYGZus{}dashApp}\PYG{p}{(}
 \PYG{n}{Path\PYGZus{}to\PYGZus{}Shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20180627\PYGZus{}20220926\PYGZus{}20220926\PYGZus{}2DVEL.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
                                   \PYG{n}{port}\PYG{o}{=}\PYG{l+m+mi}{8047}\PYG{p}{,} \PYG{n}{BaseMap}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{basemap\PYGZus{}type}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{image}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
 \end{sphinxVerbatim}
@@ -3519,8 +3567,8 @@ users, example screenshots are provided below as a guide to navigate through the
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{c+c1}{\PYGZsh{} This function will move all the data from each granules subdir to a single folder}
-\PYG{n}{move\PYGZus{}files\PYGZus{}with\PYGZus{}string}\PYG{p}{(}\PYG{n}{source\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/RS\PYGZus{}dir\PYGZus{}path129/}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{dest\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/RS\PYGZus{}path129}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{search\PYGZus{}string}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
-\PYG{n}{move\PYGZus{}files\PYGZus{}with\PYGZus{}string}\PYG{p}{(}\PYG{n}{source\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/scatter\PYGZus{}dir/}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{dest\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/scatter\PYGZus{}rs}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{search\PYGZus{}string}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{move\PYGZus{}files\PYGZus{}with\PYGZus{}string}\PYG{p}{(}\PYG{n}{source\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/RS\PYGZus{}dir\PYGZus{}path129}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{dest\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/RS\PYGZus{}path129}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{search\PYGZus{}string}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{move\PYGZus{}files\PYGZus{}with\PYGZus{}string}\PYG{p}{(}\PYG{n}{source\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/scatter\PYGZus{}dir}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{dest\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/scatter\PYGZus{}rs}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{search\PYGZus{}string}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{area.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
 
 \end{sphinxVerbatim}
 }
@@ -3550,7 +3598,7 @@ users, example screenshots are provided below as a guide to navigate through the
 \PYG{n}{output\PYGZus{}folder} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{./data/morenny/radar/scatter\PYGZus{}masks\PYGZus{}20}\PYG{l+s+s2}{\PYGZdq{}}
 \PYG{n}{plot\PYGZus{}folder} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{./data/morenny/radar/scatter\PYGZus{}mask\PYGZus{}plots\PYGZus{}20}\PYG{l+s+s2}{\PYGZdq{}}
 \PYG{n}{shapefile\PYGZus{}path} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{./data/morenny/AOI.shp}\PYG{l+s+s2}{\PYGZdq{}}
-\PYG{n}{scatter\PYGZus{}Area\PYGZus{}threshold}\PYG{o}{=}\PYG{l+m+mi}{0}
+\PYG{n}{scatter\PYGZus{}Area\PYGZus{}threshold}\PYG{o}{=}\PYG{l+m+mi}{5}
 \PYG{n}{vegetation\PYGZus{}mask\PYGZus{}path}\PYG{o}{=}\PYG{k+kc}{None}
 
 
@@ -3603,9 +3651,10 @@ Decibel (dB) Scale: The decibel scale is a logarithmic scale used to express SAR
 \end{itemize}
 
 \begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[7]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{warnings}
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{warnings}
 \PYG{n}{warnings}\PYG{o}{.}\PYG{n}{filterwarnings}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ignore}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
 
 
@@ -3618,690 +3667,60 @@ Decibel (dB) Scale: The decibel scale is a logarithmic scale used to express SAR
 }
 
 \end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-\begin{sphinxuseclass}{nblast}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing images: 100\%|██████████| 57/57 [00:52<00:00,  1.08image/s]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
 \end{sphinxuseclass}
 
 \subsection{Applying optical flow and producing time\sphinxhyphen{}series deformation products.}
 \label{\detokenize{notebooks/RockGlacier_radar:Applying-optical-flow-and-producing-time-series-deformation-products.}}
 \begin{sphinxuseclass}{nbinput}
-{
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[8]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{n}{Optical\PYGZus{}flow\PYGZus{}akhdefo}\PYG{p}{(}\PYG{n}{input\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/RS\PYGZus{}cropped\PYGZus{}path129\PYGZus{}filt}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{output\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/geo\PYGZus{}path129}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{AOI}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{zscore\PYGZus{}threshold}\PYG{o}{=}\PYG{l+m+mf}{3.5}\PYG{p}{,}
-                                       \PYG{n}{ssim\PYGZus{}thresh}\PYG{o}{=}\PYG{l+m+mf}{0.6}\PYG{p}{,} \PYG{n}{image\PYGZus{}resolution}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{20m}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{interpolate}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{linear}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
-                                       \PYG{n}{show\PYGZus{}figure}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{point\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{dem\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/dem.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel\PYGZus{}size}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
-                                       \PYG{n}{Vegetation\PYGZus{}mask}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{VEL\PYGZus{}scale}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{year}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{VEL\PYGZus{}Mode}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{linear}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{good\PYGZus{}match\PYGZus{}option}\PYG{o}{=}\PYG{l+m+mf}{0.75}\PYG{p}{,}
-                                       \PYG{n}{hillshade\PYGZus{}option}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{shapefile\PYGZus{}output}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{max\PYGZus{}triplet\PYGZus{}interval}\PYG{o}{=}\PYG{l+m+mi}{30}\PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{overlap\PYGZus{}percentage}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{pyr\PYGZus{}scale}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{,} \PYG{n}{levels}\PYG{o}{=}\PYG{l+m+mi}{15}\PYG{p}{,}
-                                       \PYG{n}{winsize}\PYG{o}{=}\PYG{l+m+mi}{128}\PYG{p}{,} \PYG{n}{iterations}\PYG{o}{=}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{n}{poly\PYGZus{}n}\PYG{o}{=}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{n}{poly\PYGZus{}sigma}\PYG{o}{=}\PYG{l+m+mf}{1.5}\PYG{p}{,}
-                                       \PYG{n}{flags}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{master\PYGZus{}reference}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{single}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
-                                       \PYG{n}{selection\PYGZus{}Mode}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{pair}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{start\PYGZus{}date}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{end\PYGZus{}date}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{)}
-\end{sphinxVerbatim}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing:   0\%|          | 0/56 [00:00<?, ?it/s]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Skipping computation for 20150717 to 20150903 as the time interval is larger than 30 days.
-Skipping computation for 20150903 to 20160723 as the time interval is larger than 30 days.
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing:   7\%|▋         | 4/56 [00:02<00:32,  1.60it/s]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Skipping computation for 20160909 to 20170718 as the time interval is larger than 30 days.
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing:  20\%|█▉        | 11/56 [00:09<00:45,  1.01s/it]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Skipping computation for 20170928 to 20180607 as the time interval is larger than 30 days.
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing:  36\%|███▌      | 20/56 [00:17<00:38,  1.08s/it]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Skipping computation for 20180923 to 20190708 as the time interval is larger than 30 days.
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing:  50\%|█████     | 28/56 [00:25<00:30,  1.08s/it]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Skipping computation for 20190930 to 20200714 as the time interval is larger than 30 days.
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing:  62\%|██████▎   | 35/56 [00:33<00:23,  1.12s/it]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Skipping computation for 20200924 to 20210709 as the time interval is larger than 30 days.
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing:  75\%|███████▌  | 42/56 [00:39<00:15,  1.08s/it]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Skipping computation for 20210919 to 20220716 as the time interval is larger than 30 days.
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing:  88\%|████████▊ | 49/56 [00:49<00:12,  1.75s/it]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Skipping computation for 20220926 to 20230711 as the time interval is larger than 30 days.
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing: 100\%|██████████| 56/56 [00:56<00:00,  1.00s/it]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Wait for processing to complete writing data into shapefile for timeseries{\ldots}
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Preparing GeoDataFrames: 100\%|██████████| 47/47 [00:00<00:00, 747.62it/s]
-Preparing GeoDataFrames: 100\%|██████████| 47/47 [00:00<00:00, 991.58it/s]
-Preparing GeoDataFrames: 100\%|██████████| 47/47 [00:00<00:00, 600.04it/s]
-100\%|██████████| 47/47 [00:01<00:00, 32.00it/s]          | 0/3 [00:00<?, ?it/s]
-100\%|██████████| 47/47 [00:01<00:00, 31.34it/s]███▎      | 1/3 [00:01<00:02,  1.47s/it]
-100\%|██████████| 47/47 [00:01<00:00, 31.00it/s]██████▋   | 2/3 [00:02<00:01,  1.49s/it]
-Processing:Updating and Cropping Rasters: 100\%|██████████| 3/3 [00:04<00:00,  1.49s/it]
-Processing: Update Shapefiles :   0\%|          | 0/3 [00:00<?, ?it/s]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-processing ./data/morenny/radar/geo\_path129/temp\_shapefile\_dir/20150717\_20230921\_20230921\_2DVEL.shp started{\ldots}
-
-299
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing: Update Shapefiles :  33\%|███▎      | 1/3 [00:07<00:15,  7.58s/it]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-ReferencePoint x, y: (662245.5731201172, 4761985.838470459), VEL, VEL\_STD: (0.5033959224199276, 0.020289843794806268)
-processing ./data/morenny/radar/geo\_path129/temp\_shapefile\_dir/20150717\_20230921\_20230921\_2DVEL.shp completed{\ldots}
-
-processing ./data/morenny/radar/geo\_path129/temp\_shapefile\_dir/20150717\_20230921\_20230921\_N.shp started{\ldots}
-
-299
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing: Update Shapefiles :  67\%|██████▋   | 2/3 [00:15<00:07,  7.59s/it]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-ReferencePoint x, y: (662245.5731201172, 4761985.838470459), VEL, VEL\_STD: (0.0024329043476346793, 0.010286123670017341)
-processing ./data/morenny/radar/geo\_path129/temp\_shapefile\_dir/20150717\_20230921\_20230921\_N.shp completed{\ldots}
-
-processing ./data/morenny/radar/geo\_path129/temp\_shapefile\_dir/20150717\_20230921\_20230921\_E.shp started{\ldots}
-
-299
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Processing: Update Shapefiles : 100\%|██████████| 3/3 [00:23<00:00,  7.76s/it]
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-ReferencePoint x, y: (662245.5731201172, 4761985.838470459), VEL, VEL\_STD: (0.03317869351161298, 0.016430273499351188)
-processing ./data/morenny/radar/geo\_path129/temp\_shapefile\_dir/20150717\_20230921\_20230921\_E.shp completed{\ldots}
-
-Total Days: 2988
-file used ./data/morenny/radar/geo\_path129/temp\_shapefile\_dir\textbackslash{}updated\_shapefiles\textbackslash{}20150717\_20230921\_20230921\_2DVEL.shp.xml
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
 \begin{sphinxuseclass}{nblast}
 {
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{stderr}
-
-
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{warnings}
+\PYG{n}{warnings}\PYG{o}{.}\PYG{n}{filterwarnings}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ignore}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{Optical\PYGZus{}flow\PYGZus{}akhdefo}\PYG{p}{(}\PYG{n}{input\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/RS\PYGZus{}cropped\PYGZus{}path129\PYGZus{}filt}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{output\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/geo\PYGZus{}path129}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{AOI}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{zscore\PYGZus{}threshold}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,}
+                                       \PYG{n}{ssim\PYGZus{}thresh}\PYG{o}{=}\PYG{l+m+mf}{0.6}\PYG{p}{,} \PYG{n}{image\PYGZus{}resolution}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{20m}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{interpolate}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{kriging}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{show\PYGZus{}figure}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{point\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{dem\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/dem.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel\PYGZus{}size}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
+                                       \PYG{n}{Vegetation\PYGZus{}mask}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{VEL\PYGZus{}scale}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{year}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{VEL\PYGZus{}Mode}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{linear}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{good\PYGZus{}match\PYGZus{}option}\PYG{o}{=}\PYG{l+m+mf}{0.75}\PYG{p}{,}
+                                       \PYG{n}{hillshade\PYGZus{}option}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{shapefile\PYGZus{}output}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{max\PYGZus{}triplet\PYGZus{}interval}\PYG{o}{=}\PYG{l+m+mi}{300}\PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{overlap\PYGZus{}percentage}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{pyr\PYGZus{}scale}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{,} \PYG{n}{levels}\PYG{o}{=}\PYG{l+m+mi}{15}\PYG{p}{,}
+                                       \PYG{n}{winsize}\PYG{o}{=}\PYG{l+m+mi}{128}\PYG{p}{,} \PYG{n}{iterations}\PYG{o}{=}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{n}{poly\PYGZus{}n}\PYG{o}{=}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{n}{poly\PYGZus{}sigma}\PYG{o}{=}\PYG{l+m+mf}{1.5}\PYG{p}{,}
+                                       \PYG{n}{flags}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{master\PYGZus{}reference}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{single}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{selection\PYGZus{}Mode}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{pair}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{start\PYGZus{}date}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{end\PYGZus{}date}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{krig\PYGZus{}method}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{universal}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{spatial\PYGZus{}ref}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
 \end{sphinxVerbatim}
+}
 
 \end{sphinxuseclass}
 \end{sphinxuseclass}
+
+\subsection{Interpolate and Create raster Velocities}
+\label{\detokenize{notebooks/RockGlacier_radar:Interpolate-and-Create-raster-Velocities}}
+\begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{Auto\PYGZus{}Variogram}
+
+\PYG{n}{Auto\PYGZus{}Variogram}\PYG{p}{(}\PYG{n}{data}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/geo\PYGZus{}path129/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20150717\PYGZus{}20230921\PYGZus{}20230921\PYGZus{}N.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{column\PYGZus{}attribute}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{VEL}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{out\PYGZus{}fileName}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{N}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{geo\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/VEL\PYGZus{}Folder}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{plot\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/VEL\PYGZus{}Folder}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{latlon}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{aoi\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{,}  \PYG{n}{krig\PYGZus{}method}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{simple}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+
+\PYG{n}{Auto\PYGZus{}Variogram}\PYG{p}{(}\PYG{n}{data}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/geo\PYGZus{}path129/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20150717\PYGZus{}20230921\PYGZus{}20230921\PYGZus{}E.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{column\PYGZus{}attribute}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{VEL}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{out\PYGZus{}fileName}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{E}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{geo\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/VEL\PYGZus{}Folder}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{plot\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/VEL\PYGZus{}Folder}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{latlon}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{aoi\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}  \PYG{n}{krig\PYGZus{}method}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{simple}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+
+
+\PYG{n}{Auto\PYGZus{}Variogram}\PYG{p}{(}\PYG{n}{data}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/geo\PYGZus{}path129/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20150717\PYGZus{}20230921\PYGZus{}20230921\PYGZus{}2DVEL.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{column\PYGZus{}attribute}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{VEL}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{out\PYGZus{}fileName}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{2DVEL}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{geo\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/VEL\PYGZus{}Folder}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{plot\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/VEL\PYGZus{}Folder}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{latlon}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{aoi\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}  \PYG{n}{krig\PYGZus{}method}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{simple}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+
+
+\PYG{n}{Auto\PYGZus{}Variogram}\PYG{p}{(}\PYG{n}{data}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/geo\PYGZus{}path129/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20150717\PYGZus{}20230921\PYGZus{}20230921\PYGZus{}2DVEL.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{column\PYGZus{}attribute}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{aspect}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{out\PYGZus{}fileName}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{aspect}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{geo\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/VEL\PYGZus{}Folder}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{plot\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/VEL\PYGZus{}Folder}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{latlon}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{aoi\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}  \PYG{n}{krig\PYGZus{}method}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{simple}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\end{sphinxVerbatim}
 }
 
 \end{sphinxuseclass}
@@ -4312,13 +3731,47 @@ file used ./data/morenny/radar/geo\_path129/temp\_shapefile\_dir\textbackslash{}
 \begin{sphinxuseclass}{nbinput}
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[14]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{c+c1}{\PYGZsh{}Visualize Mean Velocity East\PYGZhy{}West}
+\llap{\color{nbsphinxin}[4]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+\PYG{k+kn}{import} \PYG{n+nn}{cmocean}\PYG{n+nn}{.}\PYG{n+nn}{cm} \PYG{k}{as} \PYG{n+nn}{cmo}
+
+\PYG{n}{akhdefo\PYGZus{}functions}\PYG{o}{.}\PYG{n}{akhdefo\PYGZus{}viewer}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}dem\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/basemap.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{raster\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/VEL\PYGZus{}Folder/2DVEL.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{output\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/Figs\PYGZus{}analysis/}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{title}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{2D Velocity with Vector Motion}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                   \PYG{n}{pixel\PYGZus{}resolution\PYGZus{}meters}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{output\PYGZus{}file\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{2DVEL\PYGZus{}WithVectorMotion.png}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                   \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.4}\PYG{p}{,} \PYG{n}{unit\PYGZus{}conversion}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{no\PYGZus{}data\PYGZus{}mask}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                   \PYG{n}{colormap}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{hot\PYGZus{}r}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{min\PYGZus{}value}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{max\PYGZus{}value}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
+                   \PYG{n}{normalize}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{colorbar\PYGZus{}label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{meter/year}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{show\PYGZus{}figure}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{aspect\PYGZus{}raster}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/VEL\PYGZus{}Folder/aspect.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{cmap\PYGZus{}aspect}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{hsv}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{,} \PYG{n}{step}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\begin{sphinxuseclass}{nblast}
+\hrule height -\fboxrule\relax
+\vspace{\nbsphinxcodecellspacing}
+
+\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
+
+\begin{nbsphinxfancyoutput}
+
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+\noindent\sphinxincludegraphics[width=876\sphinxpxdimen,height=923\sphinxpxdimen]{{notebooks_RockGlacier_radar_18_0}.png}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\end{nbsphinxfancyoutput}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nbinput}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[8]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{c+c1}{\PYGZsh{}Visualize Mean Velocity East\PYGZhy{}West}
 \PYG{c+c1}{\PYGZsh{} if set batch\PYGZus{}plot=True it will plot static time series figure for each date acquisition}
 
 \PYG{n}{akhdefo\PYGZus{}functions}\PYG{o}{.}\PYG{n}{MeanProducts\PYGZus{}plot\PYGZus{}ts}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/geo\PYGZus{}path129/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20150717\PYGZus{}20230921\PYGZus{}20230921\PYGZus{}E.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
                                        \PYG{n}{dem\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/dem.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{out\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/Figs\PYGZus{}analysis/E}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
-                                       \PYG{n}{color\PYGZus{}field}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{VEL}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{Set\PYGZus{}fig\PYGZus{}MinMax}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,}
-                                       \PYG{n}{MinMaxRange}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{1.5}\PYG{p}{]}\PYG{p}{,} \PYG{n}{opacity}\PYG{o}{=}\PYG{l+m+mf}{0.7}\PYG{p}{,}
+                                       \PYG{n}{color\PYGZus{}field}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{VEL}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{Set\PYGZus{}fig\PYGZus{}MinMax}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                                       \PYG{n}{MinMaxRange}\PYG{o}{=}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.2}\PYG{p}{,} \PYG{l+m+mf}{0.2}\PYG{p}{]}\PYG{p}{,} \PYG{n}{opacity}\PYG{o}{=}\PYG{l+m+mf}{0.7}\PYG{p}{,}
                                        \PYG{n}{cmap}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bwr}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{point\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,}
                                        \PYG{n}{cbar\PYGZus{}label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{East\PYGZhy{}West (m/year)}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
                                        \PYG{n}{batch\PYGZus{}plot}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
@@ -4336,7 +3789,7 @@ file used ./data/morenny/radar/geo\_path129/temp\_shapefile\_dir\textbackslash{}
 \PYG{n}{akhdefo\PYGZus{}functions}\PYG{o}{.}\PYG{n}{MeanProducts\PYGZus{}plot\PYGZus{}ts}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/geo\PYGZus{}path129/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20150717\PYGZus{}20230921\PYGZus{}20230921\PYGZus{}2DVEL.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
                                        \PYG{n}{dem\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/dem.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{out\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/Figs\PYGZus{}analysis/2D}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
                                        \PYG{n}{color\PYGZus{}field}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{VEL}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{Set\PYGZus{}fig\PYGZus{}MinMax}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,}
-                                       \PYG{n}{MinMaxRange}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{1.5}\PYG{p}{]}\PYG{p}{,} \PYG{n}{opacity}\PYG{o}{=}\PYG{l+m+mf}{0.7}\PYG{p}{,}
+                                       \PYG{n}{MinMaxRange}\PYG{o}{=}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.5}\PYG{p}{,} \PYG{l+m+mf}{0.5}\PYG{p}{]}\PYG{p}{,} \PYG{n}{opacity}\PYG{o}{=}\PYG{l+m+mf}{0.7}\PYG{p}{,}
                                        \PYG{n}{cmap}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{plasma}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{point\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,}
                                        \PYG{n}{cbar\PYGZus{}label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{2D\PYGZhy{}VEL (meter/year)}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
                                        \PYG{n}{batch\PYGZus{}plot}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
@@ -4354,7 +3807,7 @@ file used ./data/morenny/radar/geo\_path129/temp\_shapefile\_dir\textbackslash{}
 
 \begin{sphinxuseclass}{output_area}
 \begin{sphinxuseclass}{}
-\noindent\sphinxincludegraphics[width=384\sphinxpxdimen,height=690\sphinxpxdimen]{{notebooks_RockGlacier_radar_16_0}.png}
+\noindent\sphinxincludegraphics[width=385\sphinxpxdimen,height=690\sphinxpxdimen]{{notebooks_RockGlacier_radar_19_0}.png}
 
 \end{sphinxuseclass}
 \end{sphinxuseclass}
@@ -4371,7 +3824,7 @@ file used ./data/morenny/radar/geo\_path129/temp\_shapefile\_dir\textbackslash{}
 
 \begin{sphinxuseclass}{output_area}
 \begin{sphinxuseclass}{}
-\noindent\sphinxincludegraphics[width=384\sphinxpxdimen,height=690\sphinxpxdimen]{{notebooks_RockGlacier_radar_16_1}.png}
+\noindent\sphinxincludegraphics[width=384\sphinxpxdimen,height=690\sphinxpxdimen]{{notebooks_RockGlacier_radar_19_1}.png}
 
 \end{sphinxuseclass}
 \end{sphinxuseclass}
@@ -4389,7 +3842,7 @@ file used ./data/morenny/radar/geo\_path129/temp\_shapefile\_dir\textbackslash{}
 
 \begin{sphinxuseclass}{output_area}
 \begin{sphinxuseclass}{}
-\noindent\sphinxincludegraphics[width=384\sphinxpxdimen,height=690\sphinxpxdimen]{{notebooks_RockGlacier_radar_16_2}.png}
+\noindent\sphinxincludegraphics[width=384\sphinxpxdimen,height=690\sphinxpxdimen]{{notebooks_RockGlacier_radar_19_2}.png}
 
 \end{sphinxuseclass}
 \end{sphinxuseclass}
@@ -4411,9 +3864,10 @@ users can download their analysis and the generated figures directly from the we
 \noindent\sphinxincludegraphics[width=1000\sphinxpxdimen,height=800\sphinxpxdimen]{{newplot12}.png}
 
 \begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[11]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
 
 \PYG{n}{akhdefo\PYGZus{}dashApp}\PYG{p}{(}
 \PYG{n}{Path\PYGZus{}to\PYGZus{}Shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/geo\PYGZus{}path129/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20150717\PYGZus{}20230921\PYGZus{}20230921\PYGZus{}2DVEL.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
@@ -4422,63 +3876,16 @@ users can download their analysis and the generated figures directly from the we
 }
 
 \end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-\begin{sphinxuseclass}{nblast}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-<IPython.lib.display.IFrame at 0x1e5462b1fc0>
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-}
-
-\end{sphinxuseclass}
 \end{sphinxuseclass}
 \begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[10]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
 \PYG{n}{akhdefo\PYGZus{}dashApp}\PYG{p}{(}
 \PYG{n}{Path\PYGZus{}to\PYGZus{}Shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/morenny/radar/geo\PYGZus{}path129/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20150717\PYGZus{}20230921\PYGZus{}20230921\PYGZus{}N.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
                                   \PYG{n}{port}\PYG{o}{=}\PYG{l+m+mi}{8056}\PYG{p}{,} \PYG{n}{BaseMap}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{basemap\PYGZus{}type}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{image}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
 \end{sphinxVerbatim}
-}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nboutput}
-\begin{sphinxuseclass}{nblast}
-{
-
-\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
-\kern+\FrameHeightAdjust\kern-\fboxrule
-\vspace{\nbsphinxcodecellspacing}
-
-\sphinxsetup{VerbatimColor={named}{white}}
-\begin{sphinxuseclass}{output_area}
-\begin{sphinxuseclass}{}
-
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-<IPython.lib.display.IFrame at 0x1e546acdf30>
-\end{sphinxVerbatim}
-
-
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
 }
 
 \end{sphinxuseclass}
@@ -4502,13 +3909,121 @@ users can download their analysis and the generated figures directly from the we
 \section{MudCreek 2017 Landslide Optical Imagery Example}
 \label{\detokenize{notebooks/MudCreek_Landslide_optical:MudCreek-2017-Landslide-Optical-Imagery-Example}}\label{\detokenize{notebooks/MudCreek_Landslide_optical::doc}}
 
-\subsection{Optical Imagery}
-\label{\detokenize{notebooks/MudCreek_Landslide_optical:Optical-Imagery}}
+\subsection{Download data from planet.com website}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Download-data-from-planet.com-website}}
+\sphinxAtStartPar
+Create an Account or Log In: To access data, you generally need an account with \sphinxurl{https://www.planet.com} . If you don’t have one, you’ll need to sign up. Otherwise, log in with your existing credentials.
+
+\noindent\sphinxincludegraphics[width=1690\sphinxpxdimen,height=851\sphinxpxdimen]{{planet_screenshot11}.png}
+
+
+\subsection{Import AkhDefo Packages.}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Import-AkhDefo-Packages.}}
+\begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[1]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+\PYG{c+c1}{\PYGZsh{}Functions for data preparations}
+\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{akhdefo\PYGZus{}download\PYGZus{}planet}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{read\PYGZus{}data\PYGZus{}prep}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{move\PYGZus{}files\PYGZus{}with\PYGZus{}string}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{Crop\PYGZus{}to\PYGZus{}AOI}
+
+\PYG{c+c1}{\PYGZsh{}Functions data processing}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{scatter\PYGZus{}area\PYGZus{}mask}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{Raster\PYGZus{}Correction}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{Optical\PYGZus{}flow\PYGZus{}akhdefo}
+
+\PYG{c+c1}{\PYGZsh{}Functions for shapefile point data interpolation to raster geotif}
+\PYG{c+c1}{\PYGZsh{}Function Autovariogram use Kriging method it fits the data to different variogram models and automatically use the best fit variogram model (Computationally Heavy but you can process data in chunks)}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{Auto\PYGZus{}Variogram}
+
+\PYG{c+c1}{\PYGZsh{} interpoate\PYGZus{}xyz uses the following interpolation methods (nearest, linear and cubic)}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{interpolate\PYGZus{}xyz}
+
+\PYG{c+c1}{\PYGZsh{}Functions for data Visualization and Analysis}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{MeanProducts\PYGZus{}plot\PYGZus{}ts}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{plot\PYGZus{}stackNetwork}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{akhdefo\PYGZus{}viewer}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{akhdefo\PYGZus{}dashApp}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+
+\subsection{Download Data using Planetlab API Account}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Download-Data-using-Planetlab-API-Account}}
 \begin{sphinxuseclass}{nbinput}
 \begin{sphinxuseclass}{nblast}
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+\PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+
+\PYG{l+s+sd}{First Run the below command and make sure \PYGZob{}download=False\PYGZcb{} to see list of available dataset.}
+
+\PYG{l+s+sd}{Its highly recommended to use images from same frame number and same path number for the entire time\PYGZhy{}series for more accurate results}
+
+\PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+
+\PYG{c+c1}{\PYGZsh{}uncomment below to download data using planet lab api key}
+
+\PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\PYG{l+s+sd}{akhdefo\PYGZus{}download\PYGZus{}planet(planet\PYGZus{}api\PYGZus{}key=\PYGZsq{}\PYGZsq{}, AOI=\PYGZsq{}./data/mudcreek/AOI.shp\PYGZsq{}, start\PYGZus{}date=\PYGZsq{}May 1, 2018\PYGZsq{}, end\PYGZus{}date=\PYGZsq{} September 30 2022\PYGZsq{}, limit=5, item\PYGZus{}type=\PYGZsq{}PSScene\PYGZsq{},}
+\PYG{l+s+sd}{                        product\PYGZus{}bundle=\PYGZsq{}analytic\PYGZus{}sr\PYGZus{}udm2\PYGZsq{},}
+\PYG{l+s+sd}{                        clear\PYGZus{}percent=90, cloud\PYGZus{}filter=0.1,}
+\PYG{l+s+sd}{                        output\PYGZus{}folder=\PYGZsq{}raw\PYGZus{}data\PYGZsq{},}
+\PYG{l+s+sd}{                        clip\PYGZus{}flag=True, download\PYGZus{}data=False}
+
+\PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\PYG{c+c1}{\PYGZsh{} for this excecise we download data from planet labs explorer web application}
+\PYG{c+c1}{\PYGZsh{}Lets Navigate to the zip folder directory}
+
+\PYG{k+kn}{import} \PYG{n+nn}{os}
+
+\PYG{c+c1}{\PYGZsh{} Replace \PYGZsq{}your\PYGZus{}directory\PYGZus{}path\PYGZsq{} with the path of your directory}
+\PYG{n}{zip\PYGZus{}dir} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/zip\PYGZus{}folder/}\PYG{l+s+s1}{\PYGZsq{}}
+
+\PYG{c+c1}{\PYGZsh{} List all files and directories in the specified path}
+\PYG{n}{contents} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{listdir}\PYG{p}{(}\PYG{n}{zip\PYGZus{}dir}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Print the contents}
+\PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{contents}\PYG{p}{:}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{item}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} The zip folder inside the zip folder directory inclue cropped planet lab imagery between 2018 to 2022. lets extract the data and look at the images}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+
+\subsection{Extract downloaded zip files}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Extract-downloaded-zip-files}}
+\begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{c+c1}{\PYGZsh{}This functions extracts data from all the granuples zip directory.}
+\PYG{n}{read\PYGZus{}data\PYGZus{}prep}\PYG{p}{(}\PYG{n}{zip\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/zip\PYGZus{}dir/}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                 \PYG{n}{image\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/image\PYGZus{}dir}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                 \PYG{n}{ext\PYGZus{}image\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{harmonized\PYGZus{}clip.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{udm\PYGZus{}mask\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/udm\PYGZus{}mask\PYGZus{}dir}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{ext\PYGZus{}udm\PYGZus{}mask\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{udm2\PYGZus{}clip.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{c+c1}{\PYGZsh{} This function will move all the data from each granules subdir to a single folder}
+\PYG{c+c1}{\PYGZsh{} move\PYGZus{}files\PYGZus{}with\PYGZus{}string(source\PYGZus{}dir=\PYGZsq{}./data/mudcreek/optical/RS\PYGZus{}dir\PYGZus{}path129/\PYGZsq{}, dest\PYGZus{}dir=\PYGZsq{}./data/mudcreek/optical/RS\PYGZus{}path129\PYGZsq{}, search\PYGZus{}string=\PYGZsq{}.tif\PYGZsq{})}
+\PYG{c+c1}{\PYGZsh{} move\PYGZus{}files\PYGZus{}with\PYGZus{}string(source\PYGZus{}dir=\PYGZsq{}./data/mudcreek/optical/scatter\PYGZus{}dir/\PYGZsq{}, dest\PYGZus{}dir=\PYGZsq{}./data/mudcreek/optical/scatter\PYGZus{}rs\PYGZsq{}, search\PYGZus{}string=\PYGZsq{}.tif\PYGZsq{})}
+
 \end{sphinxVerbatim}
 }
 
@@ -4519,6 +4034,235 @@ users can download their analysis and the generated figures directly from the we
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+\PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\PYG{l+s+sd}{Crop all raster to Area of interest bounding box}
+
+
+\PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\PYG{n}{Crop\PYGZus{}to\PYGZus{}AOI}\PYG{p}{(}\PYG{n}{Path\PYGZus{}to\PYGZus{}WorkingDir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/image\PYGZus{}dir}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                              \PYG{n}{Path\PYGZus{}to\PYGZus{}AOI\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                              \PYG{n}{output\PYGZus{}CroppedDir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/image\PYGZus{}dir\PYGZus{}aoi}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{file\PYGZus{}ex}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+
+\subsection{Preparing raster for optical flow and displacement calculation!}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Preparing-raster-for-optical-flow-and-displacement-calculation!}}
+\sphinxAtStartPar
+The data needs to be converted to “uint8” format and be calibrated and normalized.
+
+\begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{warnings}
+\PYG{n}{warnings}\PYG{o}{.}\PYG{n}{filterwarnings}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ignore}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+
+\PYG{n}{Raster\PYGZus{}Correction}\PYG{p}{(}\PYG{n}{input\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{./data/mudcreek/optical/image\PYGZus{}dir\PYGZus{}aoi}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{output\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{./data/mudcreek/optical/image\PYGZus{}dir\PYGZus{}aoi\PYGZus{}filt}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{limit}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
+                                    \PYG{n}{lowpass\PYGZus{}kernel\PYGZus{}size}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{bilateral\PYGZus{}win\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{n}{bilateral\PYGZus{}sigma\PYGZus{}color}\PYG{o}{=}\PYG{l+m+mi}{75}\PYG{p}{,}
+                                    \PYG{n}{bilateral\PYGZus{}sigma\PYGZus{}spatial}\PYG{o}{=}\PYG{l+m+mi}{75}\PYG{p}{,}
+                                    \PYG{n}{clip\PYGZus{}percentiles}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{98}\PYG{p}{]}\PYG{p}{,} \PYG{n}{optical}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                                    \PYG{n}{scale}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{Vegetation\PYGZus{}mask}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+
+\subsection{Applying optical flow and producing time\sphinxhyphen{}series deformation products.}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Applying-optical-flow-and-producing-time-series-deformation-products.}}
+\begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{warnings}
+\PYG{n}{warnings}\PYG{o}{.}\PYG{n}{filterwarnings}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ignore}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{Optical\PYGZus{}flow\PYGZus{}akhdefo}
+
+
+\PYG{n}{Optical\PYGZus{}flow\PYGZus{}akhdefo}\PYG{p}{(}\PYG{n}{input\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/image\PYGZus{}dir\PYGZus{}aoi\PYGZus{}filt}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{output\PYGZus{}dir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/geo}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{AOI}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{zscore\PYGZus{}threshold}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,}
+                                       \PYG{n}{ssim\PYGZus{}thresh}\PYG{o}{=}\PYG{l+m+mf}{0.6}\PYG{p}{,} \PYG{n}{image\PYGZus{}resolution}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{3.125m}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{interpolate}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{kriging}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{show\PYGZus{}figure}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{point\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{dem\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/dem.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,}
+                                       \PYG{n}{Vegetation\PYGZus{}mask}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{VEL\PYGZus{}scale}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{year}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{VEL\PYGZus{}Mode}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{linear}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{good\PYGZus{}match\PYGZus{}option}\PYG{o}{=}\PYG{l+m+mf}{0.75}\PYG{p}{,}
+                                       \PYG{n}{hillshade\PYGZus{}option}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{shapefile\PYGZus{}output}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{max\PYGZus{}triplet\PYGZus{}interval}\PYG{o}{=}\PYG{l+m+mi}{300}\PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{overlap\PYGZus{}percentage}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{pyr\PYGZus{}scale}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{,} \PYG{n}{levels}\PYG{o}{=}\PYG{l+m+mi}{15}\PYG{p}{,}
+                                       \PYG{n}{winsize}\PYG{o}{=}\PYG{l+m+mi}{148}\PYG{p}{,} \PYG{n}{iterations}\PYG{o}{=}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{n}{poly\PYGZus{}n}\PYG{o}{=}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{n}{poly\PYGZus{}sigma}\PYG{o}{=}\PYG{l+m+mf}{1.5}\PYG{p}{,}
+                                       \PYG{n}{flags}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{master\PYGZus{}reference}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{single}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{selection\PYGZus{}Mode}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{pair}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{start\PYGZus{}date}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{20160101}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{end\PYGZus{}date}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{20170518}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{krig\PYGZus{}method}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{universal}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{spatial\PYGZus{}ref}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+
+\subsection{Visualize Displacement Products}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Visualize-Displacement-Products}}
+\begin{sphinxuseclass}{nbinput}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[2]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{c+c1}{\PYGZsh{}Visualize Mean Velocity East\PYGZhy{}West}
+\PYG{c+c1}{\PYGZsh{} if set batch\PYGZus{}plot=True it will plot static time series figure for each date acquisition}
+
+\PYG{n}{MeanProducts\PYGZus{}plot\PYGZus{}ts}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20161002\PYGZus{}20170516\PYGZus{}20170516\PYGZus{}E.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{dem\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/dem.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{out\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/Figs\PYGZus{}analysis/E}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{color\PYGZus{}field}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{VEL}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{Set\PYGZus{}fig\PYGZus{}MinMax}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,}
+                                       \PYG{n}{MinMaxRange}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{1.5}\PYG{p}{]}\PYG{p}{,} \PYG{n}{opacity}\PYG{o}{=}\PYG{l+m+mf}{0.7}\PYG{p}{,}
+                                       \PYG{n}{cmap}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bwr}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{point\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,}
+                                       \PYG{n}{cbar\PYGZus{}label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{East\PYGZhy{}West (m/year)}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{batch\PYGZus{}plot}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}Visualize Mean Velocity North\PYGZhy{}South}
+\PYG{n}{MeanProducts\PYGZus{}plot\PYGZus{}ts}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20161002\PYGZus{}20170516\PYGZus{}20170516\PYGZus{}N.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{dem\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/dem.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{out\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/Figs\PYGZus{}analysis/N}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{color\PYGZus{}field}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{VEL}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{Set\PYGZus{}fig\PYGZus{}MinMax}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,}
+                                       \PYG{n}{MinMaxRange}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{1.5}\PYG{p}{]}\PYG{p}{,} \PYG{n}{opacity}\PYG{o}{=}\PYG{l+m+mf}{0.7}\PYG{p}{,}
+                                       \PYG{n}{cmap}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bwr}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{point\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,}
+                                       \PYG{n}{cbar\PYGZus{}label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{North\PYGZhy{}South (m/year)}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{batch\PYGZus{}plot}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}Visualize Mean Velocity 2D Velocity}
+\PYG{n}{MeanProducts\PYGZus{}plot\PYGZus{}ts}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20161002\PYGZus{}20170516\PYGZus{}20170516\PYGZus{}2DVEL.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{dem\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/dem.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{out\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/Figs\PYGZus{}analysis/2D}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{color\PYGZus{}field}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{VEL}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{Set\PYGZus{}fig\PYGZus{}MinMax}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,}
+                                       \PYG{n}{MinMaxRange}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{1.5}\PYG{p}{]}\PYG{p}{,} \PYG{n}{opacity}\PYG{o}{=}\PYG{l+m+mf}{0.7}\PYG{p}{,}
+                                       \PYG{n}{cmap}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{rainbow}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{point\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,}
+                                       \PYG{n}{cbar\PYGZus{}label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{2D\PYGZhy{}VEL (meter/year)}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                       \PYG{n}{batch\PYGZus{}plot}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\hrule height -\fboxrule\relax
+\vspace{\nbsphinxcodecellspacing}
+
+\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
+
+\begin{nbsphinxfancyoutput}
+
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+\noindent\sphinxincludegraphics[width=690\sphinxpxdimen,height=697\sphinxpxdimen]{{notebooks_MudCreek_Landslide_optical_15_0}.png}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\end{nbsphinxfancyoutput}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\hrule height -\fboxrule\relax
+\vspace{\nbsphinxcodecellspacing}
+
+\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
+
+\begin{nbsphinxfancyoutput}
+
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+\noindent\sphinxincludegraphics[width=690\sphinxpxdimen,height=697\sphinxpxdimen]{{notebooks_MudCreek_Landslide_optical_15_1}.png}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\end{nbsphinxfancyoutput}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\begin{sphinxuseclass}{nblast}
+\hrule height -\fboxrule\relax
+\vspace{\nbsphinxcodecellspacing}
+
+\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
+
+\begin{nbsphinxfancyoutput}
+
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+\noindent\sphinxincludegraphics[width=690\sphinxpxdimen,height=697\sphinxpxdimen]{{notebooks_MudCreek_Landslide_optical_15_2}.png}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\end{nbsphinxfancyoutput}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+
+\subsection{Interactive Time Series Analysis in a Dash Web App}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Interactive-Time-Series-Analysis-in-a-Dash-Web-App}}
+\sphinxAtStartPar
+This plot is part of an interactive web application. Users have the ability to select groups of data points using either the box select or lasso tool, which are superimposed on a satellite image base map. The selected data will then be reflected in the time series chart. Additionally, users can customize the axis labels to suit their dataset; for example, if the dataset measures displacement or velocity in meters, the y\sphinxhyphen{}axis label can be adjusted accordingly from the default mm. Furthermore,
+users can download their analysis and the generated figures directly from the web application.
+
+
+\subsection{Screenshot of the dash appp interface}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Screenshot-of-the-dash-appp-interface}}
+\begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{c+ch}{\PYGZsh{}![Step 1](./data/mudcreek/optical/screenshot.png)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+
+\subsection{sample exported analysis from Time\sphinxhyphen{}series}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:sample-exported-analysis-from-Time-series}}
+\noindent\sphinxincludegraphics[width=1308\sphinxpxdimen,height=450\sphinxpxdimen]{{2dprofile2}.png}
+
+\noindent\sphinxincludegraphics[width=1000\sphinxpxdimen,height=800\sphinxpxdimen]{{2dvelmap1}.png}
+
+\begin{sphinxuseclass}{nbinput}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[1]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+
+\PYG{n}{akhdefo\PYGZus{}functions}\PYG{o}{.}\PYG{n}{akhdefo\PYGZus{}dashApp}\PYG{p}{(}
+\PYG{n}{Path\PYGZus{}to\PYGZus{}Shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20161002\PYGZus{}20170516\PYGZus{}20170516\PYGZus{}2DVEL.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                  \PYG{n}{port}\PYG{o}{=}\PYG{l+m+mi}{8047}\PYG{p}{,} \PYG{n}{BaseMap}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{basemap\PYGZus{}type}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{image}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\begin{sphinxuseclass}{nblast}
+{
+
+\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
+\kern+\FrameHeightAdjust\kern-\fboxrule
+\vspace{\nbsphinxcodecellspacing}
+
+\sphinxsetup{VerbatimColor={named}{white}}
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+<IPython.lib.display.IFrame at 0x261a3e4bd90>
+\end{sphinxVerbatim}
+
+
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nblast}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+\PYG{n}{akhdefo\PYGZus{}dashApp}\PYG{p}{(}
+\PYG{n}{Path\PYGZus{}to\PYGZus{}Shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20180627\PYGZus{}20220926\PYGZus{}20220926\PYGZus{}N.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                  \PYG{n}{port}\PYG{o}{=}\PYG{l+m+mi}{8056}\PYG{p}{,} \PYG{n}{BaseMap}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{basemap\PYGZus{}type}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{image}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
 \end{sphinxVerbatim}
 }
 
@@ -4529,48 +4273,422 @@ users can download their analysis and the generated figures directly from the we
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+\PYG{n}{akhdefo\PYGZus{}dashApp}\PYG{p}{(}
+\PYG{n}{Path\PYGZus{}to\PYGZus{}Shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20180627\PYGZus{}20220926\PYGZus{}20220926\PYGZus{}E.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                  \PYG{n}{port}\PYG{o}{=}\PYG{l+m+mi}{8055}\PYG{p}{,} \PYG{n}{BaseMap}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{basemap\PYGZus{}type}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{image}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
 \end{sphinxVerbatim}
 }
 
 \end{sphinxuseclass}
 \end{sphinxuseclass}
+
+\subsection{Kriging Interpolation using Akhdefo workflow}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Kriging-Interpolation-using-Akhdefo-workflow}}
 \begin{sphinxuseclass}{nbinput}
 \begin{sphinxuseclass}{nblast}
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+\PYG{k+kn}{from} \PYG{n+nn}{akhdefo\PYGZus{}functions} \PYG{k+kn}{import} \PYG{n}{Auto\PYGZus{}Variogram}
+
+\PYG{n}{Auto\PYGZus{}Variogram}\PYG{p}{(}\PYG{n}{data}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20161002\PYGZus{}20170516\PYGZus{}20170516\PYGZus{}N.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{column\PYGZus{}attribute}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{VEL}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{out\PYGZus{}fileName}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{N}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{geo\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{plot\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{latlon}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{aoi\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{krig\PYGZus{}method}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{universal}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+
+\PYG{n}{Auto\PYGZus{}Variogram}\PYG{p}{(}\PYG{n}{data}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20161002\PYGZus{}20170516\PYGZus{}20170516\PYGZus{}E.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{column\PYGZus{}attribute}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{VEL}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{out\PYGZus{}fileName}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{E}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{geo\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{plot\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{latlon}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{aoi\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{,} \PYG{n}{krig\PYGZus{}method}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{universal}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+
+
+\PYG{n}{Auto\PYGZus{}Variogram}\PYG{p}{(}\PYG{n}{data}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20161002\PYGZus{}20170516\PYGZus{}20170516\PYGZus{}2DVEL.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{column\PYGZus{}attribute}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{VEL}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{out\PYGZus{}fileName}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{2DVEL}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{geo\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{plot\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{latlon}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{aoi\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{,} \PYG{n}{krig\PYGZus{}method}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{universal}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+
+
+
+\PYG{n}{Auto\PYGZus{}Variogram}\PYG{p}{(}\PYG{n}{data}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/geo/temp\PYGZus{}shapefile\PYGZus{}dir/updated\PYGZus{}shapefiles/20161002\PYGZus{}20170516\PYGZus{}20170516\PYGZus{}2DVEL.shp}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{column\PYGZus{}attribute}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{aspect}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{pixel\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{num\PYGZus{}chunks}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{out\PYGZus{}fileName}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{aspect}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{geo\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{plot\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products}\PYG{l+s+s1}{\PYGZsq{}}
+               \PYG{p}{,} \PYG{n}{smoothing\PYGZus{}kernel}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{latlon}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{aoi\PYGZus{}shapefile}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/AOI.shp}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{,} \PYG{n}{krig\PYGZus{}method}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{universal}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
 \end{sphinxVerbatim}
 }
 
 \end{sphinxuseclass}
 \end{sphinxuseclass}
+
+\subsection{Calculating Approximate Volume of bedrock from the displacement and digitial elevation model}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Calculating-Approximate-Volume-of-bedrock-from-the-displacement-and-digitial-elevation-model}}
+\sphinxAtStartPar
+In May 20th 2017, a catstrophic landslide occured in MudCreek, California USA. The Total removal of bedrock and materials measured from lidar and photogrammetry topography change detecion estimate about 5 million cubic yards equall to approximately 3 million cubic meters. In this example, we estimated landslide failure volume based on the time\sphinxhyphen{}series linear\sphinxhyphen{}annual velocity calulated approximately one year before landslide occur. \#\#\# Our method gave potential landslide volume two million and
+nine\sphinxhyphen{}handred seventy six thousand cubic meter which is very close to the actual landslide volume measured from lidar dem change detection. \#\#\# \#\#\#\# Reference for actual volume collapse estimation \#\#\#\#
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+All the datasets are avilable on github.
+
+\item {} 
+\sphinxAtStartPar
+For the current example, displacemnts dervied from 3 meter optical imagery and the pre collapse dem used 3 meter dem (originally 10m NED but resampled to match the source displacement measurments). it worthwhile to mention that the dem resolution has influnece in the accuracy of the volume estimation.
+
+\end{itemize}
+
 \begin{sphinxuseclass}{nbinput}
-\begin{sphinxuseclass}{nblast}
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+\llap{\color{nbsphinxin}[15]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+\PYG{n}{akhdefo\PYGZus{}functions}\PYG{o}{.}\PYG{n}{displacement\PYGZus{}to\PYGZus{}volume}\PYG{p}{(}\PYG{n}{dem\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/dem.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{aspect\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/aspect.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                         \PYG{n}{displacement\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/2DVEL.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                         \PYG{n}{slope\PYGZus{}output\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/slope.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                         \PYG{n}{height\PYGZus{}output\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/height.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{volume\PYGZus{}output\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/volume.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
 \end{sphinxVerbatim}
 }
 
 \end{sphinxuseclass}
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{nbinput}
+\begin{sphinxuseclass}{nboutput}
 \begin{sphinxuseclass}{nblast}
 {
+
+\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
+\kern+\FrameHeightAdjust\kern-\fboxrule
+\vspace{\nbsphinxcodecellspacing}
+
+\sphinxsetup{VerbatimColor={named}{white}}
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+
+
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+Total Volume: -2976346.0 cubic meter
 \end{sphinxVerbatim}
+
+
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
 }
 
 \end{sphinxuseclass}
 \end{sphinxuseclass}
+
+\subsection{Caluclating Plune and Trend and 3D Velocity of deformation}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Caluclating-Plune-and-Trend-and-3D-Velocity-of-deformation}}
 \begin{sphinxuseclass}{nbinput}
-\begin{sphinxuseclass}{nblast}
 {
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\llap{\color{nbsphinxin}[ ]:\,\hspace{\fboxrule}\hspace{\fboxsep}}
+\llap{\color{nbsphinxin}[2]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+
+\PYG{n}{akhdefo\PYGZus{}functions}\PYG{o}{.}\PYG{n}{Akhdefo\PYGZus{}inversion}\PYG{p}{(}\PYG{n}{horizontal\PYGZus{}InSAR}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/E.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                    \PYG{n}{Vertical\PYGZus{}InSAR}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/height.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{EW\PYGZus{}Akhdefo}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/E.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                    \PYG{n}{NS\PYGZus{}Akhdefo}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/N.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{dem\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/dem.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{output\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/inversion}\PYG{l+s+s1}{\PYGZsq{}}
+                                    \PYG{p}{)}
 \end{sphinxVerbatim}
 }
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+{
+
+\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
+\kern+\FrameHeightAdjust\kern-\fboxrule
+\vspace{\nbsphinxcodecellspacing}
+
+\sphinxsetup{VerbatimColor={named}{white}}
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+Trend in degree raw data:  -89.98021 0.66595054
+\end{sphinxVerbatim}
+
+
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+{
+
+\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
+\kern+\FrameHeightAdjust\kern-\fboxrule
+\vspace{\nbsphinxcodecellspacing}
+
+\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{stderr}
+
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+c:\textbackslash{}Users\textbackslash{}mahmud\textbackslash{}anaconda3\textbackslash{}envs\textbackslash{}akhdefov2\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}earthpy\textbackslash{}spatial.py:620: RuntimeWarning:
+
+invalid value encountered in sqrt
+
+\end{sphinxVerbatim}
+
+
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\hrule height -\fboxrule\relax
+\vspace{\nbsphinxcodecellspacing}
+
+\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
+
+\begin{nbsphinxfancyoutput}
+
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+\noindent\sphinxincludegraphics[width=953\sphinxpxdimen,height=668\sphinxpxdimen]{{notebooks_MudCreek_Landslide_optical_30_2}.png}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\end{nbsphinxfancyoutput}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+{
+
+\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
+\kern+\FrameHeightAdjust\kern-\fboxrule
+\vspace{\nbsphinxcodecellspacing}
+
+\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{stderr}
+
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+c:\textbackslash{}Users\textbackslash{}mahmud\textbackslash{}anaconda3\textbackslash{}envs\textbackslash{}akhdefov2\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}earthpy\textbackslash{}spatial.py:620: RuntimeWarning:
+
+invalid value encountered in sqrt
+
+\end{sphinxVerbatim}
+
+
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\hrule height -\fboxrule\relax
+\vspace{\nbsphinxcodecellspacing}
+
+\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
+
+\begin{nbsphinxfancyoutput}
+
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+\noindent\sphinxincludegraphics[width=961\sphinxpxdimen,height=668\sphinxpxdimen]{{notebooks_MudCreek_Landslide_optical_30_4}.png}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\end{nbsphinxfancyoutput}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+{
+
+\kern-\sphinxverbatimsmallskipamount\kern-\baselineskip
+\kern+\FrameHeightAdjust\kern-\fboxrule
+\vspace{\nbsphinxcodecellspacing}
+
+\sphinxsetup{VerbatimColor={named}{nbsphinx-stderr}}
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{stderr}
+
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+c:\textbackslash{}Users\textbackslash{}mahmud\textbackslash{}anaconda3\textbackslash{}envs\textbackslash{}akhdefov2\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}earthpy\textbackslash{}spatial.py:620: RuntimeWarning:
+
+invalid value encountered in sqrt
+
+\end{sphinxVerbatim}
+
+
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\begin{sphinxuseclass}{nblast}
+\hrule height -\fboxrule\relax
+\vspace{\nbsphinxcodecellspacing}
+
+\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
+
+\begin{nbsphinxfancyoutput}
+
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+\noindent\sphinxincludegraphics[width=958\sphinxpxdimen,height=668\sphinxpxdimen]{{notebooks_MudCreek_Landslide_optical_30_6}.png}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\end{nbsphinxfancyoutput}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+
+\subsection{Visualizing Products}
+\label{\detokenize{notebooks/MudCreek_Landslide_optical:Visualizing-Products}}\begin{itemize}
+\item {} \subsubsection*{Post failure Mudcreek orthophoto}
+
+\sphinxAtStartPar
+\sphinxincludegraphics[width=1532\sphinxpxdimen,height=1057\sphinxpxdimen]{{MudCreek27May2017}.jpg}
+
+\end{itemize}
+
+\noindent\sphinxincludegraphics[width=953\sphinxpxdimen,height=752\sphinxpxdimen]{{3DVEL_WithVectorMotion}.png}
+
+\begin{sphinxuseclass}{nbinput}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[2]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+\PYG{k+kn}{import} \PYG{n+nn}{cmocean}\PYG{n+nn}{.}\PYG{n+nn}{cm} \PYG{k}{as} \PYG{n+nn}{cmo}
+
+\PYG{n}{akhdefo\PYGZus{}functions}\PYG{o}{.}\PYG{n}{akhdefo\PYGZus{}viewer}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}dem\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/basemap.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{raster\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/2DVEL.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{output\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/Figs\PYGZus{}analysis/}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{title}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{2D Velocity with Vector Motion}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                   \PYG{n}{pixel\PYGZus{}resolution\PYGZus{}meters}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{output\PYGZus{}file\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{2DVEL\PYGZus{}WithVectorMotion.png}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                   \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.4}\PYG{p}{,} \PYG{n}{unit\PYGZus{}conversion}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{no\PYGZus{}data\PYGZus{}mask}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                   \PYG{n}{colormap}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{hot\PYGZus{}r}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{min\PYGZus{}value}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{max\PYGZus{}value}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
+                   \PYG{n}{normalize}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{colorbar\PYGZus{}label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{meter/year}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{show\PYGZus{}figure}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{aspect\PYGZus{}raster}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/aspect.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{cmap\PYGZus{}aspect}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{hsv}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{,} \PYG{n}{step}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\begin{sphinxuseclass}{nblast}
+\hrule height -\fboxrule\relax
+\vspace{\nbsphinxcodecellspacing}
+
+\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
+
+\begin{nbsphinxfancyoutput}
+
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+\noindent\sphinxincludegraphics[width=953\sphinxpxdimen,height=752\sphinxpxdimen]{{notebooks_MudCreek_Landslide_optical_33_0}.png}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\end{nbsphinxfancyoutput}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nbinput}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[6]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+\PYG{k+kn}{import} \PYG{n+nn}{cmocean}\PYG{n+nn}{.}\PYG{n+nn}{cm} \PYG{k}{as} \PYG{n+nn}{cmo}
+
+\PYG{n}{akhdefo\PYGZus{}functions}\PYG{o}{.}\PYG{n}{akhdefo\PYGZus{}viewer}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}dem\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/basemap.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{raster\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/inversion/D3D.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{output\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/Figs\PYGZus{}analysis/}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{title}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{3D Velocity with Vector Motion}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                   \PYG{n}{pixel\PYGZus{}resolution\PYGZus{}meters}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{output\PYGZus{}file\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{3DVEL\PYGZus{}WithVectorMotion.png}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                   \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.4}\PYG{p}{,} \PYG{n}{unit\PYGZus{}conversion}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{no\PYGZus{}data\PYGZus{}mask}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                   \PYG{n}{colormap}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{hot\PYGZus{}r}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{min\PYGZus{}value}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{max\PYGZus{}value}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
+                   \PYG{n}{normalize}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{colorbar\PYGZus{}label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{meter/year}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{show\PYGZus{}figure}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{aspect\PYGZus{}raster}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/aspect.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{cmap\PYGZus{}aspect}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{hsv}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{,} \PYG{n}{step}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\begin{sphinxuseclass}{nblast}
+\hrule height -\fboxrule\relax
+\vspace{\nbsphinxcodecellspacing}
+
+\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
+
+\begin{nbsphinxfancyoutput}
+
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+\noindent\sphinxincludegraphics[width=953\sphinxpxdimen,height=752\sphinxpxdimen]{{notebooks_MudCreek_Landslide_optical_34_0}.png}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\end{nbsphinxfancyoutput}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nbinput}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[3]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+\PYG{k+kn}{import} \PYG{n+nn}{cmocean}\PYG{n+nn}{.}\PYG{n+nn}{cm} \PYG{k}{as} \PYG{n+nn}{cmo}
+
+\PYG{n}{akhdefo\PYGZus{}functions}\PYG{o}{.}\PYG{n}{akhdefo\PYGZus{}viewer}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}dem\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/basemap.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{raster\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/height.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                 \PYG{n}{output\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/Figs\PYGZus{}analysis/}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{title}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{height\PYGZus{}change with Vector Motion}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                   \PYG{n}{pixel\PYGZus{}resolution\PYGZus{}meters}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{output\PYGZus{}file\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{height\PYGZus{}change\PYGZus{}WithVectorMotion.png}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                   \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.4}\PYG{p}{,} \PYG{n}{unit\PYGZus{}conversion}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{no\PYGZus{}data\PYGZus{}mask}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                   \PYG{n}{colormap}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bwr}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{min\PYGZus{}value}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{max\PYGZus{}value}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
+                   \PYG{n}{normalize}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{colorbar\PYGZus{}label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{meter}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{show\PYGZus{}figure}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{aspect\PYGZus{}raster}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/aspect.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{cmap\PYGZus{}aspect}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{hsv}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{,} \PYG{n}{step}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\begin{sphinxuseclass}{nblast}
+\hrule height -\fboxrule\relax
+\vspace{\nbsphinxcodecellspacing}
+
+\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
+
+\begin{nbsphinxfancyoutput}
+
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+\noindent\sphinxincludegraphics[width=965\sphinxpxdimen,height=758\sphinxpxdimen]{{notebooks_MudCreek_Landslide_optical_35_0}.png}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\end{nbsphinxfancyoutput}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nbinput}
+{
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\llap{\color{nbsphinxin}[4]:\,\hspace{\fboxrule}\hspace{\fboxsep}}\PYG{k+kn}{import} \PYG{n+nn}{akhdefo\PYGZus{}functions}
+\PYG{k+kn}{import} \PYG{n+nn}{cmocean}\PYG{n+nn}{.}\PYG{n+nn}{cm} \PYG{k}{as} \PYG{n+nn}{cmo}
+
+\PYG{n}{akhdefo\PYGZus{}functions}\PYG{o}{.}\PYG{n}{akhdefo\PYGZus{}viewer}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}dem\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/basemap.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{raster\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/volume.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                 \PYG{n}{output\PYGZus{}folder}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/Figs\PYGZus{}analysis/}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{title}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Volume\PYGZus{}change with Vector Motion}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                   \PYG{n}{pixel\PYGZus{}resolution\PYGZus{}meters}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{output\PYGZus{}file\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Volume\PYGZus{}change\PYGZus{}WithVectorMotion.png}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                   \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.4}\PYG{p}{,} \PYG{n}{unit\PYGZus{}conversion}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{no\PYGZus{}data\PYGZus{}mask}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                   \PYG{n}{colormap}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bwr}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{min\PYGZus{}value}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{max\PYGZus{}value}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
+                   \PYG{n}{normalize}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{colorbar\PYGZus{}label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{cubic meter}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{show\PYGZus{}figure}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{aspect\PYGZus{}raster}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data/mudcreek/optical/interpolated\PYGZus{}VEL\PYGZus{}products/aspect.tif}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{cmap\PYGZus{}aspect}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{hsv}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{,} \PYG{n}{step}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{)}
+\end{sphinxVerbatim}
+}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{nboutput}
+\begin{sphinxuseclass}{nblast}
+\hrule height -\fboxrule\relax
+\vspace{\nbsphinxcodecellspacing}
+
+\makeatletter\setbox\nbsphinxpromptbox\box\voidb@x\makeatother
+
+\begin{nbsphinxfancyoutput}
+
+\begin{sphinxuseclass}{output_area}
+\begin{sphinxuseclass}{}
+\noindent\sphinxincludegraphics[width=970\sphinxpxdimen,height=758\sphinxpxdimen]{{notebooks_MudCreek_Landslide_optical_36_0}.png}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\end{nbsphinxfancyoutput}
 
 \end{sphinxuseclass}
 \end{sphinxuseclass}
