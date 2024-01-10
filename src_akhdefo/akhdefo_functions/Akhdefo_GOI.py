@@ -480,9 +480,19 @@ def calculate_slopes_std_and_residuals(geodataframe):
     dates = pd.to_datetime([col for col in date_columns], format='D%Y%m%d')
     days_since_start = (dates - dates.min()).days
 
+
+    # Interpolate date_columns row-wise
+    for index, row in geodataframe.iterrows():
+        row[date_columns] = row[date_columns].interpolate(method='linear')
+        row[date_columns].fillna(method='ffill', inplace=True)
+        row[date_columns].fillna(method='bfill', inplace=True)
+        geodataframe.loc[index, date_columns] = row[date_columns]
+        
     # Iterate through each row in the GeoDataFrame
     for index, row in geodataframe.iterrows():
+        
         values = [row[col] for col in date_columns]
+        
 
         M_slopes.append(np.mean(values))
         M_std_devs.append(np.std(values))
@@ -513,7 +523,7 @@ def calculate_slopes_std_and_residuals(geodataframe):
 best_match_index=None
 def update_nodata_values(shapefile_path='', 
                          rasterfile_paths='',
-                         interpolate=True, VEL_Mode=None , VEL_scale=None , master_reference=True, Total_days=None):
+                         interpolate=True, VEL_Mode=None , VEL_scale=None , master_reference=True, Total_days=None , spatial_ref=False):
     
     global best_match_index
     # Load the shapefile
@@ -559,11 +569,19 @@ def update_nodata_values(shapefile_path='',
         gdf.loc[~all_nan, d_columns] = gdf.loc[~all_nan, d_columns].interpolate(
             method='linear', limit_direction='both', axis=1
         )
+        ######
+         # Check if there are still NaN values after interpolation
+        still_nan_after_interpolate = gdf[d_columns].isna().any(axis=1)
+
+        # Apply ffill (forward fill) and then bfill (backward fill) as fallbacks
+        gdf.loc[still_nan_after_interpolate, d_columns] = gdf.loc[still_nan_after_interpolate, d_columns].ffill(axis=1).bfill(axis=1)
+        
+        #####
 
     # Drop rows where all cells in d_columns are NaN
     gdf = gdf[~all_nan]
    
-    
+    gdf = gdf.dropna()
     # Check if master_reference is not None before proceeding with the code
     if master_reference is not None:
     
@@ -656,6 +674,8 @@ def update_nodata_values(shapefile_path='',
             VEL_STD=gdf[d_columns].std(axis=1)
             gdf['VEL']=VEL
             gdf['VEL_STD']=VEL_STD
+            
+        
         return gdf
 
     gdf=calculate_VEL(gdf, VEL_scale=VEL_scale, Total_days=Total_days)
@@ -732,8 +752,9 @@ def update_nodata_values(shapefile_path='',
         # Correct the velocity of each month based on the reference point
         if best_match_index is not None:
             
-            for col in gdf[d_columns]:
-                gdf[col] = gdf[col] - gdf[col].iloc[best_match_index]
+            if spatial_ref==True:
+                for col in gdf[d_columns]:
+                    gdf[col] = gdf[col] - gdf[col].iloc[best_match_index]
 
             # Extract x, y values of the reference point
             # ref_point = gdf.geometry.iloc[best_match_index]
@@ -993,7 +1014,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                           dem_path="", smoothing_kernel_size=11, Vegetation_mask=None, VEL_scale='year', VEL_Mode='linear',
                             good_match_option=0.75, hillshade_option=True, shapefile_output=False, max_triplet_interval=24,
                             pixel_size=20,num_chunks=10,overlap_percentage=0 , pyr_scale=0.5, levels=15, winsize=32,iterations= 7, poly_n=7,poly_sigma= 1.5, flags=1, 
-                            master_reference='single', selection_Mode='triplet' , start_date=None , end_date=None):
+                            master_reference='single', selection_Mode='triplet' , start_date=None , end_date=None , krig_method='ordinary', spatial_ref=False):
    
     """
     Performs feature matching and velocity/displacement calculations across a series of images.
@@ -1061,11 +1082,14 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
         usually, this option gives z more accurate flow than with a box filter, at the cost of lower speed; 
         normally, winsize for a Gaussian window should be set to a larger value to achieve the same level of robustness.
     
-    start_date : str (example 20210203)
+    start_date: str (example 20210203)
         The start date of the image series.
 
-    end_date : str (example 20210503)
-        The end date of the image series.   
+    end_date: str (example 20210503)
+        The end date of the image series. 
+        
+    krig_method: str 'ordinary' , 'simple' , 'universal'
+        selection of kriging interpolation method, the workflow is based on gstools library. default is 'ordinary'  
     
     Returns
     -------
@@ -2130,8 +2154,6 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
             north_z=flowy
             vel2D_z=vel
             
-            
-
             geodfs_x.append(gdfx)
             geodfs_y.append(gdfy)
             geodfs_v.append(gdfv)
@@ -2157,7 +2179,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 try:
                     Auto_Variogram(data=gdfx, column_attribute=z_data, latlon=False, aoi_shapefile=AOI, 
                                 pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, out_fileName=fname_rasters, 
-                                plot_folder=plot_folder_x,  smoothing_kernel=smoothing_kernel_size, geo_folder=X_folder)
+                                plot_folder=plot_folder_x,  smoothing_kernel=smoothing_kernel_size, geo_folder=X_folder, krig_method=krig_method)
                 except Exception as e:
                     print(f"Auto_Variogram failed with error: {e}")
                     save_xyz_as_geotiff(xi, yi, east_z, file_name_x, dem_path, AOI, interpolate='nearest')
@@ -2165,7 +2187,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 try:
                     Auto_Variogram(data=gdfy, column_attribute=z_data, latlon=False, aoi_shapefile=AOI,
                                 pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, out_fileName=fname_rasters, 
-                                plot_folder=plot_folder_Y, smoothing_kernel=smoothing_kernel_size, geo_folder=Y_folder)
+                                plot_folder=plot_folder_Y, smoothing_kernel=smoothing_kernel_size, geo_folder=Y_folder, krig_method=krig_method)
                 except Exception as e:
                     print(f"Auto_Variogram failed with error: {e}")
                     save_xyz_as_geotiff(xi, yi, north_z, file_name_y, dem_path, AOI, interpolate='nearest' )
@@ -2173,7 +2195,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 try:
                     Auto_Variogram(data=gdfv, column_attribute=z_data, latlon=False, aoi_shapefile=AOI, 
                                 pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, out_fileName=fname_rasters, 
-                                plot_folder=plot_folder_VEL, smoothing_kernel=smoothing_kernel_size, geo_folder=VEL_folder)
+                                plot_folder=plot_folder_VEL, smoothing_kernel=smoothing_kernel_size, geo_folder=VEL_folder, krig_method=krig_method)
                 except Exception as e:
                     print(f"Auto_Variogram failed with error: {e}")
                     save_xyz_as_geotiff(xi, yi, vel2D_z, file_name_vel, dem_path, AOI , interpolate='nearest')
@@ -2291,7 +2313,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
             # Wait for 10 seconds
             time.sleep(10)
             
-            
+            list_shp_paths=[]
             data_list=[shapefileName +'_2DVEL.shp', shapefileName +'_N.shp', shapefileName + '_E.shp' ]
             ######################################
             for i, k in enumerate(tqdm(data_list, desc="Processing: Update Shapefiles " )):
@@ -2300,8 +2322,9 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 print(f'processing {data_list[i]} started... ', "\n")
                 os.makedirs(cropped_dir, exist_ok=True)
                 
-                updated_geodf, update_shapefile_dir=update_nodata_values(shapefile_path=data_list[i], rasterfile_paths=cropped_dir,interpolate=False, VEL_Mode=VEL_Mode , VEL_scale=VEL_scale ,
-                                     master_reference=master_reference, Total_days=Total_days)
+                updated_geodf, update_shapefile_dir=update_nodata_values(shapefile_path=data_list[i], rasterfile_paths=cropped_dir,interpolate=True, VEL_Mode=VEL_Mode , VEL_scale=VEL_scale ,
+                                     master_reference=master_reference, Total_days=Total_days, spatial_ref=spatial_ref)
+                list_shp_paths.append(update_shapefile_dir)
                 
                 
                 # update_nodata_values(shapefile_path=data_list[i], rasterfile_paths=cropped_dir,interpolate=False, VEL_Mode=VEL_Mode , VEL_scale=VEL_scale ,
@@ -2340,6 +2363,37 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
         if xml_file_path is not None:
             plot_reference_point(xml_file_path, list_figs, figure_paths)
             
+            
+        print ("start calculating aspect...")
+        
+       
+        gdfe=gpd.read_file(list_shp_paths[2])
+        gdfn=gpd.read_file(list_shp_paths[1])
+        gdfv=gpd.read_file(list_shp_paths[0])
+        
+        
+        gdf_crs=gdfe.crs
+        
+        # Calculate aspect for gdf1
+        gdfe['aspect'] = np.degrees(np.arctan2(gdfn['VEL'], gdfe['VEL']))
+        
+        gdfe['aspect']=(450-gdfe['aspect']) % 360
+
+        # Calculate aspect for gdf2
+        gdfn['aspect'] = np.degrees(np.arctan2(gdfn['VEL'], gdfe['VEL']))
+        
+        gdfn['aspect']=(450-gdfn['aspect']) % 360        
+        # Calculate aspect for gdf2
+        gdfv['aspect'] = np.degrees(np.arctan2(gdfn['VEL'], gdfe['VEL']))
+        gdfv['aspect']=(450-gdfv['aspect']) % 360                                    
+        
+        gdfe.to_file(list_shp_paths[2], driver='ESRI Shapefile')
+        gdfn.to_file(list_shp_paths[1], driver='ESRI Shapefile')
+        gdfv.to_file(list_shp_paths[0], driver='ESRI Shapefile')
+        
+        
+        print ("calculating aspect completed")
+        
         #print(f'Dates: {dates_list}')
 
     #     data=[dates_list,pointx_list, pointsy_list, mean_flowx_list, mean_flowy_list,mean_vel_list ]

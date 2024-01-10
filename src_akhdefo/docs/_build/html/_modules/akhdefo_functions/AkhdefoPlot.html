@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.AkhdefoPlot &#8212; AkhDefo Software 2.2.6 documentation</title>
+    <title>akhdefo_functions.AkhdefoPlot &#8212; AkhDefo Software 2.2.61 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=ddecf0d5"></script>
+    <script src="../../_static/documentation_options.js?v=292206ef"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -99,7 +99,7 @@
                    <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="mf">3.125</span><span class="p">,</span> <span class="n">output_file_name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> 
                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
                    <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                   <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                   <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span> <span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overlays a raster file on a DEM hillshade and saves the plot as a PNG image.</span>
 
@@ -119,16 +119,30 @@
 <span class="sd">    normalize (bool, optional): If True, normalizes the raster values. Default is False.</span>
 <span class="sd">    colorbar_label (str, optional): Label for the colorbar. </span>
 <span class="sd">    show_figure (bool, optional): Whether to display the figure. Default is True.</span>
+<span class="sd">    aspect_raster (str, optional): whetehr to plot displacement vector. Dedulat is None </span>
+<span class="sd">    cmap_aspect (str, optional): colormap to sue for the vector arrows</span>
+<span class="sd">    step (int, optional): density of the aspect vector arraows. Defulat is 10 pixel unit draw 1 arrow</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
+        
         <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
-            <span class="n">dem</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">dem_transform</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span>
+            <span class="c1"># Number of bands</span>
+            <span class="n">band_count</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">count</span>
+                
+            <span class="k">if</span> <span class="n">band_count</span> <span class="o">&gt;</span><span class="mi">2</span><span class="p">:</span>
+                <span class="n">dem</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">dem_transform</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span>
+                <span class="n">hillshade</span><span class="o">=</span><span class="n">dem</span>
+                
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dem</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">dem_transform</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span>
             
-        <span class="n">hillshade</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">hillshade</span><span class="p">(</span><span class="n">dem</span><span class="p">)</span>
+                <span class="n">hillshade</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">hillshade</span><span class="p">(</span><span class="n">dem</span><span class="p">)</span>
+                
 
         <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">raster_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
             <span class="n">raster</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -151,7 +165,7 @@
             <span class="n">output_file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">raster_file</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span>
 
         <span class="n">_create_plot</span><span class="p">(</span><span class="n">hillshade</span><span class="p">,</span> <span class="n">raster</span><span class="p">,</span> <span class="n">dem_transform</span><span class="p">,</span> <span class="n">raster_transform</span><span class="p">,</span> <span class="n">raster_crs</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">colormap</span><span class="p">,</span> <span class="n">normalize</span><span class="p">,</span>
-                     <span class="n">title</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">output_file_name</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="p">,</span> <span class="n">pixel_resolution_meters</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">)</span>
+                     <span class="n">title</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">output_file_name</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="p">,</span> <span class="n">pixel_resolution_meters</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">,</span> <span class="n">aspect_raster</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">show_figure</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -195,21 +209,28 @@
 
 
 <span class="k">def</span> <span class="nf">_create_plot</span><span class="p">(</span><span class="n">hillshade</span><span class="p">,</span> <span class="n">raster</span><span class="p">,</span> <span class="n">dem_transform</span><span class="p">,</span> <span class="n">raster_transform</span><span class="p">,</span> <span class="n">raster_crs</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">colormap</span><span class="p">,</span> <span class="n">normalize</span><span class="p">,</span>
-                 <span class="n">title</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">output_file_name</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="p">,</span> <span class="n">pixel_resolution_meters</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">):</span>
+                 <span class="n">title</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">output_file_name</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="p">,</span> <span class="n">pixel_resolution_meters</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span> <span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates and saves a plot of hillshade and raster overlay.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+    
+    <span class="n">basemap_dimensions</span> <span class="o">=</span> <span class="n">hillshade</span><span class="o">.</span><span class="n">ndim</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 
     <span class="c1"># Plot the hillshade layer using dem_transform for its extent</span>
-    <span class="n">ep</span><span class="o">.</span><span class="n">plot_bands</span><span class="p">(</span>
-        <span class="n">hillshade</span><span class="p">,</span>
-        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-        <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span>
-        <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">extent</span><span class="o">=</span><span class="n">rasterio</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">plotting_extent</span><span class="p">(</span><span class="n">hillshade</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">dem_transform</span><span class="p">)</span>  <span class="c1"># ensure correct transform</span>
-    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">basemap_dimensions</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1">#ep.plot_rgb(hillshade, rgb=(0, 1, 2), str_clip=2, ax=ax, extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform))</span>
+        <span class="n">rasterio</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">hillshade</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">dem_transform</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rasterio</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">hillshade</span><span class="p">,</span><span class="n">extent</span><span class="o">=</span><span class="n">rasterio</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">plotting_extent</span><span class="p">(</span><span class="n">hillshade</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">dem_transform</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span> <span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+        <span class="c1"># ep.plot_bands(</span>
+        <span class="c1">#     hillshade,</span>
+        <span class="c1">#     ax=ax,</span>
+        <span class="c1">#     cmap=&#39;gray&#39;,</span>
+        <span class="c1">#     scale=False,</span>
+        <span class="c1">#     cbar=False,</span>
+        <span class="c1">#     extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform)  # ensure correct transform</span>
+        <span class="c1"># )</span>
 
     
     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
@@ -233,7 +254,46 @@
         <span class="n">img</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">raster</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">min_value</span> <span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">max_value</span><span class="p">,</span>
                     <span class="n">extent</span><span class="o">=</span><span class="n">rasterio</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">plotting_extent</span><span class="p">(</span><span class="n">raster</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">raster_transform</span><span class="p">))</span>  <span class="c1"># ensure correct transform</span>
         
-    
+    <span class="k">if</span> <span class="n">aspect_raster</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">aspect_to_uv</span><span class="p">(</span><span class="n">aspect</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Convert aspect data to U and V components for arrows.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">aspect_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">aspect</span><span class="p">)</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">aspect_rad</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">aspect_rad</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span>
+        <span class="c1"># Load the raster file</span>
+        <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">aspect_raster</span><span class="p">)</span> <span class="k">as</span> <span class="n">dataset</span><span class="p">:</span>
+            <span class="c1"># Read the aspect data</span>
+            <span class="n">aspect_data</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            
+            <span class="c1"># Get the geotransformation data</span>
+            <span class="n">transform</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">transform</span>
+
+            <span class="c1"># Get the shape of the data</span>
+            <span class="n">data_shape</span> <span class="o">=</span> <span class="n">aspect_data</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="c1"># Generate a grid of points every 10 pixels</span>
+        <span class="n">step</span><span class="o">=</span><span class="n">step</span>
+        <span class="n">x_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">data_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">step</span><span class="p">)</span>
+        <span class="n">y_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">data_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">step</span><span class="p">)</span>
+        <span class="n">x_grid</span><span class="p">,</span> <span class="n">y_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x_positions</span><span class="p">,</span> <span class="n">y_positions</span><span class="p">)</span>
+
+        <span class="c1"># Subset the aspect data to match the grid</span>
+        <span class="n">aspect_subset</span> <span class="o">=</span> <span class="n">aspect_data</span><span class="p">[</span><span class="n">y_positions</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">x_positions</span><span class="p">]</span>
+        <span class="n">u_subset</span><span class="p">,</span> <span class="n">v_subset</span> <span class="o">=</span> <span class="n">aspect_to_uv</span><span class="p">(</span><span class="n">aspect_subset</span><span class="p">)</span>
+
+        <span class="c1"># Convert grid positions to real world coordinates</span>
+        <span class="n">x_grid_world</span><span class="p">,</span> <span class="n">y_grid_world</span> <span class="o">=</span> <span class="n">transform</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">y_grid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cmap_aspect</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span>
+        <span class="n">quiver</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">x_grid_world</span><span class="p">,</span> <span class="n">y_grid_world</span><span class="p">,</span> <span class="n">u_subset</span><span class="p">,</span> <span class="n">v_subset</span><span class="p">,</span> <span class="n">aspect_subset</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_aspect</span> <span class="p">,</span> <span class="n">angles</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">)</span>
+        <span class="c1"># Adding a second colorbar in a horizontal position</span>
+        <span class="n">cbar_ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">])</span>  <span class="c1"># Position for the horizontal colorbar</span>
+        <span class="n">cbar2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">quiver</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax2</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span>  <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>  <span class="c1"># Using the ScalarMappable created earlier</span>
+        <span class="n">cbar2</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Aspect-Colorbar(degrees)&#39;</span><span class="p">)</span>
+            
 
     <span class="c1"># Add colorbar</span>
     <span class="k">if</span> <span class="n">colorbar_label</span><span class="p">:</span>
@@ -248,7 +308,7 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Easting&#39;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Northing&#39;</span><span class="p">)</span>
 
-    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
 
     <span class="c1"># Add scale bar</span>
@@ -256,7 +316,7 @@
         <span class="n">scalebar</span> <span class="o">=</span> <span class="n">AnchoredSizeBar</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pixel_resolution_meters</span><span class="si">}</span><span class="s1"> m&#39;</span><span class="p">,</span> <span class="s1">&#39;lower right&#39;</span><span class="p">,</span>
                                    <span class="n">pad</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">size_vertical</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">scalebar</span><span class="p">)</span>
-
+      
     <span class="c1"># Save the plot</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">output_file_name</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
 

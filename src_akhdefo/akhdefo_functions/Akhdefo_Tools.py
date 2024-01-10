@@ -2032,7 +2032,7 @@ def calculate_slope(dem, aspect, dx , dy):
     #slope_radians = slope_radians % (np.pi / 2)
 
     # Convert slope to degrees
-    slope_degrees = np.rad2deg(slope_radians)
+    slope_degrees = (np.rad2deg(slope_radians)) % 90 
     #slope_degrees= (135-slope_degrees)% 90 
     
    
@@ -2069,7 +2069,7 @@ def calculate_volume_change(height_change, pixel_area):
     numpy.ndarray: Array of volume changes.
     """
     volume_change = height_change * pixel_area
-    print (f'Total Volume: {np.nansum(volume_change)}')
+    print (f'Total Volume: {np.nansum(volume_change)} cubic meter')
     return volume_change
 
 def displacement_to_volume(dem_path="", aspect_path="", displacement_path="", slope_output_path="", height_output_path="", volume_output_path="", dx=None , dy=None , pixel_area=None):

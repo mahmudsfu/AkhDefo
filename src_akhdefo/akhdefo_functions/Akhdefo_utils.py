@@ -107,7 +107,7 @@ def Akhdefo_resample(input_raster="", output_raster="" , xres=3.125 , yres=3.125
         rs.write(array, indexes=1)
     plt.show()
 
-def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_Akhdefo="", demFile="", output_folder=r"" , dem_path=None):
+def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_Akhdefo="", output_folder=r"" , dem_path=None):
     """
     This program calculates 3D displacement velocity (East-West,North-South and vertical) using combined optical and InSAR products
    
@@ -126,7 +126,7 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
     NS_Akhdefo: str
         path to north-south velocity  akhdefo(optical) product in geotif format
 
-    demFile: str
+    dem_path: str
         path to DEM raster in geotif format
 
     output_folder : str
@@ -197,13 +197,18 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
     trend_degrees=(450 - trend_degrees ) % 360
     
     
-    if dem_path is not None:
-        zoom_factor_D3D = (north_data.shape[0] / D3D.shape[0], north_data.shape[1] / D3D.shape[1])
-        resized_D3D_data = zoom(D3D, zoom_factor_D3D, order=1)
+    # if dem_path is not None:
+    #     zoom_factor_D3D = (north_data.shape[0] / D3D.shape[0], north_data.shape[1] / D3D.shape[1])
+    #     resized_D3D_data = zoom(D3D, zoom_factor_D3D, order=1)
         
-        elevation_change = np.tan(plung_radians) * resized_D3D_data
-        # Example of combining with DEM (this part depends on what exactly you want to achieve)
-        modified_dem = elevation_change+elevation_change
+    #     #elevation_change = np.tan(plung_radians) * resized_D3D_data
+    #     # Example of combining with DEM (this part depends on what exactly you want to achieve)
+    #     # Create masks for NaNs
+    #     mask1 = np.isnan(resized_dem_data)
+    #     mask2 = np.isnan(resized_vertical_data)
+
+# Perform subtraction, treating NaNs as zeros
+        # modified_dem = np.where(mask1, 0, resized_dem_data) - np.where(mask2, 0, resized_vertical_data)
    
     meta=north_meta
     
@@ -263,10 +268,10 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
     with rio.open(plung, 'w', **meta) as dst:
             dst.write(plung_degree, indexes=1)
             
-    if dem_path is not None:
-        dempath=output_folder+ "/" + "modified_dem.tif"
-        with rio.open(dempath, 'w', **meta) as dst:
-            dst.write(modified_dem, indexes=1)
+    # if dem_path is not None:
+    #     dempath=output_folder+ "/" + "modified_dem.tif"
+    #     with rio.open(dempath, 'w', **meta) as dst:
+    #         dst.write(modified_dem, indexes=1)
         
 
 
@@ -279,19 +284,19 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
     # p3=akhdefo_viewer(Path_to_DEMFile=demFile, rasterfile=trend , colorbar_label="degress", title="Trend of Dispalcement Velocity", pixel_resolution_meter=3.125, outputfolder=output_folder,
     # outputfileName="trend.jpg", cmap=cmocean.cm.phase, alpha=0.8, noDATA_Mask=True, normalize=True)
     
-    akhdefo_viewer(path_to_dem_file=demFile, raster_file=_3D_vel, output_folder=output_folder, title='3D Velocity', 
+    akhdefo_viewer(path_to_dem_file=dem_path, raster_file=_3D_vel, output_folder=output_folder, title='3D Velocity', 
                    pixel_resolution_meters=None, output_file_name="3D_Disp.jpg", 
                    alpha=0.5, unit_conversion=None, no_data_mask=True, 
                    colormap=cmocean.cm.speed, min_value=None, max_value=None, 
                    normalize=True, colorbar_label=' ', show_figure=True)
     
-    akhdefo_viewer(path_to_dem_file=demFile, raster_file=plung, output_folder=output_folder, title='Plunge of Dispalcement Velocity', 
+    akhdefo_viewer(path_to_dem_file=dem_path, raster_file=plung, output_folder=output_folder, title='Plunge of Dispalcement Velocity', 
                    pixel_resolution_meters=None, output_file_name="plunge.jpg", 
                    alpha=0.5, unit_conversion=None, no_data_mask=True, 
                    colormap='hsv', min_value=None, max_value=None, 
                    normalize=True, colorbar_label='degrees', show_figure=True)
     
-    akhdefo_viewer(path_to_dem_file=demFile, raster_file=trend, output_folder=output_folder, title='Trend of Dispalcement Velocity', 
+    akhdefo_viewer(path_to_dem_file=dem_path, raster_file=trend, output_folder=output_folder, title='Trend of Dispalcement Velocity', 
                    pixel_resolution_meters=None, output_file_name="trend.jpg", 
                    alpha=0.5, unit_conversion=None, no_data_mask=True, 
                    colormap=cmocean.cm.phase, min_value=None, max_value=None, 
@@ -315,76 +320,85 @@ import os
 from akhdefo_functions import mask_raster
 
 def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="", pixel_size=20,num_chunks=10,overlap_percentage=0, out_fileName='interpolated_kriging', 
-                   plot_folder='kriging_plots', geo_folder='geo_rasterFolder', smoothing_kernel=2, mask: [np.ndarray] = None , UTM_Zone=None):
+                   plot_folder='kriging_plots', geo_folder='geo_rasterFolder', smoothing_kernel=2, mask: [np.ndarray] = None , UTM_Zone=None, krig_method='ordinary'):
     """
-    Automatically selects the best variogram model for interpolating datapoints and clips the results 
-    to a provided AOI shapefile. The function supports both direct GeoDataFrame input or file path 
-    (specifically .shp) as data input.
+    This function performs automatic selection of the optimal variogram model for spatial data interpolation. 
+    It also supports clipping of the interpolation results to a specified Area of Interest (AOI). The function 
+    accepts both GeoDataFrame objects and file paths (specifically, shapefile paths) as input data sources.
 
     Parameters
-    ------------
+    ----------
     data : str or gpd.GeoDataFrame, optional
-        Path to the shapefile containing point data or a GeoDataFrame directly.
-        If it's a shapefile, it must have x, y (or lat, lon if latlon=True) columns. 
-        Default is an empty string.
-        
+        The path to a shapefile containing point data, or a GeoDataFrame. For shapefiles, they must include 
+        'x', 'y' coordinates (or 'lat', 'lon' if latlon is set to True). Defaults to an empty string.
+
     column_attribute : str, optional
-        Name of the field in the shapefile or GeoDataFrame that contains the data to be interpolated.
-        
+        The name of the attribute within the shapefile or GeoDataFrame to be interpolated. 
+
     latlon : bool, optional
-        Specifies if the input data uses latitude and longitude instead of Cartesian coordinates. 
-        If True, the shapefile or GeoDataFrame must have 'lat' and 'lon' columns.
-        Default is False.
-        
+        Indicates whether the input data uses latitude and longitude (True) or Cartesian coordinates (False). 
+        Defaults to False.
+
     aoi_shapefile : str, optional
-        Path to a shapefile that defines the Area of Interest (AOI) for clipping the interpolation result. 
-        Default is an empty string.
-        
+        The path to a shapefile that defines the Area of Interest (AOI) for clipping the interpolation results. 
+        Defaults to an empty string.
+
     pixel_size : int, optional
-        Desired pixel size (resolution) for the interpolated grid. Default is 20.
-        
+        The resolution size for the interpolated grid. Defaults to 20.
+
+    num_chunks : int, optional
+        The number of chunks for processing to mitigate memory issues. Adjust as needed. Defaults to 10.
+
+    overlap_percentage : float, optional
+        The percentage of overlap between chunks, ranging from 0 to 1.0. Defaults to 0.
+
     out_fileName : str, optional
-        Name of the output GeoTIFF file where the interpolated results will be saved. 
-        The ".tif" extension will be appended to the provided name. Default is an empty string.
-    
-    pixel_size: int, optional deafult is 20
-        pixel resolution for the interpolated grid
-        
-    num_chunks: int, default is 10
-        this signifacntly helps to avoid memory issue when performing kriging interpolation, adjust the number of chuncks as you like
-    
-    overlap_percentage: float, default value is 0  zero percent
-        the accepted value range between 0 to 1.0
-    
-    UTM_Zone: str, "N" or "S"
-    
+        The name for the output GeoTIFF file storing the interpolation results. Defaults to 'interpolated_kriging'.
+
+    plot_folder : str, optional
+        Directory path to save plots. Defaults to 'kriging_plots'.
+
+    geo_folder : str, optional
+        Directory path for saving geospatial raster files. Defaults to 'geo_rasterFolder'.
+
+    smoothing_kernel : int, optional
+        The size of the smoothing kernel to be used. Defaults to 2.
+
+    mask : [np.ndarray], optional
+        A numpy array to be used as a mask for the interpolation.
+
+    UTM_Zone : str, optional
+        The UTM Zone designation ('N' for Northern Hemisphere or 'S' for Southern Hemisphere).
+
+    krig_method : str, optional
+        The method of kriging to be used, either 'ordinary' or 'universal'. Defaults to 'ordinary'.
+
     Returns
-    ---------
+    -------
     numpy.ndarray
-        A 2D grid containing interpolated values. This grid is clipped to the provided AOI if an 
-        AOI shapefile is specified.
+        A 2D grid of interpolated values, clipped to the specified AOI if an AOI shapefile is provided.
 
     Raises
-    --------
+    ------
     ValueError
-        If the input data is neither a valid path to a shapefile nor a GeoDataFrame.
-        If required columns (x, y or lat, lon) are missing in the input data.
+        If the input data is not a valid shapefile path or GeoDataFrame.
+        If essential columns (x, y or lat, lon) are missing in the input data.
 
     Notes
-    -------
-    The function visualizes two plots:
+    -----
+    The function generates two types of plots:
     1. Fitted variogram models against the experimental variogram.
-    2. Interpolated data using the best-fitting variogram model.
-    
+    2. The interpolation result using the selected variogram model.
+
     Dependencies
     ------------
-    This function relies on several libraries including geopandas, gstools, pykrige, matplotlib, and rasterio.
+    Requires geopandas, gstools, pykrige, matplotlib, and rasterio libraries.
     """
     
     if isinstance(data, str):
         if data[-4:] == '.shp':
             geodata = gpd.read_file(data)
-
+            
             geom=geodata['geometry']
             crs_ini=geodata.crs
            
@@ -394,6 +408,7 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     elif isinstance(data, gpd.GeoDataFrame):
         geodata = data
         
+        
     else:
         raise ValueError("Unsupported data type.")
     
@@ -402,16 +417,20 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     
     # Change the dtype of a specific column to float32
     geodata[column_attribute] = geodata[column_attribute].astype('float32')
+    # Now interpolate NaN values in the column
+    
     
     if latlon:
         # Convert CRS to EPSG:4326 (WGS84)
         geodata = geodata.to_crs(epsg=4326)
-        if geodata.crs is not None and geodata.crs.to_epsg() == 4326: 
-            x=geodata.geometry.x
-            y=geodata.geometry.y
+        # if geodata.crs is not None and geodata.crs.to_epsg() == 4326: 
+        x=geodata.geometry.x
+        y=geodata.geometry.y
         
-        else:
-            x, y = utm_to_latlon(easting=geodata.geometry.x, northing=geodata.geometry.y, zone_number=10, zone_letter=UTM_Zone)
+        # else:
+        #     x=geodata.geometry.x
+        #     y=geodata.geometry.y
+            # x, y = utm_to_latlon(easting=geodata.geometry.x, northing=geodata.geometry.y, zone_number=10, zone_letter=UTM_Zone)
     else:
         x, y = geodata.geometry.x, geodata.geometry.y
 
@@ -422,15 +441,24 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     y = y.astype(np.float32)
     z = geodata[column_attribute].astype(np.float32)
     
-    if geodata.crs is not None and geodata.crs.to_epsg() == 4326:
-        latlon=True
+    # if geodata.crs is not None and geodata.crs.to_epsg() == 4326:
+    #     latlon=True
     
-    try:
-        
-        bin_center, gamma = gs.vario_estimate((x, y), z, latlon=latlon)
-    except Exception as e:
-    # Catching any exception and handling it
-        print(f"Operation failed with error: {e}")
+    if latlon==True:
+        try:
+            #bins = gs.standard_bins(pos=(y, x), max_dist=10)
+            #bins, sampling_size=2000, sampling_seed=19920516 ,
+            bin_center, gamma = gs.vario_estimate((y, x), z,  latlon=latlon, geo_scale=gs.KM_SCALE)
+        except Exception as e:
+        # Catching any exception and handling it
+            print(f"Operation failed with error: {e}")
+    else:
+        try:
+            bins = gs.standard_bins(pos=(y, x), max_dist=10)
+            bin_center, gamma = gs.vario_estimate((x, y), z,  latlon=latlon)
+        except Exception as e:
+        # Catching any exception and handling it
+            print(f"Operation failed with error: {e}")
     
     # Load AOI shapefile if provided
     if aoi_shapefile:
@@ -463,44 +491,26 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
 
     best_model, best_score, best_fit = None, -10, None
     
-    # model_instances = {}
+    successful_model = None
 
-    # # First pass: Fit models and store them with their scores
-    # for model_name, Model in models.items():
-    #     try:
-    #         fit_model = Model(dim=2)
-    #         _, _, r2 = fit_model.fit_variogram(bin_center, gamma, return_r2=True)
-    #         model_instances[model_name] = (fit_model, r2)
-    #     except Exception as e:
-    #         print(f"Error with model {model_name}: {e}")
-
-    # # Sort models by R2 score in descending order
-    # sorted_models = sorted(model_instances.items(), key=lambda x: x[1][1], reverse=True)
-
-    # # Second pass: Try Auto_Variogram with sorted models
-    # for model_name, (fit_model, r2) in sorted_models:
-    #     try:
-    #         # Try using Auto_Variogram
-    #         auto_variogram_result = Auto_Variogram(fit_model)
-    #         # If successful, use this model
-    #         best_model = fit_model
-    #         print(f"Successfully used model {model_name}")
-    #         break  # Exit the loop as we found a working model
-    #     except Exception as e:  # Catching a more generic exception
-    #         #print(f"Error with model {model_name}: {e}")
-    #         continue  # Continue to the next model in the sorted list
     
     for model_name, Model in models.items():
         try:
           
-            fit_model = Model(dim=2, latlon=latlon)
+            if latlon==True:
+                fit_model = Model(latlon=latlon, geo_scale=gs.KM_SCALE)
+                
+            else:
+                fit_model = Model(dim=2, latlon=latlon)
                 #Model(dim=2, len_scale=4, anis=0.2, angles=-0.5, var=0.5, nugget=0.1)
                 
                 #if fit_model is not None:
             _, _, r2 = fit_model.fit_variogram(bin_center, gamma, return_r2=True,  nugget=True)
+            scores[model_name] = {"model": fit_model, "score": r2}
             
-            
-            scores[model_name] = r2
+            # scores[model_name] = model_name
+            # scores['score'] = r2
+            # scores['best_fit']=fit_model
             
             if r2 > best_score:
                 best_score = r2
@@ -519,17 +529,95 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     if best_fit is None:
         best_fit="spherical"
     
-    def get_zgrid(x, y, z, best_fit, gridy):
-       
-        range_x = x.max() - x.min()
+    # Sort scores based on score
+    sorted_scores = sorted(scores.items(), key=lambda x: x[1]['score'], reverse=True)
+    def get_zgrid(x, y, z, best_fit , gridy, krig_method):
+        
+        z = z[~np.isnan(z)]
+        x = x[~np.isnan(z)]
+        y = y[~np.isnan(z)]
+
+        
+        from pykrige.uk import UniversalKriging
+        range_x =np.nanmax(x) - np.nanmin(x)
         num_points_x = int(range_x / pixel_size) + 1
-        gridx = np.linspace(x.min(), x.max(), num_points_x)
+        gridx = np.linspace(np.nanmin(x), np.nanmax(x), num_points_x)
         gridx = gridx.astype(np.float32)
-        OK = OrdinaryKriging(x, y, z, best_fit, weight=True)
-        z_grid, _ = OK.execute("grid", gridx, gridy)
+        
+        
+      
+        
+    
+        
+        if krig_method=='ordinary':
+            
+            # OK = OrdinaryKriging(x, y, z, best_fit, weight=False, verbose=False, enable_plotting=False , exact_values=True, pseudo_inv=True)
+            # z_grid, _ = OK.execute("grid", gridx, gridy)
+            
+            OK = gs.krige.Ordinary(model=best_fit, cond_pos=(y, x), cond_val=z , normalizer=None, trend=None, exact=False, cond_err='nugget', 
+                                 pseudo_inv=True, pseudo_inv_type='pinvh', fit_normalizer=False, fit_variogram=True)
+            OK.set_pos((gridy, gridx), mesh_type="structured")
+            OK(return_var=True, store="vel")
+            OK(only_mean=True, store="mean_vel")
+            z_grid=OK["vel"]
+            
+    
+        elif krig_method=='simple':
+            SK = gs.krige.Simple(model=best_fit, cond_pos=(y, x), cond_val=z, mean=np.nanmean(z), normalizer=None, trend=None, exact=False, cond_err='nugget', 
+                                 pseudo_inv=True, pseudo_inv_type='pinvh', fit_normalizer=False, fit_variogram=True)
+            SK.set_pos((gridy, gridx), mesh_type="structured")
+            SK(return_var=True, store="vel")
+            SK(only_mean=True, store="mean_vel")
+            z_grid=SK["vel"]
+            
+          
+        
+        elif krig_method=='universal':   
+            # UK = UniversalKriging(x, y, z, variogram_model=best_fit, exact_values=True, pseudo_inv=True, drift_terms=["regional_linear"])
+            # z_grid, _ = UK.execute("grid", gridx, gridy) 
+            # drift_terms=["regional_linear"]
+            
+            uk = gs.krige.Universal(model=best_fit, cond_pos=(y, x), cond_val=z, normalizer=None , trend=None, exact=False, cond_err='nugget', 
+                                 pseudo_inv=True, pseudo_inv_type='pinvh', fit_normalizer=False, fit_variogram=True, drift_functions='linear')
+            uk.set_pos((gridy, gridx), mesh_type="structured")
+            uk(return_var=True, store="vel")
+            uk(only_mean=True, store="mean_vel")
+            z_grid=uk["vel"]
+        
+        
+        
+        
+        from skimage import exposure
+        z_min = np.nanmin(z)
+        z_max = np.nanmax(z)
+        
+        # # Ensure interpolated values do not exceed original z data range
+        
+        #if np.nanmax(z_grid) > z_max or np.nanmin(z_grid) < z_min:
+            # z_mean = np.nanmean(z_grid)
+            # z_grid[np.where(z_grid > z_max)] = z_mean
+            # z_grid[np.where(z_grid < z_min)] = z_mean
+        z_grid = exposure.rescale_intensity(z_grid, in_range=(np.nanmin(z_grid), np.nanmax(z_grid)), out_range=(z_min, z_max))
+            
         
             
+            
+        # z_grid[np.where(z_grid < z_min)] = z_mean
+        # z_grid[np.where(z_grid > z_max)] = z_mean
+
+        
+       
+        # normalizers = [
+        #     gs.normalizer.BoxCox,
+        #     gs.normalizer.YeoJohnson,
+        #     gs.normalizer.Modulus,
+        #     gs.normalizer.Manly,
+        # ]
+        
+    
+        
         return z_grid, gridx
+        
 
     # Get global y grid before splitting
     range_y_global = y.max() - y.min()
@@ -588,11 +676,35 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
         y_chunk = y[(x >= start) & (x <= end)]
         z_chunk = z[(x >= start) & (x <= end)]
 
-        z_grid_chunk, gridx_chunk = get_zgrid(x_chunk, y_chunk, z_chunk, best_fit, gridy_global)
-        z_grids.append(z_grid_chunk)
-        gridxs.append(gridx_chunk)
+        #z_grid_chunk, gridx_chunk = get_zgrid(x_chunk, y_chunk, z_chunk, best_fit, gridy_global)
         
-    
+        # Try using the best model, then next best if it fails, and so on
+        for model_name, model_info in sorted_scores:
+            try:
+                z_grid_chunk, gridx_chunk = get_zgrid(x_chunk, y_chunk, z_chunk, model_info['model'], gridy_global, krig_method=krig_method)
+                z_grids.append(z_grid_chunk)
+                gridxs.append(gridx_chunk)
+                successful_model = model_name
+                # Use z_grid and gridx as needed
+                break
+            except Exception as e:
+                print(f"Error with model {model_name}: {e}")
+                continue
+    print(f"kriging succeed with Model: {model_name} and score: {model_info['score']}")
+        
+        
+        # z_grids.append(z_grid_chunk)
+        # gridxs.append(gridx_chunk)
+        
+        # Update the label of the successful model
+    if successful_model:
+        for line in ax1.get_lines():
+            if line.get_label() == successful_model:
+                line.set_label(f"{successful_model} (Success)")
+                break
+
+    ax1.legend()
+    ax1.set_title(f'Variogram Models with successful model:{successful_model}')
     
     if overlap > 0:
         # Blend the chunks together.
@@ -621,8 +733,7 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     # Apply gaussian filter to the smooth edge artifcats
     if smoothing_kernel is not None:
         z_grid = gaussian(z_grid, sigma=smoothing_kernel)
-    
-    
+   
     def create_norm(data):
         """
         Create a normalization instance based on the data.
@@ -657,7 +768,7 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
 
     norm = create_norm(z_grid)
     plt.colorbar(ax2.imshow(z_grid, cmap='rainbow', extent=extent, norm=norm), ax=ax2)
-    ax2.set_title(f'Interpolation Using {best_model} Variogram Model')
+    ax2.set_title(f'Interpolation Using {successful_model} Variogram Model')
 
     
 

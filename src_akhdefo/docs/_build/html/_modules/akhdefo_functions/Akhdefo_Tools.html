@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.Akhdefo_Tools &#8212; AkhDefo Software 2.2.6 documentation</title>
+    <title>akhdefo_functions.Akhdefo_Tools &#8212; AkhDefo Software 2.2.61 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=ddecf0d5"></script>
+    <script src="../../_static/documentation_options.js?v=292206ef"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -2084,7 +2084,7 @@
 <span class="sd">    numpy.ndarray: Array of slope values in degrees.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-    <span class="n">grad_y</span><span class="p">,</span> <span class="n">grad_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+    <span class="c1"># grad_y, grad_x = np.gradient(dem, dx, dy)</span>
     
     
     <span class="c1"># Assuming &#39;dem&#39; and &#39;aspect&#39; are your existing numpy arrays</span>
@@ -2095,20 +2095,33 @@
     <span class="c1"># else:</span>
     <span class="c1">#     aspect = aspect</span>
 
-    <span class="n">grad_y</span><span class="p">,</span> <span class="n">grad_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
+    <span class="n">grad_y</span><span class="p">,</span> <span class="n">grad_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">grad_x</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">grad_y</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Gradient arrays have mismatched shapes.&quot;</span><span class="p">)</span>
     
     <span class="n">aspect_radians</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">aspect</span><span class="p">)</span>
     <span class="n">directional_grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">aspect_radians</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad_x</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">aspect_radians</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad_y</span>
-    <span class="n">slope_degrees</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">directional_grad</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">slope_degrees</span></div>
+    <span class="c1">#slope_degrees = np.rad2deg(np.arctan(directional_grad))</span>
+   
+    <span class="c1"># Calculate slope in radians</span>
+    <span class="n">slope_radians</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">directional_grad</span><span class="p">)</span>
+
+    <span class="c1"># Ensure slope is within 0 to π/2 radians (0 to 90 degrees) range</span>
+    <span class="c1">#slope_radians = slope_radians % (np.pi / 2)</span>
+
+    <span class="c1"># Convert slope to degrees</span>
+    <span class="n">slope_degrees</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">slope_radians</span><span class="p">))</span> <span class="o">%</span> <span class="mi">90</span> 
+    <span class="c1">#slope_degrees= (135-slope_degrees)% 90 </span>
+    
+   
+    
+    <span class="k">return</span> <span class="n">slope_degrees</span><span class="p">,</span> <span class="n">directional_grad</span></div>
 
 
 <div class="viewcode-block" id="calculate_height_change">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.calculate_height_change">[docs]</a>
-<span class="k">def</span> <span class="nf">calculate_height_change</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">calculate_height_change</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">dem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the height change using the slope and distance for each pixel.</span>
 
@@ -2141,7 +2154,7 @@
 <span class="sd">    numpy.ndarray: Array of volume changes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">volume_change</span> <span class="o">=</span> <span class="n">height_change</span> <span class="o">*</span> <span class="n">pixel_area</span>
-    <span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Total Volume: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">volume_change</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Total Volume: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">volume_change</span><span class="p">)</span><span class="si">}</span><span class="s1"> cubic meter&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">volume_change</span></div>
 
 
@@ -2173,7 +2186,7 @@
         <span class="n">aspect</span> <span class="o">=</span> <span class="n">aspect_raster</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>  <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">displacement</span> <span class="o">=</span> <span class="n">displacement_raster</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>  <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         
-        <span class="n">x_resolution</span><span class="p">,</span> <span class="n">y_resolution</span> <span class="o">=</span> <span class="n">aspect_raster</span><span class="o">.</span><span class="n">res</span>
+        <span class="n">x_resolution</span><span class="p">,</span> <span class="n">y_resolution</span> <span class="o">=</span> <span class="n">displacement_raster</span><span class="o">.</span><span class="n">res</span>
         
         <span class="k">if</span> <span class="n">dx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">dx</span><span class="o">=</span><span class="n">x_resolution</span>
@@ -2199,9 +2212,10 @@
         <span class="c1"># aspect = np.resize(aspect, dem.shape)</span>
         <span class="c1"># displacement = np.resize(displacement, dem.shape)</span>
         
-        <span class="n">slope</span> <span class="o">=</span> <span class="n">calculate_slope</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">aspect</span><span class="p">,</span> <span class="n">dx</span> <span class="p">,</span> <span class="n">dy</span> <span class="p">)</span>
-        <span class="n">height_change</span>  <span class="o">=</span> <span class="n">calculate_height_change</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">displacement</span><span class="p">)</span>
+        <span class="n">slope</span><span class="p">,</span> <span class="n">directional_grad</span> <span class="o">=</span> <span class="n">calculate_slope</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">aspect</span><span class="p">,</span> <span class="n">dx</span> <span class="p">,</span> <span class="n">dy</span> <span class="p">)</span>
+        <span class="n">height_change</span>  <span class="o">=</span> <span class="n">calculate_height_change</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">directional_grad</span><span class="p">,</span> <span class="n">dem</span><span class="p">)</span>
         <span class="n">volume_change</span> <span class="o">=</span> <span class="n">calculate_volume_change</span><span class="p">(</span><span class="n">height_change</span><span class="p">,</span> <span class="n">pixel_area</span><span class="p">)</span>
+       
 
         <span class="c1"># Define a function to export data to a GeoTIFF</span>
         <span class="k">def</span> <span class="nf">export_to_geotiff</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">reference_raster</span><span class="p">):</span>
@@ -2222,6 +2236,7 @@
         <span class="n">export_to_geotiff</span><span class="p">(</span><span class="n">height_change</span><span class="p">,</span> <span class="n">height_output_path</span><span class="p">,</span> <span class="n">dem_raster</span><span class="p">)</span>
         <span class="n">export_to_geotiff</span><span class="p">(</span><span class="n">volume_change</span><span class="p">,</span> <span class="n">volume_output_path</span><span class="p">,</span> <span class="n">dem_raster</span><span class="p">)</span></div>
 
+       
 
 
 
@@ -2287,7 +2302,8 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the aspect from EW and NS displacement data.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">invalid</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">):</span>
             <span class="n">aspect</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">ew_data</span><span class="p">,</span> <span class="n">ns_data</span><span class="p">)</span>
-            <span class="n">aspect_deg</span> <span class="o">=</span> <span class="p">(</span><span class="mi">450</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">aspect</span><span class="p">))</span> <span class="o">%</span> <span class="mi">360</span>
+            <span class="n">aspect_deg</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">aspect</span><span class="p">)</span>
+            <span class="n">aspect_deg</span> <span class="o">=</span> <span class="p">(</span><span class="mi">450</span> <span class="o">-</span><span class="n">aspect_deg</span> <span class="p">)</span> <span class="o">%</span> <span class="mi">360</span>
         <span class="k">return</span> <span class="n">aspect_deg</span>
 
     <span class="k">def</span> <span class="nf">save_raster</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">geo_transform</span><span class="p">,</span> <span class="n">reference_dataset</span><span class="p">):</span>

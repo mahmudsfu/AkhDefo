@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.Akhdefo_GOI &#8212; AkhDefo Software 2.2.6 documentation</title>
+    <title>akhdefo_functions.Akhdefo_GOI &#8212; AkhDefo Software 2.2.61 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=ddecf0d5"></script>
+    <script src="../../_static/documentation_options.js?v=292206ef"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -535,9 +535,19 @@
     <span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">([</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">date_columns</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;D%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">days_since_start</span> <span class="o">=</span> <span class="p">(</span><span class="n">dates</span> <span class="o">-</span> <span class="n">dates</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">.</span><span class="n">days</span>
 
+
+    <span class="c1"># Interpolate date_columns row-wise</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">geodataframe</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">row</span><span class="p">[</span><span class="n">date_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">date_columns</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+        <span class="n">row</span><span class="p">[</span><span class="n">date_columns</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ffill&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">row</span><span class="p">[</span><span class="n">date_columns</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;bfill&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">geodataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="n">date_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">date_columns</span><span class="p">]</span>
+        
     <span class="c1"># Iterate through each row in the GeoDataFrame</span>
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">geodataframe</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        
         <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">date_columns</span><span class="p">]</span>
+        
 
         <span class="n">M_slopes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
         <span class="n">M_std_devs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
@@ -571,7 +581,7 @@
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_GOI.update_nodata_values">[docs]</a>
 <span class="k">def</span> <span class="nf">update_nodata_values</span><span class="p">(</span><span class="n">shapefile_path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
                          <span class="n">rasterfile_paths</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-                         <span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">VEL_Mode</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">VEL_scale</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">master_reference</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">Total_days</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                         <span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">VEL_Mode</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">VEL_scale</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">master_reference</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">Total_days</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">spatial_ref</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     
     <span class="k">global</span> <span class="n">best_match_index</span>
     <span class="c1"># Load the shapefile</span>
@@ -617,11 +627,19 @@
         <span class="n">gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">all_nan</span><span class="p">,</span> <span class="n">d_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">all_nan</span><span class="p">,</span> <span class="n">d_columns</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">limit_direction</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
         <span class="p">)</span>
+        <span class="c1">######</span>
+         <span class="c1"># Check if there are still NaN values after interpolation</span>
+        <span class="n">still_nan_after_interpolate</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">d_columns</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Apply ffill (forward fill) and then bfill (backward fill) as fallbacks</span>
+        <span class="n">gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">still_nan_after_interpolate</span><span class="p">,</span> <span class="n">d_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">still_nan_after_interpolate</span><span class="p">,</span> <span class="n">d_columns</span><span class="p">]</span><span class="o">.</span><span class="n">ffill</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">bfill</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="c1">#####</span>
 
     <span class="c1"># Drop rows where all cells in d_columns are NaN</span>
     <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="o">~</span><span class="n">all_nan</span><span class="p">]</span>
    
-    
+    <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
     <span class="c1"># Check if master_reference is not None before proceeding with the code</span>
     <span class="k">if</span> <span class="n">master_reference</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
     
@@ -714,6 +732,8 @@
             <span class="n">VEL_STD</span><span class="o">=</span><span class="n">gdf</span><span class="p">[</span><span class="n">d_columns</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;VEL&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">VEL</span>
             <span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;VEL_STD&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">VEL_STD</span>
+            
+        
         <span class="k">return</span> <span class="n">gdf</span>
 
     <span class="n">gdf</span><span class="o">=</span><span class="n">calculate_VEL</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">VEL_scale</span><span class="o">=</span><span class="n">VEL_scale</span><span class="p">,</span> <span class="n">Total_days</span><span class="o">=</span><span class="n">Total_days</span><span class="p">)</span>
@@ -790,8 +810,9 @@
         <span class="c1"># Correct the velocity of each month based on the reference point</span>
         <span class="k">if</span> <span class="n">best_match_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">gdf</span><span class="p">[</span><span class="n">d_columns</span><span class="p">]:</span>
-                <span class="n">gdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">-</span> <span class="n">gdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">best_match_index</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">spatial_ref</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">gdf</span><span class="p">[</span><span class="n">d_columns</span><span class="p">]:</span>
+                    <span class="n">gdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">-</span> <span class="n">gdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">best_match_index</span><span class="p">]</span>
 
             <span class="c1"># Extract x, y values of the reference point</span>
             <span class="c1"># ref_point = gdf.geometry.iloc[best_match_index]</span>
@@ -1066,7 +1087,7 @@
                           <span class="n">dem_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">smoothing_kernel_size</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">Vegetation_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">VEL_scale</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">VEL_Mode</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span>
                             <span class="n">good_match_option</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">hillshade_option</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shapefile_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_triplet_interval</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span>
                             <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">overlap_percentage</span><span class="o">=</span><span class="mi">0</span> <span class="p">,</span> <span class="n">pyr_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">poly_n</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span><span class="n">poly_sigma</span><span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
-                            <span class="n">master_reference</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span> <span class="n">selection_Mode</span><span class="o">=</span><span class="s1">&#39;triplet&#39;</span> <span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                            <span class="n">master_reference</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span> <span class="n">selection_Mode</span><span class="o">=</span><span class="s1">&#39;triplet&#39;</span> <span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;ordinary&#39;</span><span class="p">,</span> <span class="n">spatial_ref</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">   </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Performs feature matching and velocity/displacement calculations across a series of images.</span>
@@ -1134,11 +1155,14 @@
 <span class="sd">        usually, this option gives z more accurate flow than with a box filter, at the cost of lower speed; </span>
 <span class="sd">        normally, winsize for a Gaussian window should be set to a larger value to achieve the same level of robustness.</span>
 <span class="sd">    </span>
-<span class="sd">    start_date : str (example 20210203)</span>
+<span class="sd">    start_date: str (example 20210203)</span>
 <span class="sd">        The start date of the image series.</span>
 
-<span class="sd">    end_date : str (example 20210503)</span>
-<span class="sd">        The end date of the image series.   </span>
+<span class="sd">    end_date: str (example 20210503)</span>
+<span class="sd">        The end date of the image series. </span>
+<span class="sd">        </span>
+<span class="sd">    krig_method: str &#39;ordinary&#39; , &#39;simple&#39; , &#39;universal&#39;</span>
+<span class="sd">        selection of kriging interpolation method, the workflow is based on gstools library. default is &#39;ordinary&#39;  </span>
 <span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1203,7 +1227,7 @@
         <span class="k">return</span> <span class="n">ssim_map</span>
 
 
-    <span class="k">def</span> <span class="nf">match_features</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">descriptor1</span><span class="p">,</span> <span class="n">descriptor2</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">good_match_option</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">match_features</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">descriptor1</span><span class="p">,</span> <span class="n">descriptor2</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="n">zscore_threshold</span><span class="p">,</span> <span class="n">good_match_option</span><span class="o">=</span><span class="n">good_match_option</span><span class="p">):</span>
         <span class="n">good_matches</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Initialize an empty list for good_matches</span>
     
         <span class="n">bf</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">BFMatcher</span><span class="p">()</span>
@@ -2203,8 +2227,6 @@
             <span class="n">north_z</span><span class="o">=</span><span class="n">flowy</span>
             <span class="n">vel2D_z</span><span class="o">=</span><span class="n">vel</span>
             
-            
-
             <span class="n">geodfs_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gdfx</span><span class="p">)</span>
             <span class="n">geodfs_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gdfy</span><span class="p">)</span>
             <span class="n">geodfs_v</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gdfv</span><span class="p">)</span>
@@ -2230,7 +2252,7 @@
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">gdfx</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="n">z_data</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="n">AOI</span><span class="p">,</span> 
                                 <span class="n">pixel_size</span><span class="o">=</span><span class="n">pixel_size</span><span class="p">,</span><span class="n">num_chunks</span><span class="o">=</span><span class="n">num_chunks</span><span class="p">,</span><span class="n">overlap_percentage</span><span class="o">=</span><span class="n">overlap_percentage</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="n">fname_rasters</span><span class="p">,</span> 
-                                <span class="n">plot_folder</span><span class="o">=</span><span class="n">plot_folder_x</span><span class="p">,</span>  <span class="n">smoothing_kernel</span><span class="o">=</span><span class="n">smoothing_kernel_size</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="n">X_folder</span><span class="p">)</span>
+                                <span class="n">plot_folder</span><span class="o">=</span><span class="n">plot_folder_x</span><span class="p">,</span>  <span class="n">smoothing_kernel</span><span class="o">=</span><span class="n">smoothing_kernel_size</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="n">X_folder</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="n">krig_method</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Auto_Variogram failed with error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">save_xyz_as_geotiff</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="n">east_z</span><span class="p">,</span> <span class="n">file_name_x</span><span class="p">,</span> <span class="n">dem_path</span><span class="p">,</span> <span class="n">AOI</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
@@ -2238,7 +2260,7 @@
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">gdfy</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="n">z_data</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="n">AOI</span><span class="p">,</span>
                                 <span class="n">pixel_size</span><span class="o">=</span><span class="n">pixel_size</span><span class="p">,</span><span class="n">num_chunks</span><span class="o">=</span><span class="n">num_chunks</span><span class="p">,</span><span class="n">overlap_percentage</span><span class="o">=</span><span class="n">overlap_percentage</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="n">fname_rasters</span><span class="p">,</span> 
-                                <span class="n">plot_folder</span><span class="o">=</span><span class="n">plot_folder_Y</span><span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="n">smoothing_kernel_size</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="n">Y_folder</span><span class="p">)</span>
+                                <span class="n">plot_folder</span><span class="o">=</span><span class="n">plot_folder_Y</span><span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="n">smoothing_kernel_size</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="n">Y_folder</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="n">krig_method</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Auto_Variogram failed with error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">save_xyz_as_geotiff</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="n">north_z</span><span class="p">,</span> <span class="n">file_name_y</span><span class="p">,</span> <span class="n">dem_path</span><span class="p">,</span> <span class="n">AOI</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span> <span class="p">)</span>
@@ -2246,7 +2268,7 @@
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">gdfv</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="n">z_data</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="n">AOI</span><span class="p">,</span> 
                                 <span class="n">pixel_size</span><span class="o">=</span><span class="n">pixel_size</span><span class="p">,</span><span class="n">num_chunks</span><span class="o">=</span><span class="n">num_chunks</span><span class="p">,</span><span class="n">overlap_percentage</span><span class="o">=</span><span class="n">overlap_percentage</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="n">fname_rasters</span><span class="p">,</span> 
-                                <span class="n">plot_folder</span><span class="o">=</span><span class="n">plot_folder_VEL</span><span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="n">smoothing_kernel_size</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="n">VEL_folder</span><span class="p">)</span>
+                                <span class="n">plot_folder</span><span class="o">=</span><span class="n">plot_folder_VEL</span><span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="n">smoothing_kernel_size</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="n">VEL_folder</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="n">krig_method</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Auto_Variogram failed with error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">save_xyz_as_geotiff</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="n">vel2D_z</span><span class="p">,</span> <span class="n">file_name_vel</span><span class="p">,</span> <span class="n">dem_path</span><span class="p">,</span> <span class="n">AOI</span> <span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
@@ -2364,7 +2386,7 @@
             <span class="c1"># Wait for 10 seconds</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
             
-            
+            <span class="n">list_shp_paths</span><span class="o">=</span><span class="p">[]</span>
             <span class="n">data_list</span><span class="o">=</span><span class="p">[</span><span class="n">shapefileName</span> <span class="o">+</span><span class="s1">&#39;_2DVEL.shp&#39;</span><span class="p">,</span> <span class="n">shapefileName</span> <span class="o">+</span><span class="s1">&#39;_N.shp&#39;</span><span class="p">,</span> <span class="n">shapefileName</span> <span class="o">+</span> <span class="s1">&#39;_E.shp&#39;</span> <span class="p">]</span>
             <span class="c1">######################################</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="n">data_list</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Processing: Update Shapefiles &quot;</span> <span class="p">)):</span>
@@ -2373,8 +2395,9 @@
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;processing </span><span class="si">{</span><span class="n">data_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s1"> started... &#39;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cropped_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 
-                <span class="n">updated_geodf</span><span class="p">,</span> <span class="n">update_shapefile_dir</span><span class="o">=</span><span class="n">update_nodata_values</span><span class="p">(</span><span class="n">shapefile_path</span><span class="o">=</span><span class="n">data_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rasterfile_paths</span><span class="o">=</span><span class="n">cropped_dir</span><span class="p">,</span><span class="n">interpolate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">VEL_Mode</span><span class="o">=</span><span class="n">VEL_Mode</span> <span class="p">,</span> <span class="n">VEL_scale</span><span class="o">=</span><span class="n">VEL_scale</span> <span class="p">,</span>
-                                     <span class="n">master_reference</span><span class="o">=</span><span class="n">master_reference</span><span class="p">,</span> <span class="n">Total_days</span><span class="o">=</span><span class="n">Total_days</span><span class="p">)</span>
+                <span class="n">updated_geodf</span><span class="p">,</span> <span class="n">update_shapefile_dir</span><span class="o">=</span><span class="n">update_nodata_values</span><span class="p">(</span><span class="n">shapefile_path</span><span class="o">=</span><span class="n">data_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rasterfile_paths</span><span class="o">=</span><span class="n">cropped_dir</span><span class="p">,</span><span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">VEL_Mode</span><span class="o">=</span><span class="n">VEL_Mode</span> <span class="p">,</span> <span class="n">VEL_scale</span><span class="o">=</span><span class="n">VEL_scale</span> <span class="p">,</span>
+                                     <span class="n">master_reference</span><span class="o">=</span><span class="n">master_reference</span><span class="p">,</span> <span class="n">Total_days</span><span class="o">=</span><span class="n">Total_days</span><span class="p">,</span> <span class="n">spatial_ref</span><span class="o">=</span><span class="n">spatial_ref</span><span class="p">)</span>
+                <span class="n">list_shp_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">update_shapefile_dir</span><span class="p">)</span>
                 
                 
                 <span class="c1"># update_nodata_values(shapefile_path=data_list[i], rasterfile_paths=cropped_dir,interpolate=False, VEL_Mode=VEL_Mode , VEL_scale=VEL_scale ,</span>
@@ -2413,6 +2436,37 @@
         <span class="k">if</span> <span class="n">xml_file_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">plot_reference_point</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">list_figs</span><span class="p">,</span> <span class="n">figure_paths</span><span class="p">)</span>
             
+            
+        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;start calculating aspect...&quot;</span><span class="p">)</span>
+        
+       
+        <span class="n">gdfe</span><span class="o">=</span><span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">list_shp_paths</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">gdfn</span><span class="o">=</span><span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">list_shp_paths</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">gdfv</span><span class="o">=</span><span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">list_shp_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        
+        
+        <span class="n">gdf_crs</span><span class="o">=</span><span class="n">gdfe</span><span class="o">.</span><span class="n">crs</span>
+        
+        <span class="c1"># Calculate aspect for gdf1</span>
+        <span class="n">gdfe</span><span class="p">[</span><span class="s1">&#39;aspect&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">gdfn</span><span class="p">[</span><span class="s1">&#39;VEL&#39;</span><span class="p">],</span> <span class="n">gdfe</span><span class="p">[</span><span class="s1">&#39;VEL&#39;</span><span class="p">]))</span>
+        
+        <span class="n">gdfe</span><span class="p">[</span><span class="s1">&#39;aspect&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="mi">450</span><span class="o">-</span><span class="n">gdfe</span><span class="p">[</span><span class="s1">&#39;aspect&#39;</span><span class="p">])</span> <span class="o">%</span> <span class="mi">360</span>
+
+        <span class="c1"># Calculate aspect for gdf2</span>
+        <span class="n">gdfn</span><span class="p">[</span><span class="s1">&#39;aspect&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">gdfn</span><span class="p">[</span><span class="s1">&#39;VEL&#39;</span><span class="p">],</span> <span class="n">gdfe</span><span class="p">[</span><span class="s1">&#39;VEL&#39;</span><span class="p">]))</span>
+        
+        <span class="n">gdfn</span><span class="p">[</span><span class="s1">&#39;aspect&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="mi">450</span><span class="o">-</span><span class="n">gdfn</span><span class="p">[</span><span class="s1">&#39;aspect&#39;</span><span class="p">])</span> <span class="o">%</span> <span class="mi">360</span>        
+        <span class="c1"># Calculate aspect for gdf2</span>
+        <span class="n">gdfv</span><span class="p">[</span><span class="s1">&#39;aspect&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">gdfn</span><span class="p">[</span><span class="s1">&#39;VEL&#39;</span><span class="p">],</span> <span class="n">gdfe</span><span class="p">[</span><span class="s1">&#39;VEL&#39;</span><span class="p">]))</span>
+        <span class="n">gdfv</span><span class="p">[</span><span class="s1">&#39;aspect&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="mi">450</span><span class="o">-</span><span class="n">gdfv</span><span class="p">[</span><span class="s1">&#39;aspect&#39;</span><span class="p">])</span> <span class="o">%</span> <span class="mi">360</span>                                    
+        
+        <span class="n">gdfe</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">list_shp_paths</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;ESRI Shapefile&#39;</span><span class="p">)</span>
+        <span class="n">gdfn</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">list_shp_paths</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;ESRI Shapefile&#39;</span><span class="p">)</span>
+        <span class="n">gdfv</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">list_shp_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;ESRI Shapefile&#39;</span><span class="p">)</span>
+        
+        
+        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;calculating aspect completed&quot;</span><span class="p">)</span>
+        
         <span class="c1">#print(f&#39;Dates: {dates_list}&#39;)</span>
 
     <span class="c1">#     data=[dates_list,pointx_list, pointsy_list, mean_flowx_list, mean_flowy_list,mean_vel_list ]</span>

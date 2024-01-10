@@ -59,7 +59,7 @@ def akhdefo_viewer(path_to_dem_file, raster_file, output_folder, title='',
                    pixel_resolution_meters=3.125, output_file_name="", 
                    alpha=0.5, unit_conversion=None, no_data_mask=False, 
                    colormap='jet', min_value=None, max_value=None, 
-                   normalize=False, colorbar_label=None, show_figure=True):
+                   normalize=False, colorbar_label=None, show_figure=True , aspect_raster=None, cmap_aspect=None, step=10):
     """
     Overlays a raster file on a DEM hillshade and saves the plot as a PNG image.
 
@@ -79,16 +79,30 @@ def akhdefo_viewer(path_to_dem_file, raster_file, output_folder, title='',
     normalize (bool, optional): If True, normalizes the raster values. Default is False.
     colorbar_label (str, optional): Label for the colorbar. 
     show_figure (bool, optional): Whether to display the figure. Default is True.
+    aspect_raster (str, optional): whetehr to plot displacement vector. Dedulat is None 
+    cmap_aspect (str, optional): colormap to sue for the vector arrows
+    step (int, optional): density of the aspect vector arraows. Defulat is 10 pixel unit draw 1 arrow
 
     Returns:
     None
     """
     try:
+        
         with rasterio.open(path_to_dem_file) as src:
-            dem = src.read(1, masked=True)
-            dem_transform = src.transform
+            # Number of bands
+            band_count = src.count
+                
+            if band_count >2:
+                dem = src.read(masked=True)
+                dem_transform = src.transform
+                hillshade=dem
+                
+            else:
+                dem = src.read(1, masked=True)
+                dem_transform = src.transform
             
-        hillshade = es.hillshade(dem)
+                hillshade = es.hillshade(dem)
+                
 
         with rasterio.open(raster_file) as src:
             raster = src.read(1, masked=True)
@@ -111,7 +125,7 @@ def akhdefo_viewer(path_to_dem_file, raster_file, output_folder, title='',
             output_file_name = os.path.splitext(os.path.basename(raster_file))[0] + ".png"
 
         _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs, alpha, colormap, normalize,
-                     title, output_folder, output_file_name, colorbar_label, pixel_resolution_meters, min_value, max_value)
+                     title, output_folder, output_file_name, colorbar_label, pixel_resolution_meters, min_value, max_value, aspect_raster, cmap_aspect, step)
 
         if show_figure:
             plt.show()
@@ -154,21 +168,28 @@ def _normalize_raster(raster, min_value, max_value):
 
 
 def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs, alpha, colormap, normalize,
-                 title, output_folder, output_file_name, colorbar_label, pixel_resolution_meters, min_value, max_value):
+                 title, output_folder, output_file_name, colorbar_label, pixel_resolution_meters, min_value, max_value , aspect_raster=None, cmap_aspect=None, step=10):
     """
     Creates and saves a plot of hillshade and raster overlay.
     """
-    fig, ax = plt.subplots(figsize=(7, 7))
+    
+    basemap_dimensions = hillshade.ndim
+    fig, ax = plt.subplots(figsize=(10, 10))
 
     # Plot the hillshade layer using dem_transform for its extent
-    ep.plot_bands(
-        hillshade,
-        ax=ax,
-        cmap='gray',
-        scale=False,
-        cbar=False,
-        extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform)  # ensure correct transform
-    )
+    if basemap_dimensions > 2:
+        #ep.plot_rgb(hillshade, rgb=(0, 1, 2), str_clip=2, ax=ax, extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform))
+        rasterio.plot.show(hillshade, transform=dem_transform, ax=ax)
+    else:
+        rasterio.plot.show(hillshade,extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform), ax=ax , cmap='gray')
+        # ep.plot_bands(
+        #     hillshade,
+        #     ax=ax,
+        #     cmap='gray',
+        #     scale=False,
+        #     cbar=False,
+        #     extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform)  # ensure correct transform
+        # )
 
     
     if normalize:
@@ -192,7 +213,46 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
         img = ax.imshow(raster, alpha=alpha, cmap=colormap, vmin=min_value , vmax=max_value,
                     extent=rasterio.plot.plotting_extent(raster, transform=raster_transform))  # ensure correct transform
         
-    
+    if aspect_raster is not None:
+        def aspect_to_uv(aspect):
+            """
+            Convert aspect data to U and V components for arrows.
+            """
+            aspect_rad = np.deg2rad(aspect)
+            u = np.sin(aspect_rad)
+            v = np.cos(aspect_rad)
+            return u, v
+        # Load the raster file
+        with rasterio.open(aspect_raster) as dataset:
+            # Read the aspect data
+            aspect_data = dataset.read(1)
+            
+            # Get the geotransformation data
+            transform = dataset.transform
+
+            # Get the shape of the data
+            data_shape = aspect_data.shape
+
+        # Generate a grid of points every 10 pixels
+        step=step
+        x_positions = np.arange(0, data_shape[1], step)
+        y_positions = np.arange(0, data_shape[0], step)
+        x_grid, y_grid = np.meshgrid(x_positions, y_positions)
+
+        # Subset the aspect data to match the grid
+        aspect_subset = aspect_data[y_positions[:, None], x_positions]
+        u_subset, v_subset = aspect_to_uv(aspect_subset)
+
+        # Convert grid positions to real world coordinates
+        x_grid_world, y_grid_world = transform * (x_grid, y_grid)
+        if cmap_aspect is None:
+            cmap_aspect='hsv'
+        quiver = ax.quiver(x_grid_world, y_grid_world, u_subset, v_subset, aspect_subset, scale=20, cmap=cmap_aspect , angles='xy')
+        # Adding a second colorbar in a horizontal position
+        cbar_ax2 = fig.add_axes([0.25, 0.04, 0.5, 0.02])  # Position for the horizontal colorbar
+        cbar2 = fig.colorbar(quiver, cax=cbar_ax2, orientation='horizontal',  extend='both')  # Using the ScalarMappable created earlier
+        cbar2.set_label('Aspect-Colorbar(degrees)')
+            
 
     # Add colorbar
     if colorbar_label:
@@ -207,7 +267,7 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
         ax.set_xlabel('Easting')
         ax.set_ylabel('Northing')
 
-    ax.grid(True, which='major')
+    ax.grid(True, which='both')
     ax.set_title(title)
 
     # Add scale bar
@@ -215,7 +275,7 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
         scalebar = AnchoredSizeBar(ax.transData, 100, f'{100 * pixel_resolution_meters} m', 'lower right',
                                    pad=0.6, color='black', frameon=True, size_vertical=1)
         ax.add_artist(scalebar)
-
+      
     # Save the plot
     plt.savefig(os.path.join(output_folder, output_file_name), dpi=100, bbox_inches='tight')
 

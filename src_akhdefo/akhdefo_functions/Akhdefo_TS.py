@@ -749,9 +749,9 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
                         
                         
                     scatter_fig.update_traces(marker_colorbar_ticks='outside', selector=dict(type='scattermapbox'))
-                        # scatter_fig.update_traces(selected_marker_size=15, selector=dict(type='scattermapbox'))
-                        #scatter_fig.update_traces(selected_marker_opacity=1, selector=dict(type='scattermapbox'))
-                    scatter_fig.update_traces(unselected_marker_opacity=0.1, selector=dict(type='scattermapbox'))
+                    scatter_fig.update_traces(selected_marker_size=15, selector=dict(type='scattermapbox'))
+                    #scatter_fig.update_traces(selected_marker_opacity=0.2, selector=dict(type='scattermapbox'))
+                    scatter_fig.update_traces(unselected_marker_opacity=0.3, selector=dict(type='scattermapbox'))
                     # scatter_fig.update_traces(marker_cauto=False, selector=dict(type='scattermapbox'))
                     # scatter_fig.update_traces(marker_cmax=vel_max, selector=dict(type='scattermapbox'))
                     # scatter_fig.update_traces(marker_cmin=vel_min, selector=dict(type='scattermapbox'))
@@ -799,13 +799,23 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
         
         # Fit a linear regression model manually
         x_values = np.array([(d - df_avg['Date'].min()).days for d in filtered_df['Date']])
+        
+        # x_values=start_date+pd.to_timedelta(x_values, unit='D')
+        
         y_values = filtered_df['Average'].values
         
         slope, intercept= polyfit(x_values, y_values, 1)
         
+        #############################################
+       
+        
+        ################################################3
+        
         
         # Calculate the standard deviation of the regression errors
         std_dev = np.std(y_values)
+     
+        
         
         # Calculate annual change based on the slope
         # Convert slope from per day to per year (assuming 365.25 days per year to account for leap years)
@@ -817,7 +827,7 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
                 x='Date',
                 y='Average',
                 title=plot_title,
-                trendline=trendline
+                trendline=trendline , trendline_scope="overall", trendline_color_override="green"
             )
         elif plot_type == 'line':
             fig = px.line(
@@ -832,7 +842,7 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
                 x='Date',
                 y='Average',
                 title=plot_title,
-                trendline=trendline
+                trendline=trendline, trendline_scope="overall", trendline_color_override="green"
             )
             fig.add_traces(px.line(
                 filtered_df,
@@ -846,9 +856,9 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
         fig.update_yaxes(title=yaxis_label)
         fig.update_xaxes(title=xaxis_label)
         # If trendline_option is set to 'ols', adjust the color
-        if trendline_option == 'ols':
-            # Assume the last trace added is the trendline
-            fig.data[-1].line.color = 'red'
+        # if trendline_option == 'ols':
+        #     # Assume the last trace added is the trendline
+        #     fig.data[-1].line.color = 'blue'
 
         if len(filtered_df) > 1:
             cumulative_change = filtered_df['Average'].iloc[-1] - filtered_df['Average'].iloc[0]
@@ -904,7 +914,7 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
                 yanchor="top"
             )
             
-            
+          
 
         return fig
     
