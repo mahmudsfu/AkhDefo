@@ -1255,6 +1255,7 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
             
             if len(dnames)>10:
                 print("akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures. \n Please see figures inside provided out_folder path")
+                plt.close()
             else:
                 
                 plt.show()
