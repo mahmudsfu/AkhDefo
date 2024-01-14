@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Morenney Rock Glacier Radar Imagery Example &#8212; AkhDefo Software 2.2.61 documentation</title>
+    <title>Morenney Rock Glacier Radar Imagery Example &#8212; AkhDefo Software 2.2.62 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../_static/flask.css?v=b87c8d14" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
-    <script src="../_static/documentation_options.js?v=292206ef"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <script src="../_static/documentation_options.js?v=1eda8c85"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -270,7 +270,7 @@ users, example screenshots are provided below as a guide to navigate through the
 <section id="Visualize-Displacement-Products">
 <h2>Visualize Displacement Products<a class="headerlink" href="#Visualize-Displacement-Products" title="Link to this heading">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -292,7 +292,7 @@ users, example screenshots are provided below as a guide to navigate through the
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Visualize Mean Velocity East-West</span>
@@ -386,6 +386,358 @@ users can download their analysis and the generated figures directly from the we
 </div>
 </div>
 </section>
+<section id="Plot-Mean-Land-Surface-Temperature-for-months-July-and-August-2017-to-2021">
+<h2>Plot Mean Land Surface Temperature for months July and August 2017 to 2021<a class="headerlink" href="#Plot-Mean-Land-Surface-Temperature-for-months-July-and-August-2017-to-2021" title="Link to this heading">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">ee</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>  <span class="c1"># For enhanced plot styling</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">linregress</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="n">directory_path</span> <span class="o">=</span> <span class="s1">&#39;./data/morenny/LST/&#39;</span>
+<span class="n">basemap_path</span> <span class="o">=</span> <span class="s1">&#39;./data/morenny/basemap.tif&#39;</span>
+
+<span class="c1"># Read the projection from the basemap</span>
+<span class="n">basemap_ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">basemap_path</span><span class="p">)</span>
+<span class="n">basemap_proj</span> <span class="o">=</span> <span class="n">basemap_ds</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">()</span>
+
+<span class="c1"># List all files in the specified path</span>
+<span class="n">entries</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">directory_path</span><span class="p">)</span>
+
+<span class="n">mean_values</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">filenames</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">dates</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">date_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\d</span><span class="si">{4}</span><span class="s1">\d</span><span class="si">{2}</span><span class="s1">\d</span><span class="si">{2}</span><span class="s1">&#39;</span>  <span class="c1"># Adjust this pattern based on your filename date format</span>
+
+<span class="k">def</span> <span class="nf">extract_year_from_string</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="c1"># Regular expression pattern to find a four-digit year</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\d</span><span class="si">{4}</span><span class="s1">&#39;</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+        <span class="c1"># Return the matched year</span>
+        <span class="k">return</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="c1"># Test the function</span>
+
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">:</span>
+    <span class="n">full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">full_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.tif&#39;</span><span class="p">):</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">full_path</span><span class="p">)</span>
+
+        <span class="c1"># Create a temporary file for the reprojected raster</span>
+        <span class="n">temp_outputname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(),</span> <span class="sa">f</span><span class="s1">&#39;reprojected_</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Reproject the raster to match the basemap&#39;s projection</span>
+        <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">destNameOrDestDS</span><span class="o">=</span><span class="n">temp_outputname</span><span class="p">,</span>
+                  <span class="n">srcDSOrSrcDSTab</span><span class="o">=</span><span class="n">full_path</span><span class="p">,</span>
+                  <span class="n">dstSRS</span><span class="o">=</span><span class="n">basemap_proj</span><span class="p">)</span>
+
+        <span class="c1">####################</span>
+         <span class="c1"># Open the reprojected raster and calculate its mean</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">temp_outputname</span><span class="p">)</span>
+        <span class="n">band</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+        <span class="n">mean_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># Exclude no-data values</span>
+        <span class="n">filenames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">date_pattern</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+        <span class="n">year</span><span class="o">=</span><span class="n">extract_year_from_string</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="n">mean_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean_value</span><span class="p">)</span>
+        <span class="n">dates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+
+        <span class="c1">#################</span>
+
+        <span class="c1"># Call your custom function with the necessary parameters</span>
+        <span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span>
+            <span class="n">path_to_dem_file</span><span class="o">=</span><span class="s1">&#39;./data/morenny/basemap.tif&#39;</span><span class="p">,</span>
+            <span class="n">raster_file</span><span class="o">=</span><span class="n">temp_outputname</span><span class="p">,</span>
+            <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/Figs_analysis/&#39;</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
+            <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">output_file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+            <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;spring_r&#39;</span><span class="p">,</span>
+            <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;meter/year&#39;</span><span class="p">,</span>
+            <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">aspect_raster</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder/aspect.tif&#39;</span><span class="p">,</span>
+            <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span><span class="p">,</span>
+            <span class="n">step</span><span class="o">=</span><span class="mi">5</span>
+        <span class="p">)</span>
+
+        <span class="n">ds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">band</span><span class="o">=</span><span class="kc">None</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">temp_outputname</span><span class="p">)</span>
+         <span class="c1"># Find date in the filename</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_26_0.png" src="../_images/notebooks_RockGlacier_radar_26_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_26_1.png" src="../_images/notebooks_RockGlacier_radar_26_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_26_2.png" src="../_images/notebooks_RockGlacier_radar_26_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_26_3.png" src="../_images/notebooks_RockGlacier_radar_26_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_26_4.png" src="../_images/notebooks_RockGlacier_radar_26_4.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_26_5.png" src="../_images/notebooks_RockGlacier_radar_26_5.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ee</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>  <span class="c1"># For enhanced plot styling</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">linregress</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+
+
+<span class="c1"># Initialize the Earth Engine module.</span>
+<span class="n">ee</span><span class="o">.</span><span class="n">Initialize</span><span class="p">()</span>
+
+<span class="c1"># Define your area of interest (AOI) using latitude and longitude</span>
+<span class="n">lat</span> <span class="o">=</span> <span class="mf">42.99</span>
+<span class="n">lon</span> <span class="o">=</span> <span class="mf">76.99</span>
+<span class="n">point</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">([</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">])</span>
+
+<span class="c1"># Define a 5km by 5km square around the point</span>
+<span class="c1">#square = point.buffer(500).bounds()  # Buffer by 4000 meters (4 km) and get bounds</span>
+<span class="n">square</span><span class="o">=</span><span class="n">ee</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">BBox</span><span class="p">(</span><span class="mf">76.9868751901</span><span class="p">,</span> <span class="mf">42.9914296961</span><span class="p">,</span> <span class="mf">77.0048813882</span><span class="p">,</span> <span class="mf">43.0093232151</span><span class="p">)</span>
+
+
+
+<span class="c1"># Cloud mask function</span>
+<span class="k">def</span> <span class="nf">maskL8sr</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+    <span class="n">cloudShadowBitMask</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span>
+    <span class="n">cloudsBitMask</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span>
+    <span class="n">qa</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;pixel_qa&#39;</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">qa</span><span class="o">.</span><span class="n">bitwiseAnd</span><span class="p">(</span><span class="n">cloudShadowBitMask</span><span class="p">)</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">And</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">bitwiseAnd</span><span class="p">(</span><span class="n">cloudsBitMask</span><span class="p">)</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">col</span><span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+
+<span class="c1"># Load and process the Landsat 8 Image Collection</span>
+<span class="n">col</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s1">&#39;LANDSAT/LC08/C01/T1_SR&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">maskL8sr</span><span class="p">)</span><span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2024-10-01&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="n">square</span><span class="p">)</span>
+
+<span class="c1"># Function to calculate LST for each image in the collection</span>
+<span class="k">def</span> <span class="nf">calculateLST</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="n">ndvi</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">normalizedDifference</span><span class="p">([</span><span class="s1">&#39;B5&#39;</span><span class="p">,</span> <span class="s1">&#39;B4&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;NDVI&#39;</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="mf">0.004</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="mf">0.986</span><span class="p">)</span>
+    <span class="n">LST</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">expression</span><span class="p">(</span><span class="s1">&#39;(Tb/(1 + (0.00115 * (Tb / 1.438)) * log(Ep)))-273.15&#39;</span><span class="p">,</span> <span class="p">{</span>
+      <span class="s1">&#39;Tb&#39;</span><span class="p">:</span> <span class="n">image</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;B10&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span>
+      <span class="s1">&#39;Ep&#39;</span><span class="p">:</span> <span class="n">ndvi</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="p">})</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;LST&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="n">LST</span><span class="p">)</span>
+
+<span class="c1"># Add LST band to each image in the collection</span>
+<span class="n">lstCol</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">calculateLST</span><span class="p">)</span>
+
+<span class="c1"># Function to add a &#39;year&#39; property to each image</span>
+<span class="k">def</span> <span class="nf">addYear</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;system:time_start&#39;</span><span class="p">))</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">toInt</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span>
+
+<span class="c1"># Apply the addYear function to each image in the collection</span>
+<span class="n">lstCol</span> <span class="o">=</span> <span class="n">lstCol</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">addYear</span><span class="p">)</span>
+
+<span class="c1"># Filter for July and August</span>
+<span class="n">julAugCol</span> <span class="o">=</span> <span class="n">lstCol</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="o">.</span><span class="n">calendarRange</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">))</span>
+<span class="n">julAugCol</span><span class="o">=</span><span class="n">lstCol</span>
+
+
+<span class="c1"># Calculate the mean LST for each year</span>
+<span class="n">yearlyMean</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="o">.</span><span class="n">fromImages</span><span class="p">(</span>
+  <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span> <span class="mi">2023</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">year</span><span class="p">:</span>
+    <span class="n">julAugCol</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">year</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span>
+  <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Function to extract data</span>
+<span class="k">def</span> <span class="nf">extract_data</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="n">mean_dict</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">reduceRegion</span><span class="p">(</span><span class="n">reducer</span><span class="o">=</span><span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">geometry</span><span class="o">=</span><span class="n">square</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">mean_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;LST&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># Use get method with a default value of None</span>
+
+<span class="c1"># Extract the mean LST for each year and convert to a Pandas DataFrame</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">years</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span> <span class="mi">2021</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">yearlyMean</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">year</span><span class="p">))</span><span class="o">.</span><span class="n">first</span><span class="p">())</span>
+    <span class="n">lst_value</span> <span class="o">=</span> <span class="n">extract_data</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lst_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lst_value</span><span class="p">)</span>
+        <span class="n">years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Year&#39;</span><span class="p">:</span> <span class="n">years</span><span class="p">,</span> <span class="s1">&#39;LST&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">})</span>
+
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+
+
+<span class="c1"># Fitting a linear model to the data</span>
+<span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r_value</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">std_err</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LST&#39;</span><span class="p">])</span>
+
+<span class="c1"># Calculate the line of best fit</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Trendline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">intercept</span> <span class="o">+</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span>
+
+<span class="c1"># Create a Plotly figure</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;LST&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Mean LST for July and August (2017-2021) with Trendline&#39;</span><span class="p">)</span>
+
+<span class="c1"># Add a scatter plot for Mean LST</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;LST&#39;</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;markers&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Mean LST&#39;</span><span class="p">))</span>
+
+<span class="c1"># Add a trendline</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Trendline&#39;</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Trendline&#39;</span><span class="p">))</span>
+
+<span class="c1"># Calculate the rate of change annotation</span>
+<span class="n">rate_of_change</span> <span class="o">=</span> <span class="n">slope</span>
+
+<span class="c1"># Annotate the rate of change in the legend</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;markers&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                         <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Rate of Change: </span><span class="si">{</span><span class="n">rate_of_change</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">°C/year&#39;</span><span class="p">))</span>
+
+<span class="c1"># Customize the appearance</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">legend_title_text</span><span class="o">=</span><span class="s1">&#39;Legend&#39;</span><span class="p">)</span>
+
+<span class="c1"># Show the plot</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="admonition warning">
+<p>Data type cannot be displayed: application/vnd.plotly.v1+json</p>
+</div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">linregress</span>
+
+<span class="c1"># Load the CSV file</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;./data/morenny/LST/Mean_LST_Jul_Aug_2017_to_2023.csv&#39;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+<span class="c1"># Display the first few rows of the dataframe to understand its structure</span>
+<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="c1"># Selecting relevant columns</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;LST&#39;</span><span class="p">]]</span>
+
+<span class="c1"># Removing any null/NaN values</span>
+<span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Ensuring &#39;year&#39; is an integer</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Correcting the line plot code</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;LST&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Plotting the regression line</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+
+<span class="c1"># Annotating the rate of change</span>
+<span class="n">rate_of_change</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Rate of Change: </span><span class="si">{</span><span class="n">slope</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> °C/year&quot;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;LST&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">rate_of_change</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+
+<span class="c1"># Setting plot titles and labels</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Yearly Mean Land Surface Temperature (LST) Trend&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Mean LST (°C)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Show plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/><br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_29_0.png" src="../_images/notebooks_RockGlacier_radar_29_0.png" />
+</div>
+</div>
+</section>
 </section>
 
 
@@ -415,6 +767,7 @@ users can download their analysis and the generated figures directly from the we
 <li><a class="reference internal" href="#Interpolate-and-Create-raster-Velocities">Interpolate and Create raster Velocities</a></li>
 <li><a class="reference internal" href="#Visualize-Displacement-Products">Visualize Displacement Products</a></li>
 <li><a class="reference internal" href="#Interactive-Time-Series-Analysis-in-a-Dash-Web-App">Interactive Time Series Analysis in a Dash Web App</a></li>
+<li><a class="reference internal" href="#Plot-Mean-Land-Surface-Temperature-for-months-July-and-August-2017-to-2021">Plot Mean Land Surface Temperature for months July and August 2017 to 2021</a></li>
 </ul>
 </li>
 </ul>

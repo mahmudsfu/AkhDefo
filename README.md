@@ -1,11 +1,13 @@
 
 # Akhdefo
 
-<img src="./_static/akhdefo_logo.svg" alt="Akhdefo Project Image" align="right" width="200px"/>
+
+[<img src="./_static/akhdefo_logo.svg" alt="Akhdefo Project Image" align="right" width="200px"/>](https://akhdefo.readthedocs.io/en/latest/index.html)
+<em align="right">Click on the Logo to Navigate to the Main Page</em>
+
+
 
 ## Computer Vision for Slope Stability: Land Deformation Monitoring
-
-
 
 ## Background of Akh-Defo
 

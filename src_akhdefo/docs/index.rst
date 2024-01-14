@@ -8,10 +8,14 @@
 
 Home!
 =====
+
+.. _target:
+
 .. image:: ./_static/akhdefo_logo.svg
    :alt: Akhdefo Project Image
    :align: right
    :width: 200px
+   :target: https://akhdefo.readthedocs.io/en/latest/index.html
 
 
 .. toctree::

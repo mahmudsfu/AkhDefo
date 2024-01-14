@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.Akhdefo_utils &#8212; AkhDefo Software 2.2.61 documentation</title>
+    <title>akhdefo_functions.Akhdefo_utils &#8212; AkhDefo Software 2.2.62 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=292206ef"></script>
+    <script src="../../_static/documentation_options.js?v=1eda8c85"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -363,10 +363,11 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">mask_raster</span>
 
+
 <div class="viewcode-block" id="Auto_Variogram">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.Auto_Variogram">[docs]</a>
 <span class="k">def</span> <span class="nf">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">overlap_percentage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;interpolated_kriging&#39;</span><span class="p">,</span> 
-                   <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;kriging_plots&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;geo_rasterFolder&#39;</span><span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">UTM_Zone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;ordinary&#39;</span><span class="p">):</span>
+                   <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;kriging_plots&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;geo_rasterFolder&#39;</span><span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">UTM_Zone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;ordinary&#39;</span> <span class="p">,</span> <span class="n">drift_functions</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">detrend_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function performs automatic selection of the optimal variogram model for spatial data interpolation. </span>
 <span class="sd">    It also supports clipping of the interpolation results to a specified Area of Interest (AOI). The function </span>
@@ -419,6 +420,15 @@
 <span class="sd">    krig_method : str, optional</span>
 <span class="sd">        The method of kriging to be used, either &#39;ordinary&#39; or &#39;universal&#39;. Defaults to &#39;ordinary&#39;.</span>
 
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    drift_functions: str, optional </span>
+<span class="sd">        only works if krig_method=&#39;universal&#39; available options &quot;linear&quot;, &quot;quadratic&quot;, &quot;x&quot;  , &quot;y&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    detrend_data : bool , optional</span>
+<span class="sd">        if True removes the linear trend from the interpolated data and save the detrended data as geotif</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    numpy.ndarray</span>
@@ -467,7 +477,7 @@
     
     
     <span class="k">if</span> <span class="n">latlon</span><span class="p">:</span>
-        <span class="c1"># Convert CRS to EPSG:4326 (WGS84)</span>
+        <span class="c1"># Convert CRS to EPSG:4326 (Wgs84)</span>
         <span class="n">geodata</span> <span class="o">=</span> <span class="n">geodata</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
         <span class="c1"># if geodata.crs is not None and geodata.crs.to_epsg() == 4326: </span>
         <span class="n">x</span><span class="o">=</span><span class="n">geodata</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">x</span>
@@ -494,7 +504,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="c1">#bins = gs.standard_bins(pos=(y, x), max_dist=10)</span>
             <span class="c1">#bins, sampling_size=2000, sampling_seed=19920516 ,</span>
-            <span class="n">bin_center</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">vario_estimate</span><span class="p">((</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">z</span><span class="p">,</span>  <span class="n">latlon</span><span class="o">=</span><span class="n">latlon</span><span class="p">,</span> <span class="n">geo_scale</span><span class="o">=</span><span class="n">gs</span><span class="o">.</span><span class="n">KM_SCALE</span><span class="p">)</span>
+            <span class="n">bin_center</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">vario_estimate</span><span class="p">((</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">z</span><span class="p">,</span>  <span class="n">latlon</span><span class="o">=</span><span class="n">latlon</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="c1"># Catching any exception and handling it</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Operation failed with error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -532,7 +542,19 @@
     <span class="p">}</span>
 
     <span class="n">scores</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="c1">#fig, (ax1, ax2, ax3) = plt.subplots(ncols=1, nrows=3, figsize=(15, 10))</span>
+    
+
+    <span class="kn">import</span> <span class="nn">matplotlib.gridspec</span> <span class="k">as</span> <span class="nn">gridspec</span>
+    <span class="c1"># Setting up a professional style</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;seaborn-white&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">})</span>
+    
+    <span class="c1"># Create a grid for the subplots</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+    <span class="n">grid_fig</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">height_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+    <span class="n">ax1</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">grid_fig</span><span class="p">[</span><span class="mi">0</span><span class="p">,:])</span>
     <span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">bin_center</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
 
     <span class="n">best_model</span><span class="p">,</span> <span class="n">best_score</span><span class="p">,</span> <span class="n">best_fit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="kc">None</span>
@@ -544,24 +566,33 @@
         <span class="k">try</span><span class="p">:</span>
           
             <span class="k">if</span> <span class="n">latlon</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
-                <span class="n">fit_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">latlon</span><span class="o">=</span><span class="n">latlon</span><span class="p">,</span> <span class="n">geo_scale</span><span class="o">=</span><span class="n">gs</span><span class="o">.</span><span class="n">KM_SCALE</span><span class="p">)</span>
+                <span class="n">bin_center</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">vario_estimate</span><span class="p">((</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">),</span> <span class="n">z</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">fit_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="n">latlon</span><span class="p">)</span>
+                <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">fit_model</span><span class="o">.</span><span class="n">fit_variogram</span><span class="p">(</span> <span class="n">bin_center</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">sill</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">nugget</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_r2</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">scores</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">fit_model</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">r2</span><span class="p">}</span>
+                
+                <span class="k">if</span> <span class="n">r2</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                    <span class="n">best_score</span> <span class="o">=</span> <span class="n">r2</span>
+                    <span class="n">best_model</span> <span class="o">=</span> <span class="n">model_name</span>
+                    <span class="n">best_fit</span> <span class="o">=</span> <span class="n">fit_model</span>
                 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">fit_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="n">latlon</span><span class="p">)</span>
                 <span class="c1">#Model(dim=2, len_scale=4, anis=0.2, angles=-0.5, var=0.5, nugget=0.1)</span>
                 
                 <span class="c1">#if fit_model is not None:</span>
-            <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">fit_model</span><span class="o">.</span><span class="n">fit_variogram</span><span class="p">(</span><span class="n">bin_center</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">return_r2</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="n">nugget</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">scores</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">fit_model</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">r2</span><span class="p">}</span>
+            
+                <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">fit_model</span><span class="o">.</span><span class="n">fit_variogram</span><span class="p">(</span><span class="n">bin_center</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">return_r2</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="n">nugget</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">scores</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">fit_model</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">r2</span><span class="p">}</span>
             
             <span class="c1"># scores[model_name] = model_name</span>
             <span class="c1"># scores[&#39;score&#39;] = r2</span>
             <span class="c1"># scores[&#39;best_fit&#39;]=fit_model</span>
             
-            <span class="k">if</span> <span class="n">r2</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
-                <span class="n">best_score</span> <span class="o">=</span> <span class="n">r2</span>
-                <span class="n">best_model</span> <span class="o">=</span> <span class="n">model_name</span>
-                <span class="n">best_fit</span> <span class="o">=</span> <span class="n">fit_model</span>
+                <span class="k">if</span> <span class="n">r2</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                    <span class="n">best_score</span> <span class="o">=</span> <span class="n">r2</span>
+                    <span class="n">best_model</span> <span class="o">=</span> <span class="n">model_name</span>
+                    <span class="n">best_fit</span> <span class="o">=</span> <span class="n">fit_model</span>
             
             <span class="c1"># Plot the model</span>
             <span class="c1">#if fit_model is not None:</span>
@@ -577,23 +608,41 @@
     
     <span class="c1"># Sort scores based on score</span>
     <span class="n">sorted_scores</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;score&#39;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">get_zgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">best_fit</span> <span class="p">,</span> <span class="n">gridy</span><span class="p">,</span> <span class="n">krig_method</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_zgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">best_fit</span> <span class="p">,</span> <span class="n">gridy</span><span class="p">,</span> <span class="n">krig_method</span><span class="p">,</span> <span class="n">drift_functions</span><span class="o">=</span><span class="n">drift_functions</span><span class="p">):</span>
         
         <span class="n">z</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">z</span><span class="p">)]</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">z</span><span class="p">)]</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">z</span><span class="p">)]</span>
+        
+        <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        
+       
+        <span class="c1"># Calculate the mean and standard deviation of the Z column</span>
+        <span class="n">mean_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">std_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+        <span class="c1"># Define the threshold for Z-score (e.g., ±2.5)</span>
+        <span class="n">z_score_threshold</span> <span class="o">=</span> <span class="mf">3.5</span>
+
+        <span class="c1"># Identify indices where Z is below or above the threshold</span>
+        <span class="n">below_threshold_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">z</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">mean_z</span> <span class="o">-</span> <span class="n">z_score_threshold</span> <span class="o">*</span> <span class="n">std_z</span><span class="p">))</span>
+        <span class="n">above_threshold_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">mean_z</span> <span class="o">+</span> <span class="n">z_score_threshold</span> <span class="o">*</span> <span class="n">std_z</span><span class="p">))</span>
+
+        <span class="c1"># Replace values below or above the threshold with the mean of Z</span>
+        <span class="n">z</span><span class="p">[</span><span class="n">below_threshold_indices</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_z</span>
+        <span class="n">z</span><span class="p">[</span><span class="n">above_threshold_indices</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_z</span>
 
         
-        <span class="kn">from</span> <span class="nn">pykrige.uk</span> <span class="kn">import</span> <span class="n">UniversalKriging</span>
+        
         <span class="n">range_x</span> <span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">num_points_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">range_x</span> <span class="o">/</span> <span class="n">pixel_size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">gridx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">num_points_x</span><span class="p">)</span>
         <span class="n">gridx</span> <span class="o">=</span> <span class="n">gridx</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         
         
-      
         
-    
         
         <span class="k">if</span> <span class="n">krig_method</span><span class="o">==</span><span class="s1">&#39;ordinary&#39;</span><span class="p">:</span>
             
@@ -622,20 +671,32 @@
             <span class="c1"># UK = UniversalKriging(x, y, z, variogram_model=best_fit, exact_values=True, pseudo_inv=True, drift_terms=[&quot;regional_linear&quot;])</span>
             <span class="c1"># z_grid, _ = UK.execute(&quot;grid&quot;, gridx, gridy) </span>
             <span class="c1"># drift_terms=[&quot;regional_linear&quot;]</span>
+            <span class="k">if</span> <span class="n">drift_functions</span><span class="o">==</span><span class="s1">&#39;x&#39;</span><span class="p">:</span>
+                <span class="k">def</span> <span class="nf">drift</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">x</span>
+            <span class="k">elif</span> <span class="n">drift_functions</span><span class="o">==</span><span class="s1">&#39;y&#39;</span><span class="p">:</span>
+                <span class="k">def</span> <span class="nf">drift</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">y</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">drift</span><span class="o">=</span><span class="n">drift_functions</span>
             
-            <span class="n">uk</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">krige</span><span class="o">.</span><span class="n">Universal</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">best_fit</span><span class="p">,</span> <span class="n">cond_pos</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">cond_val</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">normalizer</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">trend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cond_err</span><span class="o">=</span><span class="s1">&#39;nugget&#39;</span><span class="p">,</span> 
-                                 <span class="n">pseudo_inv</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pseudo_inv_type</span><span class="o">=</span><span class="s1">&#39;pinvh&#39;</span><span class="p">,</span> <span class="n">fit_normalizer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fit_variogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">drift_functions</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+            <span class="n">uk</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">krige</span><span class="o">.</span><span class="n">Universal</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">best_fit</span><span class="p">,</span> <span class="n">cond_pos</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">cond_val</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">normalizer</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">trend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cond_err</span><span class="o">=</span><span class="s1">&#39;nugget&#39;</span><span class="p">,</span> 
+                                 <span class="n">pseudo_inv</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pseudo_inv_type</span><span class="o">=</span><span class="s1">&#39;pinvh&#39;</span><span class="p">,</span> <span class="n">fit_normalizer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fit_variogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">drift_functions</span><span class="o">=</span><span class="n">drift</span><span class="p">)</span>
+            
             <span class="n">uk</span><span class="o">.</span><span class="n">set_pos</span><span class="p">((</span><span class="n">gridy</span><span class="p">,</span> <span class="n">gridx</span><span class="p">),</span> <span class="n">mesh_type</span><span class="o">=</span><span class="s2">&quot;structured&quot;</span><span class="p">)</span>
             <span class="n">uk</span><span class="p">(</span><span class="n">return_var</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="s2">&quot;vel&quot;</span><span class="p">)</span>
             <span class="n">uk</span><span class="p">(</span><span class="n">only_mean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="s2">&quot;mean_vel&quot;</span><span class="p">)</span>
             <span class="n">z_grid</span><span class="o">=</span><span class="n">uk</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span>
+            <span class="c1">#uk1.structured((gridx, gridy))</span>
+            <span class="c1"># z_grid=z_grid[0]</span>
+            
+            
+           
         
         
-        
-        
-        <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">exposure</span>
-        <span class="n">z_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
-        <span class="n">z_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        <span class="c1"># from skimage import exposure</span>
+        <span class="c1"># z_min = np.nanmin(z)</span>
+        <span class="c1"># z_max = np.nanmax(z)</span>
         
         <span class="c1"># # Ensure interpolated values do not exceed original z data range</span>
         
@@ -643,10 +704,11 @@
             <span class="c1"># z_mean = np.nanmean(z_grid)</span>
             <span class="c1"># z_grid[np.where(z_grid &gt; z_max)] = z_mean</span>
             <span class="c1"># z_grid[np.where(z_grid &lt; z_min)] = z_mean</span>
-        <span class="n">z_grid</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">z_grid</span><span class="p">,</span> <span class="n">in_range</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">z_grid</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">z_grid</span><span class="p">)),</span> <span class="n">out_range</span><span class="o">=</span><span class="p">(</span><span class="n">z_min</span><span class="p">,</span> <span class="n">z_max</span><span class="p">))</span>
+        <span class="c1">#z_grid = exposure.rescale_intensity(z_grid, in_range=(np.nanmin(z_grid), np.nanmax(z_grid)), out_range=(z_min, z_max))</span>
             
         
-            
+        <span class="c1">#z_grid=gs.normalizer.remove_trend_norm_mean((gridy, gridx), z_grid, mean=np.nanmean(z_grid), normalizer=None, trend=None, mesh_type=&#39;unstructured&#39;, value_type=&#39;scalar&#39;, check_shape=True, stacked=False, fit_normalizer=True)</span>
+
             
         <span class="c1"># z_grid[np.where(z_grid &lt; z_min)] = z_mean</span>
         <span class="c1"># z_grid[np.where(z_grid &gt; z_max)] = z_mean</span>
@@ -660,10 +722,47 @@
         <span class="c1">#     gs.normalizer.Manly,</span>
         <span class="c1"># ]</span>
         
+                <span class="c1"># external drift at conditioning points</span>
+        <span class="c1"># (given as a sinusodial drift in x direciton)</span>
+        <span class="c1"># ext_drift_cond = np.sin(y)</span>
+
+        <span class="c1"># # external drift at the output grid</span>
+        <span class="c1"># ext_drift_grid = np.repeat(np.sin(gridx), len(gridy))</span>
+
+
+        <span class="c1"># # perform the kriging and plot results</span>
+        <span class="c1"># EDK = gs.krige.ExtDrift(</span>
+        <span class="c1">#     model=best_fit, </span>
+        <span class="c1">#     cond_pos=(x, y), </span>
+        <span class="c1">#     cond_val=z,</span>
+        <span class="c1">#     ext_drift=ext_drift_cond,</span>
+        <span class="c1"># )</span>
+        <span class="c1"># EDK.structured([gridy, gridx], ext_drift=ext_drift_grid)</span>
+        <span class="c1"># EDK.plot()</span>
     
         
         <span class="k">return</span> <span class="n">z_grid</span><span class="p">,</span> <span class="n">gridx</span>
+    
+    
+    <span class="c1"># Function to detrend a 2D array with NaN handling</span>
+    <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">linregress</span>
+    <span class="k">def</span> <span class="nf">detrend_2d</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+        <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nrows</span><span class="p">)</span>
         
+        <span class="c1"># Initialize the detrended data array</span>
+        <span class="n">detrended</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+
+        <span class="c1"># Detrend each column</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncols</span><span class="p">):</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">array</span><span class="p">[:,</span> <span class="n">col</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">)):</span>
+                <span class="n">detrended</span><span class="p">[:,</span> <span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">)],</span> <span class="n">y</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">)])</span>
+                <span class="n">detrended</span><span class="p">[:,</span> <span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">slope</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">intercept</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">detrended</span> 
 
     <span class="c1"># Get global y grid before splitting</span>
     <span class="n">range_y_global</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
@@ -727,7 +826,7 @@
         <span class="c1"># Try using the best model, then next best if it fails, and so on</span>
         <span class="k">for</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">model_info</span> <span class="ow">in</span> <span class="n">sorted_scores</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">z_grid_chunk</span><span class="p">,</span> <span class="n">gridx_chunk</span> <span class="o">=</span> <span class="n">get_zgrid</span><span class="p">(</span><span class="n">x_chunk</span><span class="p">,</span> <span class="n">y_chunk</span><span class="p">,</span> <span class="n">z_chunk</span><span class="p">,</span> <span class="n">model_info</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">],</span> <span class="n">gridy_global</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="n">krig_method</span><span class="p">)</span>
+                <span class="n">z_grid_chunk</span><span class="p">,</span> <span class="n">gridx_chunk</span> <span class="o">=</span> <span class="n">get_zgrid</span><span class="p">(</span><span class="n">x_chunk</span><span class="p">,</span> <span class="n">y_chunk</span><span class="p">,</span> <span class="n">z_chunk</span><span class="p">,</span> <span class="n">model_info</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">],</span> <span class="n">gridy_global</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="n">krig_method</span><span class="p">,</span> <span class="n">drift_functions</span><span class="o">=</span><span class="n">drift_functions</span><span class="p">)</span>
                 <span class="n">z_grids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z_grid_chunk</span><span class="p">)</span>
                 <span class="n">gridxs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gridx_chunk</span><span class="p">)</span>
                 <span class="n">successful_model</span> <span class="o">=</span> <span class="n">model_name</span>
@@ -813,8 +912,11 @@
         <span class="n">z_grid</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
     <span class="n">norm</span> <span class="o">=</span> <span class="n">create_norm</span><span class="p">(</span><span class="n">z_grid</span><span class="p">)</span>
+        
+    <span class="c1"># Interpolation Using Matern Variogram Model</span>
+    <span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">grid_fig</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ax2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">z_grid</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Interpolation Using </span><span class="si">{</span><span class="n">successful_model</span><span class="si">}</span><span class="s1"> Variogram Model&#39;</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Interpolation: Krige-Method: </span><span class="si">{</span><span class="n">krig_method</span><span class="si">}</span><span class="s1"> kriging and Best Variogram Model: </span><span class="si">{</span><span class="n">successful_model</span><span class="si">}</span><span class="s1"> &#39;</span><span class="p">)</span>
 
     
 
@@ -830,26 +932,45 @@
     <span class="p">}</span>
     
     
-        
+    
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">geo_folder</span><span class="p">):</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">geo_folder</span><span class="p">)</span>
     
+    <span class="n">out_fileName</span><span class="o">=</span><span class="n">out_fileName</span> <span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span> <span class="n">krig_method</span>
     <span class="n">geo_folder</span><span class="o">=</span><span class="n">geo_folder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span> <span class="n">out_fileName</span>
         
     <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geo_folder</span> <span class="o">+</span> <span class="s1">&#39;.tif&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
         <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">z_grid</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
+    <span class="n">raster_data_detrended</span> <span class="o">=</span> <span class="n">detrend_2d</span><span class="p">(</span><span class="n">z_grid</span><span class="p">)</span>
+    <span class="c1"># Detrended data</span>
+    <span class="n">cmap_c</span> <span class="o">=</span> <span class="s1">&#39;coolwarm&#39;</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">raster_data_detrended</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;viridis&#39;</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">create_norm</span><span class="p">(</span><span class="n">raster_data_detrended</span><span class="p">)</span>
+        <span class="c1"># Detrended Interpolated Data</span>
+    <span class="n">ax3</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">grid_fig</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ax3</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">raster_data_detrended</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_c</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">)</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Detrended Interpolated Data&quot;</span><span class="p">)</span>
+        
+        
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">plot_folder</span><span class="p">):</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">plot_folder</span><span class="p">)</span>
     
     <span class="n">plot_folder</span><span class="o">=</span><span class="n">plot_folder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span> <span class="n">out_fileName</span>
     
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plot_folder</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">))</span>
     
    
     <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    
+    
+    
+    <span class="c1"># Apply the custom detrending function</span>
+    <span class="k">if</span> <span class="n">detrend_data</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+
+        <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geo_folder</span> <span class="o">+</span> <span class="s1">&#39;_detrend.tif&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+            <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">raster_data_detrended</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 
     <span class="k">return</span> <span class="n">z_grid</span></div>
@@ -901,7 +1022,7 @@
 <span class="sd">            SkySatScene:	SkySat Scenes captured by the SkySat satellite constellation</span>
 <span class="sd">            SkySatCollect:	Orthorectified scene composite of a SkySat collection</span>
 <span class="sd">            SkySatVideo:	Full motion videos collected by a single camera from any of the active SkySats</span>
-<span class="sd">            Landsat8L1G	Landsat8 Scenes: provided by USGS Landsat8 satellite</span>
+<span class="sd">            Landsat8L1G	Landsat8 Scenes: provided by USgs Landsat8 satellite</span>
 <span class="sd">            Sentinel2L1C:	Copernicus Sentinel-2 Scenes provided by ESA Sentinel-2 satellite</span>
 
 <span class="sd">        product_bundle: str = &quot;analytic_sr_udm2&quot;</span>

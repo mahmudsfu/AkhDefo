@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions package &#8212; AkhDefo Software 2.2.61 documentation</title>
+    <title>akhdefo_functions package &#8212; AkhDefo Software 2.2.62 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
-    <script src="_static/documentation_options.js?v=292206ef"></script>
+    <script src="_static/documentation_options.js?v=1eda8c85"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -907,7 +907,7 @@ Trend raster in degress</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_utils.Auto_Variogram">
-<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_utils.</span></span><span class="sig-name descname"><span class="pre">Auto_Variogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_attribute=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latlon=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aoi_shapefile=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_size=20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_chunks=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap_percentage=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_fileName='interpolated_kriging'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_folder='kriging_plots'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geo_folder='geo_rasterFolder'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_kernel=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask:</span> <span class="pre">[&lt;class</span> <span class="pre">'numpy.ndarray'&gt;]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UTM_Zone=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">krig_method='ordinary'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_utils.html#Auto_Variogram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_utils.Auto_Variogram" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_utils.</span></span><span class="sig-name descname"><span class="pre">Auto_Variogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_attribute=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latlon=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aoi_shapefile=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_size=20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_chunks=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap_percentage=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_fileName='interpolated_kriging'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_folder='kriging_plots'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geo_folder='geo_rasterFolder'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_kernel=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask:</span> <span class="pre">[&lt;class</span> <span class="pre">'numpy.ndarray'&gt;]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UTM_Zone=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">krig_method='ordinary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drift_functions='linear'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detrend_data=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_utils.html#Auto_Variogram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_utils.Auto_Variogram" title="Link to this definition">¶</a></dt>
 <dd><p>This function performs automatic selection of the optimal variogram model for spatial data interpolation. 
 It also supports clipping of the interpolation results to a specified Area of Interest (AOI). The function 
 accepts both GeoDataFrame objects and file paths (specifically, shapefile paths) as input data sources.</p>
@@ -944,6 +944,10 @@ Defaults to an empty string.</p>
 <dt>UTM_Zone<span class="classifier">str, optional</span></dt><dd><p>The UTM Zone designation (‘N’ for Northern Hemisphere or ‘S’ for Southern Hemisphere).</p>
 </dd>
 <dt>krig_method<span class="classifier">str, optional</span></dt><dd><p>The method of kriging to be used, either ‘ordinary’ or ‘universal’. Defaults to ‘ordinary’.</p>
+</dd>
+<dt>drift_functions: str, optional </dt><dd><p>only works if krig_method=’universal’ available options “linear”, “quadratic”, “x”  , “y”</p>
+</dd>
+<dt>detrend_data<span class="classifier">bool , optional</span></dt><dd><p>if True removes the linear trend from the interpolated data and save the detrended data as geotif</p>
 </dd>
 </dl>
 </section>
@@ -1003,7 +1007,7 @@ REScene:    Unorthorectified strips captured by the RapidEye satellite constella
 SkySatScene:        SkySat Scenes captured by the SkySat satellite constellation
 SkySatCollect:      Orthorectified scene composite of a SkySat collection
 SkySatVideo:        Full motion videos collected by a single camera from any of the active SkySats
-Landsat8L1G Landsat8 Scenes: provided by USGS Landsat8 satellite
+Landsat8L1G Landsat8 Scenes: provided by USgs Landsat8 satellite
 Sentinel2L1C:       Copernicus Sentinel-2 Scenes provided by ESA Sentinel-2 satellite</p>
 </dd>
 <dt>product_bundle: str = “analytic_sr_udm2”</dt><dd><p>please refer to planetlabs website for further details and different options of product_bundle: default is analytic_sr_udm2

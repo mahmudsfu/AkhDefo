@@ -81,13 +81,13 @@ class BuildDoc(Command):
 cmdclass = {'build_sphinx': BuildDoc}
 
 # Read the long description from the README file
-with open("README.md", "r", encoding="utf-8") as fh:
+with open("./README_pypi.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 # Setup configuration
 setup(
     name='akhdefo_functions',
-    version='2.2.62',
+    version='2.2.64',
     description='Land Deformation Monitoring Using Optical Satellite Imagery',
     url='https://github.com/mahmudsfu/AkhDefo',
     author='Mahmud Mustafa Muhammad',

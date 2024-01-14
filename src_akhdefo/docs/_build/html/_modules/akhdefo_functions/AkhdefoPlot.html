@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.AkhdefoPlot &#8212; AkhDefo Software 2.2.61 documentation</title>
+    <title>akhdefo_functions.AkhdefoPlot &#8212; AkhDefo Software 2.2.62 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=292206ef"></script>
+    <script src="../../_static/documentation_options.js?v=1eda8c85"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -1304,6 +1304,7 @@
             
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dnames</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">10</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures. </span><span class="se">\n</span><span class="s2"> Please see figures inside provided out_folder path&quot;</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 
                 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>

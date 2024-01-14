@@ -319,8 +319,9 @@ from skimage.filters import gaussian
 import os
 from akhdefo_functions import mask_raster
 
+
 def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="", pixel_size=20,num_chunks=10,overlap_percentage=0, out_fileName='interpolated_kriging', 
-                   plot_folder='kriging_plots', geo_folder='geo_rasterFolder', smoothing_kernel=2, mask: [np.ndarray] = None , UTM_Zone=None, krig_method='ordinary'):
+                   plot_folder='kriging_plots', geo_folder='geo_rasterFolder', smoothing_kernel=2, mask: [np.ndarray] = None , UTM_Zone=None, krig_method='ordinary' , drift_functions='linear', detrend_data=None):
     """
     This function performs automatic selection of the optimal variogram model for spatial data interpolation. 
     It also supports clipping of the interpolation results to a specified Area of Interest (AOI). The function 
@@ -373,6 +374,15 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     krig_method : str, optional
         The method of kriging to be used, either 'ordinary' or 'universal'. Defaults to 'ordinary'.
 
+    
+    
+    drift_functions: str, optional 
+        only works if krig_method='universal' available options "linear", "quadratic", "x"  , "y"
+    
+    detrend_data : bool , optional
+        if True removes the linear trend from the interpolated data and save the detrended data as geotif
+    
+    
     Returns
     -------
     numpy.ndarray
@@ -421,7 +431,7 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     
     
     if latlon:
-        # Convert CRS to EPSG:4326 (WGS84)
+        # Convert CRS to EPSG:4326 (Wgs84)
         geodata = geodata.to_crs(epsg=4326)
         # if geodata.crs is not None and geodata.crs.to_epsg() == 4326: 
         x=geodata.geometry.x
@@ -448,7 +458,7 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
         try:
             #bins = gs.standard_bins(pos=(y, x), max_dist=10)
             #bins, sampling_size=2000, sampling_seed=19920516 ,
-            bin_center, gamma = gs.vario_estimate((y, x), z,  latlon=latlon, geo_scale=gs.KM_SCALE)
+            bin_center, gamma = gs.vario_estimate((y, x), z,  latlon=latlon)
         except Exception as e:
         # Catching any exception and handling it
             print(f"Operation failed with error: {e}")
@@ -486,7 +496,19 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     }
 
     scores = {}
-    fig, (ax1, ax2) = plt.subplots(ncols=1, nrows=2, figsize=(10, 10))
+    #fig, (ax1, ax2, ax3) = plt.subplots(ncols=1, nrows=3, figsize=(15, 10))
+    
+
+    import matplotlib.gridspec as gridspec
+    # Setting up a professional style
+    plt.style.use('seaborn-white')
+    plt.rcParams.update({'font.size': 12})
+    
+    # Create a grid for the subplots
+    fig = plt.figure(figsize=(18, 12))
+    grid_fig = gridspec.GridSpec(2, 2, height_ratios=[1, 2])
+
+    ax1=plt.subplot(grid_fig[0,:])
     ax1.scatter(bin_center, gamma, color="k", label="data")
 
     best_model, best_score, best_fit = None, -10, None
@@ -498,24 +520,33 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
         try:
           
             if latlon==True:
-                fit_model = Model(latlon=latlon, geo_scale=gs.KM_SCALE)
+                bin_center, gamma = gs.vario_estimate((y,x), z, latlon=True)
+                fit_model = Model(dim=2, latlon=latlon)
+                _, _, r2 = fit_model.fit_variogram( bin_center, gamma, sill=np.var(z), nugget=False, return_r2=True)
+                scores[model_name] = {"model": fit_model, "score": r2}
+                
+                if r2 > best_score:
+                    best_score = r2
+                    best_model = model_name
+                    best_fit = fit_model
                 
             else:
                 fit_model = Model(dim=2, latlon=latlon)
                 #Model(dim=2, len_scale=4, anis=0.2, angles=-0.5, var=0.5, nugget=0.1)
                 
                 #if fit_model is not None:
-            _, _, r2 = fit_model.fit_variogram(bin_center, gamma, return_r2=True,  nugget=True)
-            scores[model_name] = {"model": fit_model, "score": r2}
+            
+                _, _, r2 = fit_model.fit_variogram(bin_center, gamma, return_r2=True,  nugget=True)
+                scores[model_name] = {"model": fit_model, "score": r2}
             
             # scores[model_name] = model_name
             # scores['score'] = r2
             # scores['best_fit']=fit_model
             
-            if r2 > best_score:
-                best_score = r2
-                best_model = model_name
-                best_fit = fit_model
+                if r2 > best_score:
+                    best_score = r2
+                    best_model = model_name
+                    best_fit = fit_model
             
             # Plot the model
             #if fit_model is not None:
@@ -531,23 +562,41 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     
     # Sort scores based on score
     sorted_scores = sorted(scores.items(), key=lambda x: x[1]['score'], reverse=True)
-    def get_zgrid(x, y, z, best_fit , gridy, krig_method):
+    def get_zgrid(x, y, z, best_fit , gridy, krig_method, drift_functions=drift_functions):
         
         z = z[~np.isnan(z)]
         x = x[~np.isnan(z)]
         y = y[~np.isnan(z)]
+        
+        x=np.array(x)
+        y=np.array(y)
+        z=np.array(z)
+        
+       
+        # Calculate the mean and standard deviation of the Z column
+        mean_z = np.mean(z)
+        std_z = np.std(z)
+
+        # Define the threshold for Z-score (e.g., ±2.5)
+        z_score_threshold = 3.5
+
+        # Identify indices where Z is below or above the threshold
+        below_threshold_indices = np.where(z < (mean_z - z_score_threshold * std_z))
+        above_threshold_indices = np.where(z > (mean_z + z_score_threshold * std_z))
+
+        # Replace values below or above the threshold with the mean of Z
+        z[below_threshold_indices] = mean_z
+        z[above_threshold_indices] = mean_z
 
         
-        from pykrige.uk import UniversalKriging
+        
         range_x =np.nanmax(x) - np.nanmin(x)
         num_points_x = int(range_x / pixel_size) + 1
         gridx = np.linspace(np.nanmin(x), np.nanmax(x), num_points_x)
         gridx = gridx.astype(np.float32)
         
         
-      
         
-    
         
         if krig_method=='ordinary':
             
@@ -576,20 +625,32 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
             # UK = UniversalKriging(x, y, z, variogram_model=best_fit, exact_values=True, pseudo_inv=True, drift_terms=["regional_linear"])
             # z_grid, _ = UK.execute("grid", gridx, gridy) 
             # drift_terms=["regional_linear"]
+            if drift_functions=='x':
+                def drift(x, y):
+                    return x
+            elif drift_functions=='y':
+                def drift(x, y):
+                    return y
+            else:
+                drift=drift_functions
             
-            uk = gs.krige.Universal(model=best_fit, cond_pos=(y, x), cond_val=z, normalizer=None , trend=None, exact=False, cond_err='nugget', 
-                                 pseudo_inv=True, pseudo_inv_type='pinvh', fit_normalizer=False, fit_variogram=True, drift_functions='linear')
+            uk = gs.krige.Universal(model=best_fit, cond_pos=(y, x), cond_val=z, normalizer=None , trend=None, exact=True, cond_err='nugget', 
+                                 pseudo_inv=True, pseudo_inv_type='pinvh', fit_normalizer=False, fit_variogram=True, drift_functions=drift)
+            
             uk.set_pos((gridy, gridx), mesh_type="structured")
             uk(return_var=True, store="vel")
             uk(only_mean=True, store="mean_vel")
             z_grid=uk["vel"]
+            #uk1.structured((gridx, gridy))
+            # z_grid=z_grid[0]
+            
+            
+           
         
         
-        
-        
-        from skimage import exposure
-        z_min = np.nanmin(z)
-        z_max = np.nanmax(z)
+        # from skimage import exposure
+        # z_min = np.nanmin(z)
+        # z_max = np.nanmax(z)
         
         # # Ensure interpolated values do not exceed original z data range
         
@@ -597,10 +658,11 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
             # z_mean = np.nanmean(z_grid)
             # z_grid[np.where(z_grid > z_max)] = z_mean
             # z_grid[np.where(z_grid < z_min)] = z_mean
-        z_grid = exposure.rescale_intensity(z_grid, in_range=(np.nanmin(z_grid), np.nanmax(z_grid)), out_range=(z_min, z_max))
+        #z_grid = exposure.rescale_intensity(z_grid, in_range=(np.nanmin(z_grid), np.nanmax(z_grid)), out_range=(z_min, z_max))
             
         
-            
+        #z_grid=gs.normalizer.remove_trend_norm_mean((gridy, gridx), z_grid, mean=np.nanmean(z_grid), normalizer=None, trend=None, mesh_type='unstructured', value_type='scalar', check_shape=True, stacked=False, fit_normalizer=True)
+
             
         # z_grid[np.where(z_grid < z_min)] = z_mean
         # z_grid[np.where(z_grid > z_max)] = z_mean
@@ -614,10 +676,47 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
         #     gs.normalizer.Manly,
         # ]
         
+                # external drift at conditioning points
+        # (given as a sinusodial drift in x direciton)
+        # ext_drift_cond = np.sin(y)
+
+        # # external drift at the output grid
+        # ext_drift_grid = np.repeat(np.sin(gridx), len(gridy))
+
+
+        # # perform the kriging and plot results
+        # EDK = gs.krige.ExtDrift(
+        #     model=best_fit, 
+        #     cond_pos=(x, y), 
+        #     cond_val=z,
+        #     ext_drift=ext_drift_cond,
+        # )
+        # EDK.structured([gridy, gridx], ext_drift=ext_drift_grid)
+        # EDK.plot()
     
         
         return z_grid, gridx
+    
+    
+    # Function to detrend a 2D array with NaN handling
+    from scipy.stats import linregress
+    def detrend_2d(array):
+        nrows, ncols = array.shape
+        x = np.arange(nrows)
         
+        # Initialize the detrended data array
+        detrended = np.empty_like(array)
+
+        # Detrend each column
+        for col in range(ncols):
+            y = array[:, col]
+            if np.all(np.isnan(y)):
+                detrended[:, col] = np.nan
+            else:
+                slope, intercept, _, _, _ = linregress(x[~np.isnan(y)], y[~np.isnan(y)])
+                detrended[:, col] = y - (slope*x + intercept)
+
+        return detrended 
 
     # Get global y grid before splitting
     range_y_global = y.max() - y.min()
@@ -681,7 +780,7 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
         # Try using the best model, then next best if it fails, and so on
         for model_name, model_info in sorted_scores:
             try:
-                z_grid_chunk, gridx_chunk = get_zgrid(x_chunk, y_chunk, z_chunk, model_info['model'], gridy_global, krig_method=krig_method)
+                z_grid_chunk, gridx_chunk = get_zgrid(x_chunk, y_chunk, z_chunk, model_info['model'], gridy_global, krig_method=krig_method, drift_functions=drift_functions)
                 z_grids.append(z_grid_chunk)
                 gridxs.append(gridx_chunk)
                 successful_model = model_name
@@ -767,8 +866,11 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
         z_grid[mask]=np.nan
 
     norm = create_norm(z_grid)
+        
+    # Interpolation Using Matern Variogram Model
+    ax2 = plt.subplot(grid_fig[1,0])
     plt.colorbar(ax2.imshow(z_grid, cmap='rainbow', extent=extent, norm=norm), ax=ax2)
-    ax2.set_title(f'Interpolation Using {successful_model} Variogram Model')
+    ax2.set_title(f'Interpolation: Krige-Method: {krig_method} kriging and Best Variogram Model: {successful_model} ')
 
     
 
@@ -784,26 +886,45 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     }
     
     
-        
+    
     if not os.path.exists(geo_folder):
         os.makedirs(geo_folder)
     
+    out_fileName=out_fileName +"_"+ krig_method
     geo_folder=geo_folder+"/"+ out_fileName
         
     with rasterio.open(os.path.join(geo_folder + '.tif'), 'w', **meta) as dst:
         dst.write(z_grid, 1)
 
+    raster_data_detrended = detrend_2d(z_grid)
+    # Detrended data
+    cmap_c = 'coolwarm' if np.nanmin(raster_data_detrended) < 0 else 'viridis'
+    norm = create_norm(raster_data_detrended)
+        # Detrended Interpolated Data
+    ax3 = plt.subplot(grid_fig[1,1])
+    plt.colorbar(ax3.imshow(raster_data_detrended, cmap=cmap_c, extent=extent, norm=norm), ax=ax3)
+    ax3.set_title("Detrended Interpolated Data")
+        
+        
     if not os.path.exists(plot_folder):
         os.makedirs(plot_folder)
     
     plot_folder=plot_folder+"/"+ out_fileName
     
-    plt.tight_layout()
+    fig.tight_layout()
 
     plt.savefig(os.path.join(plot_folder + '.png'))
     
    
     plt.close()
+    
+    
+    
+    # Apply the custom detrending function
+    if detrend_data==True:
+
+        with rasterio.open(os.path.join(geo_folder + '_detrend.tif'), 'w', **meta) as dst:
+            dst.write(raster_data_detrended, 1)
 
 
     return z_grid
@@ -849,7 +970,7 @@ async def akhdefo_download_planet(planet_api_key="", AOI="plinth.json", start_da
             SkySatScene:	SkySat Scenes captured by the SkySat satellite constellation
             SkySatCollect:	Orthorectified scene composite of a SkySat collection
             SkySatVideo:	Full motion videos collected by a single camera from any of the active SkySats
-            Landsat8L1G	Landsat8 Scenes: provided by USGS Landsat8 satellite
+            Landsat8L1G	Landsat8 Scenes: provided by USgs Landsat8 satellite
             Sentinel2L1C:	Copernicus Sentinel-2 Scenes provided by ESA Sentinel-2 satellite
 
         product_bundle: str = "analytic_sr_udm2"
