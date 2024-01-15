@@ -71,7 +71,7 @@ Geospatial Operations
 
 Video Processing
 ----------------
-.. automodule:: akhdefo_functions.video_streamer
+.. automodule:: akhdefo_functions.Video_Streamer
    :members:
    :undoc-members:
    :show-inheritance:
