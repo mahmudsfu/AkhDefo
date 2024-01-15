@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>akhdefo_functions.Filter_PreProc &#8212; AkhDefo Software 2.2.62 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
+    <script src="../../_static/documentation_options.js?v=1eda8c85"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Akhdefo</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">akhdefo_functions.Filter_PreProc</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for akhdefo_functions.Filter_PreProc</h1><div class="highlight"><pre>
+<span></span>
+
+<div class="viewcode-block" id="Filter_PreProcess">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Filter_PreProc.Filter_PreProcess">[docs]</a>
+<span class="k">def</span> <span class="nf">Filter_PreProcess</span><span class="p">(</span><span class="n">unfiltered_folderPath</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">UDM2_maskfolderPath</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">outpath_dir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">Udm_Mask_Option</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_figure</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This program prepare and uses filters to balanace raster image brightness</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    unfiltered_folderPath:  str</span>
+
+<span class="sd">    UDM2_maskfolderPath:    str</span>
+
+<span class="sd">    outpath_dir:    str</span>
+
+<span class="sd">    Udm_Mask_Option:    bool</span>
+<span class="sd">        False if True the program uses planetlabs imagery unusable pixel mask to ignore and mask bad image pixels </span>
+
+<span class="sd">    plot_figure:    bool</span>
+<span class="sd">        True if you want to display output figure directly inside python</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    geotif rasters</span>
+<span class="sd">        Filtered geotif rasters</span>
+<span class="sd">    Figures</span>
+<span class="sd">        plotted filtered rasters and mask for bad pixels</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="kn">import</span> <span class="nn">glob</span>
+    <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="kn">import</span> <span class="nn">rasterio</span>
+    <span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">show</span>
+    <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">exposure</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">cv2</span>
+    <span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">show_hist</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+    <span class="kn">import</span> <span class="nn">seaborn_image</span> <span class="k">as</span> <span class="nn">sea_img</span>
+    
+    
+    <span class="n">mypath</span> <span class="o">=</span> <span class="n">unfiltered_folderPath</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;strat working on folder&quot;</span><span class="p">,</span> <span class="n">mypath</span><span class="p">)</span>
+
+    <span class="c1">#Setup Folder directories</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outpath_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">outpath_dir</span><span class="p">)</span>
+
+    <span class="n">figs_dir</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;Figs_analysis/filter_figs&quot;</span>
+    <span class="n">fig_masks</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;Figs_analysis/mask_figs&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">figs_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">figs_dir</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fig_masks</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">fig_masks</span><span class="p">)</span>
+
+    <span class="n">img_list</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">unfiltered_folderPath</span><span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span><span class="s2">&quot;*.tif&quot;</span><span class="p">))</span>
+    <span class="n">udm_list</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">UDM2_maskfolderPath</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="s2">&quot;*.tif&quot;</span><span class="p">))</span>
+    
+
+    <span class="c1">###############</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">img_list</span><span class="p">):</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; start Processing Image Number: &quot;</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="c1">#img_item=img_list[idx]</span>
+        <span class="c1">#msk_item=udm_list[idx]</span>
+        <span class="n">filepath1</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">img_list</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="c1">#filename=filename.replace(&quot;-&quot;, &quot;&quot;)</span>
+        <span class="c1">#rgb=rgb_normalize(img_list[idx])</span>
+        <span class="n">img_src</span><span class="o">=</span><span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">img_list</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        
+        <span class="n">meta</span><span class="o">=</span><span class="n">img_src</span><span class="o">.</span><span class="n">meta</span>
+        <span class="c1"># meta.update({&#39;nodata&#39;:0})</span>
+        <span class="c1"># meta.update({&#39;count&#39;: 3})</span>
+        <span class="c1"># meta.update({&#39;dtype&#39;: np.uint8})</span>
+
+        <span class="n">img_data</span> <span class="o">=</span> <span class="n">img_src</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">/</span><span class="mi">10000</span>
+        <span class="n">img_data_copy</span><span class="o">=</span><span class="n">img_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">UDM2_maskfolderPath</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">udm_src</span><span class="o">=</span><span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">udm_list</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+
+
+            <span class="n">clean_mask</span> <span class="o">=</span> <span class="n">udm_src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="n">snow_mask</span> <span class="o">=</span> <span class="n">udm_src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="n">shadow_mask</span> <span class="o">=</span> <span class="n">udm_src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="n">light_haze_mask</span> <span class="o">=</span> <span class="n">udm_src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="n">heavy_haze_mask</span> <span class="o">=</span> <span class="n">udm_src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="n">cloud_mask</span> <span class="o">=</span> <span class="n">udm_src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="n">bad_mask</span><span class="o">=</span><span class="n">snow_mask</span><span class="o">+</span><span class="n">shadow_mask</span><span class="o">+</span><span class="n">cloud_mask</span><span class="o">+</span><span class="n">light_haze_mask</span><span class="o">+</span><span class="n">heavy_haze_mask</span>
+            <span class="n">minimum_mask</span><span class="o">=</span><span class="n">shadow_mask</span><span class="o">+</span><span class="n">cloud_mask</span><span class="o">+</span><span class="n">snow_mask</span>
+            <span class="n">bad_mask</span><span class="o">=~</span><span class="n">clean_mask</span> <span class="o">+</span> <span class="n">snow_mask</span>
+            <span class="n">img_data</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">bad_mask</span> 
+            <span class="n">img_data</span> <span class="o">=</span> <span class="n">img_data</span><span class="o">.</span><span class="n">filled</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        
+        <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+            <span class="n">array_min</span><span class="p">,</span> <span class="n">array_max</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">array</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+            <span class="p">(</span><span class="n">array</span> <span class="o">-</span> <span class="n">array_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">array_max</span> <span class="o">-</span> <span class="n">array_min</span><span class="p">)</span>
+            <span class="n">array</span><span class="o">=</span><span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">out_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">array</span>
+        <span class="k">def</span> <span class="nf">pct_clip</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="n">pct</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">98</span><span class="p">]):</span>
+            <span class="n">array_min</span><span class="p">,</span> <span class="n">array_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanpercentile</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="n">pct</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanpercentile</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="n">pct</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">clip</span> <span class="o">=</span> <span class="p">(</span><span class="n">array</span> <span class="o">-</span> <span class="n">array_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">array_max</span> <span class="o">-</span> <span class="n">array_min</span><span class="p">)</span>
+            <span class="n">clip</span><span class="p">[</span><span class="n">clip</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
+            <span class="n">clip</span><span class="p">[</span><span class="n">clip</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+            <span class="k">return</span> <span class="n">clip</span>
+
+        <span class="c1"># Convert to numpy arrays</span>
+        <span class="n">r_o</span> <span class="o">=</span> <span class="n">img_src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">b_o</span> <span class="o">=</span> <span class="n">img_src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">g_o</span> <span class="o">=</span> <span class="n">img_src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">r_o</span><span class="o">=</span><span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">r_o</span><span class="p">,</span> <span class="n">out_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+        <span class="n">b_o</span><span class="o">=</span><span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">b_o</span><span class="p">,</span> <span class="n">out_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+        <span class="n">g_o</span><span class="o">=</span><span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">g_o</span><span class="p">,</span> <span class="n">out_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+        <span class="n">rgb_img_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">r_o</span><span class="p">,</span> <span class="n">b_o</span><span class="p">,</span> <span class="n">g_o</span><span class="p">))</span>
+        <span class="n">rgb_img_data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">rgb_img_data</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">UDM2_maskfolderPath</span><span class="o">!=</span><span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">equalize_hist</span><span class="p">(</span><span class="n">r_o</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">clean_mask</span><span class="o">+</span> <span class="o">~</span><span class="n">snow_mask</span><span class="p">)</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">equalize_hist</span><span class="p">(</span><span class="n">b_o</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">clean_mask</span><span class="o">+</span> <span class="o">~</span><span class="n">snow_mask</span><span class="p">)</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">equalize_hist</span><span class="p">(</span><span class="n">g_o</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">clean_mask</span><span class="o">+</span> <span class="o">~</span><span class="n">snow_mask</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">equalize_hist</span><span class="p">(</span><span class="n">r_o</span><span class="p">)</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">equalize_hist</span><span class="p">(</span><span class="n">b_o</span><span class="p">)</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">equalize_hist</span><span class="p">(</span><span class="n">g_o</span><span class="p">)</span>
+            
+        <span class="n">r</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">equalize_adapthist</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">clip_limit</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">equalize_adapthist</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">clip_limit</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">equalize_adapthist</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">clip_limit</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+
+        <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+        <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+
+        <span class="n">r</span><span class="p">[</span><span class="n">r_o</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+        <span class="n">b</span><span class="p">[</span><span class="n">b_o</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+        <span class="n">g</span><span class="p">[</span><span class="n">g_o</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+
+        <span class="n">r</span><span class="o">=</span><span class="n">pct_clip</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="n">b</span><span class="o">=</span><span class="n">pct_clip</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">=</span><span class="n">pct_clip</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+        <span class="n">rgb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">g</span><span class="p">))</span>
+        <span class="n">rgb</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="c1">#rgb[rgb==0]=255</span>
+        <span class="k">if</span> <span class="n">Udm_Mask_Option</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+            <span class="n">rgb</span><span class="p">[</span><span class="n">img_data</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rgb</span><span class="p">[</span><span class="n">img_data_copy</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+            
+
+
+        <span class="nb">print</span> <span class="p">(</span><span class="n">rgb</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        
+        <span class="n">rgb</span><span class="o">=</span><span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="n">out_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        
+        <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span> <span class="n">outpath_dir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;GTiff&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">img_src</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">img_src</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">count</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">img_src</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">img_src</span><span class="o">.</span><span class="n">transform</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+            <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span>
+        
+        <span class="c1">##Set plot extent</span>
+        <span class="c1"># import rioxarray as rxr</span>
+        <span class="c1"># from rasterio.plot import plotting_extent</span>
+        <span class="c1"># rs = rxr.open_rasterio(udm_list[0], masked=True)</span>
+        <span class="c1">#rs_plotting_extent = plotting_extent(rs[0], rs.rio.transform())</span>
+        <span class="n">fig1</span><span class="p">,</span> <span class="p">((</span><span class="n">ax12</span><span class="p">,</span> <span class="n">ax22</span><span class="p">),</span> <span class="p">(</span><span class="n">ax32</span><span class="p">,</span> <span class="n">ax42</span><span class="p">)</span> <span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
+        <span class="n">show</span><span class="p">(</span><span class="n">rgb_img_data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax12</span><span class="p">)</span>
+        <span class="n">show_hist</span><span class="p">(</span><span class="n">rgb_img_data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax22</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> 
+        <span class="n">stacked</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">histtype</span><span class="o">=</span><span class="s1">&#39;stepfilled&#39;</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Initial: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">[:</span><span class="mi">10</span><span class="p">]))</span>
+        <span class="n">ax22</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="n">show</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax32</span> <span class="p">)</span>
+        <span class="n">show_hist</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax42</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> 
+        <span class="n">stacked</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">histtype</span><span class="o">=</span><span class="s1">&#39;stepfilled&#39;</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;CLAHE: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">[:</span><span class="mi">10</span><span class="p">]))</span>
+        <span class="n">ax42</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="n">bn</span><span class="o">=</span><span class="n">img_data</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">xs</span><span class="o">=</span><span class="n">bn</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">ys</span><span class="o">=</span><span class="n">bn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ax12</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
+        <span class="n">ax12</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">ax32</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
+        <span class="n">ax32</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+        
+        <span class="n">fig1</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figs_dir</span><span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span><span class="o">+</span> <span class="s2">&quot;.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">plot_figure</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig1</span><span class="p">)</span>   
+
+        <span class="k">if</span> <span class="n">UDM2_maskfolderPath</span><span class="o">!=</span><span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">fig2</span><span class="p">,</span> <span class="p">(</span><span class="n">ax12</span> <span class="p">,</span> <span class="n">ax22</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+            <span class="n">show</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax12</span><span class="p">)</span>
+            <span class="n">show</span><span class="p">(</span><span class="o">~</span><span class="n">clean_mask</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;binary&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax22</span><span class="p">)</span>
+            <span class="c1">#plt.show()</span>
+            <span class="n">bn</span><span class="o">=</span><span class="n">img_data</span><span class="o">.</span><span class="n">shape</span>
+            <span class="n">xs</span><span class="o">=</span><span class="n">bn</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">ys</span><span class="o">=</span><span class="n">bn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">ax12</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
+            <span class="n">ax12</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">ax22</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
+            <span class="n">ax22</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">fig2</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig_masks</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span><span class="o">+</span> <span class="s2">&quot;.jpg&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+        
+            <span class="k">if</span> <span class="n">plot_figure</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig2</span><span class="p">)</span>
+                
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">img_list</span><span class="p">):</span>
+            <span class="k">break</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;process is completed&quot;</span><span class="p">)</span>
+       
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All process is completed&quot;</span><span class="p">)</span></div>
+
+        
+
+        
+        <span class="c1"># #show(bad_mask, title=&quot;bad_mask: &quot;+str(udm_list[idx]), cmap=&quot;binary&quot;)</span>
+
+        <span class="c1"># if Color==True:</span>
+        <span class="c1">#         RGB=[3,2,1]</span>
+        <span class="c1">#         img_data = img_src.read([RGB[0], RGB[1], RGB[2]])/1000  # apply RGB ordering and scale down</span>
+        <span class="c1">#         img_copy=img_data.copy()</span>
+        <span class="c1">#         meta.update({&#39;driver&#39;:&#39;GTiff&#39;,</span>
+        <span class="c1">#          &#39;width&#39;:img_src.shape[1],</span>
+        <span class="c1">#          &#39;height&#39;:img_src.shape[0],</span>
+        <span class="c1">#          &#39;count&#39;:3,</span>
+        <span class="c1">#          &#39;dtype&#39;:&#39;float32&#39;,</span>
+        <span class="c1">#          &#39;crs&#39;:img_src.crs, </span>
+        <span class="c1">#          &#39;transform&#39;:img_src.transform,</span>
+        <span class="c1">#          &#39;nodata&#39;:0})</span>
+        <span class="c1">#         if Udm_Mask_Option==True:</span>
+        <span class="c1">#             img_data = img_src.read([RGB[0], RGB[1], RGB[2]], masked=True)/1000</span>
+        <span class="c1">#             img_data.mask = bad_mask</span>
+        <span class="c1">#             img_data = img_data.filled(fill_value=0)</span>
+        <span class="c1">#         else:</span>
+        <span class="c1">#             img_data=img_data</span>
+
+        <span class="c1"># elif Color==False:</span>
+        <span class="c1">#     clean_mask = udm_src.read(1).astype(bool)</span>
+        <span class="c1">#     gray=2</span>
+        <span class="c1">#     img_data = img_src.read(gray)  # apply RGB ordering and scale down</span>
+        <span class="c1">#     img_data=img_data.astype(&quot;float&quot;)</span>
+        <span class="c1">#     img_data[clean_mask==False]=np.nan</span>
+        <span class="c1">#     img_copy=img_data.copy()</span>
+        <span class="c1">#     meta.update({&#39;driver&#39;:&#39;GTiff&#39;,</span>
+        <span class="c1">#          &#39;width&#39;:img_src.shape[1],</span>
+        <span class="c1">#          &#39;height&#39;:img_src.shape[0],</span>
+        <span class="c1">#          &#39;count&#39;:1,</span>
+        <span class="c1">#          &#39;dtype&#39;:&#39;float32&#39;,</span>
+        <span class="c1">#          &#39;crs&#39;:img_src.crs, </span>
+        <span class="c1">#          &#39;transform&#39;:img_src.transform,</span>
+        <span class="c1">#          &#39;nodata&#39;:0})</span>
+
+
+        <span class="c1"># print (&quot;img_data shape: &quot;, img_data.shape)</span>
+
+        <span class="c1"># img_data=exposure.rescale_intensity(img_data, out_range=(0, 255)).astype(np.uint8)</span>
+        
+        <span class="c1"># #Global Histogram Equalization</span>
+        <span class="c1"># img_histo_equ = exposure.equalize_hist(img_data, mask=clean_mask)</span>
+
+        
+        <span class="c1"># img_histo_equ[img_copy==0]=0</span>
+
+        <span class="c1"># img_histo_equ=exposure.rescale_intensity(img_histo_equ, out_range=(0, 255)).astype(np.uint8)</span>
+
+        <span class="c1"># #Apply CLAHE Filter 1 and 2</span>
+        <span class="c1"># filteredimage = exposure.equalize_adapthist(img_histo_equ, clip_limit=0.01, nbins=256)</span>
+
+        <span class="c1"># filteredimage[img_copy==0]=0</span>
+
+        <span class="c1"># if Udm_Mask_Option==True:</span>
+        <span class="c1">#     filteredimage=filteredimage.astype(&quot;float&quot;)</span>
+        <span class="c1">#     filteredimage[clean_mask==False]=np.nan</span>
+
+        <span class="c1"># filteredimage=exposure.rescale_intensity(filteredimage, out_range=(0, 255)).astype(np.uint8)</span>
+
+        <span class="c1"># filteredimage = exposure.equalize_adapthist(filteredimage, clip_limit=0.01, nbins=256)</span>
+
+        <span class="c1"># filteredimage[img_copy==0]=0</span>
+
+        <span class="c1"># if Udm_Mask_Option==True:</span>
+        <span class="c1">#     filteredimage=filteredimage.astype(&quot;float&quot;)</span>
+        <span class="c1">#     filteredimage[clean_mask==False]=np.nan</span>
+
+        
+        <span class="c1"># filteredimage=exposure.rescale_intensity(filteredimage, out_range=(0, 255)).astype(np.uint8)</span>
+       
+       
+        
+    
+        <span class="c1"># filteredimage[img_copy==0]=0</span>
+        <span class="c1"># if Udm_Mask_Option==True:</span>
+        <span class="c1">#     filteredimage=filteredimage.astype(&quot;float&quot;)</span>
+        <span class="c1">#     filteredimage[clean_mask==False]=np.nan</span>
+
+        <span class="c1"># #filteredimage=np.transpose(filteredimage, (1,0))</span>
+        <span class="c1"># filteredimage=np.transpose(filteredimage, (0,1, 2))</span>
+        <span class="c1"># print (filteredimage.shape)</span>
+        <span class="c1"># with rasterio.open(outpath_dir+ &quot;/&quot; + str(filename),  &#39;w+&#39;, **meta) as dst:</span>
+        <span class="c1">#     dst.write(filteredimage)</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># def pct_clip(array, pct=[2, 98]):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Clip an array based on percentiles.</span>
+
+<span class="c1">#     Args:</span>
+<span class="c1">#         array (ndarray): Input array.</span>
+<span class="c1">#         pct (list): List of percentiles [lower, upper] for clipping.</span>
+    
+<span class="c1">#     Returns:</span>
+<span class="c1">#         ndarray: Clipped array.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     array_min, array_max = np.nanpercentile(array, pct[0]), np.nanpercentile(array, pct[1])</span>
+<span class="c1">#     clip = (array - array_min) / (array_max - array_min)</span>
+<span class="c1">#     clip[clip &gt; 1] = 1</span>
+<span class="c1">#     clip[clip &lt; 0] = 0</span>
+<span class="c1">#     return clip</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">restoration</span><span class="p">,</span> <span class="n">exposure</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="kn">import</span> <span class="n">gaussian</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
+
+<div class="viewcode-block" id="Raster_Correction">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Filter_PreProc.Raster_Correction">[docs]</a>
+<span class="k">def</span> <span class="nf">Raster_Correction</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lowpass_kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                      <span class="n">bilateral_win_size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">bilateral_sigma_color</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">bilateral_sigma_spatial</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span>
+                      <span class="n">clip_percentiles</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">98</span><span class="p">],</span> <span class="n">optical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s1">&#39;power&#39;</span><span class="p">,</span> <span class="n">Vegetation_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">CLAHE_filter</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs a series of image correction and enhancement operations on raster images,</span>
+<span class="sd">    specifically tailored for Synthetic Aperture Radar (SAR) data, but can be used for other rasters too.</span>
+
+<span class="sd">    This function achieves denoising, normalization, and contrast enhancement for raster images</span>
+<span class="sd">    based on user-specified parameters. The function is designed to work effectively with both </span>
+<span class="sd">    optical and SAR imagery.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        input_path (str): Path to the directory containing input raster images.</span>
+<span class="sd">        output_path (str): Directory where corrected images and plots will be saved.</span>
+<span class="sd">        limit (int, optional): Maximum number of images to process. If None, all images are processed.</span>
+<span class="sd">        lowpass_kernel_size (int, optional): Size of the Gaussian low-pass filter kernel.</span>
+<span class="sd">        bilateral_win_size (int): Size of the bilateral filter window.</span>
+<span class="sd">        bilateral_sigma_color (int): Standard deviation for color space in bilateral filter.</span>
+<span class="sd">        bilateral_sigma_spatial (int): Standard deviation for spatial space in bilateral filter.</span>
+<span class="sd">        clip_percentiles (list): 2-element list containing lower and upper percentiles for clipping pixel values.</span>
+<span class="sd">        optical (bool): Indicates if the raster is optical imagery. Activates certain corrections specific to optical data.</span>
+<span class="sd">        scale (str): Mode of scaling (&#39;power&#39; for logarithmic normalization and &#39;amplitude&#39; for linear).</span>
+<span class="sd">        Vegetation_mask (str, optional): Path to a raster file that represents a vegetation mask. Pixels in the input image that correspond to non-vegetation in the mask will be set to one.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None. Outputs are saved to the specified directory.</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">        - Corrected raster images saved in GeoTIFF format.</span>
+<span class="sd">        - Plots comparing original, filtered, and corrected images along with their histograms.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        Suitable for both SAR and optical imagery correction. Adjust filter parameters as per the nature of input raster</span>
+<span class="sd">        and desired output.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        - Ensure that the GDAL and other necessary libraries are correctly installed.</span>
+<span class="sd">        - The function uses tqdm to provide a progress bar, so ensure it&#39;s installed if you want the progress visualization.</span>
+<span class="sd">        - The function has been optimized for a balance between performance and quality, but processing large raster datasets</span>
+<span class="sd">          might still be computationally intensive.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">pct_clip</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">pct</span><span class="o">=</span><span class="n">clip_percentiles</span><span class="p">):</span>
+        <span class="n">array</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># Create a writable copy</span>
+        <span class="n">array_min</span><span class="p">,</span> <span class="n">array_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanpercentile</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">pct</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanpercentile</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">pct</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">clip</span> <span class="o">=</span> <span class="p">(</span><span class="n">array</span> <span class="o">-</span> <span class="n">array_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">array_max</span> <span class="o">-</span> <span class="n">array_min</span><span class="p">)</span>
+        <span class="n">clip</span><span class="p">[</span><span class="n">clip</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">clip</span><span class="p">[</span><span class="n">clip</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">clip</span>
+
+    <span class="n">image_extensions</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;.tif&#39;</span><span class="p">,</span> <span class="s1">&#39;.tiff&#39;</span><span class="p">,</span> <span class="s1">&#39;.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;.jpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;.png&#39;</span><span class="p">)</span>  <span class="c1"># Add more extensions if needed</span>
+
+    <span class="k">if</span> <span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Get a list of image files in the directory</span>
+        <span class="n">image_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">input_path</span><span class="p">)</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span> <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">image_extensions</span><span class="p">)][:</span><span class="n">limit</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">image_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">input_path</span><span class="p">)</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span> <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">image_extensions</span><span class="p">)]</span>
+
+
+    <span class="c1"># Create the plot directory if it doesn&#39;t exist</span>
+    <span class="n">plot_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;plots&quot;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">plot_directory</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Initialize progress bar</span>
+    <span class="n">progress_bar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">image_files</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Processing images&quot;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">Vegetation_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">zoom</span>
+        <span class="n">mask_file</span><span class="o">=</span><span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">Vegetation_mask</span><span class="p">)</span>
+        <span class="n">mask_data</span><span class="o">=</span><span class="n">mask_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Ensure mask_data is boolean (0 or 1)</span>
+
+    <span class="k">for</span> <span class="n">image_file</span> <span class="ow">in</span> <span class="n">image_files</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Open the input raster</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">image_file</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">dataset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to open raster: </span><span class="si">{</span><span class="n">image_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Read the raster data</span>
+            <span class="n">band</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+            <span class="n">nodata_value</span> <span class="o">=</span> <span class="n">band</span><span class="o">.</span><span class="n">GetNoDataValue</span><span class="p">()</span>
+            
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">Vegetation_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># If the shapes don&#39;t match and dem_array is provided, resize mask_array</span>
+                <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">mask_data</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+                    <span class="n">y_scale</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">mask_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">x_scale</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">mask_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">mask_data</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span><span class="n">mask_data</span><span class="p">,</span> <span class="p">(</span><span class="n">y_scale</span><span class="p">,</span> <span class="n">x_scale</span><span class="p">))</span>
+
+                <span class="c1"># Threshold mask_array</span>
+                <span class="n">mask_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">mask_data</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+                <span class="n">mask_data</span> <span class="o">=</span> <span class="n">mask_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+
+                <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask_data</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                
+            <span class="k">if</span> <span class="n">scale</span><span class="o">==</span><span class="s1">&#39;power&#39;</span><span class="p">:</span>
+                    <span class="c1"># if np.any(data &lt; -1):</span>
+                    <span class="c1">#     data_min = data.min()</span>
+                    <span class="c1">#     data_max = data.max()</span>
+                    <span class="c1">#     data = (data - data_min) / (data_max - data_min) * data_max</span>
+                    <span class="c1"># Log normalize the image</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># Apply log transformation to the image</span>
+                    
+                    <span class="c1"># Step 2: Apply bilateral filter for denoising</span>
+                    <span class="n">denoise_bilateral</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">bilateral_win_size</span><span class="p">,</span> <span class="n">sigmaColor</span><span class="o">=</span><span class="n">bilateral_sigma_color</span><span class="p">,</span> <span class="n">sigmaSpace</span><span class="o">=</span><span class="n">bilateral_sigma_spatial</span><span class="p">)</span>
+                    
+
+                    <span class="c1"># Step 3: Normalize to 0-255 scale</span>
+                    <span class="n">normalized_data</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">norm_type</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">NORM_MINMAX</span><span class="p">)</span>
+                       <span class="c1"># Apply low-pass filter</span>
+                    <span class="k">if</span> <span class="n">lowpass_kernel_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">filtered</span> <span class="o">=</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">normalized_data</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">lowpass_kernel_size</span><span class="p">,</span> <span class="n">preserve_range</span> <span class="o">=</span><span class="kc">True</span> <span class="p">)</span>  <span class="c1"># Adjust sigma according to your desired smoothing strength</span>
+                        <span class="n">filtered_label</span><span class="o">=</span><span class="s1">&#39;Low Pass Filter&#39;</span>
+                    <span class="k">elif</span> <span class="n">lowpass_kernel_size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">optical</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+                        <span class="c1">#filtered=cv2.medianBlur(denoise_bilateral, 5)</span>
+                        <span class="n">filtered</span><span class="o">=</span><span class="n">normalized_data</span>
+                        <span class="n">filtered_label</span><span class="o">=</span><span class="s1">&#39;Bilateral Filter&#39;</span>
+                    <span class="k">else</span><span class="p">:</span>
+
+                        <span class="n">filtered_label</span><span class="o">=</span><span class="s1">&#39;No-Filter Applied&#39;</span>
+
+                        <span class="n">normalized_data</span><span class="o">=</span><span class="n">denoise_bilateral</span>
+                    
+                    <span class="n">corrected_data</span> <span class="o">=</span> <span class="n">normalized_data</span>
+                        
+            <span class="k">elif</span> <span class="n">scale</span><span class="o">==</span><span class="s1">&#39;amplitude&#39;</span><span class="p">:</span>
+                    <span class="n">data</span><span class="o">=</span><span class="n">data</span>
+                    <span class="c1"># Step 3: Normalize to 0-255 scale</span>
+                    <span class="c1">#clipped_data = pct_clip(filtered)</span>
+                    <span class="n">denoise_bilateral</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">bilateral_win_size</span><span class="p">,</span> <span class="n">sigmaColor</span><span class="o">=</span><span class="n">bilateral_sigma_color</span><span class="p">,</span> <span class="n">sigmaSpace</span><span class="o">=</span><span class="n">bilateral_sigma_spatial</span><span class="p">)</span>  
+                    <span class="n">normalized_data</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">norm_type</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">NORM_MINMAX</span><span class="p">)</span> 
+                    <span class="k">if</span> <span class="n">lowpass_kernel_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">filtered</span> <span class="o">=</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">normalized_data</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">lowpass_kernel_size</span><span class="p">,</span> <span class="n">preserve_range</span> <span class="o">=</span><span class="kc">True</span> <span class="p">)</span>  <span class="c1"># Adjust sigma according to your desired smoothing strength</span>
+                        <span class="n">filtered_label</span><span class="o">=</span><span class="s1">&#39;Low Pass Filter&#39;</span>
+                    <span class="k">elif</span> <span class="n">lowpass_kernel_size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">optical</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+                        <span class="c1">#filtered=cv2.medianBlur(denoise_bilateral, 5)</span>
+                        <span class="n">filtered</span><span class="o">=</span><span class="n">normalized_data</span>
+                        <span class="n">filtered_label</span><span class="o">=</span><span class="s1">&#39;Bilateral Filter&#39;</span>
+                    <span class="k">else</span><span class="p">:</span>
+
+                        <span class="n">filtered_label</span><span class="o">=</span><span class="s1">&#39;No-Filter Applied&#39;</span>
+
+                        <span class="n">normalized_data</span><span class="o">=</span><span class="n">denoise_bilateral</span>
+                    
+                        <span class="n">corrected_data</span> <span class="o">=</span> <span class="n">normalized_data</span>
+                        
+                   
+            <span class="k">elif</span> <span class="n">optical</span><span class="o">==</span><span class="kc">True</span> <span class="ow">and</span> <span class="n">scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;set scale to None because you chose to process optical imagery&#39;</span><span class="p">)</span>
+            
+           
+
+            <span class="k">if</span> <span class="n">optical</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">clip_percentiles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    
+                    <span class="n">clipped_data</span> <span class="o">=</span> <span class="n">pct_clip</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">clipped_data</span><span class="o">=</span><span class="n">data</span>
+                <span class="n">denoise_bilateral</span> <span class="o">=</span> <span class="n">clipped_data</span>
+                <span class="k">if</span> <span class="n">CLAHE_filter</span><span class="p">:</span>
+                    <span class="n">corrected_data</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">equalize_adapthist</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">clip_limit</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">corrected_data</span><span class="o">=</span><span class="n">denoise_bilateral</span>
+                <span class="n">normalized_data</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">corrected_data</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">norm_type</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">NORM_MINMAX</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+                <span class="n">corrected_data</span><span class="o">=</span><span class="n">normalized_data</span>
+                <span class="n">filtered</span><span class="o">=</span><span class="n">normalized_data</span>
+                <span class="n">filtered_label</span><span class="o">=</span><span class="s1">&#39;CLAHE-Filter&#39;</span>
+                
+
+            
+            
+            
+            
+            <span class="c1"># Plot and display the images and histograms</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+            <span class="c1"># Plot the original image</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original Image&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Plot the median_filter image</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">filtered</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">filtered_label</span><span class="p">)</span>
+
+            <span class="c1"># Plot the denoise_bilateral image</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;denoise_bilateral&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Plot the denoise_bilateral image</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">corrected_data</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;corrected_data&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Plot the histogram of the original data</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original Histogram&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Pixel Value&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Plot the histogram of the median_filter data</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">normalized_data</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">filtered_label</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Pixel Value&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Plot the histogram of the denoise_bilateral data</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;denoise_bilateral Histogram&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Pixel Value&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Plot the histogram of the denoise_bilateral data</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">corrected_data</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;corrected_data Histogram&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Pixel Value&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Save the plot as a single figure</span>
+            <span class="n">output_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">image_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_images_histograms.jpg&#39;</span>
+            <span class="n">output_filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plot_directory</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">output_filepath</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;jpg&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Call tight_layout() to adjust the subplot spacing</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+            <span class="c1"># Close the plot</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+            <span class="c1"># Create an output raster with the corrected data</span>
+            <span class="n">output_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">image_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.tif&#39;</span>
+            <span class="n">output_filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">)</span>
+            <span class="n">driver</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s2">&quot;GTiff&quot;</span><span class="p">)</span>
+            <span class="n">output_dataset</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">output_filepath</span><span class="p">,</span> <span class="n">dataset</span><span class="o">.</span><span class="n">RasterXSize</span><span class="p">,</span> <span class="n">dataset</span><span class="o">.</span><span class="n">RasterYSize</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+                                           <span class="n">gdal</span><span class="o">.</span><span class="n">GDT_Byte</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">nodata_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">corrected_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">corrected_data</span> <span class="o">==</span> <span class="n">nodata_value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">corrected_data</span><span class="p">)</span>
+            
+            <span class="n">output_dataset</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="n">corrected_data</span><span class="p">)</span>
+
+            <span class="c1"># Set the same geotransform and projection as the input raster</span>
+            <span class="n">output_dataset</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">())</span>
+            <span class="n">output_dataset</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">())</span>
+
+            <span class="c1"># Close the datasets</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">output_dataset</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error processing raster: </span><span class="si">{</span><span class="n">image_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+        <span class="c1"># Update progress bar</span>
+        <span class="n">progress_bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Close progress bar</span>
+    <span class="n">progress_bar</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+
+<span class="c1"># # Example usage</span>
+<span class="c1"># input_path = &quot;cropped_dir&quot;</span>
+<span class="c1"># output_path = &quot;output_dir&quot;</span>
+<span class="c1"># limit = 5  # Maximum number of images to process, set to None for all images</span>
+<span class="c1"># raster_correction(input_path, output_path, limit)</span>
+
+        
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/akhdefo_logo.svg" alt="Logo"/>
+            </a></p>
+  
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../../index.html">Overview</a>
+    <ul>
+      <li><a href="../index.html">Module code</a>
+        
+          
+          </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Mahmud Mustafa Muhammad.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  <script src="../../_static/version_warning_offset.js"></script>
+
+  </body>
+</html>

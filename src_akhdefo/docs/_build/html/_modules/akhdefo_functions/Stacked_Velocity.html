@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>akhdefo_functions.Stacked_Velocity &#8212; AkhDefo Software 2.2.62 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
+    <script src="../../_static/documentation_options.js?v=1eda8c85"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Akhdefo</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">akhdefo_functions.Stacked_Velocity</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for akhdefo_functions.Stacked_Velocity</h1><div class="highlight"><pre>
+<span></span>
+<span class="c1">######</span>
+
+
+<div class="viewcode-block" id="stackprep">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Stacked_Velocity.stackprep">[docs]</a>
+<span class="k">def</span> <span class="nf">stackprep</span><span class="p">(</span><span class="n">path_to_flowxnFolder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">path_toFlowynFolder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dem</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">print_list</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">,</span> <span class="n">output_stackedFolder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="n">VEL_scale</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;month&quot;</span><span class="p">,</span><span class="s2">&quot;year&quot;</span><span class="p">)</span> <span class="p">,</span> <span class="n">xres</span><span class="o">=</span><span class="mf">3.125</span><span class="p">,</span> <span class="n">yres</span><span class="o">=</span><span class="mf">3.125</span><span class="p">,</span> <span class="n">Velocity_shapeFile</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">Resampling</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">Raster_stack_correction</span><span class="o">=</span><span class="kc">False</span> <span class="p">):</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This program collects velocity candiate points for time-series analysis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    </span>
+<span class="sd">    path_to_flowxnFolder: str</span>
+<span class="sd">        path to folder include east-west velocity files</span>
+<span class="sd">    </span>
+<span class="sd">    path_toFlowynFolder: str</span>
+<span class="sd">        path to folder include north-south velocity files</span>
+<span class="sd">    </span>
+<span class="sd">    dem: str</span>
+<span class="sd">        path to digital elevation model file will be used to geocode the products</span>
+<span class="sd">    </span>
+<span class="sd">    print_list: bool</span>
+<span class="sd">        print list of temporal proceesed dates default is False</span>
+<span class="sd">    </span>
+<span class="sd">    start_date: str</span>
+<span class="sd">        &quot;YYYYMMDD&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    end_date: str</span>
+<span class="sd">        &quot;YYYYMMDD&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    output_stackedFolder: str</span>
+<span class="sd">    </span>
+<span class="sd">    VEL_scale: str</span>
+<span class="sd">        &quot;month&quot; or &quot;year&quot;) at this stage you can ignore this option; will be removed from future versions</span>
+<span class="sd">      </span>
+<span class="sd">    xres: float</span>
+<span class="sd">        x resolution</span>
+<span class="sd">    yres: float</span>
+<span class="sd">        y resolution</span>
+<span class="sd">     </span>
+<span class="sd">    Velocity_shapeFile: bool</span>
+
+<span class="sd">        set to True if need to generate points for temporal deformation analysis</span>
+<span class="sd">    </span>
+<span class="sd">    Resampling: bool</span>
+<span class="sd">        if True reduce number of measurement points but faster processing</span>
+<span class="sd">    </span>
+<span class="sd">    Raster_stack_correction: bool</span>
+<span class="sd">        if True this feature computes the linearly interpolated pixel values between subsequent time-slices(bands) in raster stack</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ESRI Shapefile</span>
+<span class="sd">        This file include candiate velocity points for timeseries analysis</span>
+<span class="sd">        </span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+    <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
+    <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+    <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+    <span class="kn">from</span> <span class="nn">geocube.api.core</span> <span class="kn">import</span> <span class="n">make_geocube</span>
+    <span class="kn">from</span> <span class="nn">geocube.rasterize</span> <span class="kn">import</span> <span class="n">rasterize_points_griddata</span>
+    <span class="kn">import</span> <span class="nn">earthpy.spatial</span> <span class="k">as</span> <span class="nn">es</span>
+    <span class="kn">import</span> <span class="nn">rasterio</span>
+    <span class="kn">import</span> <span class="nn">glob</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="kn">from</span> <span class="nn">dateutil</span> <span class="kn">import</span> <span class="n">parser</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="kn">import</span> <span class="nn">rioxarray</span> <span class="k">as</span> <span class="nn">rxr</span>
+    <span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">plotting_extent</span>
+    <span class="kn">import</span> <span class="nn">earthpy.spatial</span> <span class="k">as</span> <span class="nn">es</span>
+    <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+    
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_stackedFolder</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_stackedFolder</span><span class="p">)</span>
+        
+        
+    <span class="k">def</span> <span class="nf">akdefo_calibration_points</span><span class="p">(</span><span class="n">path_to_Raster</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_filePath</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">outputFile_name</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_filePath</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_filePath</span><span class="p">)</span>
+        
+        <span class="c1"># dataset = rasterio.open(path_to_Raster, &quot;r+&quot;)</span>
+        <span class="c1"># dataset.nodata=np.nan</span>
+        <span class="c1"># data_array = dataset.read(1)</span>
+        <span class="c1"># no_data=dataset.nodata</span>
+        <span class="c1"># geometry = [Point(dataset.xy(x,y)[0],dataset.xy(x,y)[1]) for x,y in np.ndindex(data_array.shape) if data_array[x,y] != no_data]</span>
+        <span class="c1"># vel = [data_array[x,y] for x,y in np.ndindex(data_array.shape) if data_array[x,y] != no_data]  </span>
+        
+        <span class="c1"># ######                   </span>
+        <span class="c1"># df = gpd.GeoDataFrame({&#39;geometry&#39;:geometry,&#39;VEL&#39;:vel})</span>
+        <span class="k">def</span> <span class="nf">raster_to_points</span><span class="p">(</span><span class="n">path_to_Raster</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">osr</span>
+            <span class="kn">import</span> <span class="nn">os</span>
+            <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+            <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+            <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+            <span class="kn">import</span> <span class="nn">rasterio</span>
+
+            <span class="c1">#path_to_Raster=&#39;stack_prep/20190102_to_20190423_N-S.tif&#39;</span>
+            <span class="n">filename</span><span class="o">=</span><span class="n">path_to_Raster</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+            <span class="c1">#filename=path_to_Raster</span>
+            <span class="n">inDs</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.tif&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+            <span class="n">outDs</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Translate</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.xyz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">inDs</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;XYZ&#39;</span><span class="p">,</span> <span class="n">creationOptions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ADD_HEADER_LINE=YES&quot;</span><span class="p">])</span>
+            <span class="n">outDs</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.xyz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;ogr2ogr -f &quot;ESRI Shapefile&quot; -oo X_POSSIBLE_NAMES=X* -oo Y_POSSIBLE_NAMES=Y* -oo KEEP_GEOM_COLUMNS=NO </span><span class="si">{0}</span><span class="s1">.shp </span><span class="si">{0}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+
+            <span class="n">dataset</span><span class="o">=</span><span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="o">+</span><span class="s2">&quot;.tif&quot;</span><span class="p">)</span>
+            <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="o">+</span><span class="s2">&quot;.csv&quot;</span><span class="p">)</span>
+            <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;X Y Z&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;X Y Z&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+            <span class="n">df</span>
+            <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;VEL&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span>
+            <span class="c1">#&#39;SiteID&#39;, &#39;VEL&#39;, &#39;x&#39;, &#39;y&#39;, &#39;geometry&#39;</span>
+            <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;z&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+
+            <span class="n">geometry</span><span class="o">=</span><span class="n">gpd</span><span class="o">.</span><span class="n">points_from_xy</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+            <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>  <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">)</span>
+
+            <span class="n">gdf</span><span class="o">.</span><span class="n">crs</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">crs</span>
+
+            <span class="n">gdf</span>
+
+            <span class="c1">#gdf.to_file(&quot;Velocity_candidates1.shp&quot;, driver=&#39;ESRI Shapefile&#39;)</span>
+
+            <span class="k">return</span> <span class="n">gdf</span>
+        
+        <span class="n">df</span><span class="o">=</span><span class="n">raster_to_points</span><span class="p">(</span><span class="n">path_to_Raster</span><span class="p">)</span>
+         
+        <span class="c1">#df.crs = dataset.crs</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;SiteID&#39;</span>
+        <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+        
+        <span class="n">Q1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;VEL&quot;</span><span class="p">],</span> <span class="mi">25</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="s1">&#39;midpoint&#39;</span><span class="p">)</span>
+        <span class="n">Q2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;VEL&quot;</span><span class="p">],</span> <span class="mi">50</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="s1">&#39;midpoint&#39;</span><span class="p">)</span>  
+        <span class="n">Q3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;VEL&quot;</span><span class="p">],</span> <span class="mi">75</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="s1">&#39;midpoint&#39;</span><span class="p">)</span>
+        <span class="n">IQR</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q1</span>
+        <span class="n">q_low</span><span class="o">=</span> <span class="n">Q1</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+        <span class="n">q_hi</span><span class="o">=</span><span class="n">Q3</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+        <span class="c1"># q_low = df[&quot;VEL&quot;].quantile(0.01)</span>
+        <span class="c1"># q_hi  = df[&quot;VEL&quot;].quantile(0.99)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;VEL&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">q_hi</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;VEL&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">q_low</span><span class="p">)]</span>
+        <span class="n">outlier</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;VEL&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">x</span><span class="o">&gt;</span> <span class="n">q_hi</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="n">q_low</span><span class="p">)):</span>
+                <span class="n">outlier</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; outlier in the dataset is&#39;</span><span class="p">,</span> <span class="n">outlier</span><span class="p">)</span>
+
+        <span class="c1">#df.to_file(output_filePath + &quot;/temp.shp&quot;, driver=&#39;ESRI Shapefile&#39;)</span>
+        <span class="c1">#gdf_NS=gpd.read_file(output_filePath + &quot;/temp.shp&quot;)</span>
+        <span class="c1"># q_low = gdf_NS[&quot;VEL&quot;].quantile(0.01)</span>
+        <span class="c1"># q_hi  = gdf_NS[&quot;VEL&quot;].quantile(0.99)</span>
+
+        <span class="c1"># </span>
+        <span class="c1"># df[&#39;x&#39;] = df.geometry.apply(lambda p: p.x)</span>
+        <span class="c1"># df[&#39;y&#39;] = df.geometry.apply(lambda p: p.y)</span>
+       
+        <span class="c1"># import fiona</span>
+        <span class="c1"># fiona.supported_drivers[&#39;KML&#39;] = &#39;rw&#39;</span>
+        <span class="c1"># gdf=df</span>
+        <span class="c1"># gdf.to_file(&#39;velocity.kml&#39;, driver=&#39;KML&#39;)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">output_filePath</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">outputFile_name</span> <span class="o">+</span><span class="s2">&quot;.shp&quot;</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;ESRI Shapefile&#39;</span><span class="p">)</span>
+
+        <span class="c1"># geo_grid_vel = make_geocube(</span>
+        <span class="c1">#         vector_data=df,</span>
+        <span class="c1">#         measurements=[&#39;VEL_NS&#39;],</span>
+        <span class="c1">#         resolution=(100, 100),</span>
+        <span class="c1">#     output_crs=&quot;epsg:32610&quot;,</span>
+        <span class="c1">#  rasterize_function=partial(rasterize_points_griddata, method=&quot;cubic&quot;) )</span>
+
+        <span class="c1"># geo_grid_velstd = make_geocube(</span>
+        <span class="c1">#         vector_data=df,</span>
+        <span class="c1">#         measurements=[&#39;VEL_EW&#39;],</span>
+        <span class="c1">#         resolution=(100, 100),</span>
+        <span class="c1">#     output_crs=&quot;epsg:32610&quot;,</span>
+        <span class="c1">#  rasterize_function=partial(rasterize_points_griddata, method=&quot;cubic&quot;) )</span>
+
+        <span class="c1"># geo_grid_vel[&quot;VEL_NS&quot;].rio.to_raster(&quot;stack_data/VEL_NS.tif&quot;)</span>
+        <span class="c1"># geo_grid_velstd[&quot;VEL_EW&quot;].rio.to_raster(&quot;stack_data/VEL_EW.tif&quot;)</span>
+        
+       
+
+
+    <span class="k">def</span> <span class="nf">is_outlier</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a boolean array with True if points are outliers and False </span>
+<span class="sd">        otherwise.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        -----------</span>
+<span class="sd">            points : An numobservations by numdimensions array of observations</span>
+<span class="sd">            thresh : The modified z-score to use as a threshold. Observations with</span>
+<span class="sd">                a modified z-score (based on the median absolute deviation) greater</span>
+<span class="sd">                than this value will be classified as outliers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        --------</span>
+<span class="sd">            mask : A numobservations-length boolean array.</span>
+
+<span class="sd">        References:</span>
+<span class="sd">        ----------</span>
+<span class="sd">            Boris Iglewicz and David Hoaglin (1993), &quot;Volume 16: How to Detect and</span>
+<span class="sd">            Handle Outliers&quot;, The ASQC Basic References in Quality Control:</span>
+<span class="sd">            Statistical Techniques, Edward F. Mykytka, Ph.D., Editor. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span>
+        <span class="n">median</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">points</span> <span class="o">-</span> <span class="n">median</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+        <span class="n">med_abs_deviation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+
+        <span class="n">modified_z_score</span> <span class="o">=</span> <span class="mf">0.6745</span> <span class="o">*</span> <span class="n">diff</span> <span class="o">/</span> <span class="n">med_abs_deviation</span>
+
+        <span class="k">return</span> <span class="n">modified_z_score</span> <span class="o">&gt;</span> <span class="n">thresh</span>
+
+<span class="c1">###############################################################################</span>
+<span class="c1">###############</span>
+    <span class="k">def</span> <span class="nf">interpolate_missing_pixels</span><span class="p">(</span>
+                <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                <span class="n">mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;nearest&#39;</span><span class="p">,</span>
+                <span class="n">fill_value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            :param image: a 2D image</span>
+<span class="sd">            :param mask: a 2D boolean image, True indicates missing values</span>
+<span class="sd">            :param method: interpolation method, one of</span>
+<span class="sd">                &#39;nearest&#39;, &#39;linear&#39;, &#39;cubic&#39;.</span>
+<span class="sd">            :param fill_value: which value to use for filling up data outside the</span>
+<span class="sd">                convex hull of known pixel values.</span>
+<span class="sd">                Default is 0, Has no effect for &#39;nearest&#39;.</span>
+<span class="sd">            :return: the image with missing values interpolated</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">interpolate</span>
+            <span class="kn">from</span> <span class="nn">matplotlib.path</span> <span class="kn">import</span> <span class="n">Path</span>
+
+            <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+
+            <span class="n">known_x</span> <span class="o">=</span> <span class="n">xx</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]</span>
+            <span class="n">known_y</span> <span class="o">=</span> <span class="n">yy</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]</span>
+            <span class="n">known_v</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]</span>
+            <span class="n">missing_x</span> <span class="o">=</span> <span class="n">xx</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+            <span class="n">missing_y</span> <span class="o">=</span> <span class="n">yy</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+
+            <span class="c1">#######</span>
+
+            <span class="c1"># xvalues = np.linspace(int(1), int(1+w), w) </span>
+            <span class="c1"># yvalues = np.linspace(int(1), int(1+h), h)</span>
+
+           <span class="c1"># missing_x, missing_y = np.meshgrid(xvalues, yvalues)</span>
+            
+
+
+
+            <span class="n">interp_values</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">known_x</span><span class="p">,</span> <span class="n">known_y</span><span class="p">),</span> <span class="n">known_v</span><span class="p">,</span> <span class="p">(</span><span class="n">missing_x</span><span class="p">,</span> <span class="n">missing_y</span><span class="p">),</span>
+                <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="n">fill_value</span>
+            <span class="p">)</span>
+
+            <span class="n">interp_image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">interp_image</span><span class="p">[</span><span class="n">missing_y</span><span class="p">,</span> <span class="n">missing_x</span><span class="p">]</span> <span class="o">=</span> <span class="n">interp_values</span>
+
+            <span class="c1">#interp_image=interp_values</span>
+
+            <span class="k">return</span> <span class="n">interp_image</span>
+
+    
+
+    <span class="n">glistxn</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span> <span class="n">path_to_flowxnFolder</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span><span class="s2">&quot;*.tif&quot;</span><span class="p">))</span>
+
+<span class="c1">#     #convert dates to number of days in the year for start_date</span>
+<span class="c1">#     YMD= start_date</span>
+<span class="c1">#     date1 = pd.to_datetime(YMD, format=&#39;%Y%m%d&#39;)</span>
+<span class="c1">#    # new_year_day = pd.Timestamp(year=date1.year, month=1, day=1)</span>
+<span class="c1">#     #StartDate = (date1 - new_year_day).days + 1</span>
+
+<span class="c1">#     #convert dates to number of days in the year for start_date</span>
+<span class="c1">#     YMD= end_date</span>
+<span class="c1">#     date2 = pd.to_datetime(YMD, format=&#39;%Y%m%d&#39;)</span>
+<span class="c1">#     #new_year_day = pd.Timestamp(year=date2.year, month=1, day=1)</span>
+<span class="c1">#     #EndDate = (date1 - new_year_day).days + 1</span>
+
+<span class="c1">#     #No_ofDays= (date2 - date1).days + 1</span>
+    <span class="c1"># basemap_list=sorted(glob.glob(&quot;filtered_rasters/*.tif&quot;))</span>
+    <span class="c1"># basemap_src=rasterio.open(basemap_list[0])</span>
+    <span class="c1"># basemap_img=basemap_src.read(1)</span>
+    
+
+    <span class="k">def</span> <span class="nf">input_dates</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">):</span>
+        <span class="n">start_date1</span><span class="o">=</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
+        <span class="n">end_date2</span><span class="o">=</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">end_date</span><span class="p">)</span>
+        <span class="n">date_list_start</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">date_list_end</span><span class="o">=</span><span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">glistxn</span><span class="p">):</span>
+            <span class="n">filepath1</span><span class="p">,</span> <span class="n">img_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        
+            <span class="n">str_date1</span><span class="o">=</span><span class="n">img_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">22</span><span class="p">]</span>
+            <span class="n">str_date2</span><span class="o">=</span><span class="n">img_name</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+            <span class="c1">#input start date</span>
+            <span class="n">date_time1</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">str_date1</span><span class="p">)</span>
+            <span class="n">date_list_start</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">date_time1</span><span class="p">)</span>
+            <span class="c1">#input end date</span>
+            <span class="n">date_time2</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">str_date2</span><span class="p">)</span>
+            <span class="n">date_list_end</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">date_time2</span><span class="p">)</span>
+
+
+        <span class="n">st_date</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">date_list_start</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">d</span> <span class="o">-</span> <span class="n">start_date1</span><span class="p">))</span>
+        <span class="n">text_date1</span><span class="o">=</span><span class="n">st_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">End_date</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">date_list_end</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">d</span> <span class="o">-</span> <span class="n">end_date2</span><span class="p">))</span>
+        <span class="n">No_ofDays</span><span class="o">=</span><span class="p">(</span><span class="n">End_date</span><span class="o">-</span><span class="n">st_date</span><span class="p">)</span><span class="o">.</span><span class="n">days</span>
+        
+        <span class="n">text_date2</span><span class="o">=</span><span class="n">End_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">text_date1</span><span class="p">,</span> <span class="n">text_date2</span><span class="p">,</span> <span class="n">No_ofDays</span><span class="p">]</span>
+
+     
+
+<span class="c1">#20200218_20200220_20200226.tif</span>
+
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">listfilepath</span><span class="p">):</span>
+
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">listfilepath</span><span class="p">):</span>
+            <span class="n">filepath1</span><span class="p">,</span> <span class="n">img_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">Select_inputDates</span><span class="o">=</span><span class="n">input_dates</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+            <span class="n">text_date1</span><span class="o">=</span><span class="n">Select_inputDates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">text_date2</span><span class="o">=</span><span class="n">Select_inputDates</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">No_ofDays</span><span class="o">=</span><span class="n">Select_inputDates</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            
+            <span class="k">if</span> <span class="n">img_name</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span><span class="o">==</span><span class="n">text_date2</span><span class="p">:</span>
+                <span class="n">end_index</span><span class="o">=</span><span class="n">idx</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;end_index: &quot;</span><span class="p">,</span> <span class="n">end_index</span><span class="p">,</span> <span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="n">img_name</span><span class="p">)</span>
+                
+            <span class="k">elif</span> <span class="n">img_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">22</span><span class="p">]</span><span class="o">==</span><span class="n">text_date1</span><span class="p">:</span>
+                <span class="n">start_index</span><span class="o">=</span><span class="n">idx</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;start_index: &quot;</span><span class="p">,</span> <span class="n">start_index</span><span class="p">,</span> <span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="n">img_name</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">print_list</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+                
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Index: &quot;</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="n">img_name</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">start_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">,</span> <span class="n">No_ofDays</span><span class="p">,</span> <span class="n">text_date1</span><span class="p">,</span> <span class="n">text_date2</span><span class="p">)</span>
+
+    <span class="n">fn</span><span class="o">=</span><span class="n">index</span><span class="p">(</span><span class="n">glistxn</span><span class="p">)</span>
+    <span class="n">datefrom</span><span class="o">=</span><span class="n">fn</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">dateto</span><span class="o">=</span><span class="n">fn</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">start_index</span><span class="o">=</span><span class="n">fn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">end_index</span><span class="o">=</span><span class="n">fn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="n">title</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;stacked optical velocity from: &quot;</span><span class="o">+</span><span class="n">datefrom</span><span class="o">+</span><span class="s2">&quot; to &quot;</span><span class="o">+</span> <span class="n">dateto</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span> <span class="n">title</span><span class="p">)</span>
+    <span class="n">No_ofDays</span><span class="o">=</span><span class="n">fn</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">No_ofDays</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">No_ofDays</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No of Days&#39;</span><span class="p">,</span> <span class="n">No_ofDays</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">VEL_scale</span><span class="o">==</span><span class="s2">&quot;month&quot;</span><span class="p">:</span>
+        <span class="n">VEL_factor</span><span class="o">=</span><span class="mi">30</span>
+    <span class="k">elif</span> <span class="n">VEL_scale</span><span class="o">==</span><span class="s2">&quot;year&quot;</span><span class="p">:</span>
+        <span class="n">VEL_factor</span><span class="o">=</span><span class="mi">365</span>
+    
+    
+    <span class="c1">#Read metadata of first file</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">glistxn</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">as</span> <span class="n">src0</span><span class="p">:</span>
+        <span class="n">metaxn</span> <span class="o">=</span> <span class="n">src0</span><span class="o">.</span><span class="n">meta</span>
+
+    <span class="c1">#Update meta to reflect the number of layers</span>
+    
+    <span class="n">namesxn</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">glistxn</span><span class="p">[</span><span class="n">start_index</span><span class="p">:</span><span class="n">end_index</span><span class="p">]]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;namesxn&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">namesxn</span><span class="p">))</span>
+    <span class="n">metaxn</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">namesxn</span><span class="p">))</span>
+    <span class="c1">#from rasterio.enums import Resampling</span>
+     <span class="c1">#Read each layer and write it to stack</span>
+   <span class="c1">#20220530_20220606_20220608</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s1">&#39;raster_stackxn.tif&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">metaxn</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+        <span class="n">name_list</span><span class="o">=</span><span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">glistxn</span><span class="p">[</span><span class="n">start_index</span><span class="p">:</span><span class="n">end_index</span><span class="p">],</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">filepath1</span><span class="p">,</span> <span class="n">band_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+            <span class="n">band_name</span><span class="o">=</span><span class="n">band_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">name_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">band_name</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span> <span class="k">as</span> <span class="n">src1</span><span class="p">:</span>
+                
+                <span class="n">dst</span><span class="o">.</span><span class="n">write_band</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">src1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+                <span class="n">dst</span><span class="o">.</span><span class="n">set_band_description</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">band_name</span><span class="p">)</span>
+        <span class="c1">#dst.descriptions = tuple(name_list)</span>
+     
+    <span class="c1">#Save Name of files into textfile</span>
+    <span class="c1"># open file in write mode</span>
+    <span class="c1">#datefrom + &quot;_to_&quot;+ dateto + &quot;_list.txt&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s1">&#39;Names.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">name_list</span><span class="p">:</span>
+            <span class="c1"># write each item on a new line</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">item</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;exporting name list Done&#39;</span><span class="p">)</span>           
+    <span class="c1">#Read Raster Stack</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s1">&#39;raster_stackxn.tif&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stack_src</span><span class="p">:</span>
+        <span class="n">stack_dataxn</span> <span class="o">=</span> <span class="n">stack_src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+       
+        <span class="n">stack_metaxn</span> <span class="o">=</span> <span class="n">stack_src</span><span class="o">.</span><span class="n">profile</span>
+        
+        <span class="c1">#stack_dataxn = numpy.ma.masked_array(stack_dataxn, mask=(stack_dataxn== 0))</span>
+
+    
+    <span class="c1">#Check meat data</span>
+    <span class="n">stack_metaxn</span>
+    
+    <span class="c1">#print(namesxn[0:110])</span>
+    <span class="c1"># print (&quot;plot stacked flowxn&quot;)</span>
+    <span class="c1"># ep.plot_bands(stack_dataxn, cmap=&#39;gist_rainbow&#39;,  scale=False, cbar=True, title=namesxn)  </span>
+
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Stacking image flowy folder started&quot;</span><span class="p">)</span>
+    <span class="n">glistyn</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span> <span class="n">path_toFlowynFolder</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="s2">&quot;*.tif&quot;</span><span class="p">))</span>
+    
+    <span class="c1">#Read metadata of first file</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">glistyn</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">as</span> <span class="n">src0</span><span class="p">:</span>
+        <span class="n">metayn</span> <span class="o">=</span> <span class="n">src0</span><span class="o">.</span><span class="n">meta</span>
+
+    <span class="c1">#Update meta to reflect the number of layers</span>
+    <span class="n">namesyn</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">glistyn</span><span class="p">[</span><span class="n">start_index</span><span class="p">:</span><span class="n">end_index</span><span class="p">]]</span>
+    <span class="n">metayn</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">namesyn</span><span class="p">))</span>
+
+     <span class="c1">#Read each layer and write it to stack</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s1">&#39;raster_stackyn.tif&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">metayn</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+        <span class="n">name_list</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">glistyn</span><span class="p">[</span><span class="n">start_index</span><span class="p">:</span><span class="n">end_index</span><span class="p">],</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">filepath1</span><span class="p">,</span> <span class="n">band_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+            <span class="n">band_name</span><span class="o">=</span><span class="n">band_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">name_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">band_name</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span> <span class="k">as</span> <span class="n">src1</span><span class="p">:</span>
+                <span class="n">dst</span><span class="o">.</span><span class="n">write_band</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">src1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+                <span class="n">dst</span><span class="o">.</span><span class="n">set_band_description</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">band_name</span><span class="p">)</span>
+    
+    <span class="c1">#Function to linearly interpolate between bands in raster stack</span>
+    <span class="k">def</span> <span class="nf">interpolate_rasterStack</span><span class="p">(</span><span class="n">input_raster_stack</span><span class="p">,</span> <span class="n">output_raster_stack</span> <span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">os</span>
+        <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">gdalconst</span>
+        <span class="c1"># Input raster stack file name</span>
+        <span class="c1">#input_raster_stack = &quot;stack_data_2019_Jan_May/raster_stackxn.tif&quot;</span>
+        <span class="c1"># Output raster stack file name</span>
+        <span class="c1">#output_raster_stack = &quot;stack_data_2019_Jan_May/interpolate_stackxn.tif&quot;</span>
+        <span class="c1"># Open the input raster stack</span>
+        <span class="n">input_ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">input_raster_stack</span><span class="p">,</span> <span class="n">gdalconst</span><span class="o">.</span><span class="n">GA_ReadOnly</span><span class="p">)</span>
+        <span class="c1"># Get the number of bands in the input raster stack</span>
+        <span class="n">num_bands</span> <span class="o">=</span> <span class="n">input_ds</span><span class="o">.</span><span class="n">RasterCount</span>
+        <span class="c1"># Get the geotransform and projection of the input raster stack</span>
+        <span class="n">geotransform</span> <span class="o">=</span> <span class="n">input_ds</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">()</span>
+        <span class="n">projection</span> <span class="o">=</span> <span class="n">input_ds</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">()</span>
+        <span class="c1"># Create an empty output raster stack with the same dimensions, number of bands, and data type as the input raster stack</span>
+        <span class="n">driver</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s2">&quot;GTiff&quot;</span><span class="p">)</span>
+        <span class="n">output_ds</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">output_raster_stack</span><span class="p">,</span> <span class="n">input_ds</span><span class="o">.</span><span class="n">RasterXSize</span><span class="p">,</span> <span class="n">input_ds</span><span class="o">.</span><span class="n">RasterYSize</span><span class="p">,</span> <span class="n">num_bands</span><span class="p">,</span> <span class="n">input_ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">DataType</span><span class="p">)</span>
+        <span class="c1"># Set the geotransform and projection of the output raster stack</span>
+        <span class="n">output_ds</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">(</span><span class="n">geotransform</span><span class="p">)</span>
+        <span class="n">output_ds</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">projection</span><span class="p">)</span>
+        <span class="c1"># Loop through the bands of the input raster stack and interpolate the pixel values</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bands</span><span class="p">):</span>
+            <span class="c1"># Get the current band of the input raster stack</span>
+            <span class="n">input_band</span> <span class="o">=</span> <span class="n">input_ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># Read the pixel values of the current band into a 2D NumPy array</span>
+            <span class="n">input_array</span> <span class="o">=</span> <span class="n">input_band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+            <span class="c1"># Compute the linearly interpolated pixel values between the current band and the next band</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_bands</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">next_band</span> <span class="o">=</span> <span class="n">input_ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">next_array</span> <span class="o">=</span> <span class="n">next_band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+                <span class="n">interpolated_array</span> <span class="o">=</span> <span class="p">(</span><span class="n">input_array</span> <span class="o">+</span> <span class="n">next_array</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># For the last band, just use the pixel values of the input array</span>
+                <span class="n">interpolated_array</span> <span class="o">=</span> <span class="n">input_array</span>
+            <span class="c1"># Write the interpolated pixel values to the corresponding band of the output raster stack</span>
+            <span class="n">output_band</span> <span class="o">=</span> <span class="n">output_ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">output_band</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="n">interpolated_array</span><span class="p">)</span>
+        <span class="c1"># Close the input and output raster datasets</span>
+        <span class="n">input_ds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">output_ds</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No of days: &quot;</span><span class="p">,</span> <span class="n">No_ofDays</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">Raster_stack_correction</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span> 
+        <span class="n">interpolate_rasterStack</span><span class="p">(</span><span class="n">input_raster_stack</span><span class="o">=</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s1">&#39;raster_stackxn.tif&#39;</span><span class="p">,</span> <span class="n">output_raster_stack</span><span class="o">=</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s1">&#39;raster_stackxn_cor.tif&#39;</span><span class="p">)</span>
+        <span class="c1">#read nstack layers</span>
+        <span class="n">stack_dataxn</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s1">&#39;raster_stackxn_cor.tif&#39;</span><span class="p">)</span>
+        <span class="n">bands</span> <span class="o">=</span> <span class="n">stack_dataxn</span><span class="o">.</span><span class="n">RasterCount</span>
+        
+    <span class="k">else</span><span class="p">:</span>
+            
+        <span class="c1">#read nstack layers</span>
+        <span class="n">stack_dataxn</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s1">&#39;raster_stackxn.tif&#39;</span><span class="p">)</span>
+        <span class="n">bands</span> <span class="o">=</span> <span class="n">stack_dataxn</span><span class="o">.</span><span class="n">RasterCount</span>
+        
+
+    <span class="n">stackxlist</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># list to store all the bands</span>
+    <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">bands</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">stack_dataxn</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="n">band</span><span class="p">)</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>  <span class="c1"># (n rows by n cols array)</span>
+        <span class="n">stackxlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">stackxlist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">stackxlist</span><span class="p">)</span>  <span class="c1"># (n bands by n rows by n cols array)</span>
+    <span class="n">mean_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">stackxlist</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="nb">int</span><span class="p">(</span><span class="n">No_ofDays</span><span class="p">)</span> <span class="o">*</span> <span class="n">VEL_factor</span>  <span class="c1"># (n rows by n cols array)</span>
+    
+    <span class="n">stack_dataxn</span><span class="o">=</span><span class="kc">None</span>
+    
+    <span class="k">if</span> <span class="n">Raster_stack_correction</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span> 
+        <span class="n">interpolate_rasterStack</span><span class="p">(</span><span class="n">input_raster_stack</span><span class="o">=</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s1">&#39;raster_stackyn.tif&#39;</span><span class="p">,</span> <span class="n">output_raster_stack</span><span class="o">=</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s1">&#39;raster_stackyn_cor.tif&#39;</span><span class="p">)</span>
+        <span class="n">stack_datayn</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s1">&#39;raster_stackyn_cor.tif&#39;</span><span class="p">)</span>
+        <span class="n">bands</span> <span class="o">=</span> <span class="n">stack_datayn</span><span class="o">.</span><span class="n">RasterCount</span>
+        
+    <span class="k">else</span><span class="p">:</span>
+        
+        <span class="n">stack_datayn</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s1">&#39;raster_stackyn.tif&#39;</span><span class="p">)</span>
+        <span class="n">bands</span> <span class="o">=</span> <span class="n">stack_datayn</span><span class="o">.</span><span class="n">RasterCount</span>
+
+
+    <span class="n">stackylistd</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># list to store all the bands</span>
+    <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">bands</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">stack_datayn</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="n">band</span><span class="p">)</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>  <span class="c1"># (n rows by n cols array)</span>
+        <span class="n">stackylistd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">stackylistd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">stackylistd</span><span class="p">)</span>  <span class="c1"># (n bands by n rows by n cols array)</span>
+    <span class="n">mean_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">stackylistd</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="nb">int</span><span class="p">(</span><span class="n">No_ofDays</span><span class="p">)</span> <span class="o">*</span> <span class="n">VEL_factor</span>  <span class="c1"># (n rows by n cols array)</span>
+
+    <span class="n">stack_datayn</span><span class="o">=</span><span class="kc">None</span>
+    <span class="c1"># stackylistd=[]</span>
+    <span class="c1"># for stacky in stack_datayn:</span>
+        
+    <span class="c1">#     stackylistd.append(stacky)</span>
+
+    <span class="c1"># stackylistnp=np.stack(stackylistd)</span>
+    <span class="c1">#Avgy =sum(stackylist)</span>
+    <span class="c1"># stackylist=np.ma.array(stackylist, mask=(stackylist==0))</span>
+    <span class="c1"># stackxlist=np.ma.array(stackxlist, mask=(stackxlist==0))</span>
+
+    <span class="c1">#mean_x= np.nanmean(stackxlist, axis=0)/int(No_ofDays) * VEL_factor</span>
+    <span class="c1">#mean_y= np.nanmean(stackylistd, axis=0)/int(No_ofDays) * VEL_factor</span>
+    <span class="c1"># from scipy import ndimage</span>
+    <span class="c1"># mean_x=ndimage.median_filter(mean_x, size=20)</span>
+    <span class="c1"># mean_y=ndimage.median_filter(mean_y, size=20)</span>
+
+    <span class="n">mean_x</span><span class="o">=</span><span class="n">mean_x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+    <span class="n">mean_y</span><span class="o">=</span><span class="n">mean_y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+    <span class="n">bkgrmask</span><span class="o">=</span><span class="n">stackylistd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">bkgrmask</span><span class="p">[</span><span class="n">bkgrmask</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">bkgrmask</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">bkgrmask</span><span class="p">)</span>
+
+   
+    <span class="n">mean_x</span><span class="p">[</span><span class="n">bkgrmask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mean_y</span><span class="p">[</span><span class="n">bkgrmask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">std_x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nanstd</span> <span class="p">(</span><span class="n">stackxlist</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">std_y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">stackylistd</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># std_x[std_x &gt; std_mm ]=np.nan</span>
+    <span class="c1"># std_x[std_x &lt; -std_mm ]=np.nan</span>
+   
+    <span class="c1"># std_y[std_y &gt; std_mm ]=np.nan</span>
+    <span class="c1"># std_y[std_y &lt; -std_mm ]=np.nan</span>
+
+    <span class="n">mean_x</span><span class="p">[</span><span class="n">mean_y</span> <span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mean_y</span><span class="p">[</span><span class="n">mean_x</span> <span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+
+    <span class="n">mask_x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">std_x</span><span class="p">)</span>
+    <span class="n">mask_y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">std_y</span><span class="p">)</span>
+    <span class="n">std_x</span><span class="p">[</span><span class="n">mask_x</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="n">std_y</span><span class="p">[</span><span class="n">mask_y</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+   
+    <span class="n">mean_x</span><span class="p">[</span><span class="n">mask_x</span> <span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="n">mean_y</span><span class="p">[</span><span class="n">mask_y</span> <span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="c1">########</span>
+
+    <span class="n">std_x</span><span class="p">[</span><span class="n">mask_y</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="n">std_y</span><span class="p">[</span><span class="n">mask_x</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+   
+    <span class="n">mean_x</span><span class="p">[</span><span class="n">mask_x</span> <span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mean_y</span><span class="p">[</span><span class="n">mask_x</span> <span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mean_x</span><span class="p">[</span><span class="n">mask_y</span> <span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mean_y</span><span class="p">[</span><span class="n">mask_y</span> <span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+     
+
+    <span class="n">mean_x</span><span class="o">=</span><span class="n">interpolate_missing_pixels</span><span class="p">(</span><span class="n">mean_x</span><span class="p">,</span> <span class="n">mask_x</span> <span class="p">,</span> <span class="s2">&quot;cubic&quot;</span><span class="p">)</span>
+    <span class="n">mean_y</span><span class="o">=</span><span class="n">interpolate_missing_pixels</span><span class="p">(</span><span class="n">mean_y</span><span class="p">,</span> <span class="n">mask_y</span> <span class="p">,</span> <span class="s2">&quot;cubic&quot;</span><span class="p">)</span>
+
+    <span class="n">std_mag</span><span class="o">=</span><span class="n">std_x</span>
+    
+    
+   
+     <span class="c1">#######Save georeferenced prodcuts</span>
+    <span class="c1"># Load the dem</span>
+    <span class="n">pathhr</span><span class="o">=</span><span class="n">dem</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pathhr</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">r1</span><span class="p">:</span>
+        <span class="c1">#out_image, out_transform = rasterio.mask.mask(r1, shapes, crop=True)</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="n">r1</span><span class="o">.</span><span class="n">meta</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">meta</span><span class="p">)</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">r1</span><span class="o">.</span><span class="n">profile</span>
+        <span class="n">profile</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nodata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+    <span class="c1"># meta.update({&quot;driver&quot;: &quot;GTiff&quot;,</span>
+    <span class="c1">#              &quot;height&quot;: out_image.shape[1],</span>
+    <span class="c1">#              &quot;width&quot;: out_image.shape[2],</span>
+    <span class="c1">#              &quot;transform&quot;: out_transform})</span>
+
+    <span class="n">sv_mag</span><span class="o">=</span> <span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">datefrom</span><span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s1">&#39;_VEL.tif&#39;</span>
+    <span class="n">sv_dir</span><span class="o">=</span> <span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">datefrom</span><span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s1">&#39;_dir&#39;</span><span class="o">+</span> <span class="s1">&#39;.tif&#39;</span>
+    <span class="n">sv_E_W</span><span class="o">=</span> <span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">datefrom</span><span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s1">&#39;_E-W&#39;</span><span class="o">+</span> <span class="s1">&#39;.tif&#39;</span>
+    <span class="n">sv_N_S</span><span class="o">=</span> <span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">datefrom</span><span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s1">&#39;_N-S&#39;</span><span class="o">+</span> <span class="s1">&#39;.tif&#39;</span>
+    <span class="n">NS_STDV</span><span class="o">=</span> <span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">datefrom</span><span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s1">&#39;_NS_STDV&#39;</span><span class="o">+</span> <span class="s1">&#39;.tif&#39;</span>
+    <span class="n">EW_STDV</span><span class="o">=</span> <span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">datefrom</span><span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s1">&#39;_EW_STDV&#39;</span><span class="o">+</span> <span class="s1">&#39;.tif&#39;</span>
+    <span class="n">VEL_STDV</span><span class="o">=</span> <span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">datefrom</span><span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s1">&#39;_VEL_STDV&#39;</span><span class="o">+</span> <span class="s1">&#39;.tif&#39;</span>
+
+
+    <span class="c1">#Direction</span>
+    
+    
+    
+    <span class="n">angle_map1</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">mean_y</span><span class="p">,</span><span class="n">mean_x</span><span class="p">)</span>
+    <span class="n">angle_map1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">angle_map1</span><span class="p">)</span>
+    <span class="n">angle_map1</span><span class="o">=</span><span class="p">(</span><span class="mi">450</span> <span class="o">-</span> <span class="n">angle_map1</span> <span class="p">)</span> <span class="o">%</span> <span class="mi">360</span>
+    <span class="c1">###</span>
+    <span class="n">anglemask</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">std_x</span><span class="p">)</span>
+    <span class="n">angle_map1</span><span class="p">[</span><span class="n">std_y</span><span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">angle_map1</span><span class="p">[</span><span class="n">anglemask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mean_x</span><span class="p">[</span><span class="n">anglemask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mean_y</span><span class="p">[</span><span class="n">anglemask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="n">velocity</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">mean_x</span><span class="p">,</span> <span class="n">mean_y</span><span class="p">)</span>
+
+    <span class="c1">##Set background Mask</span>
+
+    <span class="n">bkgrmask</span><span class="o">=</span><span class="n">stackylistd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">bkgrmask</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">bkgrmask</span><span class="p">)</span>
+
+    <span class="n">mean_x</span><span class="p">[</span><span class="n">bkgrmask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mean_y</span><span class="p">[</span><span class="n">bkgrmask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">velocity</span><span class="p">[</span><span class="n">bkgrmask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="n">mean_x</span><span class="p">[</span><span class="n">bkgrmask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mean_y</span><span class="p">[</span><span class="n">bkgrmask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">velocity</span><span class="p">[</span><span class="n">bkgrmask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mean_x</span><span class="p">[</span><span class="n">mean_x</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mean_y</span><span class="p">[</span><span class="n">mean_y</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">velocity</span><span class="p">[</span><span class="n">velocity</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">std_mag</span><span class="p">[</span><span class="n">std_mag</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">std_x</span><span class="p">[</span><span class="n">std_x</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">std_y</span><span class="p">[</span><span class="n">std_y</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="n">mean_x</span><span class="p">[</span><span class="n">anglemask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mean_y</span><span class="p">[</span><span class="n">anglemask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">velocity</span><span class="p">[</span><span class="n">anglemask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="c1"># velocity = velocity[~is_outlier(velocity)]</span>
+    <span class="c1"># mean_x = mean_x[~is_outlier(mean_x)]</span>
+    <span class="c1"># mean_y = mean_y[~is_outlier(mean_y)]</span>
+
+    <span class="c1">################</span>
+    
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">sv_mag</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">profile</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">velocity</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="n">new_meta</span><span class="o">=</span><span class="n">dst</span><span class="o">.</span><span class="n">meta</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">profile</span>
+        <span class="n">profile</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nodata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">VEL_STDV</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">profile</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">std_mag</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">profile</span>
+        <span class="n">profile</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nodata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+    
+      
+    <span class="c1">#E_W=flow_x.astype(&quot;float32&quot;)</span>
+    <span class="c1">#N_S=flow_y.astype(&quot;float32&quot;)</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">sv_E_W</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">profile</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mean_x</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1">#profile = dst.profile</span>
+        <span class="n">profile</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nodata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">EW_STDV</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">profile</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">std_x</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">profile</span>
+        <span class="n">profile</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nodata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+    
+   
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">sv_N_S</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">profile</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mean_y</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">profile</span>
+        <span class="n">profile</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nodata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+    
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">NS_STDV</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">profile</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">std_y</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">profile</span>
+        <span class="n">profile</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nodata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+        
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">sv_dir</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">profile</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">angle_map1</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">profile</span>
+        <span class="n">profile</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nodata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+    <span class="c1">#Names for Interpolated raster</span>
+    <span class="kn">import</span> <span class="nn">earthpy.spatial</span> <span class="k">as</span> <span class="nn">es</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">dem</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+        <span class="n">elevation</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Set masked values to np.nan</span>
+        <span class="c1">#elevation[elevation &lt; 0] = np.nan</span>
+    <span class="c1"># Create and plot the hillshade with earthpy</span>
+    <span class="n">hillshade</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">hillshade</span><span class="p">(</span><span class="n">elevation</span><span class="p">,</span> <span class="n">azimuth</span><span class="o">=</span><span class="mi">270</span><span class="p">,</span> <span class="n">altitude</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+
+    <span class="n">dem</span> <span class="o">=</span> <span class="n">rxr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dem_plotting_extent</span> <span class="o">=</span> <span class="n">plotting_extent</span><span class="p">(</span><span class="n">dem</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dem</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">transform</span><span class="p">())</span>
+
+
+    <span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">colors</span>
+    <span class="kn">import</span> <span class="nn">earthpy.plot</span> <span class="k">as</span> <span class="nn">ep</span>
+    <span class="c1"># # #Plot figures</span>
+    <span class="c1"># fig, ax=plt.subplots(nrows=2, ncols=1, figsize=(10,10))</span>
+    <span class="c1"># ep.plot_bands( hillshade,cbar=False,extent=dem_plotting_extent,ax=ax[0], scale=True)</span>
+    <span class="c1"># ep.plot_bands( hillshade,cbar=False,extent=dem_plotting_extent,ax=ax[1], scale=True)</span>
+    <span class="c1"># a=ax[0].imshow(mean_y, cmap=&#39;Spectral&#39; , norm=colors.CenteredNorm(), alpha=0.75)</span>
+    <span class="c1"># ax[0].set_title(&#39;NS&#39;)</span>
+    <span class="c1"># b=ax[1].imshow(mean_x, cmap=&#39;Spectral&#39;, norm=colors.CenteredNorm(), alpha=0.75)</span>
+    <span class="c1"># ax[1].set_title(&#39;EW&#39;)</span>
+    
+    <span class="c1"># fig.colorbar(a, ax=ax[0], extend=&#39;both&#39;)</span>
+    <span class="c1"># fig.colorbar(b,ax=ax[1], extend=&#39;both&#39;)</span>
+    <span class="c1"># plt.show()</span>
+
+   
+    <span class="c1">####Resample Raster outputs to reduce processing time</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/resampled&quot;</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/resampled&quot;</span><span class="p">)</span>
+    <span class="n">sv_mag_resampled</span><span class="o">=</span> <span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/resampled&quot;</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">datefrom</span><span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s1">&#39;_VEL.tif&#39;</span>
+    <span class="n">sv_dir_resampled</span><span class="o">=</span> <span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/resampled&quot;</span><span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">datefrom</span><span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s1">&#39;_dir&#39;</span><span class="o">+</span> <span class="s1">&#39;.tif&#39;</span>
+    <span class="n">sv_E_W__resampled</span><span class="o">=</span> <span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/resampled&quot;</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">datefrom</span><span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s1">&#39;_E-W&#39;</span><span class="o">+</span> <span class="s1">&#39;.tif&#39;</span>
+    <span class="n">sv_N_S__resampled</span><span class="o">=</span> <span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/resampled&quot;</span><span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">datefrom</span><span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s1">&#39;_N-S&#39;</span><span class="o">+</span> <span class="s1">&#39;.tif&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">resample</span><span class="p">(</span><span class="n">input_raster</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_raster</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">xres</span><span class="o">=</span><span class="mf">3.125</span> <span class="p">,</span> <span class="n">yres</span><span class="o">=</span><span class="mf">3.125</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">input_raster</span><span class="p">)</span>
+
+        <span class="c1"># resample</span>
+        <span class="n">dsRes</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">output_raster</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">xRes</span> <span class="o">=</span> <span class="n">xres</span><span class="p">,</span> <span class="n">yRes</span> <span class="o">=</span> <span class="n">yres</span><span class="p">,</span> 
+                        <span class="n">resampleAlg</span> <span class="o">=</span> <span class="s2">&quot;cubicspline&quot;</span><span class="p">)</span>
+
+        <span class="c1"># visualize</span>
+        <span class="c1">#array = dsRes.GetRasterBand(1).ReadAsArray()</span>
+
+        <span class="c1"># plt.figure()</span>
+        <span class="c1"># plt.imshow(array)</span>
+        <span class="c1"># plt.colorbar()</span>
+        <span class="c1"># plt.show()</span>
+
+        <span class="c1"># close your datasets!</span>
+        <span class="n">dsRes</span> <span class="o">=</span><span class="kc">None</span>
+        
+
+    <span class="k">if</span> <span class="n">Resampling</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+        
+        <span class="n">_1p</span><span class="o">=</span><span class="n">resample</span><span class="p">(</span><span class="n">sv_mag</span><span class="p">,</span> <span class="n">sv_mag_resampled</span><span class="p">,</span> <span class="n">xres</span><span class="o">=</span><span class="n">xres</span><span class="p">,</span> <span class="n">yres</span><span class="o">=</span><span class="n">yres</span> <span class="p">)</span>
+        <span class="n">_2p</span><span class="o">=</span><span class="n">resample</span><span class="p">(</span><span class="n">sv_dir</span><span class="p">,</span> <span class="n">sv_dir_resampled</span><span class="p">,</span> <span class="n">xres</span><span class="o">=</span><span class="n">xres</span><span class="p">,</span> <span class="n">yres</span><span class="o">=</span><span class="n">yres</span><span class="p">)</span>
+        <span class="n">_3p</span><span class="o">=</span><span class="n">resample</span><span class="p">(</span><span class="n">sv_E_W</span><span class="p">,</span> <span class="n">sv_E_W__resampled</span><span class="p">,</span> <span class="n">xres</span><span class="o">=</span><span class="n">xres</span><span class="p">,</span> <span class="n">yres</span><span class="o">=</span><span class="n">yres</span><span class="p">)</span>
+        <span class="n">_4p</span><span class="o">=</span><span class="n">resample</span><span class="p">(</span><span class="n">sv_N_S</span><span class="p">,</span> <span class="n">sv_N_S__resampled</span><span class="p">,</span> <span class="n">xres</span><span class="o">=</span><span class="n">xres</span><span class="p">,</span> <span class="n">yres</span><span class="o">=</span><span class="n">yres</span><span class="p">)</span>
+
+   
+    
+    <span class="k">if</span> <span class="n">Velocity_shapeFile</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Velocity Candiate points Collection process started&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">Resampling</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span> 
+            <span class="n">_1</span><span class="o">=</span><span class="n">akdefo_calibration_points</span><span class="p">(</span><span class="n">path_to_Raster</span><span class="o">=</span><span class="n">sv_mag_resampled</span><span class="p">,</span> <span class="n">output_filePath</span><span class="o">=</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s2">&quot;Velocity_Candidate_Points&quot;</span><span class="p">,</span> <span class="n">outputFile_name</span><span class="o">=</span> <span class="n">datefrom</span> <span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s2">&quot;_velocity&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_1</span><span class="o">=</span><span class="n">akdefo_calibration_points</span><span class="p">(</span><span class="n">path_to_Raster</span><span class="o">=</span><span class="n">sv_mag</span><span class="p">,</span> <span class="n">output_filePath</span><span class="o">=</span><span class="n">output_stackedFolder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="s2">&quot;Velocity_Candidate_Points&quot;</span><span class="p">,</span> <span class="n">outputFile_name</span><span class="o">=</span> <span class="n">datefrom</span> <span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s2">&quot;_velocity&quot;</span><span class="p">)</span></div>
+
+
+
+
+
+
+
+
+<span class="c1">#Below functions under development</span>
+<span class="c1"># def calibrated_ts(velocity_shapefile=r&quot;&quot; ,velocity_raster_stack=r&quot;&quot; , path_tosave_timeseries=r&quot;&quot; ):</span>
+<span class="c1">#     dataset=rasterio.open(&quot;basemap.tif&quot;)</span>
+<span class="c1">#     multi_values_points = pd.Series(dtype=&#39;float64&#39;)</span>
+<span class="c1">#         # Read input shapefile with fiona and iterate over each feature</span>
+<span class="c1">#     with fiona.open(velocity_shapefile) as shp:</span>
+<span class="c1">#         for feature in shp:</span>
+<span class="c1">#             siteID = feature[&#39;properties&#39;][&#39;SiteID&#39;]</span>
+<span class="c1">#             coords = feature[&#39;geometry&#39;][&#39;coordinates&#39;]</span>
+            
+<span class="c1">#             # Read pixel value at the given coordinates using Rasterio</span>
+<span class="c1">#             # NB: `sample()` returns an iterable of ndarrays.</span>
+<span class="c1">#             with rasterio.open(velocity_raster_stack) as stack_src:</span>
+<span class="c1">#                     value = [v for v in stack_src.sample([coords])]</span>
+
+<span class="c1">#                     coords_value=[]</span>
+                    
+<span class="c1">#             # Update the pandas serie accordingly</span>
+<span class="c1">#             multi_values_points.loc[siteID] = value</span>
+            
+<span class="c1">#     multi_values_points</span>
+<span class="c1">#     #names=[os.path.basename(x) for x in glist]</span>
+<span class="c1">#     # empty list to read list from a file</span>
+<span class="c1">#     names = []</span>
+
+<span class="c1">#     # open file and read the content in a list</span>
+<span class="c1">#     with open(r&#39;dates.txt&#39;, &#39;r&#39;) as fp:</span>
+<span class="c1">#         for line in fp:</span>
+<span class="c1">#             # remove linebreak from a current name</span>
+<span class="c1">#             # linebreak is the last character of each line</span>
+<span class="c1">#             x = line[:-1]</span>
+
+<span class="c1">#             # add current item to the list</span>
+<span class="c1">#             names.append(x[18:-4])</span>
+
+<span class="c1">#     # display list</span>
+<span class="c1">#     print(names)</span>
+
+<span class="c1">#     df1 = pd.DataFrame(multi_values_points.values.tolist(), index=multi_values_points.index)</span>
+<span class="c1">#     df1[&#39;SiteID&#39;] = df1.index</span>
+<span class="c1">#     df1</span>
+<span class="c1">#     gdf=gpd.read_file(velocity_shapefile)</span>
+<span class="c1">#     df1 = pd.DataFrame(df1[0].values.tolist(), </span>
+<span class="c1">#                     columns=[names])</span>
+
+
+    
+
+<span class="c1">#     # df1[&#39;geometry&#39;]=gdf[&quot;geometry&quot;]</span>
+
+<span class="c1">#     print (&quot;df1: &quot;, df1)</span>
+<span class="c1">#     #df1.to_csv(path_tosave_timeseries + &quot;/&quot; + &quot;velocity_ts.csv&quot;)</span>
+    
+
+<span class="c1">#     # df=pd.read_csv(path_tosave_timeseries + &quot;/&quot; + &quot;velocity_ts.csv&quot;)</span>
+<span class="c1">#     # df.drop(df.columns[df.columns.str.contains(&#39;unnamed&#39;,case = False)],axis = 1, inplace = True)</span>
+
+<span class="c1">#     # df.interpolate(method=&#39;linear&#39;, limit_direction=&#39;both&#39;, axis=0)</span>
+<span class="c1">#     # print(df)</span>
+<span class="c1">#     df1[&#39;x&#39;]=gdf[&#39;geometry&#39;].x</span>
+<span class="c1">#     df1[&#39;y&#39;]=gdf[&#39;geometry&#39;].y</span>
+<span class="c1">#     df1[&#39;SiteID_old&#39;]=gdf[&#39;SiteID&#39;]</span>
+<span class="c1">#     #df1.index.name = &#39;SiteID&#39;</span>
+<span class="c1">#     df1[&#39;code&#39;]=df1.index</span>
+    
+<span class="c1">#     #df.to_csv(path_tosave_timeseries + &quot;/&quot; + &quot;velocity_ts_new.csv&quot;)</span>
+    
+
+<span class="c1">#     # print (df1.head(5))</span>
+<span class="c1"># #     from shapely.geometry import Point</span>
+
+<span class="c1"># # combine lat and lon column to a shapely Point() object</span>
+<span class="c1">#     geometry = gpd.points_from_xy(gdf.x, gdf.y, crs=dataset.crs)</span>
+<span class="c1">#     df = gpd.GeoDataFrame(df1, geometry=geometry)</span>
+<span class="c1">#     #df1.crs = gdf.crs</span>
+<span class="c1">#     #new_gdf=pd.read_csv(&quot;stack_data/velocity_ts.csv&quot;)</span>
+<span class="c1">#     # from shapely import wkt</span>
+
+<span class="c1">#     # new_gdf[&#39;geometry&#39;] = new_gdf[&#39;geometry&#39;].apply(wkt.loads)</span>
+<span class="c1">#     # new_gdf.drop(&#39;WKT&#39;, axis=1, inplace=True) #Drop WKT column</span>
+<span class="c1">#     # gdf2=gpd.GeoDataFrame(new_gdf, geometry=&#39;geometry&#39;)</span>
+<span class="c1">#     # df1.crs=dataset.crs</span>
+<span class="c1">#     # df1.to_file(path_tosave_timeseries + &quot;/&quot; +&quot;velocity_ts.shp&quot; )</span>
+<span class="c1">#     geogrid_list=[]</span>
+<span class="c1">#     for i in range (0,5):</span>
+<span class="c1">#         temp_measurements=names[i]</span>
+<span class="c1">#         geo_grid = make_geocube(</span>
+<span class="c1">#                         vector_data=df,</span>
+<span class="c1">#                         measurements=[temp_measurements],</span>
+<span class="c1">#                         resolution=(3.125, 3.125),</span>
+<span class="c1">#                     output_crs=&quot;epsg:32610&quot;,</span>
+<span class="c1">#                 rasterize_function=partial(rasterize_points_griddata, method=&quot;cubic&quot;),</span>
+<span class="c1">#                                     )</span>
+<span class="c1">#         geo_grid.temp_measurements.where(geo_grid.temp_measurements!=geo_grid.temp_measurements.rio.nodata).plot()</span>
+
+
+
+
+<span class="c1"># #########Function to calculate temporal pixel coherence mask</span>
+
+<span class="c1"># from genericpath import exists</span>
+<span class="c1"># from itertools import count</span>
+<span class="c1"># import rasterio</span>
+<span class="c1"># from rasterio.plot import show</span>
+<span class="c1"># from numpy import isnan</span>
+<span class="c1"># from numpy import isfinite</span>
+<span class="c1"># import glob</span>
+<span class="c1"># from functools import reduce</span>
+<span class="c1"># import os</span>
+
+<span class="c1"># from dateutil import parser</span>
+<span class="c1"># import numpy as np</span>
+<span class="c1"># import matplotlib.pyplot as plt</span>
+
+<span class="c1"># def coh_pixeles(path_to_triplet_velocityFolder=r&quot;&quot;, start_date=&quot;YYYYMMDD&quot;, </span>
+<span class="c1"># end_date=&quot;YYYYMMDD&quot;, output_coherence_maskfile_path=r&quot;&quot;, output_calibratedFolder=r&quot;&quot;):</span>
+<span class="c1">#         img_list=sorted(glob.glob(path_to_triplet_velocityFolder + &quot;/&quot; + &quot;*.tif&quot;))</span>
+
+<span class="c1">#         if not os.path.exists(output_coherence_maskfile_path):</span>
+<span class="c1">#             os.makedirs(output_coherence_maskfile_path)</span>
+<span class="c1">#         output_calibratedFolder=&quot;georeferenced_folder&quot; + &quot;/&quot; + output_calibratedFolder</span>
+<span class="c1">#         if not os.path.exists(output_calibratedFolder):</span>
+<span class="c1">#             os.makedirs(output_calibratedFolder)</span>
+
+        
+
+<span class="c1">#         def input_dates(start_date=&quot;YYYYMMDD&quot;, end_date=&quot;YYYYMMDD&quot;):</span>
+<span class="c1">#                 start_date1=parser.parse(start_date)</span>
+<span class="c1">#                 end_date2=parser.parse(end_date)</span>
+<span class="c1">#                 date_list_start=[]</span>
+<span class="c1">#                 date_list_end=[]</span>
+                
+<span class="c1">#                 for idx, item in enumerate(img_list):</span>
+<span class="c1">#                     filepath1, img_name = os.path.split(item)</span>
+                
+<span class="c1">#                     str_date1=img_name[:-4]</span>
+<span class="c1">#                     str_date2=img_name[:-4]</span>
+<span class="c1">#                     #input start date</span>
+<span class="c1">#                     date_time1 = parser.parse(str_date1)</span>
+<span class="c1">#                     date_list_start.append(date_time1)</span>
+<span class="c1">#                     #input end date</span>
+<span class="c1">#                     date_time2 = parser.parse(str_date2)</span>
+<span class="c1">#                     date_list_end.append(date_time2)</span>
+
+
+<span class="c1">#                 st_date=min(date_list_start, key=lambda d: abs(d - start_date1))</span>
+<span class="c1">#                 text_date1=st_date.strftime(&quot;%Y%m%d&quot;)</span>
+<span class="c1">#                 End_date=min(date_list_end, key=lambda d: abs(d - end_date2))</span>
+<span class="c1">#                 No_ofDays=(End_date-st_date).days</span>
+                
+<span class="c1">#                 text_date2=End_date.strftime(&quot;%Y%m%d&quot;)</span>
+<span class="c1">#                 return [text_date1, text_date2, No_ofDays]</span>
+
+            
+
+<span class="c1">#         #20200218_20200220_20200226.tif</span>
+                
+<span class="c1">#         for idx, item in enumerate(img_list):</span>
+<span class="c1">#             filepath1, img_name = os.path.split(item)</span>
+<span class="c1">#             Select_inputDates=input_dates(start_date, end_date)</span>
+<span class="c1">#             text_date1=Select_inputDates[0]</span>
+<span class="c1">#             text_date2=Select_inputDates[1]</span>
+            
+<span class="c1">#             if img_name[:-4]==text_date2:</span>
+<span class="c1">#                 end_index=idx</span>
+<span class="c1">#                 print(&quot;end_index: &quot;, end_index, &quot;Date&quot;, img_name)</span>
+                
+<span class="c1">#             elif img_name[:-4]==text_date1:</span>
+<span class="c1">#                 start_index=idx</span>
+<span class="c1">#                 print(&quot;start_index: &quot;, start_index, &quot;Date&quot;, img_name)</span>
+<span class="c1">#                 print(&quot;Index: &quot;, idx, &quot;Date&quot;, img_name)</span>
+<span class="c1">#         data_list=[]</span>
+<span class="c1">#         for i in range (start_index, end_index):</span>
+<span class="c1">#             src1= rasterio.open(img_list[start_index])</span>
+<span class="c1">#             src2= rasterio.open(img_list[i])</span>
+
+<span class="c1">#             def correlation_coefficient(patch1, patch2):</span>
+<span class="c1">#                 product = np.mean((patch1 - patch1.mean()) * (patch2 - patch2.mean()))</span>
+<span class="c1">#                 stds = patch1.std() * patch2.std()</span>
+<span class="c1">#                 if stds == 0:</span>
+<span class="c1">#                     return 0</span>
+<span class="c1">#                 else:</span>
+<span class="c1">#                     product /= stds</span>
+<span class="c1">#                     return product</span>
+
+<span class="c1">#             meta=src1.meta</span>
+<span class="c1">#             data1=src1.read(1)</span>
+<span class="c1">#             data2=src2.read(1)</span>
+        
+<span class="c1">#             sh_row, sh_col=data1.shape</span>
+<span class="c1">#             d = 3</span>
+<span class="c1">#             correlation = np.zeros_like(data1)</span>
+<span class="c1">#             for i in range(d, sh_row - (d + 1)):</span>
+<span class="c1">#                 for j in range(d, sh_col - (d + 1)):</span>
+<span class="c1">#                     correlation[i, j] = correlation_coefficient(data1[i - d: i + d + 1,</span>
+<span class="c1">#                                                         j - d: j + d + 1],</span>
+<span class="c1">#                                                     data2[i - d: i + d + 1,</span>
+<span class="c1">#                                                         j - d: j + d + 1]) </span>
+            
+<span class="c1">#             correlation[correlation&lt;0.6]=np.nan</span>
+<span class="c1">#             data_list.append(~isnan(correlation))</span>
+
+           
+            
+
+            
+<span class="c1">#             meta.update(count=1)    </span>
+<span class="c1">#         coh=reduce(lambda x, y: x*y, data_list)</span>
+        
+        
+            
+<span class="c1">#         outfnamne=output_coherence_maskfile_path+&quot;/&quot;+&quot;coherenceMask.tif&quot;</span>
+            
+
+<span class="c1">#         with rasterio.open(outfnamne, &quot;w&quot;, **meta) as f:</span>
+<span class="c1">#             f.write(coh, 1)</span>
+
+            
+        
+<span class="c1">#         fig, ax=plt.subplots(1,1 , figsize=(15,15) )</span>
+<span class="c1">#         show(coh, title=&quot;Coherencemask between: &quot;+ str(start_date)+ &quot;-&quot; +str(end_date), cmap=&quot;binary&quot;, ax=ax)</span>
+
+<span class="c1">#         plt.savefig(output_coherence_maskfile_path+&quot;/&quot;+&quot;coherenceMask.jpg&quot;, dpi=300)</span>
+
+<span class="c1">#         print (&quot; start calibrating images...&quot;)</span>
+<span class="c1">#         ##calibrate Triplets to coh stack pixels</span>
+<span class="c1">#         for idx, item in enumerate(img_list):</span>
+<span class="c1">#             filepath1, img_name = os.path.split(item)</span>
+
+<span class="c1">#             src= rasterio.open(img_list[idx])</span>
+<span class="c1">#             profile = src.profile</span>
+<span class="c1">#             img_data = src1.read(1)</span>
+
+            
+<span class="c1">#             img_data[coh&lt;0.7]=0</span>
+<span class="c1">#             #img_data = img_data.filled(fill_value=0)</span>
+<span class="c1">#             fig, ax=plt.subplots(1,1)</span>
+<span class="c1">#             show(img_data, title=idx)</span>
+<span class="c1">#             plt.savefig(output_coherence_maskfile_path+&quot;/&quot; + str(img_name[:-4]) + &quot;_coh.jpg&quot;)</span>
+
+
+<span class="c1">#             calib_name= output_calibratedFolder + &quot;/&quot; + img_name</span>
+
+<span class="c1">#             with rasterio.open(calib_name, &quot;w&quot;, **meta) as f:</span>
+<span class="c1">#                 f.write(img_data, 1)</span>
+
+<span class="c1">#     #show(coh, title=&quot;mask&quot;)</span>
+
+    
+
+
+              
+
+        
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/akhdefo_logo.svg" alt="Logo"/>
+            </a></p>
+  
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../../index.html">Overview</a>
+    <ul>
+      <li><a href="../index.html">Module code</a>
+        
+          
+          </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Mahmud Mustafa Muhammad.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  <script src="../../_static/version_warning_offset.js"></script>
+
+  </body>
+</html>
