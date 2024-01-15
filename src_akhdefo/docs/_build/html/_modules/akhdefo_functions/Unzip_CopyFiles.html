@@ -21,9 +21,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">Akhdefo</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">akhdefo_functions.Unzip_CopyFiles</a></li> 
@@ -38,7 +35,7 @@
   <h1>Source code for akhdefo_functions.Unzip_CopyFiles</h1><div class="highlight"><pre>
 <span></span>
 <div class="viewcode-block" id="unzip">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Unzip_CopyFiles.unzip">[docs]</a>
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.unzip">[docs]</a>
 <span class="k">def</span> <span class="nf">unzip</span><span class="p">(</span><span class="n">zipdir</span><span class="p">,</span> <span class="n">dst_dir</span> <span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -84,7 +81,7 @@
 
 
 <div class="viewcode-block" id="copyImage_Data">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Unzip_CopyFiles.copyImage_Data">[docs]</a>
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.copyImage_Data">[docs]</a>
 <span class="k">def</span> <span class="nf">copyImage_Data</span><span class="p">(</span><span class="n">path_to_unzipped_folders</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">Path_to_raster_tifs</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">file_ext</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This program copy all the data images into one single folder from subdirectories.</span>
@@ -138,7 +135,7 @@
 
 
 <div class="viewcode-block" id="copyUDM2_Mask_Data">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Unzip_CopyFiles.copyUDM2_Mask_Data">[docs]</a>
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.copyUDM2_Mask_Data">[docs]</a>
 <span class="k">def</span> <span class="nf">copyUDM2_Mask_Data</span><span class="p">(</span><span class="n">path_to_unzipped_folders</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">Path_to_UDM2raster_tifs</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -180,7 +177,7 @@
 
 
 <div class="viewcode-block" id="read_data_prep">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Unzip_CopyFiles.read_data_prep">[docs]</a>
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.read_data_prep">[docs]</a>
 <span class="k">def</span> <span class="nf">read_data_prep</span><span class="p">(</span><span class="n">zip_dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">image_dir</span><span class="o">=</span><span class="s2">&quot;image_dir&quot;</span><span class="p">,</span> <span class="n">ext_image_file</span><span class="o">=</span><span class="s2">&quot;BGRN_SR_clip.tif&quot;</span><span class="p">,</span> <span class="n">udm_mask_dir</span><span class="o">=</span><span class="s2">&quot;udm_mask_dir&quot;</span><span class="p">,</span> <span class="n">ext_udm_mask_file</span><span class="o">=</span><span class="s2">&quot;udm2_clip.tif&quot;</span> <span class="p">,</span> <span class="n">search_string</span><span class="o">=</span><span class="kc">None</span> <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This program reads planetlabs orthoimagery in zipfolder format</span>

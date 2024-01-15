@@ -21,9 +21,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">Akhdefo</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">akhdefo_functions.Akhdefo_Coreg</a></li> 
@@ -43,7 +40,7 @@
 <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
 
 <div class="viewcode-block" id="raster_alignment">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Coreg.raster_alignment">[docs]</a>
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.raster_alignment">[docs]</a>
 <span class="k">def</span> <span class="nf">raster_alignment</span><span class="p">(</span><span class="n">src_directory</span><span class="p">,</span> <span class="n">ref_filename</span><span class="p">,</span> <span class="n">delete_files</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Aligns raster images in a given source directory to a reference image.</span>
@@ -144,7 +141,7 @@
 
 
 <div class="viewcode-block" id="Coregistration">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Coreg.Coregistration">[docs]</a>
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Coregistration">[docs]</a>
 <span class="k">def</span> <span class="nf">Coregistration</span><span class="p">(</span><span class="n">input_Folder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">grid_res</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">min_reliability</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> 
                    <span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">),</span> <span class="n">path_figures</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">showFig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
                    <span class="n">no_data</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">single_ref_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>

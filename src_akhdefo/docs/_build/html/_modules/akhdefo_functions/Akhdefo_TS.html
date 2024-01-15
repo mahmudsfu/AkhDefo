@@ -21,9 +21,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">Akhdefo</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">akhdefo_functions.Akhdefo_TS</a></li> 
@@ -38,7 +35,7 @@
   <h1>Source code for akhdefo_functions.Akhdefo_TS</h1><div class="highlight"><pre>
 <span></span>
 <div class="viewcode-block" id="Time_Series">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_TS.Time_Series">[docs]</a>
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Time_Series">[docs]</a>
 <span class="k">def</span> <span class="nf">Time_Series</span><span class="p">(</span><span class="n">stacked_raster_EW</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">stacked_raster_NS</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">velocity_points</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dates_name</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">outputFilename</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
                  <span class="n">std</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">VEL_Scale</span><span class="o">=</span><span class="s1">&#39;year&#39;</span> <span class="p">,</span> <span class="n">velocity_mode</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="n">master_reference</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span>
@@ -472,7 +469,7 @@
    
 
 <div class="viewcode-block" id="akhdefo_dashApp">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_TS.akhdefo_dashApp">[docs]</a>
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.akhdefo_dashApp">[docs]</a>
 <span class="k">def</span> <span class="nf">akhdefo_dashApp</span><span class="p">(</span><span class="n">Path_to_Shapefile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span><span class="mi">8051</span> <span class="p">,</span> <span class="n">Column_Name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">BaseMap</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">basemap_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initializes and runs a Dash web application for geospatial data analysis based on a provided shapefile.</span>

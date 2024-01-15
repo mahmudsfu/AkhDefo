@@ -1,109 +1,133 @@
-akhdefo\_functions package
-==========================
+Documentation Summary
+=====================
 
-Submodules
-----------
+Data Processing
+-----------------
 
-akhdefo\_functions.AkhdefoPlot module
--------------------------------------
+.. autofunction:: akhdefo_functions.raster_alignment
 
-.. automodule:: akhdefo_functions.AkhdefoPlot
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.Coregistration
 
-akhdefo\_functions.Akhdefo\_Coreg module
-----------------------------------------
+.. autofunction:: akhdefo_functions.resample_raster
 
-.. automodule:: akhdefo_functions.Akhdefo_Coreg
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.utm_to_latlon
 
-akhdefo\_functions.Akhdefo\_GOI module
---------------------------------------
+.. autofunction:: akhdefo_functions.assign_fake_projection
 
-.. automodule:: akhdefo_functions.Akhdefo_GOI
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.calculate_volume
 
-akhdefo\_functions.Akhdefo\_TS module
--------------------------------------
+.. autofunction:: akhdefo_functions.move_files_with_string
 
-.. automodule:: akhdefo_functions.Akhdefo_TS
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.calculate_slope
 
-akhdefo\_functions.Akhdefo\_Tools module
-----------------------------------------
+.. autofunction:: akhdefo_functions.calculate_height_change
 
-.. automodule:: akhdefo_functions.Akhdefo_Tools
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.calculate_volume_change
 
-akhdefo\_functions.Akhdefo\_utils module
-----------------------------------------
+.. autofunction:: akhdefo_functions.displacement_to_volume
 
-.. automodule:: akhdefo_functions.Akhdefo_utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.calculate_and_save_aspect_raster
 
-akhdefo\_functions.Filter\_PreProc module
------------------------------------------
+.. autofunction:: akhdefo_functions.Time_Series
 
-.. automodule:: akhdefo_functions.Filter_PreProc
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.akhdefo_dashApp
 
-akhdefo\_functions.Mosaic\_Crop module
---------------------------------------
+.. autofunction:: akhdefo_functions.Akhdefo_resample
 
-.. automodule:: akhdefo_functions.Mosaic_Crop
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.Akhdefo_inversion
 
-akhdefo\_functions.OpticalFlow module
--------------------------------------
+.. autofunction:: akhdefo_functions.download_RTC
 
-.. automodule:: akhdefo_functions.OpticalFlow
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.Optical_flow_akhdefo
 
-akhdefo\_functions.Stacked\_Velocity module
--------------------------------------------
+.. autofunction:: akhdefo_functions.measure_displacement_from_camera
 
-.. automodule:: akhdefo_functions.Stacked_Velocity
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.measure_displacement_from_camera_toFile
 
-akhdefo\_functions.Unzip\_CopyFiles module
-------------------------------------------
+.. autofunction:: akhdefo_functions.calculate_new_geotransform
 
-.. automodule:: akhdefo_functions.Unzip_CopyFiles
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.crop_to_overlap
 
-akhdefo\_functions.video\_streamer module
------------------------------------------
+.. autofunction:: akhdefo_functions.Mosaic
 
-.. automodule:: akhdefo_functions.video_streamer
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.rasterClip
 
-Module contents
----------------
+.. autofunction:: akhdefo_functions.DynamicChangeDetection
 
-.. automodule:: akhdefo_functions
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autofunction:: akhdefo_functions.stackprep
+
+.. autofunction:: akhdefo_functions.akhdefo_fitPlane
+
+Visualization
+--------------
+
+.. autofunction:: akhdefo_functions.akhdefo_viewer
+
+.. autofunction:: akhdefo_functions.plot_stackNetwork
+
+.. autofunction:: akhdefo_functions.akhdefo_ts_plot
+
+.. autofunction:: akhdefo_functions.MeanProducts_plot_ts
+
+
+Masking
+---------
+.. autofunction:: akhdefo_functions.mask_raster
+
+.. autofunction:: akhdefo_functions.mask_raster_with_template
+
+.. autofunction:: akhdefo_functions.mask_all_rasters_in_directory
+
+.. autofunction:: akhdefo_functions.scatter_area_mask
+
+.. autofunction:: akhdefo_functions.binary_mask
+
+.. autofunction:: akhdefo_functions.create_vegetation_mask
+
+
+Machine Learning and classification
+------------------------------------
+
+.. autofunction:: akhdefo_functions.Lenet_Model_training
+
+.. autofunction:: akhdefo_functions.classification
+
+
+Raster Enhancement
+-------------------
+
+.. autofunction:: akhdefo_functions.Filter_PreProcess
+
+.. autofunction:: akhdefo_functions.Raster_Correction
+
+File Operations
+----------------
+
+.. autofunction:: akhdefo_functions.move_files
+
+.. autofunction:: akhdefo_functions.akhdefo_orthorectify
+
+.. autofunction:: akhdefo_functions.reproject_raster_to_match_shapefile
+
+.. autofunction:: akhdefo_functions.crop_point_shapefile_with_aoi
+
+.. autofunction:: akhdefo_functions.Crop_to_AOI
+
+.. autofunction:: akhdefo_functions.unzip
+
+.. autofunction:: akhdefo_functions.copyImage_Data
+
+.. autofunction:: akhdefo_functions.copyUDM2_Mask_Data
+
+.. autofunction:: akhdefo_functions.read_data_prep
+
+Interpolation
+--------------
+
+.. autofunction:: akhdefo_functions.Auto_Variogram
+
+.. autofunction:: akhdefo_functions.interpolate_xyz
+
+
+
+

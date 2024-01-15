@@ -21,9 +21,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">Akhdefo</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">akhdefo_functions.OpticalFlow</a></li> 
@@ -37,7 +34,7 @@
             
   <h1>Source code for akhdefo_functions.OpticalFlow</h1><div class="highlight"><pre>
 <div class="viewcode-block" id="binary_mask">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.OpticalFlow.binary_mask">[docs]</a>
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.binary_mask">[docs]</a>
 <span></span><span class="k">def</span> <span class="nf">binary_mask</span><span class="p">(</span><span class="n">raster_path</span> <span class="p">,</span> <span class="n">shape_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">file_name</span> <span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -111,7 +108,7 @@
 
 
 <div class="viewcode-block" id="DynamicChangeDetection">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.OpticalFlow.DynamicChangeDetection">[docs]</a>
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.DynamicChangeDetection">[docs]</a>
 <span class="k">def</span> <span class="nf">DynamicChangeDetection</span><span class="p">(</span><span class="n">Path_working_Directory</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">Path_UDM2_folder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">AOI_shapefile</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
  <span class="n">Path_to_DEMFile</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">out_dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">Coh_Thresh</span><span class="o">=</span><span class="mf">0.75</span> <span class="p">,</span> <span class="n">vel_thresh</span><span class="o">=</span><span class="mf">0.063</span> <span class="p">,</span> <span class="n">image_sensor_resolution</span><span class="o">=</span><span class="mf">3125.0</span><span class="p">,</span> <span class="n">udm_mask_option</span><span class="o">=</span><span class="kc">False</span> <span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span> 
  <span class="n">Median_Filter</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_option</span><span class="o">=</span><span class="s2">&quot;origional&quot;</span><span class="p">,</span> <span class="n">xres</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">yres</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
