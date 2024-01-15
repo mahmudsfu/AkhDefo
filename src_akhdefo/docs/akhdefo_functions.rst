@@ -52,7 +52,7 @@ Utilities
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: akhdefo_functions.Akhdefo_utils
+.. automodule:: akhdefo_functions.Akhdefo_Utilities
    :members:
    :undoc-members:
    :show-inheritance:
