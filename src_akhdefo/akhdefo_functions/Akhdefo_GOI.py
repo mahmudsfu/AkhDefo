@@ -523,7 +523,7 @@ def calculate_slopes_std_and_residuals(geodataframe):
 best_match_index=None
 def update_nodata_values(shapefile_path='', 
                          rasterfile_paths='',
-                         interpolate=True, VEL_Mode=None , VEL_scale=None , master_reference=True, Total_days=None , spatial_ref=False):
+                         interpolate=True, VEL_Mode=None , VEL_scale=None , master_reference=True, Total_days=None , spatial_ref=False ):
     
     global best_match_index
     # Load the shapefile
@@ -531,7 +531,9 @@ def update_nodata_values(shapefile_path='',
     #gdf = gdf.drop('CODE')
     crs_ini=gdf.crs
 
+        
     raster_folder = Path(rasterfile_paths)
+    
     raster_paths = sorted(raster_folder.glob('*.tif'), key=lambda x: x.stem)
     if isinstance(rasterfile_paths, str):
         rasterfile_paths = [rasterfile_paths]
@@ -1014,7 +1016,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                           dem_path="", smoothing_kernel_size=11, Vegetation_mask=None, VEL_scale='year', VEL_Mode='linear',
                             good_match_option=0.75, hillshade_option=True, shapefile_output=False, max_triplet_interval=24,
                             pixel_size=20,num_chunks=10,overlap_percentage=0 , pyr_scale=0.5, levels=15, winsize=32,iterations= 7, poly_n=7,poly_sigma= 1.5, flags=1, 
-                            master_reference='single', selection_Mode='triplet' , start_date=None , end_date=None , krig_method='ordinary', spatial_ref=False):
+                            master_reference='single', selection_Mode='triplet' , start_date=None , end_date=None , krig_method='ordinary', spatial_ref=False, use_detrend=False):
    
     """
     Performs feature matching and velocity/displacement calculations across a series of images.
@@ -2055,7 +2057,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
             pointx_list.append(points1_i)
             pointsy_list.append(points2)
 
-            X_folder=output_dir+"/flowx/"
+            X_folder=output_dir+"/flowx/" 
             Y_folder=output_dir+"/flowy/"
             VEL_folder=output_dir+"/vel/"
             plot_folder=output_dir+"/plots/"
@@ -2179,7 +2181,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 try:
                     Auto_Variogram(data=gdfx, column_attribute=z_data, latlon=False, aoi_shapefile=AOI, 
                                 pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, out_fileName=fname_rasters, 
-                                plot_folder=plot_folder_x,  smoothing_kernel=smoothing_kernel_size, geo_folder=X_folder, krig_method=krig_method)
+                                plot_folder=plot_folder_x,  smoothing_kernel=smoothing_kernel_size, geo_folder=X_folder, krig_method=krig_method, detrend_data=use_detrend)
                 except Exception as e:
                     print(f"Auto_Variogram failed with error: {e}")
                     save_xyz_as_geotiff(xi, yi, east_z, file_name_x, dem_path, AOI, interpolate='nearest')
@@ -2187,7 +2189,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 try:
                     Auto_Variogram(data=gdfy, column_attribute=z_data, latlon=False, aoi_shapefile=AOI,
                                 pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, out_fileName=fname_rasters, 
-                                plot_folder=plot_folder_Y, smoothing_kernel=smoothing_kernel_size, geo_folder=Y_folder, krig_method=krig_method)
+                                plot_folder=plot_folder_Y, smoothing_kernel=smoothing_kernel_size, geo_folder=Y_folder, krig_method=krig_method, detrend_data=use_detrend)
                 except Exception as e:
                     print(f"Auto_Variogram failed with error: {e}")
                     save_xyz_as_geotiff(xi, yi, north_z, file_name_y, dem_path, AOI, interpolate='nearest' )
@@ -2195,7 +2197,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 try:
                     Auto_Variogram(data=gdfv, column_attribute=z_data, latlon=False, aoi_shapefile=AOI, 
                                 pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, out_fileName=fname_rasters, 
-                                plot_folder=plot_folder_VEL, smoothing_kernel=smoothing_kernel_size, geo_folder=VEL_folder, krig_method=krig_method)
+                                plot_folder=plot_folder_VEL, smoothing_kernel=smoothing_kernel_size, geo_folder=VEL_folder, krig_method=krig_method, detrend_data=use_detrend)
                 except Exception as e:
                     print(f"Auto_Variogram failed with error: {e}")
                     save_xyz_as_geotiff(xi, yi, vel2D_z, file_name_vel, dem_path, AOI , interpolate='nearest')
@@ -2289,13 +2291,18 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
             #################
             
 
-           
-            raster_folder=[VEL_folder, Y_folder, X_folder]
+            if use_detrend==True:
+                raster_folder=[VEL_folder+"/detrend", Y_folder+"/detrend", X_folder+"/detrend"]
+            else:
+                raster_folder=[VEL_folder, Y_folder, X_folder]
+                
             #SSIM_shape_list=[shapefileName +'_E.shp', shapefileName +'_N.shp', shapefileName +'_2DVEL.shp']
             
             ####Loop to update raster to crop to AOI#####3
             import shutil 
             for c, k in enumerate(tqdm(raster_folder, desc="Processing:Updating and Cropping Rasters")):
+                
+                 
                 cropped_dir=raster_folder[c] + '/cropped'
                
                 # Check if the subdirectory exists

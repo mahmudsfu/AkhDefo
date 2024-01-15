@@ -191,13 +191,17 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
         #     extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform)  # ensure correct transform
         # )
 
+    if aspect_raster is not None:
+        alpha_basemap=0.45
+    else:
+        alpha_basemap=alpha
     
     if normalize:
         raster, norm = _normalize_raster(raster, min_value, max_value)
         
     if normalize==True:
     # Overlay the raster with alpha for transparency using raster_transform for its extent
-        img = ax.imshow(raster, alpha=alpha, cmap=colormap, norm=norm,
+        img = ax.imshow(raster, alpha=alpha_basemap, cmap=colormap, norm=norm,
                     extent=rasterio.plot.plotting_extent(raster, transform=raster_transform))  # ensure correct transform
     
     if normalize==False:
@@ -210,7 +214,7 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
             max_value=max_value
         
         # Overlay the raster with alpha for transparency using raster_transform for its extent
-        img = ax.imshow(raster, alpha=alpha, cmap=colormap, vmin=min_value , vmax=max_value,
+        img = ax.imshow(raster, alpha=alpha_basemap, cmap=colormap, vmin=min_value , vmax=max_value,
                     extent=rasterio.plot.plotting_extent(raster, transform=raster_transform))  # ensure correct transform
         
     if aspect_raster is not None:
@@ -241,13 +245,14 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
 
         # Subset the aspect data to match the grid
         aspect_subset = aspect_data[y_positions[:, None], x_positions]
+        aspect_subset, norm = _normalize_raster(aspect_subset, min_value=None, max_value=None)
         u_subset, v_subset = aspect_to_uv(aspect_subset)
 
         # Convert grid positions to real world coordinates
         x_grid_world, y_grid_world = transform * (x_grid, y_grid)
         if cmap_aspect is None:
             cmap_aspect='hsv'
-        quiver = ax.quiver(x_grid_world, y_grid_world, u_subset, v_subset, aspect_subset, scale=20, cmap=cmap_aspect , angles='xy')
+        quiver = ax.quiver(x_grid_world, y_grid_world, u_subset, v_subset, aspect_subset, scale=20, cmap=cmap_aspect , angles='xy', norm=norm, alpha=alpha)
         # Adding a second colorbar in a horizontal position
         cbar_ax2 = fig.add_axes([0.25, 0.04, 0.5, 0.02])  # Position for the horizontal colorbar
         cbar2 = fig.colorbar(quiver, cax=cbar_ax2, orientation='horizontal',  extend='both')  # Using the ScalarMappable created earlier
@@ -267,7 +272,7 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
         ax.set_xlabel('Easting')
         ax.set_ylabel('Northing')
 
-    ax.grid(True, which='both')
+    #ax.grid(True, which='major')
     ax.set_title(title)
 
     # Add scale bar

@@ -28,10 +28,10 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/mahmudsfu/AkhDefo"
+"GitHub-Page" = "https://github.com/mahmudsfu/AkhDefo"
 "Bug Tracker" = "https://github.com/mahmudsfu/AkhDefo/issues"
-"Documentation" = "https://akhdefo.readthedocs.io/en/latest/README.html"
-"repository" = "https://akhdefo.readthedocs.io/en/latest/"
+"ReadMe" = "https://akhdefo.readthedocs.io/en/latest/README.html"
+"Documentation-Homepage" = "https://akhdefo.readthedocs.io/en/latest/"
 
 
 

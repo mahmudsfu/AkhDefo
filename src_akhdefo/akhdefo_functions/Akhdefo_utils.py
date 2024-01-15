@@ -890,26 +890,26 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     if not os.path.exists(geo_folder):
         os.makedirs(geo_folder)
     
-    out_fileName=out_fileName +"_"+ krig_method
-    geo_folder=geo_folder+"/"+ out_fileName
+    out_fileName_reg=out_fileName +"_"+ krig_method
+    geo_folder_reg=geo_folder+"/"+ out_fileName_reg
         
-    with rasterio.open(os.path.join(geo_folder + '.tif'), 'w', **meta) as dst:
+    with rasterio.open(os.path.join(geo_folder_reg + '.tif'), 'w', **meta) as dst:
         dst.write(z_grid, 1)
 
     raster_data_detrended = detrend_2d(z_grid)
     # Detrended data
-    cmap_c = 'coolwarm' if np.nanmin(raster_data_detrended) < 0 else 'viridis'
+    cmap_c = 'coolwarm' if np.nanmin(raster_data_detrended) < 0 else 'rainbow'
     norm = create_norm(raster_data_detrended)
         # Detrended Interpolated Data
     ax3 = plt.subplot(grid_fig[1,1])
     plt.colorbar(ax3.imshow(raster_data_detrended, cmap=cmap_c, extent=extent, norm=norm), ax=ax3)
     ax3.set_title("Detrended Interpolated Data")
         
-        
+    
     if not os.path.exists(plot_folder):
         os.makedirs(plot_folder)
     
-    plot_folder=plot_folder+"/"+ out_fileName
+    plot_folder=plot_folder+"/"+ out_fileName_reg
     
     fig.tight_layout()
 
@@ -919,11 +919,18 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     plt.close()
     
     
-    
+    geo_folder_detrend=geo_folder+"/detrend"
+        
+
+        
+    if not os.path.exists(geo_folder_detrend):
+        os.makedirs(geo_folder_detrend)
+        
+        
     # Apply the custom detrending function
     if detrend_data==True:
-
-        with rasterio.open(os.path.join(geo_folder + '_detrend.tif'), 'w', **meta) as dst:
+        
+        with rasterio.open(os.path.join(geo_folder_detrend +"/" + out_fileName_reg+ '_detrend.tif'), 'w', **meta) as dst:
             dst.write(raster_data_detrended, 1)
 
 
