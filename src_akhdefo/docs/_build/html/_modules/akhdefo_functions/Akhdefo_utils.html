@@ -64,8 +64,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This program performs raster resampling for  rasters</span>
 <span class="sd">   </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
 
 <span class="sd">    input_raster: str</span>
 <span class="sd">        path to input raster</span>
@@ -86,6 +86,9 @@
 <span class="sd">    convert_units: float </span>
 <span class="sd">        if not None converts raster value units from meter to mm: depends on your raster unit adjust this value</span>
 <span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">        geotif raster</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
    
@@ -151,11 +154,12 @@
 <div class="viewcode-block" id="Akhdefo_inversion">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.Akhdefo_inversion">[docs]</a>
 <span class="k">def</span> <span class="nf">Akhdefo_inversion</span><span class="p">(</span><span class="n">horizontal_InSAR</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">Vertical_InSAR</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">EW_Akhdefo</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">NS_Akhdefo</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">dem_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This program calculates 3D displacement velocity (East-West,North-South and vertical) using combined optical and InSAR products</span>
 <span class="sd">   </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
 
 <span class="sd">    horizontal_InSAR: str</span>
 <span class="sd">        path to East Velocity InSAR product in geotif format</span>
@@ -176,8 +180,8 @@
 <span class="sd">        path to save raster products </span>
 
 <span class="sd">    </span>
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
+<span class="sd">    Returns:</span>
+<span class="sd">    ---------</span>
 <span class="sd">    Three geotif rasters</span>
 <span class="sd">        3D-Velocity (D3D in mm/year) raster</span>
 <span class="sd">        Plunge raster in degrees</span>
@@ -368,13 +372,15 @@
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_utils.Auto_Variogram">[docs]</a>
 <span class="k">def</span> <span class="nf">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">overlap_percentage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;interpolated_kriging&#39;</span><span class="p">,</span> 
                    <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;kriging_plots&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;geo_rasterFolder&#39;</span><span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">UTM_Zone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;ordinary&#39;</span> <span class="p">,</span> <span class="n">drift_functions</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">detrend_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span>
+<span class="w">     </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function performs automatic selection of the optimal variogram model for spatial data interpolation. </span>
 <span class="sd">    It also supports clipping of the interpolation results to a specified Area of Interest (AOI). The function </span>
 <span class="sd">    accepts both GeoDataFrame objects and file paths (specifically, shapefile paths) as input data sources.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
 <span class="sd">    data : str or gpd.GeoDataFrame, optional</span>
 <span class="sd">        The path to a shapefile containing point data, or a GeoDataFrame. For shapefiles, they must include </span>
 <span class="sd">        &#39;x&#39;, &#39;y&#39; coordinates (or &#39;lat&#39;, &#39;lon&#39; if latlon is set to True). Defaults to an empty string.</span>
@@ -429,25 +435,25 @@
 <span class="sd">        if True removes the linear trend from the interpolated data and save the detrended data as geotif</span>
 <span class="sd">    </span>
 <span class="sd">    </span>
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
 <span class="sd">    numpy.ndarray</span>
 <span class="sd">        A 2D grid of interpolated values, clipped to the specified AOI if an AOI shapefile is provided.</span>
 
-<span class="sd">    Raises</span>
-<span class="sd">    ------</span>
+<span class="sd">    Raises:</span>
+<span class="sd">    -------</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        If the input data is not a valid shapefile path or GeoDataFrame.</span>
 <span class="sd">        If essential columns (x, y or lat, lon) are missing in the input data.</span>
 
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
+<span class="sd">    Notes:</span>
+<span class="sd">    ------</span>
 <span class="sd">    The function generates two types of plots:</span>
 <span class="sd">    1. Fitted variogram models against the experimental variogram.</span>
 <span class="sd">    2. The interpolation result using the selected variogram model.</span>
 
-<span class="sd">    Dependencies</span>
-<span class="sd">    ------------</span>
+<span class="sd">    Dependencies:</span>
+<span class="sd">    -------------</span>
 <span class="sd">    Requires geopandas, gstools, pykrige, matplotlib, and rasterio libraries.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
@@ -780,10 +786,12 @@
 <span class="sd">        Generate an affine transform for a raster-like GeoDataFrame.</span>
 
 <span class="sd">        Parameters:</span>
+<span class="sd">        -----------</span>
 <span class="sd">        - gdf: The GeoDataFrame.</span>
 <span class="sd">        - pixel_size: The resolution (spacing) of your points/data.</span>
 
 <span class="sd">        Returns:</span>
+<span class="sd">        ---------</span>
 <span class="sd">        - A rasterio Affine object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">west</span><span class="p">,</span> <span class="n">south</span><span class="p">,</span> <span class="n">east</span><span class="p">,</span> <span class="n">north</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">total_bounds</span>
@@ -999,62 +1007,64 @@
 <span class="k">async</span> <span class="k">def</span> <span class="nf">akhdefo_download_planet</span><span class="p">(</span><span class="n">planet_api_key</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="s2">&quot;plinth.json&quot;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span> <span class="s2">&quot;May 1, 2016&quot;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> 
                            <span class="n">item_type</span><span class="o">=</span><span class="s2">&quot;PSOrthoTile&quot;</span><span class="p">,</span> <span class="n">product_bundle</span><span class="o">=</span><span class="s2">&quot;analytic_sr_udm2&quot;</span><span class="p">,</span> <span class="n">clear_percent</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">cloud_filter</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s2">&quot;raw_data&quot;</span><span class="p">,</span> <span class="n">clip_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download_data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 
-<span class="w">    </span><span class="sd">&#39;&#39;&#39; Parameters</span>
-<span class="sd">        ==========</span>
-<span class="sd">        Note: To use this function need to call await as below:</span>
-<span class="sd">        =======================================================</span>
-<span class="sd">        await akhdefo_download_planet()</span>
-<span class="sd">        ===============================</span>
-<span class="sd">        planet_api_key: str = &quot;  &quot;</span>
-<span class="sd">            input planet labs api </span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Note: To use this function need to call await as below:</span>
 
-<span class="sd">        AOI: str = &quot;plinth.json&quot;</span>
-<span class="sd">            input area of interest in json file format</span>
+<span class="sd">    await akhdefo_download_planet()</span>
+<span class="sd">    </span>
 
-<span class="sd">        start_date: str = &quot;May 1, 2016&quot;</span>
-<span class="sd">            input start date as the following format &quot;Month Day, Year&quot;</span>
+<span class="sd">    planet_api_key: str = &quot;  &quot;</span>
+<span class="sd">        input planet labs api </span>
 
-<span class="sd">        end_date: str = &quot;May 31, 2017&quot;</span>
-<span class="sd">            input end date as the following format &quot;Month day, Year&quot;</span>
+<span class="sd">    AOI: str = &quot;plinth.json&quot;</span>
+<span class="sd">        input area of interest in json file format</span>
+
+<span class="sd">    start_date: str = &quot;May 1, 2016&quot;</span>
+<span class="sd">        input start date as the following format &quot;Month Day, Year&quot;</span>
+
+<span class="sd">    end_date: str = &quot;May 31, 2017&quot;</span>
+<span class="sd">        input end date as the following format &quot;Month day, Year&quot;</span>
 
 
-<span class="sd">        limit: int = 5</span>
-<span class="sd">            input Maxumum number of images want to download; type None if you want to download images daily into the future but need to set the end_date empty as follow end_date=&quot;&quot;</span>
+<span class="sd">    limit: int = 5</span>
+<span class="sd">        input Maxumum number of images want to download; type None if you want to download images daily into the future but need to set the end_date empty as follow end_date=&quot;&quot;</span>
 
-<span class="sd">        item_type: str = &quot;PSOrthoTile&quot;</span>
-<span class="sd">            input item type to downoload please refere to planet labs website for further detalis: </span>
-<span class="sd">            PSScene:	PlanetScope 3, 4, and 8 band scenes captured by the Dove satellite constellation</span>
-<span class="sd">            REOrthoTile:	RapidEye OrthoTiles captured by the RapidEye satellite constellation</span>
-<span class="sd">            REScene:	Unorthorectified strips captured by the RapidEye satellite constellation</span>
-<span class="sd">            SkySatScene:	SkySat Scenes captured by the SkySat satellite constellation</span>
-<span class="sd">            SkySatCollect:	Orthorectified scene composite of a SkySat collection</span>
-<span class="sd">            SkySatVideo:	Full motion videos collected by a single camera from any of the active SkySats</span>
-<span class="sd">            Landsat8L1G	Landsat8 Scenes: provided by USgs Landsat8 satellite</span>
-<span class="sd">            Sentinel2L1C:	Copernicus Sentinel-2 Scenes provided by ESA Sentinel-2 satellite</span>
+<span class="sd">    item_type: str = &quot;PSOrthoTile&quot;</span>
+<span class="sd">        input item type to downoload please refere to planet labs website for further detalis: </span>
+<span class="sd">        PSScene:	PlanetScope 3, 4, and 8 band scenes captured by the Dove satellite constellation</span>
+<span class="sd">        REOrthoTile:	RapidEye OrthoTiles captured by the RapidEye satellite constellation</span>
+<span class="sd">        REScene:	Unorthorectified strips captured by the RapidEye satellite constellation</span>
+<span class="sd">        SkySatScene:	SkySat Scenes captured by the SkySat satellite constellation</span>
+<span class="sd">        SkySatCollect:	Orthorectified scene composite of a SkySat collection</span>
+<span class="sd">        SkySatVideo:	Full motion videos collected by a single camera from any of the active SkySats</span>
+<span class="sd">        Landsat8L1G	Landsat8 Scenes: provided by USgs Landsat8 satellite</span>
+<span class="sd">        Sentinel2L1C:	Copernicus Sentinel-2 Scenes provided by ESA Sentinel-2 satellite</span>
 
-<span class="sd">        product_bundle: str = &quot;analytic_sr_udm2&quot;</span>
-<span class="sd">            please refer to planetlabs website for further details and different options of product_bundle: default is analytic_sr_udm2</span>
-<span class="sd">            (analytic,analytic_udm2, analytic_3b_udm2, analytic_5b , analytic_5b_udm2 , analytic_8b_udm2, visual, uncalibrated_dn, </span>
-<span class="sd">            uncalibrated_dn_udm2, basic_analytic, basic_analytic_udm2, basic_analytic_8b_udm2, basic_uncalibrated_dn,</span>
-<span class="sd">            basic_uncalibrated_dn_udm2, analytic_sr, analytic_sr_udm2, analytic_8b_sr_udm2, basic_analytic_nitf, </span>
-<span class="sd">            basic_panchromatic, basic_panchromatic_dn, panchromatic, panchromatic_dn, panchromatic_dn_udm2,</span>
-<span class="sd">            pansharpened, pansharpened_udm2 , basic_l1a_dn)</span>
+<span class="sd">    product_bundle: str = &quot;analytic_sr_udm2&quot;</span>
+<span class="sd">        please refer to planetlabs website for further details and different options of product_bundle: default is analytic_sr_udm2</span>
+<span class="sd">        (analytic,analytic_udm2, analytic_3b_udm2, analytic_5b , analytic_5b_udm2 , analytic_8b_udm2, visual, uncalibrated_dn, </span>
+<span class="sd">        uncalibrated_dn_udm2, basic_analytic, basic_analytic_udm2, basic_analytic_8b_udm2, basic_uncalibrated_dn,</span>
+<span class="sd">        basic_uncalibrated_dn_udm2, analytic_sr, analytic_sr_udm2, analytic_8b_sr_udm2, basic_analytic_nitf, </span>
+<span class="sd">        basic_panchromatic, basic_panchromatic_dn, panchromatic, panchromatic_dn, panchromatic_dn_udm2,</span>
+<span class="sd">        pansharpened, pansharpened_udm2 , basic_l1a_dn)</span>
 
-<span class="sd">        clear_percent: int = 90</span>
-<span class="sd">            Quality of the scene, if you need to download best images keep this value min 90. although, it will end up with less image acquistion </span>
+<span class="sd">    clear_percent: int = 90</span>
+<span class="sd">        Quality of the scene, if you need to download best images keep this value min 90. although, it will end up with less image acquistion </span>
 
-<span class="sd">        cloud_filter: float = 0.1</span>
-<span class="sd">            cloud percentage</span>
+<span class="sd">    cloud_filter: float = 0.1</span>
+<span class="sd">        cloud percentage</span>
 
-<span class="sd">        output_folder: str = &quot;raw_data&quot;</span>
-<span class="sd">            output directory to save the orders</span>
+<span class="sd">    output_folder: str = &quot;raw_data&quot;</span>
+<span class="sd">        output directory to save the orders</span>
 
-<span class="sd">        clip_flag: bool</span>
-<span class="sd">            True to clip the downloads to Area of interest json file format provided above</span>
-<span class="sd">             </span>
+<span class="sd">    clip_flag: bool</span>
+<span class="sd">        True to clip the downloads to Area of interest json file format provided above</span>
+<span class="sd">            </span>
 
-<span class="sd">        download_data: bool </span>
-<span class="sd">            True to download the data or False to preview the data</span>
+<span class="sd">    download_data: bool </span>
+<span class="sd">        True to download the data or False to preview the data</span>
 
 
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -1432,8 +1442,8 @@
 <span class="k">def</span> <span class="nf">akhdefo_orthorectify</span><span class="p">(</span><span class="n">input_Dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dem_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ortho_usingRpc</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">file_ex</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
-<span class="sd">    Parameteres</span>
-<span class="sd">    ===========</span>
+<span class="sd">    Parameteres:</span>
+<span class="sd">    ============</span>
 <span class="sd">    input_Dir: str</span>
 <span class="sd">        input unortho image directory path</span>
 <span class="sd">    </span>
@@ -1530,39 +1540,90 @@
 <span class="sd">    Correction (RTC), AutoRIFT, and InSAR products. It filters and selects granules based on the provided ASF datapool </span>
 <span class="sd">    results file and other specified parameters.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        username (str): ASF HyP3 username. Required unless prompt=True.</span>
-<span class="sd">        password (str): ASF HyP3 password. Required unless prompt=True.</span>
-<span class="sd">        prompt (bool): If True, use interactive prompts for login instead of username/password.</span>
-<span class="sd">        asf_datapool_results_file (str): Path to ASF datapool results CSV file.</span>
-<span class="sd">        save_dir (str): Directory where downloaded files will be saved.</span>
-<span class="sd">        job_name (str, optional): Name for the job. Defaults to &#39;rtc-test&#39;.</span>
-<span class="sd">        dem_matching (bool, optional): If True, perform DEM matching for RTC jobs. Defaults to True.</span>
-<span class="sd">        include_dem (bool, optional): If True, include Digital Elevation Model in RTC jobs. Defaults to True.</span>
-<span class="sd">        include_inc_map (bool, optional): If True, include incidence angle map in RTC jobs. Defaults to True.</span>
-<span class="sd">        include_rgb (bool, optional): If True, include RGB decomposition in RTC jobs. Defaults to False.</span>
-<span class="sd">        include_scattering_area (bool, optional): If True, include scattering area in RTC jobs. Defaults to False.</span>
-<span class="sd">        scale (str, optional): Scale for the image in RTC jobs. Defaults to &#39;amplitude&#39;.</span>
-<span class="sd">        resolution (int, optional): Desired resolution in meters for RTC jobs. Defaults to 10.</span>
-<span class="sd">        speckle_filter (bool, optional): Apply Enhanced Lee speckle filter in RTC jobs. Defaults to True.</span>
-<span class="sd">        radiometry (str): Radiometry normalization (either &#39;sigma0&#39; or &#39;gamma0&#39;) for RTC jobs.</span>
-<span class="sd">        dem_name (str): DEM to use for RTC jobs. &#39;copernicus&#39; or &#39;legacy&#39;.</span>
-<span class="sd">        download (bool): If True, submit jobs and download data. Defaults to False.</span>
-<span class="sd">        limit (int, optional): Limit the number of images to download.</span>
-<span class="sd">        path_number (int, optional): Filter granules by path number.</span>
-<span class="sd">        frame_number (int, optional): Filter granules by frame number.</span>
-<span class="sd">        RTC (bool): If True, process RTC jobs.</span>
-<span class="sd">        autorift (bool): If True, process AutoRIFT jobs.</span>
-<span class="sd">        insar (bool): If True, process InSAR jobs.</span>
-<span class="sd">        max_neighbors (int): Max number of neighbors for InSAR job pairing.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    username (str): </span>
+<span class="sd">        ASF HyP3 username. Required unless prompt=True.</span>
+<span class="sd">    </span>
+<span class="sd">    password (str):</span>
+<span class="sd">        ASF HyP3 password. Required unless prompt=True.</span>
+<span class="sd">    </span>
+<span class="sd">    prompt (bool):</span>
+<span class="sd">        If True, use interactive prompts for login instead of username/password.</span>
+<span class="sd">    </span>
+<span class="sd">    asf_datapool_results_file (str): </span>
+<span class="sd">        Path to ASF datapool results CSV file.</span>
+<span class="sd">    </span>
+<span class="sd">    save_dir (str):</span>
+<span class="sd">        Directory where downloaded files will be saved.</span>
+<span class="sd">    </span>
+<span class="sd">    job_name (str, optional): </span>
+<span class="sd">        Name for the job. Defaults to &#39;rtc-test&#39;.</span>
+<span class="sd">    </span>
+<span class="sd">    dem_matching (bool, optional):</span>
+<span class="sd">        If True, perform DEM matching for RTC jobs. Defaults to True.</span>
+<span class="sd">    </span>
+<span class="sd">    include_dem (bool, optional):</span>
+<span class="sd">        If True, include Digital Elevation Model in RTC jobs. Defaults to True.</span>
+<span class="sd">    </span>
+<span class="sd">    include_inc_map (bool, optional):</span>
+<span class="sd">        If True, include incidence angle map in RTC jobs. Defaults to True.</span>
+<span class="sd">    </span>
+<span class="sd">    include_rgb (bool, optional):</span>
+<span class="sd">        If True, include RGB decomposition in RTC jobs. Defaults to False.</span>
+<span class="sd">    </span>
+<span class="sd">    include_scattering_area (bool, optional): </span>
+<span class="sd">        If True, include scattering area in RTC jobs. Defaults to False.</span>
+<span class="sd">    </span>
+<span class="sd">    scale (str, optional):</span>
+<span class="sd">        Scale for the image in RTC jobs. Defaults to &#39;amplitude&#39;.</span>
+<span class="sd">    </span>
+<span class="sd">    resolution (int, optional): </span>
+<span class="sd">        Desired resolution in meters for RTC jobs. Defaults to 10.</span>
+<span class="sd">    </span>
+<span class="sd">    speckle_filter (bool, optional):</span>
+<span class="sd">        Apply Enhanced Lee speckle filter in RTC jobs. Defaults to True.</span>
+<span class="sd">    </span>
+<span class="sd">    radiometry (str): </span>
+<span class="sd">        Radiometry normalization (either &#39;sigma0&#39; or &#39;gamma0&#39;) for RTC jobs.</span>
+<span class="sd">    </span>
+<span class="sd">    dem_name (str): </span>
+<span class="sd">        DEM to use for RTC jobs. &#39;copernicus&#39; or &#39;legacy&#39;.</span>
+<span class="sd">    </span>
+<span class="sd">    download (bool): </span>
+<span class="sd">        If True, submit jobs and download data. Defaults to False.</span>
+<span class="sd">    </span>
+<span class="sd">    limit (int, optional): </span>
+<span class="sd">        Limit the number of images to download.</span>
+<span class="sd">    </span>
+<span class="sd">    path_number (int, optional):</span>
+<span class="sd">        Filter granules by path number.</span>
+<span class="sd">    </span>
+<span class="sd">    frame_number (int, optional): </span>
+<span class="sd">        Filter granules by frame number.</span>
+<span class="sd">    </span>
+<span class="sd">    RTC (bool): </span>
+<span class="sd">        If True, process RTC jobs.</span>
+<span class="sd">    </span>
+<span class="sd">    autorift (bool): </span>
+<span class="sd">        If True, process AutoRIFT jobs.</span>
+<span class="sd">    </span>
+<span class="sd">    insar (bool):</span>
+<span class="sd">        If True, process InSAR jobs.</span>
+<span class="sd">    </span>
+<span class="sd">    max_neighbors (int):</span>
+<span class="sd">        Max number of neighbors for InSAR job pairing.</span>
 
 <span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
 <span class="sd">        sdk.Batch: A Batch object containing the submitted jobs.</span>
 
 <span class="sd">    Raises:</span>
+<span class="sd">    -------</span>
 <span class="sd">        ValueError: If required arguments are not provided.</span>
 <span class="sd">    </span>
 <span class="sd">    Notes:</span>
+<span class="sd">    -------</span>
 <span class="sd">        - This function requires prior installation of the HyP3 SDK and relevant dependencies.</span>
 <span class="sd">        - The ASF datapool results file should be in CSV format with specific columns for filtering.</span>
 <span class="sd">        - Downloaded files will be saved in the specified directory with additional suffixes based on the job type.</span>
@@ -1697,11 +1758,13 @@
 <span class="sd">    Reproject a raster to match the coordinate reference system (CRS) of a shapefile.</span>
 
 <span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
 <span class="sd">    - src_path (str): Path to the source raster file that needs to be reprojected.</span>
 <span class="sd">    - dst_path (str): Path to save the reprojected raster.</span>
 <span class="sd">    - dst_crs (CRS or str): Target coordinate reference system.</span>
 
 <span class="sd">    Returns:</span>
+<span class="sd">    ---------</span>
 <span class="sd">    None. The reprojected raster is written to dst_path.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1736,15 +1799,30 @@
 <span class="sd">    Create a binary vegetation mask based on the NDVI (Normalized Difference Vegetation Index) calculation.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    - red_band_path (str): Path to the raster file containing the red band.</span>
-<span class="sd">    - nir_band_path (str): Path to the raster file containing the near-infrared (NIR) band.</span>
-<span class="sd">    - output_path (str): Path to save the generated vegetation mask raster.</span>
-<span class="sd">    - shapefile_path (str): Path to the shapefile that defines the area of interest (AOI).</span>
-<span class="sd">    - threshold (float, optional): NDVI threshold for determining vegetation. Pixels with NDVI less than this threshold are considered vegetation. Default is 0.3.</span>
-<span class="sd">    - save_plot (bool, optional): Whether to save a plot of the vegetation mask. Default is False.</span>
-<span class="sd">    - plot_path (str, optional): Path to save the plot if save_plot is True. Default is &quot;plot.png&quot;.</span>
+<span class="sd">    ------------</span>
+<span class="sd">    red_band_path (str): </span>
+<span class="sd">        Path to the raster file containing the red band.</span>
+<span class="sd">    </span>
+<span class="sd">    nir_band_path (str): </span>
+<span class="sd">        Path to the raster file containing the near-infrared (NIR) band.</span>
+<span class="sd">    </span>
+<span class="sd">    output_path (str): </span>
+<span class="sd">        Path to save the generated vegetation mask raster.</span>
+<span class="sd">    </span>
+<span class="sd">    shapefile_path (str): </span>
+<span class="sd">        Path to the shapefile that defines the area of interest (AOI).</span>
+<span class="sd">    </span>
+<span class="sd">    threshold (float, optional):</span>
+<span class="sd">        NDVI threshold for determining vegetation. Pixels with NDVI less than this threshold are considered vegetation. Default is 0.3.</span>
+<span class="sd">    </span>
+<span class="sd">    save_plot (bool, optional):</span>
+<span class="sd">        Whether to save a plot of the vegetation mask. Default is False.</span>
+<span class="sd">    </span>
+<span class="sd">    plot_path (str, optional): </span>
+<span class="sd">        Path to save the plot if save_plot is True. Default is &quot;plot.png&quot;.</span>
 
 <span class="sd">    Returns:</span>
+<span class="sd">    ----------</span>
 <span class="sd">    None. The vegetation mask is written to output_path, and optionally a plot is saved.</span>
 
 <span class="sd">    Note:</span>
@@ -1830,9 +1908,9 @@
 <span class="sd">    Test data URLs; hls_url = &quot;https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4&quot; or &quot;https://chiefcam.com/video/hls/live/1080p/index.m3u8&quot;</span>
 <span class="sd">    </span>
 <span class="sd">    Measure the displacement from the camera feed using Dense Optical Flow.</span>
-<span class="sd">    ------------------------------------------------------------------------</span>
 
 <span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
 <span class="sd">    </span>
 <span class="sd">    hls_url: str</span>
 <span class="sd">        The URL of the HLS video stream. or type 0 to process video from live pc webcam or add path to your video</span>
@@ -1869,7 +1947,8 @@
 <span class="sd">        usually, this option gives z more accurate flow than with a box filter, at the cost of lower speed; </span>
 <span class="sd">        normally, winsize for a Gaussian window should be set to a larger value to achieve the same level of robustness.</span>
 <span class="sd">    </span>
-<span class="sd">    Returns: </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------- </span>
 <span class="sd">        Video output with motion vectors and magnitude.</span>
 <span class="sd">    </span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -2307,9 +2386,10 @@
 <span class="sd">    Test data URLs; hls_url = &quot;https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4&quot; or &quot;https://chiefcam.com/video/hls/live/1080p/index.m3u8&quot;</span>
 <span class="sd">    </span>
 <span class="sd">    Measure the displacement from the camera feed using Dense Optical Flow.</span>
-<span class="sd">    ------------------------------------------------------------------------</span>
+
 
 <span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
 <span class="sd">    </span>
 <span class="sd">    hls_url: str</span>
 <span class="sd">        The URL of the HLS video stream. or type 0 to process video from live pc webcam or add path to your video</span>
@@ -2346,7 +2426,8 @@
 <span class="sd">        usually, this option gives z more accurate flow than with a box filter, at the cost of lower speed; </span>
 <span class="sd">        normally, winsize for a Gaussian window should be set to a larger value to achieve the same level of robustness.</span>
 <span class="sd">    </span>
-<span class="sd">    Returns: </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    ---------- </span>
 <span class="sd">        Video output with motion vectors and magnitude.</span>
 <span class="sd">    </span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -2635,10 +2716,12 @@
 <span class="sd">    Calculate a new geotransform matrix based on the overlap of image boundaries.</span>
 
 <span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
 <span class="sd">    - overlap_box (shapely.geometry.Polygon): The overlapping bounding box of all valid images.</span>
 <span class="sd">    - src_transform (tuple): The source geotransform matrix to be modified.</span>
 
 <span class="sd">    Returns:</span>
+<span class="sd">    ---------</span>
 <span class="sd">    - tuple: A new geotransform matrix corresponding to the overlap_box.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">overlap_box</span><span class="o">.</span><span class="n">bounds</span>
@@ -2659,9 +2742,11 @@
 <span class="sd">    4. Overwrite the original image files with the cropped images.</span>
 
 <span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
 <span class="sd">    - folder_path (str): The path to the folder containing the image files to be cropped.</span>
 
 <span class="sd">    Notes:</span>
+<span class="sd">    -------</span>
 <span class="sd">    - Supports &#39;.tif&#39;, &#39;.jpg&#39;, &#39;.png&#39;, and &#39;.bmp&#39; file formats.</span>
 <span class="sd">    - Requires GDAL, OSR, and Shapely libraries.</span>
 <span class="sd">    - The folder should contain images that share the same spatial reference system (projection).</span>
@@ -2765,11 +2850,13 @@
 <span class="sd">    Crop a point shapefile with an Area of Interest (AOI) polygon shapefile.</span>
 
 <span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
 <span class="sd">    - point_shapefile (str): Path to the input point shapefile.</span>
 <span class="sd">    - aoi_shapefile (str): Path to the AOI polygon shapefile for cropping.</span>
 <span class="sd">    - output_folder (str): Path to the folder where the cropped shapefile will be saved.</span>
 
 <span class="sd">    Returns:</span>
+<span class="sd">    ---------</span>
 <span class="sd">    None</span>
 
 <span class="sd">    This function reads a point shapefile and an AOI polygon shapefile, and performs a spatial</span>

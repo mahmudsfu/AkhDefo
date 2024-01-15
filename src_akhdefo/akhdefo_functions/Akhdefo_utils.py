@@ -24,8 +24,8 @@ def Akhdefo_resample(input_raster="", output_raster="" , xres=3.125 , yres=3.125
     """
     This program performs raster resampling for  rasters
    
-    Parameters
-    ----------
+    Parameters:
+    ------------
 
     input_raster: str
         path to input raster
@@ -46,6 +46,9 @@ def Akhdefo_resample(input_raster="", output_raster="" , xres=3.125 , yres=3.125
     convert_units: float 
         if not None converts raster value units from meter to mm: depends on your raster unit adjust this value
     
+    Returns:
+    --------
+        geotif raster
     """
     
    
@@ -108,11 +111,12 @@ def Akhdefo_resample(input_raster="", output_raster="" , xres=3.125 , yres=3.125
     plt.show()
 
 def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_Akhdefo="", output_folder=r"" , dem_path=None):
+    
     """
     This program calculates 3D displacement velocity (East-West,North-South and vertical) using combined optical and InSAR products
    
-    Parameters
-    ----------
+    Parameters:
+    ------------
 
     horizontal_InSAR: str
         path to East Velocity InSAR product in geotif format
@@ -133,8 +137,8 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
         path to save raster products 
 
     
-    Returns
-    -------
+    Returns:
+    ---------
     Three geotif rasters
         3D-Velocity (D3D in mm/year) raster
         Plunge raster in degrees
@@ -322,13 +326,15 @@ from akhdefo_functions import mask_raster
 
 def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="", pixel_size=20,num_chunks=10,overlap_percentage=0, out_fileName='interpolated_kriging', 
                    plot_folder='kriging_plots', geo_folder='geo_rasterFolder', smoothing_kernel=2, mask: [np.ndarray] = None , UTM_Zone=None, krig_method='ordinary' , drift_functions='linear', detrend_data=None):
+    
+     
     """
     This function performs automatic selection of the optimal variogram model for spatial data interpolation. 
     It also supports clipping of the interpolation results to a specified Area of Interest (AOI). The function 
     accepts both GeoDataFrame objects and file paths (specifically, shapefile paths) as input data sources.
 
-    Parameters
-    ----------
+    Parameters:
+    ------------
     data : str or gpd.GeoDataFrame, optional
         The path to a shapefile containing point data, or a GeoDataFrame. For shapefiles, they must include 
         'x', 'y' coordinates (or 'lat', 'lon' if latlon is set to True). Defaults to an empty string.
@@ -383,25 +389,25 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
         if True removes the linear trend from the interpolated data and save the detrended data as geotif
     
     
-    Returns
-    -------
+    Returns:
+    --------
     numpy.ndarray
         A 2D grid of interpolated values, clipped to the specified AOI if an AOI shapefile is provided.
 
-    Raises
-    ------
+    Raises:
+    -------
     ValueError
         If the input data is not a valid shapefile path or GeoDataFrame.
         If essential columns (x, y or lat, lon) are missing in the input data.
 
-    Notes
-    -----
+    Notes:
+    ------
     The function generates two types of plots:
     1. Fitted variogram models against the experimental variogram.
     2. The interpolation result using the selected variogram model.
 
-    Dependencies
-    ------------
+    Dependencies:
+    -------------
     Requires geopandas, gstools, pykrige, matplotlib, and rasterio libraries.
     """
     
@@ -734,10 +740,12 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
         Generate an affine transform for a raster-like GeoDataFrame.
 
         Parameters:
+        -----------
         - gdf: The GeoDataFrame.
         - pixel_size: The resolution (spacing) of your points/data.
 
         Returns:
+        ---------
         - A rasterio Affine object.
         """
         west, south, east, north = gdf.total_bounds
@@ -947,62 +955,64 @@ def check_shapefile_columns(geodata, latlon):
 async def akhdefo_download_planet(planet_api_key="", AOI="plinth.json", start_date= "May 1, 2016", end_date= "", limit=5, 
                            item_type="PSOrthoTile", product_bundle="analytic_sr_udm2", clear_percent=90, cloud_filter=0.1, output_folder="raw_data", clip_flag=True, download_data=False):
 
-    ''' Parameters
-        ==========
-        Note: To use this function need to call await as below:
-        =======================================================
-        await akhdefo_download_planet()
-        ===============================
-        planet_api_key: str = "  "
-            input planet labs api 
+    ''' 
+    Parameters:
+    -----------
+    Note: To use this function need to call await as below:
 
-        AOI: str = "plinth.json"
-            input area of interest in json file format
+    await akhdefo_download_planet()
+    
 
-        start_date: str = "May 1, 2016"
-            input start date as the following format "Month Day, Year"
+    planet_api_key: str = "  "
+        input planet labs api 
 
-        end_date: str = "May 31, 2017"
-            input end date as the following format "Month day, Year"
+    AOI: str = "plinth.json"
+        input area of interest in json file format
+
+    start_date: str = "May 1, 2016"
+        input start date as the following format "Month Day, Year"
+
+    end_date: str = "May 31, 2017"
+        input end date as the following format "Month day, Year"
 
 
-        limit: int = 5
-            input Maxumum number of images want to download; type None if you want to download images daily into the future but need to set the end_date empty as follow end_date=""
+    limit: int = 5
+        input Maxumum number of images want to download; type None if you want to download images daily into the future but need to set the end_date empty as follow end_date=""
 
-        item_type: str = "PSOrthoTile"
-            input item type to downoload please refere to planet labs website for further detalis: 
-            PSScene:	PlanetScope 3, 4, and 8 band scenes captured by the Dove satellite constellation
-            REOrthoTile:	RapidEye OrthoTiles captured by the RapidEye satellite constellation
-            REScene:	Unorthorectified strips captured by the RapidEye satellite constellation
-            SkySatScene:	SkySat Scenes captured by the SkySat satellite constellation
-            SkySatCollect:	Orthorectified scene composite of a SkySat collection
-            SkySatVideo:	Full motion videos collected by a single camera from any of the active SkySats
-            Landsat8L1G	Landsat8 Scenes: provided by USgs Landsat8 satellite
-            Sentinel2L1C:	Copernicus Sentinel-2 Scenes provided by ESA Sentinel-2 satellite
+    item_type: str = "PSOrthoTile"
+        input item type to downoload please refere to planet labs website for further detalis: 
+        PSScene:	PlanetScope 3, 4, and 8 band scenes captured by the Dove satellite constellation
+        REOrthoTile:	RapidEye OrthoTiles captured by the RapidEye satellite constellation
+        REScene:	Unorthorectified strips captured by the RapidEye satellite constellation
+        SkySatScene:	SkySat Scenes captured by the SkySat satellite constellation
+        SkySatCollect:	Orthorectified scene composite of a SkySat collection
+        SkySatVideo:	Full motion videos collected by a single camera from any of the active SkySats
+        Landsat8L1G	Landsat8 Scenes: provided by USgs Landsat8 satellite
+        Sentinel2L1C:	Copernicus Sentinel-2 Scenes provided by ESA Sentinel-2 satellite
 
-        product_bundle: str = "analytic_sr_udm2"
-            please refer to planetlabs website for further details and different options of product_bundle: default is analytic_sr_udm2
-            (analytic,analytic_udm2, analytic_3b_udm2, analytic_5b , analytic_5b_udm2 , analytic_8b_udm2, visual, uncalibrated_dn, 
-            uncalibrated_dn_udm2, basic_analytic, basic_analytic_udm2, basic_analytic_8b_udm2, basic_uncalibrated_dn,
-            basic_uncalibrated_dn_udm2, analytic_sr, analytic_sr_udm2, analytic_8b_sr_udm2, basic_analytic_nitf, 
-            basic_panchromatic, basic_panchromatic_dn, panchromatic, panchromatic_dn, panchromatic_dn_udm2,
-            pansharpened, pansharpened_udm2 , basic_l1a_dn)
+    product_bundle: str = "analytic_sr_udm2"
+        please refer to planetlabs website for further details and different options of product_bundle: default is analytic_sr_udm2
+        (analytic,analytic_udm2, analytic_3b_udm2, analytic_5b , analytic_5b_udm2 , analytic_8b_udm2, visual, uncalibrated_dn, 
+        uncalibrated_dn_udm2, basic_analytic, basic_analytic_udm2, basic_analytic_8b_udm2, basic_uncalibrated_dn,
+        basic_uncalibrated_dn_udm2, analytic_sr, analytic_sr_udm2, analytic_8b_sr_udm2, basic_analytic_nitf, 
+        basic_panchromatic, basic_panchromatic_dn, panchromatic, panchromatic_dn, panchromatic_dn_udm2,
+        pansharpened, pansharpened_udm2 , basic_l1a_dn)
 
-        clear_percent: int = 90
-            Quality of the scene, if you need to download best images keep this value min 90. although, it will end up with less image acquistion 
+    clear_percent: int = 90
+        Quality of the scene, if you need to download best images keep this value min 90. although, it will end up with less image acquistion 
 
-        cloud_filter: float = 0.1
-            cloud percentage
+    cloud_filter: float = 0.1
+        cloud percentage
 
-        output_folder: str = "raw_data"
-            output directory to save the orders
+    output_folder: str = "raw_data"
+        output directory to save the orders
 
-        clip_flag: bool
-            True to clip the downloads to Area of interest json file format provided above
-             
+    clip_flag: bool
+        True to clip the downloads to Area of interest json file format provided above
+            
 
-        download_data: bool 
-            True to download the data or False to preview the data
+    download_data: bool 
+        True to download the data or False to preview the data
 
 
     '''
@@ -1377,8 +1387,8 @@ async def akhdefo_download_planet(planet_api_key="", AOI="plinth.json", start_da
 def akhdefo_orthorectify(input_Dir: str, dem_path: str, output_path: str, ortho_usingRpc: bool, file_ex=".tif"):
     
     ''' 
-    Parameteres
-    ===========
+    Parameteres:
+    ============
     input_Dir: str
         input unortho image directory path
     
@@ -1472,39 +1482,90 @@ def download_RTC(username: str = '', password: str = '', prompt=False, asf_datap
     Correction (RTC), AutoRIFT, and InSAR products. It filters and selects granules based on the provided ASF datapool 
     results file and other specified parameters.
 
-    Args:
-        username (str): ASF HyP3 username. Required unless prompt=True.
-        password (str): ASF HyP3 password. Required unless prompt=True.
-        prompt (bool): If True, use interactive prompts for login instead of username/password.
-        asf_datapool_results_file (str): Path to ASF datapool results CSV file.
-        save_dir (str): Directory where downloaded files will be saved.
-        job_name (str, optional): Name for the job. Defaults to 'rtc-test'.
-        dem_matching (bool, optional): If True, perform DEM matching for RTC jobs. Defaults to True.
-        include_dem (bool, optional): If True, include Digital Elevation Model in RTC jobs. Defaults to True.
-        include_inc_map (bool, optional): If True, include incidence angle map in RTC jobs. Defaults to True.
-        include_rgb (bool, optional): If True, include RGB decomposition in RTC jobs. Defaults to False.
-        include_scattering_area (bool, optional): If True, include scattering area in RTC jobs. Defaults to False.
-        scale (str, optional): Scale for the image in RTC jobs. Defaults to 'amplitude'.
-        resolution (int, optional): Desired resolution in meters for RTC jobs. Defaults to 10.
-        speckle_filter (bool, optional): Apply Enhanced Lee speckle filter in RTC jobs. Defaults to True.
-        radiometry (str): Radiometry normalization (either 'sigma0' or 'gamma0') for RTC jobs.
-        dem_name (str): DEM to use for RTC jobs. 'copernicus' or 'legacy'.
-        download (bool): If True, submit jobs and download data. Defaults to False.
-        limit (int, optional): Limit the number of images to download.
-        path_number (int, optional): Filter granules by path number.
-        frame_number (int, optional): Filter granules by frame number.
-        RTC (bool): If True, process RTC jobs.
-        autorift (bool): If True, process AutoRIFT jobs.
-        insar (bool): If True, process InSAR jobs.
-        max_neighbors (int): Max number of neighbors for InSAR job pairing.
+    Parameters:
+    -----------
+    username (str): 
+        ASF HyP3 username. Required unless prompt=True.
+    
+    password (str):
+        ASF HyP3 password. Required unless prompt=True.
+    
+    prompt (bool):
+        If True, use interactive prompts for login instead of username/password.
+    
+    asf_datapool_results_file (str): 
+        Path to ASF datapool results CSV file.
+    
+    save_dir (str):
+        Directory where downloaded files will be saved.
+    
+    job_name (str, optional): 
+        Name for the job. Defaults to 'rtc-test'.
+    
+    dem_matching (bool, optional):
+        If True, perform DEM matching for RTC jobs. Defaults to True.
+    
+    include_dem (bool, optional):
+        If True, include Digital Elevation Model in RTC jobs. Defaults to True.
+    
+    include_inc_map (bool, optional):
+        If True, include incidence angle map in RTC jobs. Defaults to True.
+    
+    include_rgb (bool, optional):
+        If True, include RGB decomposition in RTC jobs. Defaults to False.
+    
+    include_scattering_area (bool, optional): 
+        If True, include scattering area in RTC jobs. Defaults to False.
+    
+    scale (str, optional):
+        Scale for the image in RTC jobs. Defaults to 'amplitude'.
+    
+    resolution (int, optional): 
+        Desired resolution in meters for RTC jobs. Defaults to 10.
+    
+    speckle_filter (bool, optional):
+        Apply Enhanced Lee speckle filter in RTC jobs. Defaults to True.
+    
+    radiometry (str): 
+        Radiometry normalization (either 'sigma0' or 'gamma0') for RTC jobs.
+    
+    dem_name (str): 
+        DEM to use for RTC jobs. 'copernicus' or 'legacy'.
+    
+    download (bool): 
+        If True, submit jobs and download data. Defaults to False.
+    
+    limit (int, optional): 
+        Limit the number of images to download.
+    
+    path_number (int, optional):
+        Filter granules by path number.
+    
+    frame_number (int, optional): 
+        Filter granules by frame number.
+    
+    RTC (bool): 
+        If True, process RTC jobs.
+    
+    autorift (bool): 
+        If True, process AutoRIFT jobs.
+    
+    insar (bool):
+        If True, process InSAR jobs.
+    
+    max_neighbors (int):
+        Max number of neighbors for InSAR job pairing.
 
     Returns:
+    --------
         sdk.Batch: A Batch object containing the submitted jobs.
 
     Raises:
+    -------
         ValueError: If required arguments are not provided.
     
     Notes:
+    -------
         - This function requires prior installation of the HyP3 SDK and relevant dependencies.
         - The ASF datapool results file should be in CSV format with specific columns for filtering.
         - Downloaded files will be saved in the specified directory with additional suffixes based on the job type.
@@ -1636,11 +1697,13 @@ def reproject_raster_to_match_shapefile(src_path, dst_path, dst_crs):
     Reproject a raster to match the coordinate reference system (CRS) of a shapefile.
 
     Parameters:
+    ------------
     - src_path (str): Path to the source raster file that needs to be reprojected.
     - dst_path (str): Path to save the reprojected raster.
     - dst_crs (CRS or str): Target coordinate reference system.
 
     Returns:
+    ---------
     None. The reprojected raster is written to dst_path.
     """
 
@@ -1672,15 +1735,30 @@ def create_vegetation_mask(red_band_path, nir_band_path, output_path, shapefile_
     Create a binary vegetation mask based on the NDVI (Normalized Difference Vegetation Index) calculation.
 
     Parameters:
-    - red_band_path (str): Path to the raster file containing the red band.
-    - nir_band_path (str): Path to the raster file containing the near-infrared (NIR) band.
-    - output_path (str): Path to save the generated vegetation mask raster.
-    - shapefile_path (str): Path to the shapefile that defines the area of interest (AOI).
-    - threshold (float, optional): NDVI threshold for determining vegetation. Pixels with NDVI less than this threshold are considered vegetation. Default is 0.3.
-    - save_plot (bool, optional): Whether to save a plot of the vegetation mask. Default is False.
-    - plot_path (str, optional): Path to save the plot if save_plot is True. Default is "plot.png".
+    ------------
+    red_band_path (str): 
+        Path to the raster file containing the red band.
+    
+    nir_band_path (str): 
+        Path to the raster file containing the near-infrared (NIR) band.
+    
+    output_path (str): 
+        Path to save the generated vegetation mask raster.
+    
+    shapefile_path (str): 
+        Path to the shapefile that defines the area of interest (AOI).
+    
+    threshold (float, optional):
+        NDVI threshold for determining vegetation. Pixels with NDVI less than this threshold are considered vegetation. Default is 0.3.
+    
+    save_plot (bool, optional):
+        Whether to save a plot of the vegetation mask. Default is False.
+    
+    plot_path (str, optional): 
+        Path to save the plot if save_plot is True. Default is "plot.png".
 
     Returns:
+    ----------
     None. The vegetation mask is written to output_path, and optionally a plot is saved.
 
     Note:
@@ -1763,9 +1841,9 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
     Test data URLs; hls_url = "https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4" or "https://chiefcam.com/video/hls/live/1080p/index.m3u8"
     
     Measure the displacement from the camera feed using Dense Optical Flow.
-    ------------------------------------------------------------------------
 
     Parameters:
+    ------------
     
     hls_url: str
         The URL of the HLS video stream. or type 0 to process video from live pc webcam or add path to your video
@@ -1802,7 +1880,8 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
         usually, this option gives z more accurate flow than with a box filter, at the cost of lower speed; 
         normally, winsize for a Gaussian window should be set to a larger value to achieve the same level of robustness.
     
-    Returns: 
+    Returns:
+    --------- 
         Video output with motion vectors and magnitude.
     
     '''
@@ -2237,9 +2316,10 @@ def measure_displacement_from_camera_toFile(hls_url, alpha=0.1, save_output=Fals
     Test data URLs; hls_url = "https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4" or "https://chiefcam.com/video/hls/live/1080p/index.m3u8"
     
     Measure the displacement from the camera feed using Dense Optical Flow.
-    ------------------------------------------------------------------------
+
 
     Parameters:
+    ------------
     
     hls_url: str
         The URL of the HLS video stream. or type 0 to process video from live pc webcam or add path to your video
@@ -2276,7 +2356,8 @@ def measure_displacement_from_camera_toFile(hls_url, alpha=0.1, save_output=Fals
         usually, this option gives z more accurate flow than with a box filter, at the cost of lower speed; 
         normally, winsize for a Gaussian window should be set to a larger value to achieve the same level of robustness.
     
-    Returns: 
+    Returns:
+    ---------- 
         Video output with motion vectors and magnitude.
     
     '''
@@ -2562,10 +2643,12 @@ def calculate_new_geotransform(overlap_box, src_transform):
     Calculate a new geotransform matrix based on the overlap of image boundaries.
 
     Parameters:
+    ------------
     - overlap_box (shapely.geometry.Polygon): The overlapping bounding box of all valid images.
     - src_transform (tuple): The source geotransform matrix to be modified.
 
     Returns:
+    ---------
     - tuple: A new geotransform matrix corresponding to the overlap_box.
     """
     xmin, ymin, xmax, ymax = overlap_box.bounds
@@ -2583,9 +2666,11 @@ def crop_to_overlap(folder_path):
     4. Overwrite the original image files with the cropped images.
 
     Parameters:
+    ------------
     - folder_path (str): The path to the folder containing the image files to be cropped.
 
     Notes:
+    -------
     - Supports '.tif', '.jpg', '.png', and '.bmp' file formats.
     - Requires GDAL, OSR, and Shapely libraries.
     - The folder should contain images that share the same spatial reference system (projection).
@@ -2686,11 +2771,13 @@ def crop_point_shapefile_with_aoi(point_shapefile, aoi_shapefile, output_folder)
     Crop a point shapefile with an Area of Interest (AOI) polygon shapefile.
 
     Parameters:
+    ------------
     - point_shapefile (str): Path to the input point shapefile.
     - aoi_shapefile (str): Path to the AOI polygon shapefile for cropping.
     - output_folder (str): Path to the folder where the cropped shapefile will be saved.
 
     Returns:
+    ---------
     None
 
     This function reads a point shapefile and an AOI polygon shapefile, and performs a spatial

@@ -2,7 +2,7 @@
 # Akhdefo
 
 
-[<img src="./akhdefo_functions/_static/akhdefo_logo.png" alt="Akhdefo Project Image" align="right" width="200px"/>](https://akhdefo.readthedocs.io/en/latest/index.html)
+[<img src="https://akhdefo.readthedocs.io/en/latest/_images/akhdefo_logo.svg" alt="Akhdefo Project Image" align="right" width="200px"/>](https://akhdefo.readthedocs.io/en/latest/index.html)
 <em align="right">Click on the Logo to Navigate to the Main Page</em>
 
 
