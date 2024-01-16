@@ -47,3 +47,6 @@ dependencies:
     - furo
     - pallets_sphinx_themes
     - planet
+    - asf-search
+    - hyp3-sdk
+    - akhdefo-functions
