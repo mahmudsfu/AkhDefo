@@ -975,7 +975,7 @@ def akhdefo_ts_plot(path_to_shapefile=r"", dem_path=r"", point_size=1.0, opacity
    
 
 def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_analysis", color_field="", Set_fig_MinMax=False, MinMaxRange=[-100,100],
-                   opacity=0.5, cmap="jet" , point_size=1, cbar_label="mm/year" , batch_plot=False, dates_list="" ):
+                   opacity=0.5, cmap="jet" , point_size=1, cbar_label="mm/year" , batch_plot=False, plot_inverse_Vel=False ):
     
     """
     This program used to plot shapefile data
@@ -1010,6 +1010,84 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
     Figure
     """
    ###########################
+   
+   #Inverse Velocity
+   
+    def inverse_Velocity(path_to_shapefile=path_to_shapefile):
+        import geopandas as gpd
+        import numpy as np
+        import pandas as pd
+        from datetime import datetime
+        from sklearn.linear_model import LinearRegression
+        import matplotlib.pyplot as plt
+
+        # Load the Shapefile into a GeoPandas DataFrame
+        file_path_shp = path_to_shapefile
+        gdf = gpd.read_file(file_path_shp)
+
+        # Function to safely calculate inverse velocity
+        def inverse_velocity(velocity):
+            if velocity == 0 or np.isnan(velocity):
+                return np.nan
+            else:
+                return 1 / velocity
+        # Extracting velocity columns and applying inverse velocity calculation
+        velocity_columns = [col for col in gdf.columns if col.startswith('D')]
+        
+        gdf_inverse_velocities = gdf[velocity_columns].applymap(inverse_velocity)
+        
+        
+        
+        #gdf_inverse_velocities[velocity_columns[0]]=gdf_inverse_velocities[velocity_columns[1]]
+        # Preparing date ordinals for linear regression
+        date_ordinals = np.array([datetime.strptime(col[1:], '%Y%m%d').toordinal() for col in velocity_columns])
+        reference_date = datetime.strptime(velocity_columns[0][1:], '%Y%m%d')
+
+        # Function to perform linear regression and find zero crossing for each point
+        def find_zero_crossing(y):
+            valid_indices = ~np.isnan(y)
+            if not np.any(valid_indices):
+                return np.nan  # Return NaN if all values are NaN
+
+            valid_y = y[valid_indices].values.reshape(-1, 1)
+            valid_X = date_ordinals[valid_indices].reshape(-1, 1)
+
+            # Linear regression
+            model = LinearRegression()
+            model.fit(valid_X, valid_y)
+            
+            # Predicting zero crossing
+            predicted = model.predict(date_ordinals.reshape(-1, 1))
+            zero_crossing = date_ordinals[predicted.ravel() <= 0]
+            return zero_crossing.min() if len(zero_crossing) > 0 else np.nan
+
+        # Applying the function to each row
+        zero_crossings = gdf_inverse_velocities.apply(find_zero_crossing, axis=1)
+        zero_crossing_days = [date - (np.min(date_ordinals)) if not np.isnan(date) else np.nan for date in zero_crossings]
+
+        # Creating ticks for the colorbar based on the range of zero crossing days
+        min_day = np.nanmin(zero_crossing_days)
+        max_day = np.nanmax(zero_crossing_days)
+        mid_day = (min_day + max_day) / 2
+        tick_days = [min_day, mid_day, max_day]
+        tick_dates = [reference_date + pd.to_timedelta(day, unit='D') for day in tick_days]
+        tick_labels = [date.strftime('%Y%m%d') for date in tick_dates]
+        fig=plt.figure(figsize=(12, 6))
+        # Add two subplots side by side
+        ax = fig.add_subplot(122)
+        scatter = ax.scatter(gdf['x'], gdf['y'], c=zero_crossing_days, cmap='hsv', marker='.')
+        divider = make_axes_locatable(ax)
+        cax = divider.append_axes('right', size='5%', pad=0.5)
+        # Adding the colorbar with formatted dates
+        cbar = plt.colorbar(scatter, ax=ax, cax=cax)
+        cbar.set_label('Zero Crossing Date')
+        cbar.set_ticks(tick_days)
+        cbar.set_ticklabels(tick_labels)
+        
+        return fig, ax
+   
+   
+   
     import xml.etree.ElementTree as ET
     
     
@@ -1137,8 +1215,15 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
             else:
                 offset=mcolors.Normalize(vmin=min, vmax=max)
                 
-        fig = plt.figure(figsize=(7,7))
-        ax1 = fig.add_subplot(111)
+        
+        
+        if plot_inverse_Vel==True:
+            fig, ax2 =inverse_Velocity(path_to_shapefile=path_to_shapefile)
+            
+            ax1=fig.add_subplot(121)
+        else:
+            fig = plt.figure(figsize=(7,7))
+            ax1 = fig.add_subplot(111)
         
         divider = make_axes_locatable(ax1)
         cax = divider.append_axes('bottom', size='5%', pad=0.5)
@@ -1166,24 +1251,36 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
             if x_ref is not None:
                 ax1.scatter(x_ref, y_ref, label=f"Reference VEL,VEL_STD: {vel:.2f},{vel_std:.2f}", color='k', marker='s')
                 ax1.legend()
+       
+        
+        if plot_inverse_Vel==True:
+            #fig, ax2 =inverse_Velocity(path_to_shapefile)
+            
+            ep.plot_bands( hillshade,cbar=False,title=color_field,extent=dem_plotting_extent,ax=ax2, scale=False)
+            scalebar = ScaleBar(1, "m", length_fraction=0.25, scale_loc="right",border_pad=1,pad=0.5, box_color='white', box_alpha=0.5, location='lower right')
+            ax2.add_artist(scalebar)
+            ax2.set_title('Inverse Velocity')
+            
+            if os.path.exists(xml_file_path):
+                if x_ref is not None:
+                    ax2.scatter(x_ref, y_ref, label=f"Reference VEL,VEL_STD: {vel:.2f},{vel_std:.2f}", color='k', marker='s')
+                    ax2.legend()
+            
+        
         plt.tight_layout()
+        
+        
         plt.savefig(out_folder+"/"+color_field+".png")
         
         plt.show()
+            
+            
+            
+    ##########################################
     
     if batch_plot==True:
         dnames = [col for col in gdf.columns if col.startswith('D')]
-        # if dates_list=="":
-        #     print("provide list of dates in txt file(Names.txt file)")
-        # else:
-        #     dnames=[]
-        #     with open(dates_list, 'r') as fp:
-        #         for line in fp:
-        #             # remove linebreak from a current name
-        #             # linebreak is the last character of each line
-        #             x = "D" + line[:-1]
-        #             # add current item to the list
-        #             dnames.append(x[:-18])
+       
             
         for nd in gdf[dnames]:
             min=gdf[nd].min()

@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Morenny Rock Glacier Optical Imagery Example &#8212; AkhDefo Software 2.2.62 documentation</title>
+    <title>Morenny Rock Glacier Optical Imagery Example &#8212; AkhDefo Software 2.2.66 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../_static/flask.css?v=b87c8d14" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
-    <script src="../_static/documentation_options.js?v=1eda8c85"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=e2ab9622"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -191,51 +191,21 @@
 </section>
 <section id="Applying-optical-flow-and-producing-time-series-deformation-products.">
 <h2>Applying optical flow and producing time-series deformation products.<a class="headerlink" href="#Applying-optical-flow-and-producing-time-series-deformation-products." title="Link to this heading">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-
-<span class="n">Optical_flow_akhdefo</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/image_dir_aoi_filt&#39;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo&#39;</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">Optical_flow_akhdefo</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/image_dir_aoi_filt&#39;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo&#39;</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                        <span class="n">ssim_thresh</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">image_resolution</span><span class="o">=</span><span class="s1">&#39;3.125m&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="s1">&#39;kriging&#39;</span><span class="p">,</span>
                                        <span class="n">show_figure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/morenny/dem.tif&#39;</span><span class="p">,</span> <span class="n">smoothing_kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                        <span class="n">Vegetation_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">VEL_scale</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">VEL_Mode</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">good_match_option</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
                                        <span class="n">hillshade_option</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shapefile_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_triplet_interval</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">overlap_percentage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pyr_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
                                        <span class="n">winsize</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">poly_n</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">poly_sigma</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
                                        <span class="n">flags</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">master_reference</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span>
-                                       <span class="n">selection_Mode</span><span class="o">=</span><span class="s1">&#39;pair&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span><span class="n">spatial_ref</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
-<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">Auto_Variogram</span>
-
-<span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_N.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span>
-               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span>
-               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span> <span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">)</span>
-
-
-<span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_E.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span>
-               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span>
-               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span> <span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">)</span>
-
-
-
-<span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_2DVEL.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span>
-               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;2DVEL&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span>
-               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span> <span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">)</span>
-
-
-
-<span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_2DVEL.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;aspect&#39;</span>
-               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;aspect_test&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span>
-               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span> <span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span> <span class="n">detrend_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                                       <span class="n">selection_Mode</span><span class="o">=</span><span class="s1">&#39;pair&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span><span class="n">spatial_ref</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_detrend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -244,10 +214,7 @@
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-c:\Users\mahmud\anaconda3\envs\akhdefov2\lib\site-packages\gstools\covmodel\plot.py:114: UserWarning:
-
-Matplotlib is currently using module://matplotlib_inline.backend_inline, which is a non-GUI backend, so cannot show the figure.
-
+Processing:   0%|          | 0/45 [00:00&lt;?, ?it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -255,11 +222,890 @@ Matplotlib is currently using module://matplotlib_inline.backend_inline, which i
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-kriging succeed with Model: Exponential and score: 0.9832856137123828
+kriging succeed with Model: Stable and score: 0.9791992083364693
+kriging succeed with Model: TPLSimple and score: 0.5267759844895336
+kriging succeed with Model: Exponential and score: 0.7812111564853551
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:   2%|▏         | 1/45 [00:07&lt;05:15,  7.17s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Integral and score: 0.9641028602747252
+kriging succeed with Model: Integral and score: 0.9622426357083942
+kriging succeed with Model: Integral and score: 0.9545284629569499
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:   4%|▍         | 2/45 [00:21&lt;08:00, 11.17s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Rational and score: 0.9927471750966338
+kriging succeed with Model: Matern and score: 0.9710124493087702
+Error with model SuperSpherical: Internal Error.
+kriging succeed with Model: SuperSpherical and score: 0.9618840749749992
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:   7%|▋         | 3/45 [00:27&lt;06:23,  9.14s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Spherical: Internal Error.
+kriging succeed with Model: Spherical and score: 0.9856780787979611
+kriging succeed with Model: Gaussian and score: 0.9450042644264276
+Error with model TPLSimple: Internal Error.
+kriging succeed with Model: TPLSimple and score: 0.990825639788675
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:   9%|▉         | 4/45 [00:34&lt;05:36,  8.21s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Rational: Internal Error.
+kriging succeed with Model: Rational and score: 0.9878161815690972
+kriging succeed with Model: TPLSimple and score: 0.9918066624672089
+kriging succeed with Model: TPLSimple and score: 0.9875403967840275
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  11%|█         | 5/45 [00:42&lt;05:26,  8.16s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: HyperSpherical and score: 0.9434339960231475
+kriging succeed with Model: TPLSimple and score: 0.992132800316453
+kriging succeed with Model: HyperSpherical and score: 0.944017850345661
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  16%|█▌        | 7/45 [00:49&lt;03:21,  5.30s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Skipping computation for 20180903 to 20190705 as the time interval is larger than 300 days.
+kriging succeed with Model: TPLSimple and score: 0.450994899261162
+kriging succeed with Model: Integral and score: 0.9950117755226444
+kriging succeed with Model: Gaussian and score: 0.48919465083037017
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  18%|█▊        | 8/45 [01:12&lt;06:40, 10.84s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Cubic: Internal Error.
+kriging succeed with Model: Cubic and score: 0.8528757533080602
+Error with model Gaussian: Internal Error.
+kriging succeed with Model: Gaussian and score: 0.8618766825303152
+kriging succeed with Model: Cubic and score: 0.8518328872861385
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  20%|██        | 9/45 [01:29&lt;07:41, 12.82s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Integral: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: Stable and score: 0.9070778779391051
+Error with model TPLSimple: Internal Error.
+kriging succeed with Model: TPLSimple and score: 0.96607794402929
+kriging succeed with Model: TPLSimple and score: 0.6988945259476075
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  22%|██▏       | 10/45 [01:45&lt;07:55, 13.60s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Rational and score: 0.9832694917360202
+kriging succeed with Model: SuperSpherical and score: 0.9681793816662884
+kriging succeed with Model: SuperSpherical and score: 0.9433838513142188
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  24%|██▍       | 11/45 [01:54&lt;06:59, 12.34s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Cubic and score: 0.7103970854100972
+kriging succeed with Model: Cubic and score: 0.9748606346165783
+kriging succeed with Model: SuperSpherical and score: 0.9872968566880777
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  27%|██▋       | 12/45 [02:02&lt;06:01, 10.96s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: TPLSimple and score: 0.9652726560450958
+kriging succeed with Model: TPLSimple and score: 0.8969949699462574
+kriging succeed with Model: Cubic and score: 0.9380633363024538
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  31%|███       | 14/45 [02:08&lt;03:27,  6.69s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Skipping computation for 20190825 to 20200621 as the time interval is larger than 300 days.
+kriging succeed with Model: JBessel and score: 0.9796263178794589
+kriging succeed with Model: TPLSimple and score: 0.9640732186919453
+kriging succeed with Model: Stable and score: 0.9773827375200028
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  33%|███▎      | 15/45 [02:17&lt;03:37,  7.26s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: SuperSpherical and score: 0.847992830124622
+kriging succeed with Model: SuperSpherical and score: 0.94249813184123
+kriging succeed with Model: JBessel and score: -0.0023793203894160175
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  36%|███▌      | 16/45 [02:22&lt;03:12,  6.65s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Integral: Internal Error.
+kriging succeed with Model: Integral and score: 0.9938169838689873
+Error with model Matern: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+Error with model Matern: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: Matern and score: 0.9973358723321417
+kriging succeed with Model: TPLSimple and score: 0.9951037037506683
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  38%|███▊      | 17/45 [02:33&lt;03:44,  8.03s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Gaussian: Internal Error.
+kriging succeed with Model: Gaussian and score: 0.9833783346489032
+kriging succeed with Model: Stable and score: 0.9885443001860158
+kriging succeed with Model: TPLSimple and score: 0.9893587247936156
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  40%|████      | 18/45 [02:40&lt;03:24,  7.58s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: JBessel and score: 0.28415010758460413
+kriging succeed with Model: JBessel and score: 0.783990673094989
+Error with model JBessel: Internal Error.
+Error with model Exponential: Internal Error.
+Error with model JBessel: Internal Error.
+kriging succeed with Model: JBessel and score: 0.25778471532971814
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  42%|████▏     | 19/45 [02:55&lt;04:17,  9.89s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Stable and score: 0.9551344762833551
+kriging succeed with Model: Integral and score: 0.9603428741673838
+Error with model Integral: Internal Error.
+kriging succeed with Model: Integral and score: 0.9379492238704356
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  44%|████▍     | 20/45 [03:12&lt;04:57, 11.89s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Matern and score: 0.9108231819439266
+Error with model Integral: Internal Error.
+kriging succeed with Model: Integral and score: 0.9841745681187271
+Error with model Integral: Internal Error.
+kriging succeed with Model: Integral and score: 0.9031259763903465
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  47%|████▋     | 21/45 [03:28&lt;05:16, 13.19s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Integral and score: 0.8950705621053872
+kriging succeed with Model: TPLSimple and score: 0.9687301931807815
+kriging succeed with Model: Exponential and score: 0.6981486329932485
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  49%|████▉     | 22/45 [03:39&lt;04:49, 12.59s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model JBessel: Internal Error.
+kriging succeed with Model: JBessel and score: 0.46393859731975606
+kriging succeed with Model: JBessel and score: 0.5754221072990205
+Error with model JBessel: Internal Error.
+kriging succeed with Model: JBessel and score: 0.05025783597001443
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  51%|█████     | 23/45 [03:48&lt;04:13, 11.54s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Cubic and score: 0.9939773439712318
+kriging succeed with Model: TPLSimple and score: 0.9921320744075774
+kriging succeed with Model: TPLSimple and score: 0.9905374090392318
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  53%|█████▎    | 24/45 [03:53&lt;03:22,  9.66s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: SuperSpherical and score: 0.9320480422900277
+kriging succeed with Model: Rational and score: 0.9200385402520124
+kriging succeed with Model: JBessel and score: 0.9720095582541814
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  56%|█████▌    | 25/45 [04:03&lt;03:11,  9.56s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Stable and score: 0.9836459211272734
+Error with model Cubic: Internal Error.
+kriging succeed with Model: Cubic and score: 0.9585963215753377
+kriging succeed with Model: TPLSimple and score: 0.9675994597813767
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  58%|█████▊    | 26/45 [04:08&lt;02:36,  8.25s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Rational and score: 0.9864878083571994
+Error with model Stable: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+Error with model Stable: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+Error with model Stable: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: Exponential and score: 0.9716404934498474
+kriging succeed with Model: Integral and score: 0.9568170835101406
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  60%|██████    | 27/45 [04:19&lt;02:44,  9.15s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Rational and score: 0.9880337251876893
+kriging succeed with Model: SuperSpherical and score: 0.7861950656910626
+kriging succeed with Model: Cubic and score: 0.6808713995607107
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  62%|██████▏   | 28/45 [04:26&lt;02:23,  8.42s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: SuperSpherical and score: 0.8537436474687984
+kriging succeed with Model: Exponential and score: 0.9784368685451477
+kriging succeed with Model: SuperSpherical and score: 0.9206573770865318
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  64%|██████▍   | 29/45 [04:33&lt;02:10,  8.14s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Matern and score: 0.8828922764968392
+kriging succeed with Model: Stable and score: 0.9970121629513301
+kriging succeed with Model: Integral and score: 0.961170590483919
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  67%|██████▋   | 30/45 [04:48&lt;02:30, 10.05s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Integral and score: 0.9552088775779061
+kriging succeed with Model: HyperSpherical and score: 0.9859039605253794
+kriging succeed with Model: Cubic and score: 0.7770394625181489
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  69%|██████▉   | 31/45 [04:59&lt;02:24, 10.34s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: SuperSpherical and score: 0.9980250508336774
+Error with model Matern: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: JBessel and score: 0.9995651646641484
+Error with model Matern: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+Error with model JBessel: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: JBessel and score: 0.9987961552663235
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  71%|███████   | 32/45 [05:16&lt;02:40, 12.33s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: JBessel and score: 0.4869452938537907
+Error with model JBessel: Internal Error.
+kriging succeed with Model: JBessel and score: 0.5692837823557952
+Error with model JBessel: Internal Error.
+kriging succeed with Model: JBessel and score: -0.046559171917590625
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  73%|███████▎  | 33/45 [05:24&lt;02:12, 11.08s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Stable and score: 0.9617882587397941
+kriging succeed with Model: JBessel and score: 0.9699642274108903
+kriging succeed with Model: Rational and score: 0.8990189787470931
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  76%|███████▌  | 34/45 [05:32&lt;01:51, 10.13s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Matern and score: 0.8560730475653227
+kriging succeed with Model: Matern and score: 0.4903127950779018
+Error with model Cubic: Internal Error.
+kriging succeed with Model: Cubic and score: 0.7667422835854861
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  78%|███████▊  | 35/45 [05:39&lt;01:31,  9.19s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Cubic and score: 0.9980772880612458
+kriging succeed with Model: JBessel and score: 0.9963862677650953
+kriging succeed with Model: JBessel and score: 0.9958887368071039
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  80%|████████  | 36/45 [05:50&lt;01:28,  9.86s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Integral and score: 0.9977824982306611
+kriging succeed with Model: Stable and score: 0.9967032837555823
+kriging succeed with Model: Stable and score: 0.9964019274264101
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  82%|████████▏ | 37/45 [06:01&lt;01:21, 10.20s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Rational and score: 0.8809793911338909
+kriging succeed with Model: JBessel and score: 0.8981156497602789
+Error with model Cubic: Internal Error.
+kriging succeed with Model: Cubic and score: 0.4653720156751405
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  84%|████████▍ | 38/45 [06:12&lt;01:11, 10.27s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: TPLSimple and score: 0.9937539112536439
+kriging succeed with Model: JBessel and score: 0.9790099968698907
+kriging succeed with Model: JBessel and score: 0.9716084075170688
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  87%|████████▋ | 39/45 [06:24&lt;01:04, 10.81s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Matern: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: Stable and score: 0.9784687584995142
+kriging succeed with Model: Stable and score: 0.9821859290452799
+Error with model Stable: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: Stable and score: 0.9910827022658706
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  89%|████████▉ | 40/45 [06:33&lt;00:51, 10.28s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Spherical and score: 0.7506893104996054
+kriging succeed with Model: JBessel and score: 0.9835098216895457
+kriging succeed with Model: SuperSpherical and score: 0.3957561145421967
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  91%|█████████ | 41/45 [06:45&lt;00:43, 10.94s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: TPLSimple and score: 0.973896935458593
+kriging succeed with Model: Cubic and score: 0.8704001186665697
+kriging succeed with Model: JBessel and score: 0.856971106501883
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  93%|█████████▎| 42/45 [06:58&lt;00:34, 11.60s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Rational: Internal Error.
+kriging succeed with Model: Rational and score: 0.8984632476772814
+Error with model Stable: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: Stable and score: 0.9706214920799016
+Error with model Stable: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: Stable and score: 0.962438556040592
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  96%|█████████▌| 43/45 [07:07&lt;00:21, 10.69s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Matern and score: 0.9783118393308438
+kriging succeed with Model: Integral and score: 0.9732449481721028
+kriging succeed with Model: Stable and score: 0.9723756743374561
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  98%|█████████▊| 44/45 [07:19&lt;00:10, 10.92s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Stable and score: 0.9980830101622193
+Error with model Matern: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: JBessel and score: 0.9958036755832749
+Error with model Matern: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: SuperSpherical and score: 0.9950960111392609
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing: 100%|██████████| 45/45 [07:39&lt;00:00, 10.21s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Wait for processing to complete writing data into shapefile for timeseries...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Preparing GeoDataFrames: 100%|██████████| 43/43 [00:00&lt;00:00, 761.33it/s]
+Preparing GeoDataFrames: 100%|██████████| 43/43 [00:00&lt;00:00, 795.01it/s]
+Preparing GeoDataFrames: 100%|██████████| 43/43 [00:00&lt;00:00, 789.98it/s]
+100%|██████████| 43/43 [00:00&lt;00:00, 56.30it/s]          | 0/3 [00:00&lt;?, ?it/s]
+100%|██████████| 43/43 [00:00&lt;00:00, 59.33it/s]███▎      | 1/3 [00:00&lt;00:01,  1.28it/s]
+100%|██████████| 43/43 [00:00&lt;00:00, 60.50it/s]██████▋   | 2/3 [00:01&lt;00:00,  1.32it/s]
+Processing:Updating and Cropping Rasters: 100%|██████████| 3/3 [00:02&lt;00:00,  1.33it/s]
+Processing: Update Shapefiles :   0%|          | 0/3 [00:00&lt;?, ?it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+processing ./data/morenny/optical/geo/temp_shapefile_dir/20180627_20220926_20220926_2DVEL.shp started...
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">Auto_Variogram</span>
+
+<span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_N.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span>
+               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span>
+               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span> <span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">)</span>
+
+
+<span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_E.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span>
+               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span>
+               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span> <span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">)</span>
+
+
+
+<span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_2DVEL.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span>
+               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;2DVEL&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span>
+               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span> <span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">)</span>
+
+
+
+<span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_2DVEL.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;aspect&#39;</span>
+               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;aspect_test&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/VEL_Folder&#39;</span>
+               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span> <span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span> <span class="n">detrend_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Integral and score: 0.9905358374987387
+kriging succeed with Model: Rational and score: 0.9948879745802939
+kriging succeed with Model: Rational and score: 0.9685939316374813
+kriging succeed with Model: Exponential and score: 0.9831770607858743
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -290,7 +1136,7 @@ array([[nan, nan, nan, ..., nan, nan, nan],
 <li><p>Zero value of the aspect colorbar represents True North, Negative west and Positive is East. for instance -40 is equal direction of movement North 40 degree towards west (40NW)</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -315,7 +1161,7 @@ array([[nan, nan, nan, ..., nan, nan, nan],
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -340,13 +1186,13 @@ array([[nan, nan, nan, ..., nan, nan, nan],
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Visualize Mean Velocity East-West</span>
 <span class="c1"># if set batch_plot=True it will plot static time series figure for each date acquisition</span>
-
-<span class="n">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_E.shp&#39;</span><span class="p">,</span>
+<span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_E.shp&#39;</span><span class="p">,</span>
                                        <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/morenny/dem.tif&#39;</span><span class="p">,</span> <span class="n">out_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/Figs_analysis/E&#39;</span><span class="p">,</span>
                                        <span class="n">color_field</span><span class="o">=</span><span class="s2">&quot;VEL&quot;</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                        <span class="n">MinMaxRange</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
@@ -355,7 +1201,7 @@ array([[nan, nan, nan, ..., nan, nan, nan],
                                        <span class="n">batch_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="c1">#Visualize Mean Velocity North-South</span>
-<span class="n">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_N.shp&#39;</span><span class="p">,</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_N.shp&#39;</span><span class="p">,</span>
                                        <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/morenny/dem.tif&#39;</span><span class="p">,</span> <span class="n">out_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/Figs_analysis/N&#39;</span><span class="p">,</span>
                                        <span class="n">color_field</span><span class="o">=</span><span class="s2">&quot;VEL&quot;</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                        <span class="n">MinMaxRange</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
@@ -364,13 +1210,13 @@ array([[nan, nan, nan, ..., nan, nan, nan],
                                        <span class="n">batch_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="c1">#Visualize Mean Velocity 2D Velocity</span>
-<span class="n">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_2DVEL.shp&#39;</span><span class="p">,</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/geo/temp_shapefile_dir/updated_shapefiles/20180627_20220926_20220926_2DVEL.shp&#39;</span><span class="p">,</span>
                                        <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/morenny/dem.tif&#39;</span><span class="p">,</span> <span class="n">out_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/optical/Figs_analysis/2D&#39;</span><span class="p">,</span>
                                        <span class="n">color_field</span><span class="o">=</span><span class="s2">&quot;VEL&quot;</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                        <span class="n">MinMaxRange</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
                                        <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                        <span class="n">cbar_label</span><span class="o">=</span><span class="s1">&#39;2D-VEL (meter/year)&#39;</span><span class="p">,</span>
-                                       <span class="n">batch_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                                       <span class="n">batch_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_inverse_Vel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -403,8 +1249,8 @@ users can download their analysis and the generated figures directly from the we
 <img alt="Step 1" src="../_images/dash2d1.png" />
 <img alt="dash2d_optical output sample1" src="../_images/newplot10.png" />
 <img alt="dash2d_optical output sample2" src="../_images/newplot9.png" />
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -414,6 +1260,19 @@ users can download their analysis and the generated figures directly from the we
                                   <span class="n">port</span><span class="o">=</span><span class="mi">8047</span><span class="p">,</span> <span class="n">BaseMap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">basemap_type</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<iframe
+    width="100%"
+    height="650"
+    src="http://127.0.0.1:8047/"
+    frameborder="0"
+    allowfullscreen
+
+></iframe></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:

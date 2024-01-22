@@ -496,7 +496,64 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
     import earthpy.plot as ep
     import rioxarray as rxr
     
+    
+    
+   ##############################
    
+    import matplotlib.dates as mdates
+    from datetime import datetime
+    from sklearn.linear_model import LinearRegression
+    # def find_zero_crossing_date(df_avg):
+    #     # Function to safely calculate inverse velocity
+    #     def inverse_velocity(velocity):
+    #         if velocity == 0 or np.isnan(velocity):
+    #             return np.nan
+    #         else:
+    #             return 1 / velocity
+
+    #     # Applying inverse velocity calculation
+    #     df_avg['Inverse_Average'] = df_avg['Average'].apply(inverse_velocity)
+
+    #     # Convert string dates to datetime objects if necessary
+    #     if isinstance(df_avg['Date'].iloc[0], str):
+    #         df_avg['Date'] = pd.to_datetime(df_avg['Date'])
+
+    #     # Converting dates to ordinal numbers for regression analysis
+    #     date_ordinals = np.array([d.toordinal() for d in df_avg['Date']]).reshape(-1, 1)
+        
+    #     # Filtering out NaN values
+    #     valid = ~df_avg['Inverse_Average'].isna()
+    #     valid_date_ordinals = date_ordinals[valid]
+    #     valid_inverse_velocity_values = df_avg['Inverse_Average'][valid].values.reshape(-1, 1)
+        
+    #     # Linear regression model
+    #     model = LinearRegression()
+    #     model.fit(valid_date_ordinals, valid_inverse_velocity_values)
+        
+    #     # Predicting over a larger range to extrapolate
+    #     prediction_dates = np.arange(valid_date_ordinals.min(), valid_date_ordinals.max() + 365)  # Extrapolating for one more year
+    #     predicted_inverse_velocities = model.predict(prediction_dates.reshape(-1, 1))
+        
+    #     # Finding the zero-crossing point
+    #     zero_crossing = None
+    #     for date, velocity in zip(prediction_dates, predicted_inverse_velocities.ravel()):
+    #         if velocity <= 0:
+    #             zero_crossing = date
+    #             break
+        
+    #     zero_crossing_date = datetime.fromordinal(zero_crossing).strftime('%Y-%m-%d') if zero_crossing else None
+        
+    #     return zero_crossing, zero_crossing_date, valid_date_ordinals, valid_inverse_velocity_values, prediction_dates, predicted_inverse_velocities
+    
+   
+   
+   
+   
+   
+   
+   
+   
+   ##############################
     
         
     # Get all the Matplotlib colormaps
@@ -551,7 +608,7 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
         html.H1("Akhdefo Geospatial Data Analysis", className="text-center mb-4"),
         dbc.Row([
             # Left side - Plots
-            dbc.Col([dcc.Graph(id='time-series-plot'),
+            dbc.Col([dcc.Graph(id='time-series-plot'), dcc.Checklist(id='show-hide',options=[ {'label': 'Show/Hide Inverse Velocity', 'value': 'SH'} ],value=[]   ),
                 dcc.Graph(id='map-plot', config={'staticPlot': False, 'displayModeBar': True, 'modeBarButtonsToAdd': ['select2d', 'lasso2d']}),
             #     dcc.Graph( id='map-plot',figure={'data': [go.Heatmap(z=hillshade)],
             # 'layout': go.Layout(title='Heatmap Example') }),
@@ -611,7 +668,7 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
                 ),
                 # Modal Trigger Button
                 html.Button('Edit Axis Labels & Title', id='open-modal-button'),
-            ], width=3),  # Adjust width to 4 out of 12 units for the right column
+            ], width=3),   # Adjust width to 4 out of 12 units for the right column
         ]),
 
         # Modal for Editing Axis Labels and Title
@@ -623,7 +680,7 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
                     dcc.Input(id='xaxis-label-input', type='text', placeholder='Enter X-Axis Label'),
                     dcc.Input(id='yaxis-label-input', type='text', placeholder='Enter Y-Axis Label'),
                     dcc.Input(id='plot-title-input', type='text', placeholder='Enter Plot Title'),
-                    html.Button('Update', id='update-plot-button')
+                    html.Button('Update', id='update-plot-button')  #
                 ])
             ]
         )
@@ -780,15 +837,16 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
         Input('update-plot-button', 'n_clicks')],
         [State('xaxis-label-input', 'value'),
         State('yaxis-label-input', 'value'),
-        State('plot-title-input', 'value')]
+        State('plot-title-input', 'value')] , Input('show-hide', 'value')
     )
-    def display_selected_data(selectedData, start_date, end_date, trendline_option, plot_type, n_clicks, xaxis_label, yaxis_label, plot_title):
+    def display_selected_data(selectedData, start_date, end_date, trendline_option, plot_type, n_clicks, xaxis_label, yaxis_label, plot_title, show_hide_value):
         if not selectedData:
             raise dash.exceptions.PreventUpdate
 
         selected_indices = [point['pointIndex'] for point in selectedData['points']]
         subset = gdf.iloc[selected_indices]
 
+    
         avg_values = subset[date_cols].mean()
         df_avg = pd.DataFrame({'Date': date_objs, 'Average': avg_values.values})
 
@@ -814,9 +872,28 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
         
         # Calculate the standard deviation of the regression errors
         std_dev = np.std(y_values)
-     
-        
-        
+     ###################################################################################################################
+        filtered_df['Inverse Average'] = 1 / filtered_df['Average'].replace(0, np.nan)  # Avoid division by zero
+
+        # Linear regression for extrapolation
+        valid_data = filtered_df.dropna(subset=['Inverse Average'])
+        valid_date_ordinals = np.array([d.toordinal() for d in valid_data['Date']])
+        valid_inverse_average_values = valid_data['Inverse Average'].values
+
+        model = LinearRegression()
+        model.fit(valid_date_ordinals.reshape(-1, 1), valid_inverse_average_values)
+
+        # Predicting over a larger range to extrapolate
+        prediction_dates = np.arange(valid_date_ordinals.min(), valid_date_ordinals.max() + 90)  # Extrapolating for 3 more year
+        predicted_inverse_averages = model.predict(prediction_dates.reshape(-1, 1))
+
+        # Finding the zero-crossing point
+        zero_crossing = None
+        for zero_date, avg in zip(prediction_dates, predicted_inverse_averages.ravel()):
+            if avg <= 0:
+                zero_crossing = zero_date
+                break
+        ###################################################################################################
         # Calculate annual change based on the slope
         # Convert slope from per day to per year (assuming 365.25 days per year to account for leap years)
         annual_change = slope * 365.25
@@ -827,8 +904,14 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
                 x='Date',
                 y='Average',
                 title=plot_title,
-                trendline=trendline , trendline_scope="overall", trendline_color_override="green"
-            )
+                trendline=trendline , trendline_scope="overall", trendline_color_override="green")
+            
+            #####
+            
+
+                
+            ####
+            
         elif plot_type == 'line':
             fig = px.line(
                 filtered_df,
@@ -847,8 +930,10 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
             fig.add_traces(px.line(
                 filtered_df,
                 x='Date',
-                y='Average'
+                y='Average' 
             ).data)
+            
+        
         
         xaxis_label=xaxis_label if xaxis_label is not None else 'Dates'
         yaxis_label=yaxis_label if yaxis_label is not None else 'mm'
@@ -914,7 +999,32 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
                 yanchor="top"
             )
             
-          
+          ##########3
+            #     # Add y2 data if checkbox is checked
+            if 'SH' in show_hide_value:
+                # Exporting to a text file
+                #filtered_df.to_csv('output.txt', sep='\t', index=False)
+            
+    
+                # Plot extrapolated filtered_df
+                extrapolated_dates = [pd.Timestamp.fromordinal(int(d)) for d in prediction_dates]
+                fig.add_scatter(x=filtered_df['Date'], y=filtered_df['Inverse Average'], mode='lines+markers', name=' Inverse Velocity', yaxis='y2')
+                fig.add_scatter(x=extrapolated_dates, y=predicted_inverse_averages, mode='lines', name='Extrapolated Inverse Velocity', yaxis='y2', line=dict(dash='dash'))
+
+                if zero_crossing is not None:
+                    zero_crossing_date = pd.Timestamp.fromordinal(int(zero_crossing))
+                    fig.add_scatter(x=[zero_crossing_date], y=[0], mode='markers', marker=dict(color='red', size=12), yaxis='y2', name=f'Zero Crossing Point \n{str(zero_crossing_date)[:-8]}')
+               
+                # Update the layout for the secondary y-axis
+            fig.update_layout(
+             yaxis2=dict(
+                #title="Inverse Velocity" if "Inverse Velocity" else 'Inverse Average',
+                overlaying='y',
+                side='right'
+            )
+        )
+         
+        ########
 
         return fig
     

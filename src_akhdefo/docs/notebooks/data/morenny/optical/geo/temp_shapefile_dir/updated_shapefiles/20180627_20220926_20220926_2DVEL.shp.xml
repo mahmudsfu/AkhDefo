@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Data>
    <ReferencePoint>
-      <Coordinates>(662257.6816177368, 4761807.4396362305)</Coordinates>
+      <Coordinates>(662260.6534194946, 4761807.147949219)</Coordinates>
    </ReferencePoint>
    <VELDATA>
-      <VEL>0.1597041138781251</VEL>
-      <VEL_STD>0.012512281189755956</VEL_STD>
+      <VEL>0.15668011764698356</VEL>
+      <VEL_STD>0.011860899052458698</VEL_STD>
    </VELDATA>
 </Data>

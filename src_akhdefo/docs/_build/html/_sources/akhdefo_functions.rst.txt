@@ -52,7 +52,7 @@ Utilities
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: akhdefo_functions.Akhdefo_utils
+.. automodule:: akhdefo_functions.Akhdefo_Utilities
    :members:
    :undoc-members:
    :show-inheritance:
@@ -71,7 +71,7 @@ Geospatial Operations
 
 Video Processing
 ----------------
-.. automodule:: akhdefo_functions.video_streamer
+.. automodule:: akhdefo_functions.Video_Streamer
    :members:
    :undoc-members:
    :show-inheritance:

@@ -326,7 +326,8 @@ from akhdefo_functions import mask_raster
 
 
 def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="", pixel_size=20,num_chunks=10,overlap_percentage=0, out_fileName='interpolated_kriging', 
-                   plot_folder='kriging_plots', geo_folder='geo_rasterFolder', smoothing_kernel=2, mask: [np.ndarray] = None , UTM_Zone=None, krig_method='ordinary' , drift_functions='linear', detrend_data=None):
+                   plot_folder='kriging_plots', geo_folder='geo_rasterFolder', smoothing_kernel=2, mask: [np.ndarray] = None , 
+                   UTM_Zone=None, krig_method='ordinary' , drift_functions='linear', detrend_data=None, use_zscore=None):
     
      
     """
@@ -389,7 +390,8 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     detrend_data : bool , optional
         if True removes the linear trend from the interpolated data and save the detrended data as geotif
     
-    
+    use_zscore : float, optional
+        use statistical outlier removal before performing interpolation default is None. options 2, 3.5, 5 , etc..
     Returns:
     --------
     numpy.ndarray
@@ -569,7 +571,7 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     
     # Sort scores based on score
     sorted_scores = sorted(scores.items(), key=lambda x: x[1]['score'], reverse=True)
-    def get_zgrid(x, y, z, best_fit , gridy, krig_method, drift_functions=drift_functions):
+    def get_zgrid(x, y, z, best_fit , gridy, krig_method, drift_functions=drift_functions, use_zscore=use_zscore):
         
         z = z[~np.isnan(z)]
         x = x[~np.isnan(z)]
@@ -584,16 +586,17 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
         mean_z = np.mean(z)
         std_z = np.std(z)
 
-        # Define the threshold for Z-score (e.g., ±2.5)
-        z_score_threshold = 3.5
+        if use_zscore is not None:
+            # Define the threshold for Z-score (e.g., ±2.5)
+            z_score_threshold = use_zscore
 
-        # Identify indices where Z is below or above the threshold
-        below_threshold_indices = np.where(z < (mean_z - z_score_threshold * std_z))
-        above_threshold_indices = np.where(z > (mean_z + z_score_threshold * std_z))
+            # Identify indices where Z is below or above the threshold
+            below_threshold_indices = np.where(z < (mean_z - z_score_threshold * std_z))
+            above_threshold_indices = np.where(z > (mean_z + z_score_threshold * std_z))
 
-        # Replace values below or above the threshold with the mean of Z
-        z[below_threshold_indices] = mean_z
-        z[above_threshold_indices] = mean_z
+            # Replace values below or above the threshold with the mean of Z
+            z[below_threshold_indices] = mean_z
+            z[above_threshold_indices] = mean_z
 
         
         
@@ -656,8 +659,8 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
         
         
         # from skimage import exposure
-        # z_min = np.nanmin(z)
-        # z_max = np.nanmax(z)
+        z_min = np.nanmin(z)
+        z_max = np.nanmax(z)
         
         # # Ensure interpolated values do not exceed original z data range
         
@@ -665,7 +668,7 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
             # z_mean = np.nanmean(z_grid)
             # z_grid[np.where(z_grid > z_max)] = z_mean
             # z_grid[np.where(z_grid < z_min)] = z_mean
-        #z_grid = exposure.rescale_intensity(z_grid, in_range=(np.nanmin(z_grid), np.nanmax(z_grid)), out_range=(z_min, z_max))
+        z_grid = exposure.rescale_intensity(z_grid, in_range=(np.nanmin(z_grid), np.nanmax(z_grid)), out_range=(z_min, z_max))
             
         
         #z_grid=gs.normalizer.remove_trend_norm_mean((gridy, gridx), z_grid, mean=np.nanmean(z_grid), normalizer=None, trend=None, mesh_type='unstructured', value_type='scalar', check_shape=True, stacked=False, fit_normalizer=True)
@@ -789,7 +792,7 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
         # Try using the best model, then next best if it fails, and so on
         for model_name, model_info in sorted_scores:
             try:
-                z_grid_chunk, gridx_chunk = get_zgrid(x_chunk, y_chunk, z_chunk, model_info['model'], gridy_global, krig_method=krig_method, drift_functions=drift_functions)
+                z_grid_chunk, gridx_chunk = get_zgrid(x_chunk, y_chunk, z_chunk, model_info['model'], gridy_global, krig_method=krig_method, drift_functions=drift_functions, use_zscore=use_zscore)
                 z_grids.append(z_grid_chunk)
                 gridxs.append(gridx_chunk)
                 successful_model = model_name

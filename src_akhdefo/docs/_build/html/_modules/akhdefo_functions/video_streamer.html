@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.video_streamer &#8212; AkhDefo Software 2.2.62 documentation</title>
+    <title>akhdefo_functions.Video_Streamer &#8212; AkhDefo Software 2.2.66 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=1eda8c85"></script>
+    <script src="../../_static/documentation_options.js?v=e2ab9622"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -26,7 +26,7 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">Akhdefo</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">akhdefo_functions.video_streamer</a></li> 
+        <li class="nav-item nav-item-this"><a href="">akhdefo_functions.Video_Streamer</a></li> 
       </ul>
     </div>  
 
@@ -35,111 +35,175 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for akhdefo_functions.video_streamer</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">Response</span>
+  <h1>Source code for akhdefo_functions.Video_Streamer</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">request</span>
 <span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">akhdefo_functions</span>
 
-<div class="viewcode-block" id="VideoStreamer">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.video_streamer.VideoStreamer">[docs]</a>
-<span class="k">class</span> <span class="nc">VideoStreamer</span><span class="p">:</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">measure_displacement_from_camera</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error importing &#39;akhdefo_functions&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="generate_frames1">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Video_Streamer.generate_frames1">[docs]</a>
+<span class="k">def</span> <span class="nf">generate_frames1</span><span class="p">(</span><span class="n">src_video_url</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A Flask-based web application for streaming video from a camera or video file.</span>
+<span class="sd">    Generate video frames for streaming from the provided video source (Frame 1).</span>
 
-<span class="sd">    This class encapsulates the functionalities of streaming video using the OpenCV library</span>
-<span class="sd">    and custom processing from the &#39;akhdefo_functions&#39; module. It sets up a Flask server</span>
-<span class="sd">    with routes to handle video streaming and the main index page.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        src_video_url (str): The URL of the video source for Frame 1.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        args: Command-line arguments for configuration.</span>
-<span class="sd">        app: The Flask application instance.</span>
-
-<span class="sd">    Methods:</span>
-<span class="sd">        generate_frames1(): Generates and yields encoded frames with specific processing parameters.</span>
-<span class="sd">        generate_frames2(): Similar to generate_frames1() but with different parameters.</span>
-<span class="sd">        setup_routes(): Sets up the Flask routes for the application.</span>
-<span class="sd">        run(): Starts the Flask server.</span>
-
-<span class="sd">    Examples:</span>
-<span class="sd">        To run the application, first ensure that all dependencies are installed. Then, execute</span>
-<span class="sd">        the script from the command line with the necessary arguments. For example:</span>
-
-<span class="sd">            python video_streamer.py --port 5000</span>
-
-<span class="sd">        This command runs the Flask server on port 5000. You can access the main page at</span>
-<span class="sd">        `http://localhost:5000/`. For streaming video, access `http://localhost:5000/video1`</span>
-<span class="sd">        or `http://localhost:5000/video2`.</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">        Ensure that the &#39;akhdefo_functions&#39; module and other dependencies are properly installed</span>
-<span class="sd">        and accessible to the script. If using custom modules, they should be in the same directory</span>
-<span class="sd">        as the script or in a location where Python can find them.</span>
-<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        generator: A generator that yields video frames as multipart responses for Frame 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Parse command-line arguments</span>
-        <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Process command line arguments&#39;</span><span class="p">)</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--hls_url&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;HLS URL or 0 for PC webcam or path to a video file&#39;</span><span class="p">)</span>
-        <span class="c1"># Add other arguments...</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="n">measure_displacement_from_camera</span><span class="p">(</span>
+        <span class="n">hls_url</span><span class="o">=</span><span class="n">src_video_url</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">save_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">output_filename</span><span class="o">=</span><span class="s1">&#39;example.mp4&#39;</span><span class="p">,</span>
+        <span class="n">ssim_threshold</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+        <span class="n">pyr_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">levels</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">winsize</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
+        <span class="n">iterations</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+        <span class="n">poly_n</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+        <span class="n">poly_sigma</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+        <span class="n">flags</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">show_video</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">streamer_option</span><span class="o">=</span><span class="s1">&#39;mag&#39;</span>
+    <span class="p">)</span>
 
-        <span class="c1"># Ensure that the custom module is properly imported</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">measure_displacement_from_camera</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">measure_displacement_from_camera</span> <span class="o">=</span> <span class="n">measure_displacement_from_camera</span>
-        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error importing &#39;akhdefo_functions&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">frame</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">g</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: Could not retrieve frame or g.&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">ret</span><span class="p">,</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imencode</span><span class="p">(</span><span class="s1">&#39;.jpg&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setup_routes</span><span class="p">()</span>
-
-<div class="viewcode-block" id="VideoStreamer.generate_frames1">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.video_streamer.VideoStreamer.generate_frames1">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_frames1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">frames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">measure_displacement_from_camera</span><span class="p">(</span>
-            <span class="n">hls_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">hls_url</span><span class="p">,</span>
-            <span class="c1"># Add other parameters...</span>
-        <span class="p">)</span>
-        <span class="k">for</span> <span class="n">frame</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
-            <span class="c1"># Frame generation logic...</span>
-            <span class="k">yield</span> <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;--frame</span><span class="se">\r\n</span><span class="s1">&#39;</span>
-                   <span class="sa">b</span><span class="s1">&#39;Content-Type: image/jpeg</span><span class="se">\r\n\r\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">frame</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="k">yield</span> <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;--frame</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+               <span class="sa">b</span><span class="s1">&#39;Content-Type: image/jpeg</span><span class="se">\r\n\r\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">frame</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="VideoStreamer.generate_frames2">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.video_streamer.VideoStreamer.generate_frames2">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_frames2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Similar to generate_frames1 but with different parameters</span>
-        <span class="k">pass</span></div>
+<div class="viewcode-block" id="generate_frames2">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Video_Streamer.generate_frames2">[docs]</a>
+<span class="k">def</span> <span class="nf">generate_frames2</span><span class="p">(</span><span class="n">src_video_url</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate video frames for streaming from the provided video source (Frame 2).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src_video_url (str): The URL of the video source for Frame 2.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        generator: A generator that yields video frames as multipart responses for Frame 2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">measure_displacement_from_camera</span><span class="p">(</span>
+        <span class="n">hls_url</span><span class="o">=</span><span class="n">src_video_url</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">save_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">output_filename</span><span class="o">=</span><span class="s1">&#39;example.avi&#39;</span><span class="p">,</span>
+        <span class="n">ssim_threshold</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+        <span class="n">pyr_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">levels</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">winsize</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
+        <span class="n">iterations</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+        <span class="n">poly_n</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+        <span class="n">poly_sigma</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+        <span class="n">flags</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">show_video</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">streamer_option</span><span class="o">=</span><span class="s1">&#39;mag&#39;</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">frame</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">g</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: Could not retrieve frame or g.&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">ret</span><span class="p">,</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imencode</span><span class="p">(</span><span class="s1">&#39;.jpg&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+
+        <span class="k">yield</span> <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;--frame</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+               <span class="sa">b</span><span class="s1">&#39;Content-Type: image/jpeg</span><span class="se">\r\n\r\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">frame</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="VideoStreamer.setup_routes">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.video_streamer.VideoStreamer.setup_routes">[docs]</a>
-    <span class="k">def</span> <span class="nf">setup_routes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nd">@self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/video1&#39;</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">video1</span><span class="p">():</span>
-            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generate_frames1</span><span class="p">(),</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;multipart/x-mixed-replace; boundary=frame&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="video1">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Video_Streamer.video1">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/video1&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">video1</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Route for streaming video from the user-provided video source (Frame 1).</span>
 
-        <span class="nd">@self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/video2&#39;</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">video2</span><span class="p">():</span>
-            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generate_frames2</span><span class="p">(),</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;multipart/x-mixed-replace; boundary=frame&#39;</span><span class="p">)</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Response: A Flask Response object for video streaming (Frame 1).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#src_video_url = request.args.get(&#39;src_video_url&#39;)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">generate_frames1</span><span class="p">(</span><span class="s1">&#39;src_video_url&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;multipart/x-mixed-replace; boundary=frame&#39;</span><span class="p">)</span></div>
 
-        <span class="nd">@self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
-            <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="video2">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Video_Streamer.video2">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/video2&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">video2</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Route for streaming video from the user-provided video source (Frame 2).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Response: A Flask Response object for video streaming (Frame 2).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#src_video_url = request.args.get(&#39;src_video_url&#39;)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">generate_frames2</span><span class="p">(</span><span class="s1">&#39;src_video_url&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;multipart/x-mixed-replace; boundary=frame&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="VideoStreamer.run">
-<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.video_streamer.VideoStreamer.run">[docs]</a>
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-</div>
+<div class="viewcode-block" id="index">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Video_Streamer.index">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Route for rendering the index.html template.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The rendered HTML template.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="run_flask_app">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Video_Streamer.run_flask_app">[docs]</a>
+<span class="k">def</span> <span class="nf">run_flask_app</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to run the Flask app and prompt the user for input.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">    - Execute this function in your Python environment.</span>
+<span class="sd">    - Enter the desired port number for the Flask app when prompted.</span>
+<span class="sd">      Press Enter without providing a value to use the default port 80.</span>
+<span class="sd">    - Access Frame 1 by opening a web browser and visiting the following URL:</span>
+<span class="sd">      http://your_server_ip/video1?src_video_url=https://your_video_source_url_frame1</span>
+<span class="sd">      Replace &#39;your_server_ip&#39; with your server&#39;s IP address or domain,</span>
+<span class="sd">      and &#39;your_video_source_url_frame1&#39; with the URL of the video source for Frame 1.</span>
+<span class="sd">    - Access Frame 2 by opening a web browser and visiting the following URL:</span>
+<span class="sd">      http://your_server_ip/video2?src_video_url=https://your_video_source_url_frame2</span>
+<span class="sd">      Replace &#39;your_server_ip&#39; with your server&#39;s IP address or domain,</span>
+<span class="sd">      and &#39;your_video_source_url_frame2&#39; with the URL of the video source for Frame 2.</span>
+<span class="sd">      </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">streamer</span> <span class="o">=</span> <span class="n">VideoStreamer</span><span class="p">()</span>
-    <span class="n">streamer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the port number (default is 80): &quot;</span><span class="p">)</span>
+    <span class="n">src_video_url</span><span class="o">=</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter src_video_url: &quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">src_video_url</span><span class="p">:</span>
+        <span class="n">src_video_url</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">video1</span><span class="p">(</span><span class="n">src_video_url</span><span class="p">)</span>
+    <span class="n">video2</span><span class="p">(</span><span class="n">src_video_url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">port</span><span class="p">:</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="mi">80</span>
+
+    <span class="n">run_flask_app</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">))</span>
 </pre></div>
 
             <div class="clearer"></div>

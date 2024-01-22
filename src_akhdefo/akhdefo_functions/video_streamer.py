@@ -1,89 +1,150 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request
 import cv2
-import argparse
 import akhdefo_functions
 
-class VideoStreamer:
+try:
+    from akhdefo_functions import measure_displacement_from_camera
+except ImportError as e:
+    print(f"Error importing 'akhdefo_functions': {e}")
+
+app = Flask(__name__)
+
+def generate_frames1(src_video_url):
     """
-    A Flask-based web application for streaming video from a camera or video file.
+    Generate video frames for streaming from the provided video source (Frame 1).
 
-    This class encapsulates the functionalities of streaming video using the OpenCV library
-    and custom processing from the 'akhdefo_functions' module. It sets up a Flask server
-    with routes to handle video streaming and the main index page.
+    Args:
+        src_video_url (str): The URL of the video source for Frame 1.
 
-    Attributes:
-        args: Command-line arguments for configuration.
-        app: The Flask application instance.
-
-    Methods:
-        generate_frames1(): Generates and yields encoded frames with specific processing parameters.
-        generate_frames2(): Similar to generate_frames1() but with different parameters.
-        setup_routes(): Sets up the Flask routes for the application.
-        run(): Starts the Flask server.
-
-    Examples:
-        To run the application, first ensure that all dependencies are installed. Then, execute
-        the script from the command line with the necessary arguments. For example:
-
-            python video_streamer.py --port 5000
-
-        This command runs the Flask server on port 5000. You can access the main page at
-        `http://localhost:5000/`. For streaming video, access `http://localhost:5000/video1`
-        or `http://localhost:5000/video2`.
-
-    Note:
-        Ensure that the 'akhdefo_functions' module and other dependencies are properly installed
-        and accessible to the script. If using custom modules, they should be in the same directory
-        as the script or in a location where Python can find them.
-        
+    Returns:
+        generator: A generator that yields video frames as multipart responses for Frame 1.
     """
-    def __init__(self):
-        # Parse command-line arguments
-        parser = argparse.ArgumentParser(description='Process command line arguments')
-        parser.add_argument('--hls_url', default=None, help='HLS URL or 0 for PC webcam or path to a video file')
-        # Add other arguments...
-        self.args = parser.parse_args()
+    frames = measure_displacement_from_camera(
+        hls_url=src_video_url,
+        alpha=0.5,
+        save_output=False,
+        output_filename='example.mp4',
+        ssim_threshold=0.75,
+        pyr_scale=0.5,
+        levels=100,
+        winsize=120,
+        iterations=15,
+        poly_n=7,
+        poly_sigma=1.5,
+        flags=1,
+        show_video=False,
+        streamer_option='mag'
+    )
 
-        # Ensure that the custom module is properly imported
-        try:
-            from akhdefo_functions import measure_displacement_from_camera
-            self.measure_displacement_from_camera = measure_displacement_from_camera
-        except ImportError as e:
-            print(f"Error importing 'akhdefo_functions': {e}")
+    for frame, g in frames:
+        if frame is None or g is None:
+            print("Error: Could not retrieve frame or g.")
+            continue
+        ret, buffer = cv2.imencode('.jpg', frame)
+        frame = buffer.tobytes()
 
-        self.app = Flask(__name__)
-        self.setup_routes()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-    def generate_frames1(self):
-        frames = self.measure_displacement_from_camera(
-            hls_url=self.args.hls_url,
-            # Add other parameters...
-        )
-        for frame, g in frames:
-            # Frame generation logic...
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+def generate_frames2(src_video_url):
+    """
+    Generate video frames for streaming from the provided video source (Frame 2).
 
-    def generate_frames2(self):
-        # Similar to generate_frames1 but with different parameters
-        pass
+    Args:
+        src_video_url (str): The URL of the video source for Frame 2.
 
-    def setup_routes(self):
-        @self.app.route('/video1')
-        def video1():
-            return Response(self.generate_frames1(), content_type='multipart/x-mixed-replace; boundary=frame')
+    Returns:
+        generator: A generator that yields video frames as multipart responses for Frame 2.
+    """
+    frames = akhdefo_functions.measure_displacement_from_camera(
+        hls_url=src_video_url,
+        alpha=0.01,
+        save_output=False,
+        output_filename='example.avi',
+        ssim_threshold=0.8,
+        pyr_scale=0.5,
+        levels=100,
+        winsize=120,
+        iterations=15,
+        poly_n=7,
+        poly_sigma=1.5,
+        flags=1,
+        show_video=False,
+        streamer_option='mag'
+    )
 
-        @self.app.route('/video2')
-        def video2():
-            return Response(self.generate_frames2(), content_type='multipart/x-mixed-replace; boundary=frame')
+    for frame, g in frames:
+        if frame is None or g is None:
+            print("Error: Could not retrieve frame or g.")
+            continue
+        ret, buffer = cv2.imencode('.jpg', frame)
+        frame = buffer.tobytes()
 
-        @self.app.route('/')
-        def index():
-            return render_template('index.html')
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-    def run(self):
-        self.app.run(host="0.0.0.0", port=self.args.port, debug=True)
+@app.route('/video1')
+def video1():
+    """
+    Route for streaming video from the user-provided video source (Frame 1).
+
+    Returns:
+        Response: A Flask Response object for video streaming (Frame 1).
+    """
+    #src_video_url = request.args.get('src_video_url')
+    f = generate_frames1('src_video_url')
+    return Response(f, content_type='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/video2')
+def video2():
+    """
+    Route for streaming video from the user-provided video source (Frame 2).
+
+    Returns:
+        Response: A Flask Response object for video streaming (Frame 2).
+    """
+    #src_video_url = request.args.get('src_video_url')
+    g = generate_frames2('src_video_url')
+    return Response(g, content_type='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/')
+def index():
+    """
+    Route for rendering the index.html template.
+
+    Returns:
+        str: The rendered HTML template.
+    """
+    return render_template('index.html')
+
+def run_flask_app(port):
+    """
+    Function to run the Flask app and prompt the user for input.
+
+    Usage:
+    - Execute this function in your Python environment.
+    - Enter the desired port number for the Flask app when prompted.
+      Press Enter without providing a value to use the default port 80.
+    - Access Frame 1 by opening a web browser and visiting the following URL:
+      http://your_server_ip/video1?src_video_url=https://your_video_source_url_frame1
+      Replace 'your_server_ip' with your server's IP address or domain,
+      and 'your_video_source_url_frame1' with the URL of the video source for Frame 1.
+    - Access Frame 2 by opening a web browser and visiting the following URL:
+      http://your_server_ip/video2?src_video_url=https://your_video_source_url_frame2
+      Replace 'your_server_ip' with your server's IP address or domain,
+      and 'your_video_source_url_frame2' with the URL of the video source for Frame 2.
+      
+    """
+    app.run(host="0.0.0.0", port=port, debug=False)
 
 if __name__ == "__main__":
-    streamer = VideoStreamer()
-    streamer.run()
+    port = input("Enter the port number (default is 80): ")
+    src_video_url=input("Enter src_video_url: ")
+    if not src_video_url:
+        src_video_url=0
+    video1(src_video_url)
+    video2(src_video_url)
+    if not port:
+        port = 80
+
+    run_flask_app(int(port))

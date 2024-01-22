@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Morenney Rock Glacier Radar Imagery Example &#8212; AkhDefo Software 2.2.62 documentation</title>
+    <title>Morenney Rock Glacier Radar Imagery Example &#8212; AkhDefo Software 2.2.66 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../_static/flask.css?v=b87c8d14" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
-    <script src="../_static/documentation_options.js?v=1eda8c85"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=e2ab9622"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -222,65 +222,100 @@ users, example screenshots are provided below as a guide to navigate through the
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-<span class="n">Optical_flow_akhdefo</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/RS_cropped_path129_filt&#39;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/geo_path129&#39;</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">Optical_flow_akhdefo</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/RS_cropped_path129_filt&#39;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/geo_path129&#39;</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                        <span class="n">ssim_thresh</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">image_resolution</span><span class="o">=</span><span class="s1">&#39;20m&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="s1">&#39;kriging&#39;</span><span class="p">,</span>
                                        <span class="n">show_figure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/morenny/dem.tif&#39;</span><span class="p">,</span> <span class="n">smoothing_kernel_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                        <span class="n">Vegetation_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">VEL_scale</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">VEL_Mode</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">good_match_option</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
                                        <span class="n">hillshade_option</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shapefile_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_triplet_interval</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">overlap_percentage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pyr_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
                                        <span class="n">winsize</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">poly_n</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">poly_sigma</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
                                        <span class="n">flags</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">master_reference</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span>
-                                       <span class="n">selection_Mode</span><span class="o">=</span><span class="s1">&#39;pair&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span> <span class="n">spatial_ref</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                                       <span class="n">selection_Mode</span><span class="o">=</span><span class="s1">&#39;pair&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span> <span class="n">spatial_ref</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_detrend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </section>
 <section id="Interpolate-and-Create-raster-Velocities">
 <h2>Interpolate and Create raster Velocities<a class="headerlink" href="#Interpolate-and-Create-raster-Velocities" title="Link to this heading">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
 <span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">Auto_Variogram</span>
 
 <span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/geo_path129/temp_shapefile_dir/updated_shapefiles/20150717_20230921_20230921_N.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span>
-               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span>
-               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span> <span class="p">,</span>  <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">)</span>
+               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">41</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span>
+               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span> <span class="p">,</span>  <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">)</span>
 
 
 <span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/geo_path129/temp_shapefile_dir/updated_shapefiles/20150717_20230921_20230921_E.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span>
-               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span>
-               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span><span class="p">,</span>  <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">)</span>
+               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span>
+               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span><span class="p">,</span>  <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">)</span>
 
 
 
 <span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/geo_path129/temp_shapefile_dir/updated_shapefiles/20150717_20230921_20230921_2DVEL.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span>
-               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;2DVEL&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span>
-               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span><span class="p">,</span>  <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">)</span>
+               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;2DVEL&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span>
+               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span><span class="p">,</span>  <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">)</span>
 
 
 
 <span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/geo_path129/temp_shapefile_dir/updated_shapefiles/20150717_20230921_20230921_2DVEL.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;aspect&#39;</span>
-               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;aspect&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span>
-               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span><span class="p">,</span>  <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">)</span>
+               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;aspect&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder&#39;</span>
+               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span><span class="p">,</span>  <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Integral and score: 0.9695274735136724
+kriging succeed with Model: Rational and score: 0.9203140253785103
+kriging succeed with Model: Stable and score: 0.9905602486686372
+Error with model Matern: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+Error with model Integral: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: Stable and score: 0.9383296532507905
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[         nan,          nan,          nan, ...,          nan,
+                 nan,          nan],
+       [         nan,          nan,          nan, ...,          nan,
+                 nan,          nan],
+       [         nan,          nan,          nan, ...,          nan,
+                 nan,          nan],
+       ...,
+       [382.52968527, 379.51471079, 375.85522955, ...,          nan,
+                 nan,          nan],
+       [         nan, 379.69952343, 375.98514718, ...,          nan,
+                 nan,          nan],
+       [         nan,          nan, 376.0934209 , ...,          nan,
+                 nan,          nan]])
+</pre></div></div>
 </div>
 </section>
 <section id="Visualize-Displacement-Products">
 <h2>Visualize Displacement Products<a class="headerlink" href="#Visualize-Displacement-Products" title="Link to this heading">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
 <span class="kn">import</span> <span class="nn">cmocean.cm</span> <span class="k">as</span> <span class="nn">cmo</span>
 
-<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="o">=</span><span class="s1">&#39;./data/morenny/basemap.tif&#39;</span><span class="p">,</span> <span class="n">raster_file</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder/2DVEL.tif&#39;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/Figs_analysis/&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2D Velocity with Vector Motion&#39;</span><span class="p">,</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="o">=</span><span class="s1">&#39;./data/morenny/basemap.tif&#39;</span><span class="p">,</span> <span class="n">raster_file</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder/2DVEL_universal.tif&#39;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/Figs_analysis/&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2D Velocity with Vector Motion&#39;</span><span class="p">,</span>
                    <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_file_name</span><span class="o">=</span><span class="s2">&quot;2DVEL_WithVectorMotion.png&quot;</span><span class="p">,</span>
                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                    <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;hot_r&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;meter/year&#39;</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder/aspect.tif&#39;</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span> <span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+                   <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;meter/year&#39;</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/VEL_Folder/aspect_universal.tif&#39;</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span> <span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -292,12 +327,12 @@ users, example screenshots are provided below as a guide to navigate through the
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Visualize Mean Velocity East-West</span>
 <span class="c1"># if set batch_plot=True it will plot static time series figure for each date acquisition</span>
-
+<span class="kn">import</span> <span class="nn">akhdefo_functions</span>
 <span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/geo_path129/temp_shapefile_dir/updated_shapefiles/20150717_20230921_20230921_E.shp&#39;</span><span class="p">,</span>
                                        <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/morenny/dem.tif&#39;</span><span class="p">,</span> <span class="n">out_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/Figs_analysis/E&#39;</span><span class="p">,</span>
                                        <span class="n">color_field</span><span class="o">=</span><span class="s2">&quot;VEL&quot;</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -322,7 +357,7 @@ users, example screenshots are provided below as a guide to navigate through the
                                        <span class="n">MinMaxRange</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
                                        <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                        <span class="n">cbar_label</span><span class="o">=</span><span class="s1">&#39;2D-VEL (meter/year)&#39;</span><span class="p">,</span>
-                                       <span class="n">batch_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                                       <span class="n">batch_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_inverse_Vel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -355,15 +390,30 @@ users can download their analysis and the generated figures directly from the we
 <img alt="dash2d_radar output sample" src="../_images/dash2d11.png" />
 <img alt="dash2d_radar output sample1" src="../_images/newplot111.png" />
 <img alt="dash2d_radar output sample2" src="../_images/newplot12.png" />
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="n">akhdefo_dashApp</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_dashApp</span><span class="p">(</span>
 <span class="n">Path_to_Shapefile</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/geo_path129/temp_shapefile_dir/updated_shapefiles/20150717_20230921_20230921_2DVEL.shp&#39;</span><span class="p">,</span>
                                   <span class="n">port</span><span class="o">=</span><span class="mi">8057</span><span class="p">,</span> <span class="n">BaseMap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">basemap_type</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<iframe
+    width="100%"
+    height="650"
+    src="http://127.0.0.1:8057/"
+    frameborder="0"
+    allowfullscreen
+
+></iframe></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -388,8 +438,8 @@ users can download their analysis and the generated figures directly from the we
 </section>
 <section id="Plot-Mean-Land-Surface-Temperature-for-months-July-and-August-2017-to-2021">
 <h2>Plot Mean Land Surface Temperature for months July and August 2017 to 2021<a class="headerlink" href="#Plot-Mean-Land-Surface-Temperature-for-months-July-and-August-2017-to-2021" title="Link to this heading">¶</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -494,48 +544,6 @@ users can download their analysis and the generated figures directly from the we
 <br/></pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_26_0.png" src="../_images/notebooks_RockGlacier_radar_26_0.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_26_1.png" src="../_images/notebooks_RockGlacier_radar_26_1.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_26_2.png" src="../_images/notebooks_RockGlacier_radar_26_2.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_26_3.png" src="../_images/notebooks_RockGlacier_radar_26_3.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_26_4.png" src="../_images/notebooks_RockGlacier_radar_26_4.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_26_5.png" src="../_images/notebooks_RockGlacier_radar_26_5.png" />
-</div>
-</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -544,8 +552,8 @@ users can download their analysis and the generated figures directly from the we
 </pre></div>
 </div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ee</span>
@@ -673,17 +681,8 @@ users can download their analysis and the generated figures directly from the we
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="admonition warning">
-<p>Data type cannot be displayed: application/vnd.plotly.v1+json</p>
-</div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -728,13 +727,6 @@ users can download their analysis and the generated figures directly from the we
 <span class="c1"># Show plot</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <br/><br/><br/></pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_29_0.png" src="../_images/notebooks_RockGlacier_radar_29_0.png" />
 </div>
 </div>
 </section>
