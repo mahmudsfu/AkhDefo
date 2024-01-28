@@ -286,138 +286,98 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
 
 
 
+import os
+import glob
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import re
+from datetime import datetime
 
-
-
-def plot_stackNetwork(src_folder=r"", output_folder=r"" , cmap='tab20', date_plot_interval=(5, 30), marker_size=15):
-    '''
-    This Program plots temporal network of triplets to be stacked for calculating 
-    Annual Mean Velocity from stacked optical images.
-
-    Parameters
-    ----------
-    src_folder: str
-        path to georeferenced_folder
-
-    output_folder: str
-        path to output folder to save output Figure plot
-
-    cmap: str
-        colormap for the plot default is "tab20"
-
-    date_plot_interval: list
-        minumum and maximum plot x axis interval dates for the plot
+def plot_stackNetwork(src_folder="", output_folder="", cmap='tab20', date_plot_interval=(5, 30), marker_size=15):
     
-    marker_size: float
-        size of plotted points default is 15
+    """
+    Generates a scatter plot to visualize the time intervals between dates extracted from the filenames of .tif files.
+    The function handles filenames containing single or multiple dates. For multiple dates, it calculates the interval 
+    between the first and last date. For single dates, it calculates the interval between consecutive dates.
 
-    Returns
-    -------
-    Figure
-    '''
+    Parameters:
+    - src_folder (str): The source folder containing .tif files.
+    - output_folder (str): The folder where the plot image will be saved.
+    - cmap (str): The colormap used for the scatter plot. Default is 'tab20'.
+    - date_plot_interval (tuple): A tuple indicating the minimum and maximum number of ticks on the date axis. Default is (5, 30).
+    - marker_size (int): The size of markers in the scatter plot. Default is 15.
+
+    The function first attempts to find multiple dates in each filename. If multiple dates are found, it calculates the
+    interval (delta_dd) between the first and last dates. If only one date is found, it calculates the interval between 
+    the current and next date in the sequence. The scatter plot displays these intervals, with the color indicating the 
+    specific date and position reflecting the time interval.
+
+    The function saves the generated plot as 'Stack_Network.jpg' in the specified output folder.
+
+    Note:
+    - The function assumes that the filenames follow a specific date format, either 'YYYYMMDD' or 'YYYY-MM-DD'.
+    - Files are processed in alphabetical order, which should correspond to chronological order for accurate interval calculation.
     
+    """
     
-    if not os.path.exists(output_folder ):
+    if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
-    #20200218-20200220-20200226.tif
+    path_folder = sorted([os.path.join(src_folder, file) for file in os.listdir(src_folder) if file.endswith('.tif')])
+    data = []
+    for filepath in path_folder:
+        filename = os.path.basename(filepath)
 
-    path_folder=sorted(glob.glob( src_folder + "/" + "flow_xn/*.tif"))
-    df=pd.DataFrame(columns= ["Triplet_Dates", "Triplet ID", "Time"])
-    label_date_list=[]
-    label_time_list=[]
-    label_id_list=[]
-    delta_dd_list=[]
-    for idx, item in enumerate(path_folder):
+        # Using regular expression to find dates in filename
+        multi_date_pattern = re.compile(r'(\d{8})')
+        single_date_pattern = re.compile(r'(\d{4}-\d{2}-\d{2}|\d{8})')
         
-        filepath,filename=os.path.split(path_folder[idx])
-        label_date=filename[:-4]
-        label_time=filename[:-22]
-        label_date_list.append(label_date)
-        label_time_list.append(label_time)
-        label_id_list.append(idx)
-
-        ###
-        #20200218-20200220-20200226.tif
-        Date1_YYYY=filename[:-26]
-        Date1_MM=filename[4:-24]
-        Date1_DD=filename[6:-22]
-
-        Date2_YYYY=filename[9:-17]
-        Date2_MM=filename[13:-15]
-        Date2_DD=filename[15:-13]
-
-        Date3_YYYY=filename[18:-8]
-        Date3_MM=filename[22:-6]
-        Date3_DD=filename[24:-4]
-        #convert dates to number of days in the year for image1
-        YMD= Date1_YYYY+Date1_MM+Date1_DD
-        date1 = pd.to_datetime(YMD, format='%Y%m%d')
-        new_year_day = pd.Timestamp(year=date1.year, month=1, day=1)
-        day_of_the_year_date1 = (date1 - new_year_day).days + 1
-
-        #convert dates to number of days in the year for image2
-        YMD= Date2_YYYY+Date2_MM+Date2_DD
-        date2 = pd.to_datetime(YMD, format='%Y%m%d')
-        new_year_day = pd.Timestamp(year=date2.year, month=1, day=1)
-        day_of_the_year_date2 = (date2 - new_year_day).days + 1
-
-            #convert dates to number of days in the year for image3
-        YMD= Date3_YYYY+Date3_MM+Date3_DD
-        date3 = pd.to_datetime(YMD, format='%Y%m%d')
-        new_year_day = pd.Timestamp(year=date3.year, month=1, day=1)
-        day_of_the_year_date3 = (date3 - new_year_day).days + 1
-
-        Delta_DD= (date3-date1).days
-        Delta_DD=int(Delta_DD)
-        if Delta_DD < 0:
-            Delta_DD=Delta_DD*-1
+        multi_dates = multi_date_pattern.findall(filename)
+        if len(multi_dates) >= 2:
+            # Convert dates to datetime objects and calculate delta_dd for the first and last date
+            date_objs = [pd.to_datetime(date, format='%Y%m%d') for date in multi_dates]
+            delta_dd = (date_objs[-1] - date_objs[0]).days
+            data.append({'Time': date_objs[-1], 'Delta_DD': delta_dd})
         else:
-            Delta_DD=Delta_DD*1
-        delta_dd_list.append(Delta_DD)   
-        #print (delta_dd_list)
-    df["Triplet_Dates"]=(label_date_list)
-    df["Triplet ID"]=(label_id_list)
-    df["Time"]=(label_time_list)
-    df['Delta_DD']=delta_dd_list
-    df['Time'] = pd.to_datetime(df['Time'].astype(str), format='%Y%m%d')
-   
-    t=np.array(df["Time"])
-    lb=np.array(df["Triplet_Dates"])
-    lb_id=np.array(df["Triplet ID"])
-    delta_dates=np.array(df['Delta_DD'])
-    fig, ax = plt.subplots(ncols=1, nrows=1, figsize=(10,5))
+            single_dates = single_date_pattern.findall(filename)
+            if single_dates:
+                # Convert single found date to datetime object
+                date_format = '%Y-%m-%d' if '-' in single_dates[0] else '%Y%m%d'
+                data.append({'Time': pd.to_datetime(single_dates[0], format=date_format), 'Delta_DD': None})
+
+    # Calculate delta_dd for single dates
+    sorted_data = sorted(data, key=lambda x: x['Time'])
+    for i in range(len(sorted_data) - 1):
+        if sorted_data[i]['Delta_DD'] is None:
+            sorted_data[i]['Delta_DD'] = (sorted_data[i + 1]['Time'] - sorted_data[i]['Time']).days
+
+    # Preparing data for plotting
+    df = pd.DataFrame(sorted_data)
+
+    # Plotting
+    fig, ax = plt.subplots(figsize=(10, 5))
     fig.autofmt_xdate()
-    a=ax.scatter( t, delta_dates, c=mdates.date2num(t), cmap=cmap, s=marker_size , norm=matplotlib.colors.Normalize())
-    ax.plot(t, delta_dates , color='k' , alpha=0.5)
-    
-    cb=fig.colorbar(a, ax=ax, orientation='horizontal', pad=0.02)
+    sc = ax.scatter(df['Time'], df['Delta_DD'], c=mdates.date2num(df['Time']), cmap=cmap, s=marker_size)
+    ax.plot(df['Time'], df['Delta_DD'], color='k', alpha=0.5)
+    cb = fig.colorbar(sc, ax=ax, orientation='horizontal', pad=0.02)
+
     loc_major = mdates.AutoDateLocator(minticks=date_plot_interval[0], maxticks=date_plot_interval[1])
-    #loc_minor = mdates.AutoDateLocator(minticks=1, maxticks =5)
-    #cb.ax.xaxis.set_minor_locator(loc_minor)
     cb.ax.xaxis.set_major_locator(loc_major)
-    #cb.ax.xaxis.set_minor_formatter(mdates.ConciseDateFormatter(loc_minor))
     cb.ax.xaxis.set_major_formatter(mdates.ConciseDateFormatter(loc_major))
-    plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=date_plot_interval[1])) 
-    #plt.gca().xaxis.set_minor_locator(mdates.DayLocator(interval=date_plot_interval[0])) 
-    plt.xlim(df['Time'][df.index[0]],df['Time'][df.index[-1]] )
-    #plt.title("Triplet Stack Network")
-    #plt.xlabel("Dates")
-    plt.ylabel("Number of Days for Each Triplet")
-    # handles, labels = a.legend_elements(prop='colors', alpha=0.2)
-    # legend = ax.legend(handles, labels, bbox_to_anchor=(1.08, 1), loc="upper center", title="Number of days" )
-    
+
+    plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=date_plot_interval[1]))
+    plt.xlim(df['Time'].min(), df['Time'].max())
+    plt.ylabel("Days Between Dates")
     cb.ax.tick_params(rotation=90)
     ax.xaxis.tick_top()
-      
-    ax.xaxis.set_label_position('top') 
-    ax.set_xlabel('Dates') 
-    plt.xticks(rotation=85) 
+    ax.xaxis.set_label_position('top')
+    ax.set_xlabel('Dates')
+    plt.xticks(rotation=85)
     ax.grid(True)
+    plt.savefig(os.path.join(output_folder, "Stack_Network.jpg"), dpi=300, bbox_inches='tight')
 
-    #print(df.head(5))
-    
-    plt.savefig( output_folder + "/" + "Stack_Network.jpg", dpi=300, bbox_inches = 'tight')
 
 
 

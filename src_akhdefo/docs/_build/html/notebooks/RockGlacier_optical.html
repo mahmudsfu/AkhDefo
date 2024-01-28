@@ -8,7 +8,7 @@
     <title>Morenny Rock Glacier Optical Imagery Example &#8212; AkhDefo Software 2.2.66 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../_static/flask.css?v=b87c8d14" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
     <script src="../_static/documentation_options.js?v=e2ab9622"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
@@ -1054,13 +1054,93 @@ Processing:Updating and Cropping Rasters: 100%|██████████| 3
 Processing: Update Shapefiles :   0%|          | 0/3 [00:00&lt;?, ?it/s]
 </pre></div></div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 processing ./data/morenny/optical/geo/temp_shapefile_dir/20180627_20220926_20220926_2DVEL.shp started...
 
+1943
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing: Update Shapefiles :  33%|███▎      | 1/3 [03:04&lt;06:09, 184.91s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ReferencePoint x, y: (662260.6534194946, 4761807.147949219), VEL, VEL_STD: (0.15668011764698356, 0.011860899052458698)
+processing ./data/morenny/optical/geo/temp_shapefile_dir/20180627_20220926_20220926_2DVEL.shp completed...
+
+processing ./data/morenny/optical/geo/temp_shapefile_dir/20180627_20220926_20220926_N.shp started...
+
+1943
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing: Update Shapefiles :  67%|██████▋   | 2/3 [06:07&lt;03:03, 183.31s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ReferencePoint x, y: (662260.6534194946, 4761807.147949219), VEL, VEL_STD: (0.06346101230391123, 0.007452514319404312)
+processing ./data/morenny/optical/geo/temp_shapefile_dir/20180627_20220926_20220926_N.shp completed...
+
+processing ./data/morenny/optical/geo/temp_shapefile_dir/20180627_20220926_20220926_E.shp started...
+
+1943
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing: Update Shapefiles : 100%|██████████| 3/3 [09:12&lt;00:00, 184.20s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ReferencePoint x, y: (662260.6534194946, 4761807.147949219), VEL, VEL_STD: (-0.0945266383122991, 0.012143612225367867)
+processing ./data/morenny/optical/geo/temp_shapefile_dir/20180627_20220926_20220926_E.shp completed...
+
+Total Days: 1552
+file used ./data/morenny/optical/geo/temp_shapefile_dir\updated_shapefiles\20180627_20220926_20220926_2DVEL.shp.xml
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+start calculating aspect...
+calculating aspect completed
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1110,13 +1190,19 @@ kriging succeed with Model: Exponential and score: 0.9831770607858743
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([[nan, nan, nan, ..., nan, nan, nan],
-       [nan, nan, nan, ..., nan, nan, nan],
-       [nan, nan, nan, ..., nan, nan, nan],
+array([[         nan,          nan,          nan, ...,          nan,
+                 nan,          nan],
+       [         nan,          nan,          nan, ...,          nan,
+                 nan,          nan],
+       [         nan,          nan,          nan, ...,          nan,
+                 nan,          nan],
        ...,
-       [nan, nan, nan, ..., nan, nan, nan],
-       [nan, nan, nan, ..., nan, nan, nan],
-       [nan, nan, nan, ..., nan, nan, nan]])
+       [         nan, 170.32584406, 171.62777321, ...,          nan,
+                 nan,          nan],
+       [         nan,          nan, 171.50076609, ...,          nan,
+                 nan,          nan],
+       [         nan,          nan,          nan, ...,          nan,
+                 nan,          nan]])
 </pre></div></div>
 </div>
 </section>
@@ -1136,7 +1222,7 @@ array([[nan, nan, nan, ..., nan, nan, nan],
 <li><p>Zero value of the aspect colorbar represents True North, Negative west and Positive is East. for instance -40 is equal direction of movement North 40 degree towards west (40NW)</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>

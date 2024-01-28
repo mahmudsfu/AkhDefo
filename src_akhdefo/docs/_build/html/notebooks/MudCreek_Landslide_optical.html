@@ -8,7 +8,7 @@
     <title>MudCreek 2017 Landslide Optical Imagery Example &#8212; AkhDefo Software 2.2.66 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../_static/flask.css?v=b87c8d14" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
     <script src="../_static/documentation_options.js?v=e2ab9622"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
@@ -191,8 +191,8 @@
 </section>
 <section id="Applying-optical-flow-and-producing-time-series-deformation-products.">
 <h2>Applying optical flow and producing time-series deformation products.<a class="headerlink" href="#Applying-optical-flow-and-producing-time-series-deformation-products." title="Link to this heading">¶</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
@@ -213,477 +213,35 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
+</section>
+<section id="Temporal-cloud-free-optical-imagery-interval">
+<h2>Temporal cloud free optical imagery interval<a class="headerlink" href="#Temporal-cloud-free-optical-imagery-interval" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Utilizing optical imagery that offered less than 5 days of cloud-free coverage, especially during April 2017, proved highly advantageous in the period preceding the landslide failure.</p></li>
+<li><p>This frequent imaging enabled more precise and prompt tracking of the site’s changing conditions, offering essential insights unattainable with less regular monitoring techniques like the 12-day data acquisition intervals of Sentinel 1.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">AkhdefoPlot</span><span class="o">.</span><span class="n">plot_stackNetwork</span><span class="p">(</span><span class="n">src_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/image_dir_aoi_filt/&#39;</span><span class="p">,</span>
+                                                <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;tab20&#39;</span><span class="p">,</span> <span class="n">date_plot_interval</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">marker_size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:   0%|          | 0/18 [00:00&lt;?, ?it/s]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: JBessel and score: 0.7911666939862032
-Error with model JBessel: Internal Error.
-kriging succeed with Model: JBessel and score: 0.9272232712901561
-Error with model JBessel: Internal Error.
-kriging succeed with Model: JBessel and score: 0.8244918594585541
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:   6%|▌         | 1/18 [00:08&lt;02:19,  8.20s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Error with model Stable: Internal Error.
-kriging succeed with Model: Stable and score: 0.9368175802657305
-Error with model Stable: Internal Error.
-Error with model Stable: Internal Error.
-kriging succeed with Model: Stable and score: 0.9433280729171764
-kriging succeed with Model: Exponential and score: 0.868928428195715
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  11%|█         | 2/18 [00:14&lt;01:50,  6.91s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Error with model Stable: Internal Error.
-kriging succeed with Model: Stable and score: 0.8890076035605196
-kriging succeed with Model: Stable and score: 0.9305718030531345
-Error with model TPLSimple: Internal Error.
-kriging succeed with Model: TPLSimple and score: 0.9658434107738628
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  17%|█▋        | 3/18 [00:22&lt;01:52,  7.51s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: HyperSpherical and score: 0.7849192714243927
-kriging succeed with Model: SuperSpherical and score: 0.9130460876937811
-Error with model Cubic: Internal Error.
-kriging succeed with Model: Cubic and score: 0.9039087958109763
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  22%|██▏       | 4/18 [00:29&lt;01:40,  7.17s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: Exponential and score: 0.6753174313108793
-Error with model JBessel: Internal Error.
-kriging succeed with Model: JBessel and score: 0.7449936741144396
-kriging succeed with Model: TPLSimple and score: 0.5427484321985416
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  28%|██▊       | 5/18 [00:35&lt;01:31,  7.04s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: Spherical and score: 0.809362456752327
-Error with model Stable: Internal Error.
-kriging succeed with Model: Stable and score: 0.9836129429909383
-kriging succeed with Model: TPLSimple and score: 0.6192852328853489
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  33%|███▎      | 6/18 [00:41&lt;01:17,  6.50s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: JBessel and score: 0.7521020408649217
-Error with model JBessel: Internal Error.
-kriging succeed with Model: JBessel and score: 0.27862532349972147
-Error with model JBessel: Internal Error.
-kriging succeed with Model: JBessel and score: 0.18375956866850418
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  39%|███▉      | 7/18 [00:49&lt;01:18,  7.11s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: SuperSpherical and score: 0.9396315799939159
-kriging succeed with Model: Stable and score: 0.991132957202952
-kriging succeed with Model: Stable and score: 0.9248459321838302
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  44%|████▍     | 8/18 [00:56&lt;01:10,  7.04s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: Stable and score: 0.9979933434788121
-kriging succeed with Model: SuperSpherical and score: 0.9887526237847432
-kriging succeed with Model: Exponential and score: 0.9647804661164604
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  50%|█████     | 9/18 [01:01&lt;00:58,  6.53s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: Exponential and score: 0.9209848303306938
-kriging succeed with Model: TPLSimple and score: 0.9855681473147527
-kriging succeed with Model: TPLSimple and score: 0.9838670501300552
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  56%|█████▌    | 10/18 [01:07&lt;00:48,  6.08s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Error with model Stable: Internal Error.
-kriging succeed with Model: Stable and score: 0.9883411158799006
-Error with model Integral: Internal Error.
-kriging succeed with Model: Integral and score: 0.9095280370134993
-kriging succeed with Model: Stable and score: 0.9602221997257957
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  61%|██████    | 11/18 [01:15&lt;00:48,  6.92s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: TPLSimple and score: 0.9777866351151664
-kriging succeed with Model: TPLSimple and score: 0.9949643297030596
-kriging succeed with Model: TPLSimple and score: 0.9783516506951963
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  67%|██████▋   | 12/18 [01:20&lt;00:38,  6.35s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Error with model Cubic: Internal Error.
-Error with model Cubic: Internal Error.
-Error with model Stable: Internal Error.
-kriging succeed with Model: Cubic and score: 0.9961100824102647
-kriging succeed with Model: Exponential and score: 0.9931319329348368
-kriging succeed with Model: TPLSimple and score: 0.9942513653170779
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  72%|███████▏  | 13/18 [01:26&lt;00:30,  6.07s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: Integral and score: 0.9781628826920808
-kriging succeed with Model: Cubic and score: 0.9836900108289415
-kriging succeed with Model: Integral and score: 0.9709418934710213
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  78%|███████▊  | 14/18 [01:35&lt;00:27,  6.90s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: Cubic and score: 0.9959090817561956
-kriging succeed with Model: Cubic and score: 0.9869928633368054
-kriging succeed with Model: SuperSpherical and score: 0.9937471837077672
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  83%|████████▎ | 15/18 [01:40&lt;00:19,  6.42s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Error with model HyperSpherical: Internal Error.
-kriging succeed with Model: HyperSpherical and score: 0.983379737807484
-kriging succeed with Model: Stable and score: 0.9546784399110005
-kriging succeed with Model: Stable and score: 0.9500349678949328
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  89%|████████▉ | 16/18 [01:46&lt;00:12,  6.17s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: Integral and score: 0.94905615888546
-Error with model HyperSpherical: Internal Error.
-kriging succeed with Model: HyperSpherical and score: 0.9877597817166767
-Error with model Integral: Internal Error.
-Error with model Integral: Internal Error.
-kriging succeed with Model: Integral and score: 0.9503652391176667
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing:  94%|█████████▍| 17/18 [01:54&lt;00:06,  6.87s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: Stable and score: 0.9506612160819754
-kriging succeed with Model: Integral and score: 0.7677044185394831
-kriging succeed with Model: Stable and score: 0.8974744265134706
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing: 100%|██████████| 18/18 [02:02&lt;00:00,  6.83s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Wait for processing to complete writing data into shapefile for timeseries...
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Preparing GeoDataFrames: 100%|██████████| 18/18 [00:00&lt;00:00, 709.47it/s]
-Preparing GeoDataFrames: 100%|██████████| 18/18 [00:00&lt;00:00, 731.25it/s]
-Preparing GeoDataFrames: 100%|██████████| 18/18 [00:00&lt;00:00, 728.93it/s]
-100%|██████████| 18/18 [00:00&lt;00:00, 29.94it/s]          | 0/3 [00:00&lt;?, ?it/s]
-100%|██████████| 18/18 [00:00&lt;00:00, 55.62it/s]███▎      | 1/3 [00:00&lt;00:01,  1.64it/s]
-100%|██████████| 18/18 [00:00&lt;00:00, 56.14it/s]██████▋   | 2/3 [00:00&lt;00:00,  2.24it/s]
-Processing:Updating and Cropping Rasters: 100%|██████████| 3/3 [00:01&lt;00:00,  2.36it/s]
-Processing: Update Shapefiles :   0%|          | 0/3 [00:00&lt;?, ?it/s]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-processing ./data/mudcreek/optical/geo/temp_shapefile_dir/20161002_20170516_20170516_2DVEL.shp started...
-
-best match 3342
-3342
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing: Update Shapefiles :  33%|███▎      | 1/3 [00:57&lt;01:54, 57.15s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-ReferencePoint x, y: (642074.4016571045, 3969746.9887390137), VEL, VEL_STD: (0.6025294112549296, 0.06767421555970492)
-processing ./data/mudcreek/optical/geo/temp_shapefile_dir/20161002_20170516_20170516_2DVEL.shp completed...
-
-processing ./data/mudcreek/optical/geo/temp_shapefile_dir/20161002_20170516_20170516_N.shp started...
-
-3342
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing: Update Shapefiles :  67%|██████▋   | 2/3 [01:54&lt;00:56, 56.99s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-ReferencePoint x, y: (642074.4016571045, 3969746.9887390137), VEL, VEL_STD: (-0.16683158475654095, 0.046830731074162996)
-processing ./data/mudcreek/optical/geo/temp_shapefile_dir/20161002_20170516_20170516_N.shp completed...
-
-processing ./data/mudcreek/optical/geo/temp_shapefile_dir/20161002_20170516_20170516_E.shp started...
-
-3342
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Processing: Update Shapefiles : 100%|██████████| 3/3 [02:53&lt;00:00, 57.67s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-ReferencePoint x, y: (642074.4016571045, 3969746.9887390137), VEL, VEL_STD: (-0.12174721922997883, 0.05032270423050631)
-processing ./data/mudcreek/optical/geo/temp_shapefile_dir/20161002_20170516_20170516_E.shp completed...
-
-Total Days: 226
-file used ./data/mudcreek/optical/geo/temp_shapefile_dir\updated_shapefiles\20161002_20170516_20170516_2DVEL.shp.xml
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-start calculating aspect...
-calculating aspect completed
-</pre></div></div>
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_15_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_15_0.png" />
+</div>
 </div>
 </section>
 <section id="Visualize-Displacement-Products">
 <h2>Visualize Displacement Products<a class="headerlink" href="#Visualize-Displacement-Products" title="Link to this heading">¶</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Visualize Mean Velocity East-West</span>
@@ -717,27 +275,6 @@ calculating aspect completed
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_MudCreek_Landslide_optical_15_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_15_0.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_MudCreek_Landslide_optical_15_1.png" src="../_images/notebooks_MudCreek_Landslide_optical_15_1.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_MudCreek_Landslide_optical_15_2.png" src="../_images/notebooks_MudCreek_Landslide_optical_15_2.png" />
-</div>
-</div>
 <img alt="Step 1" src="../_images/movie.gif" />
 </section>
 <section id="Interactive-Time-Series-Analysis-in-a-Dash-Web-App">
@@ -761,7 +298,7 @@ users can download their analysis and the generated figures directly from the we
 <img alt="dash2d_optical output sample1" src="../_images/2dprofile2.png" />
 <img alt="dash2d_optical output sample2" src="../_images/2dvelmap1.png" />
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -808,8 +345,8 @@ users can download their analysis and the generated figures directly from the we
 </section>
 <section id="Kriging-Interpolation-using-Akhdefo-workflow">
 <h2>Kriging Interpolation using Akhdefo workflow<a class="headerlink" href="#Kriging-Interpolation-using-Akhdefo-workflow" title="Link to this heading">¶</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -839,32 +376,211 @@ users can download their analysis and the generated figures directly from the we
 <br/></pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<section id="Calculating-slope-angle-map-relative-to-2D-displacement-aspect-map.">
+<h3>Calculating slope angle map relative to 2D displacement aspect map.<a class="headerlink" href="#Calculating-slope-angle-map-relative-to-2D-displacement-aspect-map." title="Link to this heading">¶</a></h3>
+<p>The vector’s magnitude (aspect), known as the directional gradient, is found using the Pythagorean theorem, which combines the gradient in both the x and y directions. Mathematically, it is expressed as: the below mathematical equations taken from the NumPy python library gradient function (Harris et al., 2020).</p>
+<p>For a digital elevation model (DEM) or any scalar field represented as a 2D array DEM, with spacing (pixel dimensions) dx in the x-direction and dy in the y-direction, the gradient is computed as follows:</p>
+<ul>
+<li><p>grade_x: This is the partial derivative of DEM with respect to x, representing the rate of change of the function along the x-axis. Mathematically, it’s expressed as:</p>
+<p>∂f/∂x= (f(x_i+1,y_j) - f(x_i-1,y_j)) / (2 * dx) where grade_x=∂f/∂x</p>
+</li>
+<li><p>grade_y: This is the partial derivative of DEM with respect to y, representing the rate of change of the function along the y-axis. Mathematically, it’s expressed as:</p>
+<p>∂f/∂y= (f(x_i,y_j+1) - f(x_i,y_j-1)) / (2 * dy) where grade_y=∂f/∂y</p>
+</li>
+</ul>
+<p>Given the aspect, gradient in x-direction(grade_x), and gradient in y-direction(grade_y), the directional gradient, representing the rate of change of the scalar field in the direction of the aspect, is given by.</p>
+<p>Directional Gradient = cos(θ) * grade_x + sin(θ) * grade_y</p>
+<ul>
+<li><p>For a given pixel, if the elevation and location before and after displacement are known (from L1 to L2), one can calculate the vertical change (rise). This vertical change is the elevation difference between the displaced position (L2) and the original position (L1). The horizontal distance (run) is the pixel dimension, which is the distance between L1 and the projected position L1’ on the horizontal plane directly beneath L2. The slope angle at pixel p is then calculated by taking the
+arctangent of the ratio of the rise to the run. The arctangent function yields the angle in radians between the line representing the rise and the horizontal distance (run), which is the angle of the slope. It is expressed as:</p>
+<p>slope angle=arctan(Directional Gradient)</p>
+</li>
+</ul>
+<p>This process is repeated across the entire DEM to produce a slope angle map, which is a representation of the terrain’s steepness at every point (pixel).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="c1"># Constants and calculations</span>
+<span class="n">initial_elevation</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Elevation at point L1 in meters</span>
+<span class="n">distance_moved</span> <span class="o">=</span> <span class="mi">11</span>  <span class="c1"># Horizontal distance between L1 and L2 in meters</span>
+<span class="n">slope_angle_degrees</span> <span class="o">=</span> <span class="mi">35</span>  <span class="c1"># Desired slope angle in degrees</span>
+<span class="n">aspect</span> <span class="o">=</span> <span class="mi">45</span>  <span class="c1"># Aspect angle in degrees</span>
+
+<span class="c1"># Convert slope angle to radians</span>
+<span class="n">slope_angle_radians</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">slope_angle_degrees</span><span class="p">)</span>
+
+<span class="c1"># Calculate the elevation difference</span>
+<span class="n">elevation_difference</span> <span class="o">=</span> <span class="n">distance_moved</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">slope_angle_radians</span><span class="p">)</span>
+
+<span class="c1"># Elevation at point L2</span>
+<span class="n">elevation_L2</span> <span class="o">=</span> <span class="n">initial_elevation</span> <span class="o">+</span> <span class="n">elevation_difference</span>
+
+<span class="c1"># Position of L1 in 3D space</span>
+<span class="n">L1_3D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">initial_elevation</span><span class="p">])</span>
+
+<span class="c1"># Calculate horizontal components based on aspect angle</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">distance_moved</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">aspect</span><span class="p">))</span>
+<span class="n">dy</span> <span class="o">=</span> <span class="n">distance_moved</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">aspect</span><span class="p">))</span>
+
+<span class="c1"># Position of L2 in 3D space considering aspect angle</span>
+<span class="n">L2_3D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">elevation_L2</span><span class="p">])</span>
+
+<span class="c1"># Position of L1&#39; (horizontal displacement of L1)</span>
+<span class="n">L1_prime_3D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">initial_elevation</span><span class="p">])</span>
+
+<span class="c1"># Creating the 3D plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plotting points L1, L1&#39; and L2</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">L1_3D</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;L1 (Initial pixel location)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">L1_prime_3D</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;L1&#39; (adjacent pixel location in the direction of aspect displacement)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">L2_3D</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;L2 (Elevation: </span><span class="si">{</span><span class="n">elevation_L2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">m)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Drawing the triangle sides</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="s1">&#39;g--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Base[pixel width size] (L1 to L1</span><span class="se">\&#39;</span><span class="s1">) in the direction of displacement aspect&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;pixel height[magnitude] (L1</span><span class="se">\&#39;</span><span class="s1"> to L2)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Slope (L1 to L2)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Traces for df/dx and df/dy</span>
+
+
+<span class="c1"># Calculating grade_x and grade_y (the slope components in the x and y directions)</span>
+<span class="n">grade_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">slope_angle_radians</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">aspect</span><span class="p">))</span>
+<span class="n">grade_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">slope_angle_radians</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">aspect</span><span class="p">))</span>
+
+
+<span class="c1"># Extending the traces from L1 to some distance in the direction of the gradient</span>
+<span class="n">trace_length</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Adjust this as needed</span>
+<span class="n">df_dx_end</span> <span class="o">=</span> <span class="n">L1_3D</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">trace_length</span> <span class="o">*</span> <span class="n">grade_x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">df_dy_end</span> <span class="o">=</span> <span class="n">L1_3D</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">trace_length</span> <span class="o">*</span> <span class="n">grade_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df_dx_end</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">df_dx_end</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">df_dx_end</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;grade_x trace&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df_dy_end</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">df_dy_end</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">df_dy_end</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;grade_y trace&#39;</span><span class="p">)</span>
+
+<span class="c1"># Moving the labels for df/dx and df/dy next to their traces</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">df_dx_end</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df_dx_end</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">df_dx_end</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="sa">f</span><span class="s1">&#39;grade_x: </span><span class="si">{</span><span class="n">grade_x</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">df_dy_end</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df_dy_end</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">df_dy_end</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="sa">f</span><span class="s1">&#39;grade_y: </span><span class="si">{</span><span class="n">grade_y</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
+<span class="c1"># Label offsets (adjust as needed)</span>
+<span class="n">label_offset</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="c1"># Labeling the points and the slope angle</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">label_offset</span><span class="p">,</span> <span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;L1&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">label_offset</span><span class="p">,</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;L1&#39;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">L2_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">label_offset</span><span class="p">,</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;L2&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+
+<span class="c1"># Label for the slope angle</span>
+<span class="n">midpoint</span> <span class="o">=</span> <span class="p">(</span><span class="n">L1_3D</span> <span class="o">+</span> <span class="n">L2_3D</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">midpoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">label_offset</span><span class="p">,</span> <span class="n">midpoint</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">midpoint</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="sa">f</span><span class="s1">&#39;slope angle: </span><span class="si">{</span><span class="n">slope_angle_degrees</span><span class="si">}</span><span class="s1">°&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;magenta&#39;</span><span class="p">)</span>
+
+<span class="c1"># Axes labels</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;X Axis&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Y Axis&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;Elevation (m)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+<span class="c1"># Setting the viewing angle and title</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="n">elev</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">azim</span><span class="o">=-</span><span class="mi">60</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;3D Visualization of Slope and aspect with known elevation&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+<span class="c1"># Labeling dx and dy</span>
+<span class="c1"># Label offsets (adjust as needed)</span>
+<span class="n">label_offset</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">label_offset</span><span class="p">,</span> <span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;dx&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;dy&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># Legend</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-kriging succeed with Model: SuperSpherical and score: 0.9979645564083159
-kriging succeed with Model: Integral and score: 0.9955343276407005
-kriging succeed with Model: Stable and score: 0.9967113051201083
-kriging succeed with Model: HyperSpherical and score: 0.9986135030207539
-</pre></div></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "6ab0c31f80d640ee93fac6529c0cf4b6", "version_major": 2, "version_minor": 0}</script></div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</section>
+<section id="Calculting-hight-change-from-slope-angle-map,-2D-displacement-aspect-map-and-2D-displacement-magnitude.">
+<h3>Calculting hight change from slope angle map, 2D displacement aspect map and 2D displacement magnitude.<a class="headerlink" href="#Calculting-hight-change-from-slope-angle-map,-2D-displacement-aspect-map-and-2D-displacement-magnitude." title="Link to this heading">¶</a></h3>
+<p>Once the slope angle relative to the resultant displacement aspect has been calculated, we can incorporate to find the vertical change for the resultant horizontal displacement magnitude relative to the aspect and slope angle map. Given that the slope angle (θ), aspect and the horizontal displacement (the distance from L1 to h) are known (Fig. 5b), we can use these to find the elevation difference, which is the rise in the right triangle formed by the displacement from L1 to L2. The tangent of
+the slope angle is the ratio of the rise (elevation change) over the run (horizontal displacement), expressed as: tan(θ)=Rise/Run</p>
+<p>Where “Run” is the horizontal distance from L1 to H (resultant two-dimensional horizontal displacement magnitude). and the “Rise” (elevation change, from H to L2) is calculated using the formula below. Rise=tan(θ)×Run</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-array([[nan, nan, nan, ..., nan, nan, nan],
-       [nan, nan, nan, ..., nan, nan, nan],
-       [nan, nan, nan, ..., nan, nan, nan],
-       ...,
-       [nan, nan, nan, ..., nan, nan, nan],
-       [nan, nan, nan, ..., nan, nan, nan],
-       [nan, nan, nan, ..., nan, nan, nan]])
-</pre></div></div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="c1"># Given values</span>
+<span class="n">elevation_L1</span> <span class="o">=</span> <span class="mi">200</span>  <span class="c1"># Elevation at L1 in meters</span>
+<span class="n">horizontal_distance_L1_h</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Horizontal distance from L1 to h in meters</span>
+<span class="n">slope_angle_degrees</span> <span class="o">=</span> <span class="mi">35</span>  <span class="c1"># Slope angle in degrees</span>
+<span class="n">aspect_angle_degrees</span> <span class="o">=</span> <span class="mi">45</span>  <span class="c1"># Aspect angle from L1 to h, 45 degrees NE</span>
+
+<span class="c1"># Convert the slope angle and aspect angle to radians for calculation</span>
+<span class="n">slope_angle_radians</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">slope_angle_degrees</span><span class="p">)</span>
+<span class="n">aspect_angle_radians</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">aspect_angle_degrees</span><span class="p">)</span>
+
+<span class="c1"># Calculate the height change using the tangent of the slope angle and the horizontal distance</span>
+<span class="n">height_change</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">slope_angle_radians</span><span class="p">)</span> <span class="o">*</span> <span class="n">horizontal_distance_L1_h</span>
+
+<span class="c1"># Since the aspect is 45 degrees NE, the horizontal components in both x and y directions will be the same</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">horizontal_distance_L1_h</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># Coordinates for L1, h, and L2 with 45 degrees NE aspect</span>
+<span class="n">L1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">elevation_L1</span><span class="p">])</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">elevation_L1</span><span class="p">])</span>
+<span class="n">L2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">elevation_L1</span> <span class="o">+</span> <span class="n">height_change</span><span class="p">])</span>
+
+<span class="c1"># Recreate the diagram with the updated positions and labels</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot the points L1, h, and L2</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">L1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;L1 (Elevation: 200m)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H (100m NE from L1)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">L2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;L2&#39;</span><span class="p">)</span>
+
+<span class="c1"># Draw the lines between the points</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;(Slope line)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Horizontal displacement(100m NE)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">h</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Height Change (</span><span class="si">{</span><span class="n">height_change</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">m Rise)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Annotate the slope angle θ</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="n">L1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mf">2.3</span><span class="p">,</span> <span class="p">(</span><span class="n">L1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">elevation_L1</span> <span class="o">+</span> <span class="n">height_change</span><span class="o">/</span><span class="mf">2.5</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39; </span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> slope angle (θ) =</span><span class="si">{</span><span class="n">slope_angle_degrees</span><span class="si">}</span><span class="s1">°&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="c1"># Set labels and title</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Eastward Distance (m)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Northward Distance (m)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;Elevation (m)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;3D Analysis of Displacement and Slope&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+<span class="c1"># Display the legend</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Show plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "838751a7b67c4c5cb6f0e83fd277670f", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
 </section>
 <section id="Calculating-Approximate-Volume-of-bedrock-from-the-displacement-and-digitial-elevation-model">
 <h2>Calculating Approximate Volume of bedrock from the displacement and digitial elevation model<a class="headerlink" href="#Calculating-Approximate-Volume-of-bedrock-from-the-displacement-and-digitial-elevation-model" title="Link to this heading">¶</a></h2>
@@ -878,7 +594,7 @@ array([[nan, nan, nan, ..., nan, nan, nan],
 <li><p>For the current example, displacemnts dervied from 3 meter optical imagery and the pre collapse dem used 3 meter dem (originally 10m NED but resampled to match the source displacement measurments). it worthwhile to mention that the dem resolution has influnece in the accuracy of the volume estimation.</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -902,8 +618,8 @@ Total Volume: -2976346.0 cubic meter
 </section>
 <section id="Caluclating-Plune-and-Trend-and-3D-Velocity-of-deformation">
 <h2>Caluclating Plune and Trend and 3D Velocity of deformation<a class="headerlink" href="#Caluclating-Plune-and-Trend-and-3D-Velocity-of-deformation" title="Link to this heading">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -913,6 +629,57 @@ Total Volume: -2976346.0 cubic meter
                                     <span class="n">NS_Akhdefo</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/N.tif&#39;</span><span class="p">,</span> <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/inversion&#39;</span>
                                     <span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Trend in degree raw data:  -89.98021 0.66595054
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_37_1.png" src="../_images/notebooks_MudCreek_Landslide_optical_37_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+c:\Users\mahmud\anaconda3\envs\akhdefov2\lib\site-packages\earthpy\spatial.py:620: RuntimeWarning:
+
+invalid value encountered in sqrt
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_37_3.png" src="../_images/notebooks_MudCreek_Landslide_optical_37_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+c:\Users\mahmud\anaconda3\envs\akhdefov2\lib\site-packages\earthpy\spatial.py:620: RuntimeWarning:
+
+invalid value encountered in sqrt
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_37_5.png" src="../_images/notebooks_MudCreek_Landslide_optical_37_5.png" />
 </div>
 </div>
 </section>
@@ -925,7 +692,7 @@ Total Volume: -2976346.0 cubic meter
 </ul>
 <img alt="velocity" src="../_images/2DVEL_WithVectorMotion1.png" />
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -939,15 +706,26 @@ Total Volume: -2976346.0 cubic meter
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+c:\Users\mahmud\anaconda3\envs\akhdefov2\lib\site-packages\earthpy\spatial.py:620: RuntimeWarning:
+
+invalid value encountered in sqrt
+
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_MudCreek_Landslide_optical_34_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_34_0.png" />
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_40_1.png" src="../_images/notebooks_MudCreek_Landslide_optical_40_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -966,14 +744,14 @@ Total Volume: -2976346.0 cubic meter
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_MudCreek_Landslide_optical_35_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_35_0.png" />
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_41_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_41_0.png" />
 </div>
 </div>
 </section>
 <section id="Plunge-of-displacement-Velocity">
 <h2>Plunge of displacement Velocity<a class="headerlink" href="#Plunge-of-displacement-Velocity" title="Link to this heading">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -988,15 +766,26 @@ Total Volume: -2976346.0 cubic meter
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+c:\Users\mahmud\anaconda3\envs\akhdefov2\lib\site-packages\earthpy\spatial.py:620: RuntimeWarning:
+
+invalid value encountered in sqrt
+
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_MudCreek_Landslide_optical_37_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_37_0.png" />
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_43_1.png" src="../_images/notebooks_MudCreek_Landslide_optical_43_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -1014,11 +803,11 @@ Total Volume: -2976346.0 cubic meter
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_MudCreek_Landslide_optical_38_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_38_0.png" />
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_44_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_44_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -1036,11 +825,11 @@ Total Volume: -2976346.0 cubic meter
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_MudCreek_Landslide_optical_39_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_39_0.png" />
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_45_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_45_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -1050,8 +839,8 @@ Total Volume: -2976346.0 cubic meter
                                  <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;height_change with Vector Motion&#39;</span><span class="p">,</span>
                    <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_file_name</span><span class="o">=</span><span class="s2">&quot;height_change_WithVectorMotion.png&quot;</span><span class="p">,</span>
                    <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                   <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;meter&#39;</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/aspect.tif&#39;</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span> <span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+                   <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                   <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;meter&#39;</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/aspect.tif&#39;</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span> <span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1059,11 +848,11 @@ Total Volume: -2976346.0 cubic meter
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_MudCreek_Landslide_optical_40_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_40_0.png" />
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_46_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_46_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -1082,14 +871,14 @@ Total Volume: -2976346.0 cubic meter
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_MudCreek_Landslide_optical_41_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_41_0.png" />
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_47_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_47_0.png" />
 </div>
 </div>
 </section>
 <section id="Creating-Time-series-cummulative-GIF-animation-map">
 <h2>Creating Time-series cummulative GIF animation map<a class="headerlink" href="#Creating-Time-series-cummulative-GIF-animation-map" title="Link to this heading">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -1104,6 +893,49 @@ Total Volume: -2976346.0 cubic meter
                                        <span class="n">batch_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+akhdefo is plotting more than 10 figures to avoid crushing python kernel we skip displaying figures.
+ Please see figures inside provided out_folder path
+</pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -1291,11 +1123,16 @@ Total Volume: -2976346.0 cubic meter
 <li><a class="reference internal" href="#Extract-downloaded-zip-files">Extract downloaded zip files</a></li>
 <li><a class="reference internal" href="#Preparing-raster-for-optical-flow-and-displacement-calculation!">Preparing raster for optical flow and displacement calculation!</a></li>
 <li><a class="reference internal" href="#Applying-optical-flow-and-producing-time-series-deformation-products.">Applying optical flow and producing time-series deformation products.</a></li>
+<li><a class="reference internal" href="#Temporal-cloud-free-optical-imagery-interval">Temporal cloud free optical imagery interval</a></li>
 <li><a class="reference internal" href="#Visualize-Displacement-Products">Visualize Displacement Products</a></li>
 <li><a class="reference internal" href="#Interactive-Time-Series-Analysis-in-a-Dash-Web-App">Interactive Time Series Analysis in a Dash Web App</a></li>
 <li><a class="reference internal" href="#Screenshot-of-the-dash-appp-interface">Screenshot of the dash appp interface</a></li>
 <li><a class="reference internal" href="#sample-exported-analysis-from-Time-series">sample exported analysis from Time-series</a></li>
-<li><a class="reference internal" href="#Kriging-Interpolation-using-Akhdefo-workflow">Kriging Interpolation using Akhdefo workflow</a></li>
+<li><a class="reference internal" href="#Kriging-Interpolation-using-Akhdefo-workflow">Kriging Interpolation using Akhdefo workflow</a><ul>
+<li><a class="reference internal" href="#Calculating-slope-angle-map-relative-to-2D-displacement-aspect-map.">Calculating slope angle map relative to 2D displacement aspect map.</a></li>
+<li><a class="reference internal" href="#Calculting-hight-change-from-slope-angle-map,-2D-displacement-aspect-map-and-2D-displacement-magnitude.">Calculting hight change from slope angle map, 2D displacement aspect map and 2D displacement magnitude.</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#Calculating-Approximate-Volume-of-bedrock-from-the-displacement-and-digitial-elevation-model">Calculating Approximate Volume of bedrock from the displacement and digitial elevation model</a><ul>
 <li><a class="reference internal" href="#Our-method-gave-potential-landslide-volume-two-million-and-nine-handred-seventy-six-thousand-cubic-meter-which-is-very-close-to-the-actual-landslide-volume-measured-from-lidar-dem-change-detection.">Our method gave potential landslide volume two million and nine-handred seventy six thousand cubic meter which is very close to the actual landslide volume measured from lidar dem change detection.</a><ul>
 <li><a class="reference internal" href="#Reference-for-actual-volume-collapse-estimation:-####-https://www.usgs.gov/publications/characterizing-catastrophic-2017-mud-creek-landslide-california-using-repeat-structure">Reference for actual volume collapse estimation: #### https://www.usgs.gov/publications/characterizing-catastrophic-2017-mud-creek-landslide-california-using-repeat-structure</a></li>

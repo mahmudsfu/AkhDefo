@@ -438,6 +438,7 @@
 <span class="sd">    </span>
 <span class="sd">    use_zscore : float, optional</span>
 <span class="sd">        use statistical outlier removal before performing interpolation default is None. options 2, 3.5, 5 , etc..</span>
+<span class="sd">    </span>
 <span class="sd">    Returns:</span>
 <span class="sd">    --------</span>
 <span class="sd">    numpy.ndarray</span>
@@ -446,8 +447,8 @@
 <span class="sd">    Raises:</span>
 <span class="sd">    -------</span>
 <span class="sd">    ValueError</span>
-<span class="sd">        If the input data is not a valid shapefile path or GeoDataFrame.</span>
-<span class="sd">        If essential columns (x, y or lat, lon) are missing in the input data.</span>
+<span class="sd">    If the input data is not a valid shapefile path or GeoDataFrame.</span>
+<span class="sd">    If essential columns (x, y or lat, lon) are missing in the input data.</span>
 
 <span class="sd">    Notes:</span>
 <span class="sd">    ------</span>
@@ -457,7 +458,8 @@
 
 <span class="sd">    Dependencies:</span>
 <span class="sd">    -------------</span>
-<span class="sd">    Requires geopandas, gstools, pykrige, matplotlib, and rasterio libraries.</span>
+<span class="sd">        Requires geopandas, gstools, pykrige, matplotlib, and rasterio libraries.</span>
+<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>

@@ -417,27 +417,23 @@ None</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.AkhdefoPlot.plot_stackNetwork">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.AkhdefoPlot.</span></span><span class="sig-name descname"><span class="pre">plot_stackNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab20'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_plot_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(5,</span> <span class="pre">30)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/AkhdefoPlot.html#plot_stackNetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.AkhdefoPlot.plot_stackNetwork" title="Link to this definition">¶</a></dt>
-<dd><p>This Program plots temporal network of triplets to be stacked for calculating 
-Annual Mean Velocity from stacked optical images.</p>
-<section id="id16">
-<h3>Parameters<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>src_folder: str</dt><dd><p>path to georeferenced_folder</p>
-</dd>
-<dt>output_folder: str</dt><dd><p>path to output folder to save output Figure plot</p>
-</dd>
-<dt>cmap: str</dt><dd><p>colormap for the plot default is “tab20”</p>
-</dd>
-<dt>date_plot_interval: list</dt><dd><p>minumum and maximum plot x axis interval dates for the plot</p>
-</dd>
-<dt>marker_size: float</dt><dd><p>size of plotted points default is 15</p>
-</dd>
-</dl>
-</section>
-<section id="id17">
-<h3>Returns<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
-<p>Figure</p>
-</section>
+<dd><p>Generates a scatter plot to visualize the time intervals between dates extracted from the filenames of .tif files.
+The function handles filenames containing single or multiple dates. For multiple dates, it calculates the interval 
+between the first and last date. For single dates, it calculates the interval between consecutive dates.</p>
+<p>Parameters:
+- src_folder (str): The source folder containing .tif files.
+- output_folder (str): The folder where the plot image will be saved.
+- cmap (str): The colormap used for the scatter plot. Default is ‘tab20’.
+- date_plot_interval (tuple): A tuple indicating the minimum and maximum number of ticks on the date axis. Default is (5, 30).
+- marker_size (int): The size of markers in the scatter plot. Default is 15.</p>
+<p>The function first attempts to find multiple dates in each filename. If multiple dates are found, it calculates the
+interval (delta_dd) between the first and last dates. If only one date is found, it calculates the interval between 
+the current and next date in the sequence. The scatter plot displays these intervals, with the color indicating the 
+specific date and position reflecting the time interval.</p>
+<p>The function saves the generated plot as ‘Stack_Network.jpg’ in the specified output folder.</p>
+<p>Note:
+- The function assumes that the filenames follow a specific date format, either ‘YYYYMMDD’ or ‘YYYY-MM-DD’.
+- Files are processed in alphabetical order, which should correspond to chronological order for accurate interval calculation.</p>
 </dd></dl>
 
 </section>
@@ -448,8 +444,8 @@ Annual Mean Velocity from stacked optical images.</p>
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_TS.</span></span><span class="sig-name descname"><span class="pre">Time_Series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stacked_raster_EW</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stacked_raster_NS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dates_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputFilename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VEL_Scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'year'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">master_reference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_TS.html#Time_Series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_TS.Time_Series" title="Link to this definition">¶</a></dt>
 <dd><p>This program uses candiate velocity points from stackprep function and performs linear interpolation in time-domain to calibrate
 stacked velocity. Additionally produces corrected timeseries velocity(daily) in a shapefile.</p>
-<section id="id18">
-<h3>Parameters<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h3>
+<section id="id16">
+<h3>Parameters<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
 <p>b   
 stacked_raster_EW: str</p>
 <p>stacked_raster_NS: str</p>
@@ -470,8 +466,8 @@ stacked_raster_EW: str</p>
 </dd>
 </dl>
 </section>
-<section id="id19">
-<h3>Returns<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h3>
+<section id="id17">
+<h3>Returns<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
 <p>Time-series shape file of velocity and direction EW, NS, and 2D(resultant Velocity and direction)</p>
 </section>
 </dd></dl>
@@ -542,8 +538,8 @@ Access the app in a web browser by navigating to <cite>http://127.0.0.1:&lt;port
 <dt class="sig sig-object py" id="akhdefo_functions.Stacked_Velocity.stackprep">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Stacked_Velocity.</span></span><span class="sig-name descname"><span class="pre">stackprep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_flowxnFolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_toFlowynFolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'YYYYMMDD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'YYYYMMDD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_stackedFolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VEL_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('month',</span> <span class="pre">'year')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.125</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.125</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Velocity_shapeFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Resampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Raster_stack_correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Stacked_Velocity.html#stackprep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Stacked_Velocity.stackprep" title="Link to this definition">¶</a></dt>
 <dd><p>This program collects velocity candiate points for time-series analysis.</p>
-<section id="id20">
-<h3>Parameters<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h3>
+<section id="id18">
+<h3>Parameters<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>path_to_flowxnFolder: str</dt><dd><p>path to folder include east-west velocity files</p>
 </dd>
@@ -578,8 +574,8 @@ Access the app in a web browser by navigating to <cite>http://127.0.0.1:&lt;port
 </dd>
 </dl>
 </section>
-<section id="id21">
-<h3>Returns<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h3>
+<section id="id19">
+<h3>Returns<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>ESRI Shapefile</dt><dd><p>This file include candiate velocity points for timeseries analysis</p>
 </dd>
@@ -605,8 +601,8 @@ Access the app in a web browser by navigating to <cite>http://127.0.0.1:&lt;port
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.Lenet_Model_training">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">Lenet_Model_training</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DataForTraining'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'foggy_not_foggy.model'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Model_stat_plot.png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EPOCHS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">INIT_LR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#Lenet_Model_training"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.Lenet_Model_training" title="Link to this definition">¶</a></dt>
 <dd><p>This function, Lenet_Model_train(), is designed to train a convolutional neural network (CNN) using the LeNet architecture. The network is trained on a dataset of images to classify whether they are “foggy” or “not foggy”.</p>
-<section id="id22">
-<h3>Parameters:<a class="headerlink" href="#id22" title="Link to this heading">¶</a></h3>
+<section id="id20">
+<h3>Parameters:<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>dataset: str</dt><dd><p>(default=”DataForTraining”) Path to the directory containing the image data for training. The images are expected to be in separate directories named after their corresponding class (“foggy” or “not foggy”).</p>
 </dd>
@@ -622,8 +618,8 @@ Access the app in a web browser by navigating to <cite>http://127.0.0.1:&lt;port
 </dd>
 </dl>
 </section>
-<section id="id23">
-<h3>Returns:<a class="headerlink" href="#id23" title="Link to this heading">¶</a></h3>
+<section id="id21">
+<h3>Returns:<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Trains a LeNet model on the given dataset.</p></li>
 <li><p>Saves the trained model to disk in the h5 format.</p></li>
@@ -757,8 +753,8 @@ numpy.ndarray: Array of volume changes.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id24">
-<h3>Returns:<a class="headerlink" href="#id24" title="Link to this heading">¶</a></h3>
+<section id="id22">
+<h3>Returns:<a class="headerlink" href="#id22" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p>The function assumes that the input directory contains image files in JPG format.</p></li>
@@ -819,6 +815,26 @@ If a file with the same name exists in the destination, it’s renamed to avoid 
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.partial_derivative">
+<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">partial_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#partial_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.partial_derivative" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate the central difference approximation for the partial derivatives
+of a 2D function with respect to x and y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – 2D numpy array of function values, representing the raster</p></li>
+<li><p><strong>dx</strong> – Spacing in the x-direction (assumed to be constant)</p></li>
+<li><p><strong>dy</strong> – Spacing in the y-direction (assumed to be constant)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Two 2D numpy arrays, one for the partial derivative with respect to x (df_dx)
+and one for the partial derivative with respect to y (df_dy)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.resample_raster">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">resample_raster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_crs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_crs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resampling_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Resampling.nearest</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#resample_raster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.resample_raster" title="Link to this definition">¶</a></dt>
 <dd><p>Resample the source raster array to match the destination raster’s resolution and extent.</p>
@@ -844,8 +860,8 @@ the local incidence angle map, and the layover-shadow map. see detailes at the f
 from the shapefile, normalizes the cropped raster, and then converts the normalized image to a binary
 mask based on the scatter_percentageArea_threshold. The binary masks from each raster are then accumulated
 to generate the final scatter area mask.</p>
-<section id="id25">
-<h3>Parameters:<a class="headerlink" href="#id25" title="Link to this heading">¶</a></h3>
+<section id="id23">
+<h3>Parameters:<a class="headerlink" href="#id23" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>input_folder<span class="classifier">str</span></dt><dd><p>Path to the folder containing raster files to be processed.</p>
 </dd>
@@ -860,8 +876,8 @@ less than this threshold are set to 0 and those above are set to 1.</p>
 </dd>
 </dl>
 </section>
-<section id="id26">
-<h3>Returns:<a class="headerlink" href="#id26" title="Link to this heading">¶</a></h3>
+<section id="id24">
+<h3>Returns:<a class="headerlink" href="#id24" title="Link to this heading">¶</a></h3>
 <p>Shadow Mask for SAR image for sites less likey to have quality measurment points.
 The results are saved as files in the specified output and plot directories.</p>
 </section>
@@ -879,15 +895,15 @@ the accumulated mask will have a value of 1 only if all rasters have a value of 
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.utm_to_latlon">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">utm_to_latlon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">easting</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">northing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone_letter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#utm_to_latlon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.utm_to_latlon" title="Link to this definition">¶</a></dt>
 <dd><p>This program converts geographic projection of shapefiles from UTM to LATLONG</p>
-<section id="id27">
-<h3>Parameters<a class="headerlink" href="#id27" title="Link to this heading">¶</a></h3>
+<section id="id25">
+<h3>Parameters<a class="headerlink" href="#id25" title="Link to this heading">¶</a></h3>
 <p>easting: Geopandas column with Easting</p>
 <p>northing: Geopandas column with Northing</p>
 <p>zone_number: int</p>
 <p>zone_letter: “N” or “S”</p>
 </section>
-<section id="id28">
-<h3>Returns<a class="headerlink" href="#id28" title="Link to this heading">¶</a></h3>
+<section id="id26">
+<h3>Returns<a class="headerlink" href="#id26" title="Link to this heading">¶</a></h3>
 <p>[lon , lat ]: List</p>
 </section>
 </dd></dl>
@@ -896,8 +912,8 @@ the accumulated mask will have a value of 1 only if all rasters have a value of 
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Utilities.Akhdefo_inversion">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Utilities.</span></span><span class="sig-name descname"><span class="pre">Akhdefo_inversion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">horizontal_InSAR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Vertical_InSAR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EW_Akhdefo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NS_Akhdefo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dem_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Utilities.html#Akhdefo_inversion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Utilities.Akhdefo_inversion" title="Link to this definition">¶</a></dt>
 <dd><p>This program calculates 3D displacement velocity (East-West,North-South and vertical) using combined optical and InSAR products</p>
-<section id="id29">
-<h3>Parameters:<a class="headerlink" href="#id29" title="Link to this heading">¶</a></h3>
+<section id="id27">
+<h3>Parameters:<a class="headerlink" href="#id27" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>horizontal_InSAR: str</dt><dd><p>path to East Velocity InSAR product in geotif format</p>
 </dd>
@@ -913,8 +929,8 @@ the accumulated mask will have a value of 1 only if all rasters have a value of 
 </dd>
 </dl>
 </section>
-<section id="id30">
-<h3>Returns:<a class="headerlink" href="#id30" title="Link to this heading">¶</a></h3>
+<section id="id28">
+<h3>Returns:<a class="headerlink" href="#id28" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>Three geotif rasters</dt><dd><p>3D-Velocity (D3D in mm/year) raster
 Plunge raster in degrees
@@ -928,8 +944,8 @@ Trend raster in degress</p>
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Utilities.Akhdefo_resample">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Utilities.</span></span><span class="sig-name descname"><span class="pre">Akhdefo_resample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_raster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_raster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.125</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.125</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SavFig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convert_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Utilities.html#Akhdefo_resample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Utilities.Akhdefo_resample" title="Link to this definition">¶</a></dt>
 <dd><p>This program performs raster resampling for  rasters</p>
-<section id="id31">
-<h3>Parameters:<a class="headerlink" href="#id31" title="Link to this heading">¶</a></h3>
+<section id="id29">
+<h3>Parameters:<a class="headerlink" href="#id29" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>input_raster: str</dt><dd><p>path to input raster</p>
 </dd>
@@ -945,8 +961,8 @@ Trend raster in degress</p>
 </dd>
 </dl>
 </section>
-<section id="id32">
-<h3>Returns:<a class="headerlink" href="#id32" title="Link to this heading">¶</a></h3>
+<section id="id30">
+<h3>Returns:<a class="headerlink" href="#id30" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><p>geotif raster</p>
 </div></blockquote>
@@ -959,8 +975,8 @@ Trend raster in degress</p>
 <dd><p>This function performs automatic selection of the optimal variogram model for spatial data interpolation. 
 It also supports clipping of the interpolation results to a specified Area of Interest (AOI). The function 
 accepts both GeoDataFrame objects and file paths (specifically, shapefile paths) as input data sources.</p>
-<section id="id33">
-<h3>Parameters:<a class="headerlink" href="#id33" title="Link to this heading">¶</a></h3>
+<section id="id31">
+<h3>Parameters:<a class="headerlink" href="#id31" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>data<span class="classifier">str or gpd.GeoDataFrame, optional</span></dt><dd><p>The path to a shapefile containing point data, or a GeoDataFrame. For shapefiles, they must include 
 ‘x’, ‘y’ coordinates (or ‘lat’, ‘lon’ if latlon is set to True). Defaults to an empty string.</p>
@@ -1001,8 +1017,8 @@ Defaults to an empty string.</p>
 </dd>
 </dl>
 </section>
-<section id="id34">
-<h3>Returns:<a class="headerlink" href="#id34" title="Link to this heading">¶</a></h3>
+<section id="id32">
+<h3>Returns:<a class="headerlink" href="#id32" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>numpy.ndarray</dt><dd><p>A 2D grid of interpolated values, clipped to the specified AOI if an AOI shapefile is provided.</p>
 </dd>
@@ -1010,29 +1026,29 @@ Defaults to an empty string.</p>
 </section>
 <section id="raises">
 <h3>Raises:<a class="headerlink" href="#raises" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>ValueError</dt><dd><p>If the input data is not a valid shapefile path or GeoDataFrame.
+<p>ValueError
+If the input data is not a valid shapefile path or GeoDataFrame.
 If essential columns (x, y or lat, lon) are missing in the input data.</p>
-</dd>
-</dl>
 </section>
-<section id="id35">
-<h3>Notes:<a class="headerlink" href="#id35" title="Link to this heading">¶</a></h3>
+<section id="id33">
+<h3>Notes:<a class="headerlink" href="#id33" title="Link to this heading">¶</a></h3>
 <p>The function generates two types of plots:
 1. Fitted variogram models against the experimental variogram.
 2. The interpolation result using the selected variogram model.</p>
 </section>
 <section id="dependencies">
 <h3>Dependencies:<a class="headerlink" href="#dependencies" title="Link to this heading">¶</a></h3>
-<p>Requires geopandas, gstools, pykrige, matplotlib, and rasterio libraries.</p>
+<blockquote>
+<div><p>Requires geopandas, gstools, pykrige, matplotlib, and rasterio libraries.</p>
+</div></blockquote>
 </section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Utilities.akhdefo_download_planet">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Utilities.</span></span><span class="sig-name descname"><span class="pre">akhdefo_download_planet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">planet_api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AOI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plinth.json'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'May</span> <span class="pre">1,</span> <span class="pre">2016'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PSOrthoTile'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_bundle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'analytic_sr_udm2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear_percent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cloud_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raw_data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Utilities.html#akhdefo_download_planet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Utilities.akhdefo_download_planet" title="Link to this definition">¶</a></dt>
-<dd><section id="id36">
-<h3>Parameters:<a class="headerlink" href="#id36" title="Link to this heading">¶</a></h3>
+<dd><section id="id34">
+<h3>Parameters:<a class="headerlink" href="#id34" title="Link to this heading">¶</a></h3>
 <p>Note: To use this function need to call await as below:</p>
 <p>await akhdefo_download_planet()</p>
 <dl class="simple">
@@ -1099,15 +1115,15 @@ pansharpened, pansharpened_udm2 , basic_l1a_dn)</p>
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Utilities.calculate_new_geotransform">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Utilities.</span></span><span class="sig-name descname"><span class="pre">calculate_new_geotransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">overlap_box</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_transform</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Utilities.html#calculate_new_geotransform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Utilities.calculate_new_geotransform" title="Link to this definition">¶</a></dt>
 <dd><p>Calculate a new geotransform matrix based on the overlap of image boundaries.</p>
-<section id="id37">
-<h3>Parameters:<a class="headerlink" href="#id37" title="Link to this heading">¶</a></h3>
+<section id="id35">
+<h3>Parameters:<a class="headerlink" href="#id35" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>overlap_box (shapely.geometry.Polygon): The overlapping bounding box of all valid images.</p></li>
 <li><p>src_transform (tuple): The source geotransform matrix to be modified.</p></li>
 </ul>
 </section>
-<section id="id38">
-<h3>Returns:<a class="headerlink" href="#id38" title="Link to this heading">¶</a></h3>
+<section id="id36">
+<h3>Returns:<a class="headerlink" href="#id36" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>tuple: A new geotransform matrix corresponding to the overlap_box.</p></li>
 </ul>
@@ -1123,8 +1139,8 @@ pansharpened, pansharpened_udm2 , basic_l1a_dn)</p>
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Utilities.create_vegetation_mask">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Utilities.</span></span><span class="sig-name descname"><span class="pre">create_vegetation_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">red_band_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nir_band_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shapefile_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plot.png'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Utilities.html#create_vegetation_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Utilities.create_vegetation_mask" title="Link to this definition">¶</a></dt>
 <dd><p>Create a binary vegetation mask based on the NDVI (Normalized Difference Vegetation Index) calculation.</p>
-<section id="id39">
-<h3>Parameters:<a class="headerlink" href="#id39" title="Link to this heading">¶</a></h3>
+<section id="id37">
+<h3>Parameters:<a class="headerlink" href="#id37" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>red_band_path (str): </dt><dd><p>Path to the raster file containing the red band.</p>
 </dd>
@@ -1142,8 +1158,8 @@ pansharpened, pansharpened_udm2 , basic_l1a_dn)</p>
 </dd>
 </dl>
 </section>
-<section id="id40">
-<h3>Returns:<a class="headerlink" href="#id40" title="Link to this heading">¶</a></h3>
+<section id="id38">
+<h3>Returns:<a class="headerlink" href="#id38" title="Link to this heading">¶</a></h3>
 <p>None. The vegetation mask is written to output_path, and optionally a plot is saved.</p>
 <p>Note:
 The function assumes that the shapefile contains only one geometry.</p>
@@ -1154,16 +1170,16 @@ The function assumes that the shapefile contains only one geometry.</p>
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Utilities.crop_point_shapefile_with_aoi">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Utilities.</span></span><span class="sig-name descname"><span class="pre">crop_point_shapefile_with_aoi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_shapefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aoi_shapefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Utilities.html#crop_point_shapefile_with_aoi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Utilities.crop_point_shapefile_with_aoi" title="Link to this definition">¶</a></dt>
 <dd><p>Crop a point shapefile with an Area of Interest (AOI) polygon shapefile.</p>
-<section id="id41">
-<h3>Parameters:<a class="headerlink" href="#id41" title="Link to this heading">¶</a></h3>
+<section id="id39">
+<h3>Parameters:<a class="headerlink" href="#id39" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>point_shapefile (str): Path to the input point shapefile.</p></li>
 <li><p>aoi_shapefile (str): Path to the AOI polygon shapefile for cropping.</p></li>
 <li><p>output_folder (str): Path to the folder where the cropped shapefile will be saved.</p></li>
 </ul>
 </section>
-<section id="id42">
-<h3>Returns:<a class="headerlink" href="#id42" title="Link to this heading">¶</a></h3>
+<section id="id40">
+<h3>Returns:<a class="headerlink" href="#id40" title="Link to this heading">¶</a></h3>
 <p>None</p>
 <p>This function reads a point shapefile and an AOI polygon shapefile, and performs a spatial
 intersection to crop the points within the specified AOI. The resulting GeoDataFrame is then
@@ -1200,14 +1216,14 @@ file is created, and a message is printed.</p>
 2. Calculate the overlapping bounding box of all valid images.
 3. Crop each valid image to the overlapping bounding box.
 4. Overwrite the original image files with the cropped images.</p>
-<section id="id43">
-<h3>Parameters:<a class="headerlink" href="#id43" title="Link to this heading">¶</a></h3>
+<section id="id41">
+<h3>Parameters:<a class="headerlink" href="#id41" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>folder_path (str): The path to the folder containing the image files to be cropped.</p></li>
 </ul>
 </section>
-<section id="id44">
-<h3>Notes:<a class="headerlink" href="#id44" title="Link to this heading">¶</a></h3>
+<section id="id42">
+<h3>Notes:<a class="headerlink" href="#id42" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Supports ‘.tif’, ‘.jpg’, ‘.png’, and ‘.bmp’ file formats.</p></li>
 <li><p>Requires GDAL, OSR, and Shapely libraries.</p></li>
@@ -1224,8 +1240,8 @@ file is created, and a message is printed.</p>
 <p>This function facilitates the submission and download of SAR processing jobs, including Radiometric Terrain 
 Correction (RTC), AutoRIFT, and InSAR products. It filters and selects granules based on the provided ASF datapool 
 results file and other specified parameters.</p>
-<section id="id45">
-<h3>Parameters:<a class="headerlink" href="#id45" title="Link to this heading">¶</a></h3>
+<section id="id43">
+<h3>Parameters:<a class="headerlink" href="#id43" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>username (str): </dt><dd><p>ASF HyP3 username. Required unless prompt=True.</p>
 </dd>
@@ -1277,20 +1293,20 @@ results file and other specified parameters.</p>
 </dd>
 </dl>
 </section>
-<section id="id46">
-<h3>Returns:<a class="headerlink" href="#id46" title="Link to this heading">¶</a></h3>
+<section id="id44">
+<h3>Returns:<a class="headerlink" href="#id44" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><p>sdk.Batch: A Batch object containing the submitted jobs.</p>
 </div></blockquote>
 </section>
-<section id="id47">
-<h3>Raises:<a class="headerlink" href="#id47" title="Link to this heading">¶</a></h3>
+<section id="id45">
+<h3>Raises:<a class="headerlink" href="#id45" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><p>ValueError: If required arguments are not provided.</p>
 </div></blockquote>
 </section>
-<section id="id48">
-<h3>Notes:<a class="headerlink" href="#id48" title="Link to this heading">¶</a></h3>
+<section id="id46">
+<h3>Notes:<a class="headerlink" href="#id46" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p>This function requires prior installation of the HyP3 SDK and relevant dependencies.</p></li>
@@ -1304,6 +1320,55 @@ results file and other specified parameters.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Utilities.measure_displacement_from_camera">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Utilities.</span></span><span class="sig-name descname"><span class="pre">measure_displacement_from_camera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hls_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssim_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyr_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_video</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">streamer_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mag'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Utilities.html#measure_displacement_from_camera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Utilities.measure_displacement_from_camera" title="Link to this definition">¶</a></dt>
+<dd><p>Test data URLs; hls_url = “<a class="reference external" href="https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4">https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4</a>” or “<a class="reference external" href="https://chiefcam.com/video/hls/live/1080p/index.m3u8">https://chiefcam.com/video/hls/live/1080p/index.m3u8</a>”</p>
+<p>Measure the displacement from the camera feed using Dense Optical Flow.</p>
+<section id="id47">
+<h3>Parameters:<a class="headerlink" href="#id47" title="Link to this heading">¶</a></h3>
+<dl class="simple">
+<dt>hls_url: str</dt><dd><p>The URL of the HLS video stream. or type 0 to process video from live pc webcam or add path to your video</p>
+</dd>
+<dt>alpha: float, optional</dt><dd><p>The weight of the image to update the background model, default is 0.1.</p>
+</dd>
+<dt>save_output<span class="classifier">bool, optional</span></dt><dd><p>Flag to save the output, default is False.</p>
+</dd>
+<dt>output_filename<span class="classifier">str, optional</span></dt><dd><p>The filename for saving the output video, required if save_output is True.</p>
+</dd>
+<dt>ssim_threshold: float , default 0.4</dt><dd><p>if interetesed to identify rockfalls recommended value is 0.5 or less.</p>
+</dd>
+<dt>pyr_scale: float</dt><dd><p>parameter, specifying the image scale (&lt;1) to build pyramids for each image; pyr_scale=0.5 means a classical pyramid, where each next layer is twice smaller than the previous one.</p>
+</dd>
+<dt>levels: int</dt><dd><p>number of pyramid layers including the initial image; levels=1 means that no extra layers are created and only the original images are used.</p>
+</dd>
+<dt>winsize: int</dt><dd><p>averaging window size; larger values increase the algorithm robustness to image noise and give more chances for fast motion detection, but yield more blurred motion field.</p>
+</dd>
+<dt>iterations: int</dt><dd><p>number of iterations the algorithm does at each pyramid level.</p>
+</dd>
+<dt>poly_n: int</dt><dd><p>size of the pixel neighborhood used to find polynomial expansion in each pixel; 
+larger values mean that the image will be approximated with smoother surfaces, 
+yielding more robust algorithm and more blurred motion field, typically poly_n =5 or 7.</p>
+</dd>
+<dt>poly_sigma: float</dt><dd><p>standard deviation of the Gaussian that is used to smooth derivatives used as a basis for the polynomial expansion; 
+for poly_n=5, you can set poly_sigma=1.1, for poly_n=7, a good value would be poly_sigma=1.5.</p>
+</dd>
+<dt>flags: 0 or 1</dt><dd><p>operation flags that can be a combination of the following:
+0 OPTFLOW_USE_INITIAL_FLOW uses the input flow as an initial flow approximation.
+1 OPTFLOW_FARNEBACK_GAUSSIAN uses the Gaussian winsize×winsize filter instead of a box filter of the same size for optical flow estimation; 
+usually, this option gives z more accurate flow than with a box filter, at the cost of lower speed; 
+normally, winsize for a Gaussian window should be set to a larger value to achieve the same level of robustness.</p>
+</dd>
+</dl>
+</section>
+<section id="id48">
+<h3>Returns:<a class="headerlink" href="#id48" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Video output with motion vectors and magnitude.</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Utilities.measure_displacement_from_camera_toFile">
+<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Utilities.</span></span><span class="sig-name descname"><span class="pre">measure_displacement_from_camera_toFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hls_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssim_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyr_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_video</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Utilities.html#measure_displacement_from_camera_toFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Utilities.measure_displacement_from_camera_toFile" title="Link to this definition">¶</a></dt>
 <dd><p>Test data URLs; hls_url = “<a class="reference external" href="https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4">https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4</a>” or “<a class="reference external" href="https://chiefcam.com/video/hls/live/1080p/index.m3u8">https://chiefcam.com/video/hls/live/1080p/index.m3u8</a>”</p>
 <p>Measure the displacement from the camera feed using Dense Optical Flow.</p>
 <section id="id49">
@@ -1351,68 +1416,19 @@ normally, winsize for a Gaussian window should be set to a larger value to achie
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Utilities.measure_displacement_from_camera_toFile">
-<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Utilities.</span></span><span class="sig-name descname"><span class="pre">measure_displacement_from_camera_toFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hls_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssim_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyr_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_video</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Utilities.html#measure_displacement_from_camera_toFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Utilities.measure_displacement_from_camera_toFile" title="Link to this definition">¶</a></dt>
-<dd><p>Test data URLs; hls_url = “<a class="reference external" href="https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4">https://chiefcam.com/resources/video/events/september-2021-rockfall/september-2021-rockfall-1080p.mp4</a>” or “<a class="reference external" href="https://chiefcam.com/video/hls/live/1080p/index.m3u8">https://chiefcam.com/video/hls/live/1080p/index.m3u8</a>”</p>
-<p>Measure the displacement from the camera feed using Dense Optical Flow.</p>
-<section id="id51">
-<h3>Parameters:<a class="headerlink" href="#id51" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>hls_url: str</dt><dd><p>The URL of the HLS video stream. or type 0 to process video from live pc webcam or add path to your video</p>
-</dd>
-<dt>alpha: float, optional</dt><dd><p>The weight of the image to update the background model, default is 0.1.</p>
-</dd>
-<dt>save_output<span class="classifier">bool, optional</span></dt><dd><p>Flag to save the output, default is False.</p>
-</dd>
-<dt>output_filename<span class="classifier">str, optional</span></dt><dd><p>The filename for saving the output video, required if save_output is True.</p>
-</dd>
-<dt>ssim_threshold: float , default 0.4</dt><dd><p>if interetesed to identify rockfalls recommended value is 0.5 or less.</p>
-</dd>
-<dt>pyr_scale: float</dt><dd><p>parameter, specifying the image scale (&lt;1) to build pyramids for each image; pyr_scale=0.5 means a classical pyramid, where each next layer is twice smaller than the previous one.</p>
-</dd>
-<dt>levels: int</dt><dd><p>number of pyramid layers including the initial image; levels=1 means that no extra layers are created and only the original images are used.</p>
-</dd>
-<dt>winsize: int</dt><dd><p>averaging window size; larger values increase the algorithm robustness to image noise and give more chances for fast motion detection, but yield more blurred motion field.</p>
-</dd>
-<dt>iterations: int</dt><dd><p>number of iterations the algorithm does at each pyramid level.</p>
-</dd>
-<dt>poly_n: int</dt><dd><p>size of the pixel neighborhood used to find polynomial expansion in each pixel; 
-larger values mean that the image will be approximated with smoother surfaces, 
-yielding more robust algorithm and more blurred motion field, typically poly_n =5 or 7.</p>
-</dd>
-<dt>poly_sigma: float</dt><dd><p>standard deviation of the Gaussian that is used to smooth derivatives used as a basis for the polynomial expansion; 
-for poly_n=5, you can set poly_sigma=1.1, for poly_n=7, a good value would be poly_sigma=1.5.</p>
-</dd>
-<dt>flags: 0 or 1</dt><dd><p>operation flags that can be a combination of the following:
-0 OPTFLOW_USE_INITIAL_FLOW uses the input flow as an initial flow approximation.
-1 OPTFLOW_FARNEBACK_GAUSSIAN uses the Gaussian winsize×winsize filter instead of a box filter of the same size for optical flow estimation; 
-usually, this option gives z more accurate flow than with a box filter, at the cost of lower speed; 
-normally, winsize for a Gaussian window should be set to a larger value to achieve the same level of robustness.</p>
-</dd>
-</dl>
-</section>
-<section id="id52">
-<h3>Returns:<a class="headerlink" href="#id52" title="Link to this heading">¶</a></h3>
-<blockquote>
-<div><p>Video output with motion vectors and magnitude.</p>
-</div></blockquote>
-</section>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Utilities.reproject_raster_to_match_shapefile">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Utilities.</span></span><span class="sig-name descname"><span class="pre">reproject_raster_to_match_shapefile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_crs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Utilities.html#reproject_raster_to_match_shapefile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Utilities.reproject_raster_to_match_shapefile" title="Link to this definition">¶</a></dt>
 <dd><p>Reproject a raster to match the coordinate reference system (CRS) of a shapefile.</p>
-<section id="id53">
-<h3>Parameters:<a class="headerlink" href="#id53" title="Link to this heading">¶</a></h3>
+<section id="id51">
+<h3>Parameters:<a class="headerlink" href="#id51" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>src_path (str): Path to the source raster file that needs to be reprojected.</p></li>
 <li><p>dst_path (str): Path to save the reprojected raster.</p></li>
 <li><p>dst_crs (CRS or str): Target coordinate reference system.</p></li>
 </ul>
 </section>
-<section id="id54">
-<h3>Returns:<a class="headerlink" href="#id54" title="Link to this heading">¶</a></h3>
+<section id="id52">
+<h3>Returns:<a class="headerlink" href="#id52" title="Link to this heading">¶</a></h3>
 <p>None. The reprojected raster is written to dst_path.</p>
 </section>
 </dd></dl>
@@ -1421,8 +1437,8 @@ normally, winsize for a Gaussian window should be set to a larger value to achie
 <dt class="sig sig-object py" id="akhdefo_functions.Unzip_CopyFiles.copyImage_Data">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Unzip_CopyFiles.</span></span><span class="sig-name descname"><span class="pre">copyImage_Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_unzipped_folders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Path_to_raster_tifs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_ext</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Unzip_CopyFiles.html#copyImage_Data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Unzip_CopyFiles.copyImage_Data" title="Link to this definition">¶</a></dt>
 <dd><p>This program copy all the data images into one single folder from subdirectories.</p>
-<section id="id55">
-<h3>Parameters<a class="headerlink" href="#id55" title="Link to this heading">¶</a></h3>
+<section id="id53">
+<h3>Parameters<a class="headerlink" href="#id53" title="Link to this heading">¶</a></h3>
 <p>path_to_unzipped_folders : str</p>
 <p>Path_to_raster_tifs : str</p>
 <dl class="simple">
@@ -1431,8 +1447,8 @@ type extension of the files of interestest such as “.tif”</p>
 </dd>
 </dl>
 </section>
-<section id="id56">
-<h3>Returns<a class="headerlink" href="#id56" title="Link to this heading">¶</a></h3>
+<section id="id54">
+<h3>Returns<a class="headerlink" href="#id54" title="Link to this heading">¶</a></h3>
 <p>rasters</p>
 </section>
 </dd></dl>
@@ -1441,16 +1457,16 @@ type extension of the files of interestest such as “.tif”</p>
 <dt class="sig sig-object py" id="akhdefo_functions.Unzip_CopyFiles.copyUDM2_Mask_Data">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Unzip_CopyFiles.</span></span><span class="sig-name descname"><span class="pre">copyUDM2_Mask_Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_unzipped_folders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Path_to_UDM2raster_tifs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Unzip_CopyFiles.html#copyUDM2_Mask_Data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Unzip_CopyFiles.copyUDM2_Mask_Data" title="Link to this definition">¶</a></dt>
 <dd><p>This program copy all  raster masks.</p>
-<section id="id57">
-<h3>Parameters<a class="headerlink" href="#id57" title="Link to this heading">¶</a></h3>
+<section id="id55">
+<h3>Parameters<a class="headerlink" href="#id55" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>path_to_unzipped_folders<span class="classifier">str</span></dt><dd><p>file extension must end with udm2_clip.tif</p>
 </dd>
 </dl>
 <p>Path_to_UDM2raster_tifs : str</p>
 </section>
-<section id="id58">
-<h3>Returns<a class="headerlink" href="#id58" title="Link to this heading">¶</a></h3>
+<section id="id56">
+<h3>Returns<a class="headerlink" href="#id56" title="Link to this heading">¶</a></h3>
 <p>rasters</p>
 </section>
 </dd></dl>
@@ -1461,8 +1477,8 @@ type extension of the files of interestest such as “.tif”</p>
 <dd><p>This program reads planetlabs orthoimagery in zipfolder format
 create different directory for the raster images and corresponding unusable data masks(udm)
 the udm mask include snow, haze, etc… see planetslabs udm mask types for further details</p>
-<section id="id59">
-<h3>Parameters<a class="headerlink" href="#id59" title="Link to this heading">¶</a></h3>
+<section id="id57">
+<h3>Parameters<a class="headerlink" href="#id57" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>zip_dir: str</dt><dd><p>path to directory contains all the zipfiles</p>
 </dd>
@@ -1472,8 +1488,8 @@ the udm mask include snow, haze, etc… see planetslabs udm mask types for furth
 </dd>
 </dl>
 </section>
-<section id="id60">
-<h3>Returns<a class="headerlink" href="#id60" title="Link to this heading">¶</a></h3>
+<section id="id58">
+<h3>Returns<a class="headerlink" href="#id58" title="Link to this heading">¶</a></h3>
 <p>unzip folder
 image_dir
 udm_mask_dir</p>
@@ -1484,8 +1500,8 @@ udm_mask_dir</p>
 <dt class="sig sig-object py" id="akhdefo_functions.Unzip_CopyFiles.unzip">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Unzip_CopyFiles.</span></span><span class="sig-name descname"><span class="pre">unzip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zipdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Unzip_CopyFiles.html#unzip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Unzip_CopyFiles.unzip" title="Link to this definition">¶</a></dt>
 <dd><p>This program unzips all the zip products into one folder</p>
-<section id="id61">
-<h3>Parameters<a class="headerlink" href="#id61" title="Link to this heading">¶</a></h3>
+<section id="id59">
+<h3>Parameters<a class="headerlink" href="#id59" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>zipdir<span class="classifier">str</span></dt><dd><p>path to directory contains all the zipfiles</p>
 </dd>
@@ -1493,8 +1509,8 @@ udm_mask_dir</p>
 </dd>
 </dl>
 </section>
-<section id="id62">
-<h3>Returns<a class="headerlink" href="#id62" title="Link to this heading">¶</a></h3>
+<section id="id60">
+<h3>Returns<a class="headerlink" href="#id60" title="Link to this heading">¶</a></h3>
 <p>unzip folder</p>
 </section>
 </dd></dl>
@@ -1506,8 +1522,8 @@ udm_mask_dir</p>
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_GOI.Optical_flow_akhdefo">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_GOI.</span></span><span class="sig-name descname"><span class="pre">Optical_flow_akhdefo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AOI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zscore_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssim_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3125mm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dem_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_kernel_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Vegetation_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VEL_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'year'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VEL_Mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">good_match_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hillshade_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shapefile_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_triplet_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_chunks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap_percentage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyr_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">master_reference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'single'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selection_Mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'triplet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">krig_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ordinary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_ref</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_detrend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_GOI.html#Optical_flow_akhdefo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_GOI.Optical_flow_akhdefo" title="Link to this definition">¶</a></dt>
 <dd><p>Performs feature matching and velocity/displacement calculations across a series of images.</p>
-<section id="id63">
-<h3>Parameters<a class="headerlink" href="#id63" title="Link to this heading">¶</a></h3>
+<section id="id61">
+<h3>Parameters<a class="headerlink" href="#id61" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>input_dir: str</dt><dd><p>Path to the directory where the input images are stored.</p>
 </dd>
@@ -1564,8 +1580,8 @@ normally, winsize for a Gaussian window should be set to a larger value to achie
 </dd>
 </dl>
 </section>
-<section id="id64">
-<h3>Returns<a class="headerlink" href="#id64" title="Link to this heading">¶</a></h3>
+<section id="id62">
+<h3>Returns<a class="headerlink" href="#id62" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>image1<span class="classifier">numpy.ndarray</span></dt><dd><p>The first image in the series.</p>
 </dd>
@@ -1747,22 +1763,15 @@ None. The input raster file will be replaced by the masked raster.</p>
 <dt class="sig sig-object py" id="akhdefo_functions.Video_Streamer.run_flask_app">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Video_Streamer.</span></span><span class="sig-name descname"><span class="pre">run_flask_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Video_Streamer.html#run_flask_app"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Video_Streamer.run_flask_app" title="Link to this definition">¶</a></dt>
 <dd><p>Function to run the Flask app and prompt the user for input.</p>
-<p>Usage:
+<p>Parameters:
 - Execute this function in your Python environment.
-- Enter the desired port number for the Flask app when prompted.</p>
-<blockquote>
-<div><p>Press Enter without providing a value to use the default port 80.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>Access Frame 1 by opening a web browser and visiting the following URL:
-<a class="reference external" href="http://your_server_ip/video1?src_video_url=https://your_video_source_url_frame1">http://your_server_ip/video1?src_video_url=https://your_video_source_url_frame1</a>
-Replace ‘your_server_ip’ with your server’s IP address or domain,
-and ‘your_video_source_url_frame1’ with the URL of the video source for Frame 1.</p></li>
-<li><p>Access Frame 2 by opening a web browser and visiting the following URL:
-<a class="reference external" href="http://your_server_ip/video2?src_video_url=https://your_video_source_url_frame2">http://your_server_ip/video2?src_video_url=https://your_video_source_url_frame2</a>
-Replace ‘your_server_ip’ with your server’s IP address or domain,
-and ‘your_video_source_url_frame2’ with the URL of the video source for Frame 2.</p></li>
-</ul>
+- Enter the desired port number for the Flask app when prompted.
+- Press Enter without providing a value to use the default port 80.
+- Access Frame 1 by opening a web browser and visiting the following URL:
+- <a class="reference external" href="http://your_server_ip/video1?src_video_url=https://your_video_source_url_frame1">http://your_server_ip/video1?src_video_url=https://your_video_source_url_frame1</a>
+- Replace ‘your_server_ip’ with your server’s IP address or domain, and ‘your_video_source_url_frame1’ with the URL of the video source for Frame 1.
+- Access Frame 2 by opening a web browser and visiting the following URL:
+- <a class="reference external" href="http://your_server_ip/video2?src_video_url=https://your_video_source_url_frame2">http://your_server_ip/video2?src_video_url=https://your_video_source_url_frame2</a> , Replace ‘your_server_ip’ with your server’s IP address or domain, and ‘your_video_source_url_frame2’ with the URL of the video source for Frame 2.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -1849,6 +1858,7 @@ and ‘your_video_source_url_frame2’ with the URL of the video source for Fram
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.flip_geotiff_180"><code class="docutils literal notranslate"><span class="pre">flip_geotiff_180()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.move_files"><code class="docutils literal notranslate"><span class="pre">move_files()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.move_files_with_string"><code class="docutils literal notranslate"><span class="pre">move_files_with_string()</span></code></a></li>
+<li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.partial_derivative"><code class="docutils literal notranslate"><span class="pre">partial_derivative()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.resample_raster"><code class="docutils literal notranslate"><span class="pre">resample_raster()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.scatter_area_mask"><code class="docutils literal notranslate"><span class="pre">scatter_area_mask()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.utm_to_latlon"><code class="docutils literal notranslate"><span class="pre">utm_to_latlon()</span></code></a></li>

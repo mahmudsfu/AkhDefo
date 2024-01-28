@@ -392,6 +392,7 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     
     use_zscore : float, optional
         use statistical outlier removal before performing interpolation default is None. options 2, 3.5, 5 , etc..
+    
     Returns:
     --------
     numpy.ndarray
@@ -400,8 +401,8 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     Raises:
     -------
     ValueError
-        If the input data is not a valid shapefile path or GeoDataFrame.
-        If essential columns (x, y or lat, lon) are missing in the input data.
+    If the input data is not a valid shapefile path or GeoDataFrame.
+    If essential columns (x, y or lat, lon) are missing in the input data.
 
     Notes:
     ------
@@ -411,7 +412,8 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
 
     Dependencies:
     -------------
-    Requires geopandas, gstools, pykrige, matplotlib, and rasterio libraries.
+        Requires geopandas, gstools, pykrige, matplotlib, and rasterio libraries.
+    
     """
     
     if isinstance(data, str):

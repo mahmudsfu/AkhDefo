@@ -8,7 +8,7 @@
     <title>Morenney Rock Glacier Radar Imagery Example &#8212; AkhDefo Software 2.2.66 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../_static/flask.css?v=b87c8d14" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
     <script src="../_static/documentation_options.js?v=e2ab9622"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
@@ -56,8 +56,8 @@ users, example screenshots are provided below as a guide to navigate through the
 </section>
 <section id="Import-AkhDefo-Packages.">
 <h2>Import AkhDefo Packages.<a class="headerlink" href="#Import-AkhDefo-Packages." title="Link to this heading">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="c1">#Functions for data preparations</span>
@@ -70,7 +70,7 @@ users, example screenshots are provided below as a guide to navigate through the
 <span class="c1">#Functions data processing</span>
 <span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">scatter_area_mask</span>
 <span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">Raster_Correction</span>
-<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">Optical_flow_akhdefo</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">radar_flow_akhdefo</span>
 
 <span class="c1">#Functions for shapefile point data interpolation to raster geotif</span>
 <span class="c1">#Function Autovariogram use Kriging method it fits the data to different variogram models and automatically use the best fit variogram model (Computationally Heavy but you can process data in chunks)</span>
@@ -87,11 +87,29 @@ users, example screenshots are provided below as a guide to navigate through the
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">ImportError</span>                               Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[1], line 11</span>
+<span class="ansi-green-fg">      9</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">akhdefo_functions</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> scatter_area_mask
+<span class="ansi-green-fg">     10</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">akhdefo_functions</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> Raster_Correction
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 11</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">akhdefo_functions</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> radar_flow_akhdefo
+<span class="ansi-green-fg">     13</span> <span style="color: rgb(95,135,135)">#Functions for shapefile point data interpolation to raster geotif</span>
+<span class="ansi-green-fg">     14</span> <span style="color: rgb(95,135,135)">#Function Autovariogram use Kriging method it fits the data to different variogram models and automatically use the best fit variogram model (Computationally Heavy but you can process data in chunks)</span>
+<span class="ansi-green-fg">     15</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">akhdefo_functions</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> Auto_Variogram
+
+<span class="ansi-red-intense-fg ansi-bold">ImportError</span>: cannot import name &#39;radar_flow_akhdefo&#39; from &#39;akhdefo_functions&#39; (C:\Users\mahmud\anaconda3\envs\akhdefov2\lib\site-packages\akhdefo_functions\__init__.py)
+</pre></div></div>
+</div>
 </section>
 <section id="Download-Data-using-EarthData-ASF-Account">
 <h2>Download Data using EarthData ASF Account<a class="headerlink" href="#Download-Data-using-EarthData-ASF-Account" title="Link to this heading">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -118,11 +136,20 @@ users, example screenshots are provided below as a guide to navigate through the
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39; \n\nFirst Run the below command and make sure {download=False} to see the granule paths and frames. \n\nIts highly recommended to use data frame same path for the entire time-series for more accurate results\n \n&#39;
+</pre></div></div>
+</div>
 </section>
 <section id="Extract-downloaded-zip-files">
 <h2>Extract downloaded zip files<a class="headerlink" href="#Extract-downloaded-zip-files" title="Link to this heading">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#This functions extracts data from all the granuples zip directory.</span>
@@ -132,8 +159,31 @@ users, example screenshots are provided below as a guide to navigate through the
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">FileNotFoundError</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[3], line 2</span>
+<span class="ansi-green-fg">      1</span> <span style="color: rgb(95,135,135)">#This functions extracts data from all the granuples zip directory.</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 2</span> <span class="ansi-yellow-bg">read_data_prep</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">zip_dir</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">./data/morenny/radar/path129_rtc/</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">      3</span> <span class="ansi-yellow-bg">                                 </span><span class="ansi-yellow-bg">image_dir</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">./data/morenny/radar/RS_dir_path129</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span>
+<span class="ansi-green-fg">      4</span> <span class="ansi-yellow-bg">                                 </span><span class="ansi-yellow-bg">ext_image_file</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">VV.tif</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">udm_mask_dir</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">./data/morenny/radar/scatter_dir</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">ext_udm_mask_file</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">area.tif</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\akhdefo_functions\Unzip_CopyFiles.py:205</span>, in <span class="ansi-cyan-fg">read_data_prep</span><span class="ansi-blue-intense-fg ansi-bold">(zip_dir, image_dir, ext_image_file, udm_mask_dir, ext_udm_mask_file, search_string)</span>
+<span class="ansi-green-fg">    203</span> <span style="color: rgb(95,135,135)">#dst_dir=unzip_dir</span>
+<span class="ansi-green-fg">    204</span> zipdir<span style="color: rgb(98,98,98)">=</span>zip_dir
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 205</span> zip_list <span style="color: rgb(98,98,98)">=</span> [f <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> f <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> <span style="color: rgb(0,135,0)">sorted</span>(<span class="ansi-yellow-bg">os</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">listdir</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">zipdir</span><span class="ansi-yellow-bg">)</span>) <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> isfile(join(zipdir, f))]
+<span class="ansi-green-fg">    207</span> <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> n <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> tqdm (<span style="color: rgb(0,135,0)">range</span>(<span style="color: rgb(98,98,98)">0</span>, <span style="color: rgb(0,135,0)">len</span>(zip_list)) , desc<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">Processing Zip Files</span><span style="color: rgb(175,0,0)">&#34;</span>):
+<span class="ansi-green-fg">    208</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> ZipFile(join(zipdir,zip_list[n]), <span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">r</span><span style="color: rgb(175,0,0)">&#39;</span>) <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> zipObject:
+
+<span class="ansi-red-intense-fg ansi-bold">FileNotFoundError</span>: [WinError 3] The system cannot find the path specified: &#39;./data/morenny/radar/path129_rtc/&#39;
+</pre></div></div>
+</div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This function will move all the data from each granules subdir to a single folder</span>
@@ -143,7 +193,7 @@ users, example screenshots are provided below as a guide to navigate through the
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -173,8 +223,8 @@ users, example screenshots are provided below as a guide to navigate through the
 <br/><br/></pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -188,17 +238,25 @@ users, example screenshots are provided below as a guide to navigate through the
 <br/><br/></pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+0it [00:00, ?it/s]
+</pre></div></div>
+</div>
 </section>
-<section id="Preparing-raster-for-optical-flow-and-displacement-calculation!">
-<h2>Preparing raster for optical flow and displacement calculation!<a class="headerlink" href="#Preparing-raster-for-optical-flow-and-displacement-calculation!" title="Link to this heading">¶</a></h2>
+<section id="Preparing-raster-for-radar-flow-and-displacement-calculation!">
+<h2>Preparing raster for radar flow and displacement calculation!<a class="headerlink" href="#Preparing-raster-for-radar-flow-and-displacement-calculation!" title="Link to this heading">¶</a></h2>
 <p>By deafult RTC data comes in the below three formats. The below raster correction function converts the below RTC data formats to Unassigned 8 bit integer(“uint8”).</p>
 <ul class="simple">
 <li><p>Power Scale: SAR images in the power scale represent the square of the amplitude. Power is a measure of the energy of the radar signal returned from each point on the ground. It’s more intuitive in terms of energy interpretation but less used for visual interpretation due to its non-linear nature.</p></li>
 <li><p>Amplitude Scale: The amplitude scale is a direct representation of the radar signal’s strength received from each point. It’s more commonly used for visual interpretation since it’s more linear than the power scale. Amplitude images are easier to interpret but can be sensitive to noise.</p></li>
 <li><p>Decibel (dB) Scale: The decibel scale is a logarithmic scale used to express SAR data. It’s derived from the amplitude or power scale and is used to compress the dynamic range of the SAR data. The dB scale is beneficial for enhancing certain features in the data, especially in areas with very high or very low backscatter.</p></li>
 </ul>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
@@ -208,22 +266,41 @@ users, example screenshots are provided below as a guide to navigate through the
 <span class="n">Raster_Correction</span><span class="p">(</span><span class="n">input_path</span><span class="o">=</span><span class="s2">&quot;./data/morenny/radar/RS_cropped_path129&quot;</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;./data/morenny/radar/RS_cropped_path129_filt&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                     <span class="n">lowpass_kernel_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bilateral_win_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">bilateral_sigma_color</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span>
                                     <span class="n">bilateral_sigma_spatial</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span>
-                                    <span class="n">clip_percentiles</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">98</span><span class="p">],</span> <span class="n">optical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                    <span class="n">clip_percentiles</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">98</span><span class="p">],</span> <span class="n">radar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                     <span class="n">scale</span><span class="o">=</span><span class="s1">&#39;power&#39;</span><span class="p">,</span> <span class="n">Vegetation_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[7], line 5</span>
+<span class="ansi-green-fg">      1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> <span class="ansi-bold" style="color: rgb(0,0,255)">warnings</span>
+<span class="ansi-green-fg">      2</span> warnings<span style="color: rgb(98,98,98)">.</span>filterwarnings(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">ignore</span><span style="color: rgb(175,0,0)">&#34;</span>)
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 5</span> <span class="ansi-yellow-bg">Raster_Correction</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">input_path</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">./data/morenny/radar/RS_cropped_path129</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">output_path</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">./data/morenny/radar/RS_cropped_path129_filt</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">limit</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">None</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">      6</span> <span class="ansi-yellow-bg">                                    </span><span class="ansi-yellow-bg">lowpass_kernel_size</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">None</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">bilateral_win_size</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">7</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">bilateral_sigma_color</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">75</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">      7</span> <span class="ansi-yellow-bg">                                    </span><span class="ansi-yellow-bg">bilateral_sigma_spatial</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">75</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">      8</span> <span class="ansi-yellow-bg">                                    </span><span class="ansi-yellow-bg">clip_percentiles</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">2</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">98</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">radar</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">False</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span>
+<span class="ansi-green-fg">      9</span> <span class="ansi-yellow-bg">                                    </span><span class="ansi-yellow-bg">scale</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">power</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">Vegetation_mask</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">None</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: Raster_Correction() got an unexpected keyword argument &#39;radar&#39;
+</pre></div></div>
+</div>
 </section>
-<section id="Applying-optical-flow-and-producing-time-series-deformation-products.">
-<h2>Applying optical flow and producing time-series deformation products.<a class="headerlink" href="#Applying-optical-flow-and-producing-time-series-deformation-products." title="Link to this heading">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<section id="Applying-radar-flow-and-producing-time-series-deformation-products.">
+<h2>Applying radar flow and producing time-series deformation products.<a class="headerlink" href="#Applying-radar-flow-and-producing-time-series-deformation-products." title="Link to this heading">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">akhdefo_functions</span>
-<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">Optical_flow_akhdefo</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/RS_cropped_path129_filt&#39;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/geo_path129&#39;</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">radar_flow_akhdefo</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/RS_cropped_path129_filt&#39;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/geo_path129&#39;</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="s1">&#39;./data/morenny/AOI.shp&#39;</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                        <span class="n">ssim_thresh</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">image_resolution</span><span class="o">=</span><span class="s1">&#39;20m&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="s1">&#39;kriging&#39;</span><span class="p">,</span>
                                        <span class="n">show_figure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/morenny/dem.tif&#39;</span><span class="p">,</span> <span class="n">smoothing_kernel_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                        <span class="n">Vegetation_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">VEL_scale</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">VEL_Mode</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">good_match_option</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
@@ -234,11 +311,33 @@ users, example screenshots are provided below as a guide to navigate through the
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                            Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[8], line 4</span>
+<span class="ansi-green-fg">      2</span> warnings<span style="color: rgb(98,98,98)">.</span>filterwarnings(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">ignore</span><span style="color: rgb(175,0,0)">&#34;</span>)
+<span class="ansi-green-fg">      3</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> <span class="ansi-bold" style="color: rgb(0,0,255)">akhdefo_functions</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 4</span> <span class="ansi-yellow-bg">akhdefo_functions</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">radar_flow_akhdefo</span>(input_dir<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">./data/morenny/radar/RS_cropped_path129_filt</span><span style="color: rgb(175,0,0)">&#39;</span>, output_dir<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">./data/morenny/radar/geo_path129</span><span style="color: rgb(175,0,0)">&#39;</span>, AOI<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">./data/morenny/AOI.shp</span><span style="color: rgb(175,0,0)">&#39;</span>, zscore_threshold<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">2</span>,
+<span class="ansi-green-fg">      5</span>                                        ssim_thresh<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0.6</span>, image_resolution<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">20m</span><span style="color: rgb(175,0,0)">&#39;</span>, interpolate<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">kriging</span><span style="color: rgb(175,0,0)">&#39;</span>,
+<span class="ansi-green-fg">      6</span>                                        show_figure<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">False</span>, point_size<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">2</span>, dem_path<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">./data/morenny/dem.tif</span><span style="color: rgb(175,0,0)">&#39;</span>, smoothing_kernel_size<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">None</span>,
+<span class="ansi-green-fg">      7</span>                                        Vegetation_mask<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">None</span>, VEL_scale<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">year</span><span style="color: rgb(175,0,0)">&#39;</span>, VEL_Mode<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">linear</span><span style="color: rgb(175,0,0)">&#39;</span>, good_match_option<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0.75</span>,
+<span class="ansi-green-fg">      8</span>                                        hillshade_option<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>, shapefile_output<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>, max_triplet_interval<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">300</span>, pixel_size<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">20</span>, num_chunks<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">1</span>, overlap_percentage<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0</span>, pyr_scale<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0.5</span>, levels<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">15</span>,
+<span class="ansi-green-fg">      9</span>                                        winsize<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">128</span>, iterations<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">7</span>, poly_n<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">7</span>, poly_sigma<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">1.5</span>,
+<span class="ansi-green-fg">     10</span>                                        flags<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">1</span>, master_reference<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">single</span><span style="color: rgb(175,0,0)">&#39;</span>,
+<span class="ansi-green-fg">     11</span>                                        selection_Mode<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">pair</span><span style="color: rgb(175,0,0)">&#39;</span>, start_date<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">None</span>, end_date<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">None</span>, krig_method<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">universal</span><span style="color: rgb(175,0,0)">&#39;</span>, spatial_ref<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>, use_detrend<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">False</span>)
+
+<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: module &#39;akhdefo_functions&#39; has no attribute &#39;radar_flow_akhdefo&#39;
+</pre></div></div>
+</div>
 </section>
 <section id="Interpolate-and-Create-raster-Velocities">
 <h2>Interpolate and Create raster Velocities<a class="headerlink" href="#Interpolate-and-Create-raster-Velocities" title="Link to this heading">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -281,7 +380,7 @@ kriging succeed with Model: Stable and score: 0.9383296532507905
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -293,11 +392,11 @@ array([[         nan,          nan,          nan, ...,          nan,
        [         nan,          nan,          nan, ...,          nan,
                  nan,          nan],
        ...,
-       [382.52968527, 379.51471079, 375.85522955, ...,          nan,
+       [315.04217299, 313.07659983, 310.69084892, ...,          nan,
                  nan,          nan],
-       [         nan, 379.69952343, 375.98514718, ...,          nan,
+       [         nan, 313.19708601, 310.77554702, ...,          nan,
                  nan,          nan],
-       [         nan,          nan, 376.0934209 , ...,          nan,
+       [         nan,          nan, 310.84613466, ...,          nan,
                  nan,          nan]])
 </pre></div></div>
 </div>
@@ -305,7 +404,7 @@ array([[         nan,          nan,          nan, ...,          nan,
 <section id="Visualize-Displacement-Products">
 <h2>Visualize Displacement Products<a class="headerlink" href="#Visualize-Displacement-Products" title="Link to this heading">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -327,7 +426,7 @@ array([[         nan,          nan,          nan, ...,          nan,
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Visualize Mean Velocity East-West</span>
@@ -391,7 +490,7 @@ users can download their analysis and the generated figures directly from the we
 <img alt="dash2d_radar output sample1" src="../_images/newplot111.png" />
 <img alt="dash2d_radar output sample2" src="../_images/newplot12.png" />
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -415,8 +514,8 @@ users can download their analysis and the generated figures directly from the we
 
 ></iframe></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">akhdefo_dashApp</span><span class="p">(</span>
@@ -425,8 +524,23 @@ users can download their analysis and the generated figures directly from the we
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[13], line 1</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> <span class="ansi-yellow-bg">akhdefo_dashApp</span>(
+<span class="ansi-green-fg">      2</span> Path_to_Shapefile<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">./data/morenny/radar/geo_path129/temp_shapefile_dir/updated_shapefiles/20150717_20230921_20230921_N.shp</span><span style="color: rgb(175,0,0)">&#39;</span>,
+<span class="ansi-green-fg">      3</span>                                   port<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">8056</span>, BaseMap<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>, basemap_type<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">image</span><span style="color: rgb(175,0,0)">&#39;</span>)
+
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name &#39;akhdefo_dashApp&#39; is not defined
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">akhdefo_dashApp</span><span class="p">(</span>
@@ -435,11 +549,26 @@ users can download their analysis and the generated figures directly from the we
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[14], line 1</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> <span class="ansi-yellow-bg">akhdefo_dashApp</span>(
+<span class="ansi-green-fg">      2</span> Path_to_Shapefile<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">./data/morenny/radar/geo_path129/temp_shapefile_dir/updated_shapefiles/20150717_20230921_20230921_E.shp</span><span style="color: rgb(175,0,0)">&#39;</span>,
+<span class="ansi-green-fg">      3</span>                                   port<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">8055</span>, BaseMap<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>, basemap_type<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">image</span><span style="color: rgb(175,0,0)">&#39;</span>)
+
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name &#39;akhdefo_dashApp&#39; is not defined
+</pre></div></div>
+</div>
 </section>
 <section id="Plot-Mean-Land-Surface-Temperature-for-months-July-and-August-2017-to-2021">
 <h2>Plot Mean Land Surface Temperature for months July and August 2017 to 2021<a class="headerlink" href="#Plot-Mean-Land-Surface-Temperature-for-months-July-and-August-2017-to-2021" title="Link to this heading">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -544,6 +673,48 @@ users can download their analysis and the generated figures directly from the we
 <br/></pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_26_0.png" src="../_images/notebooks_RockGlacier_radar_26_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_26_1.png" src="../_images/notebooks_RockGlacier_radar_26_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_26_2.png" src="../_images/notebooks_RockGlacier_radar_26_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_26_3.png" src="../_images/notebooks_RockGlacier_radar_26_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_26_4.png" src="../_images/notebooks_RockGlacier_radar_26_4.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_26_5.png" src="../_images/notebooks_RockGlacier_radar_26_5.png" />
+</div>
+</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -552,8 +723,8 @@ users can download their analysis and the generated figures directly from the we
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ee</span>
@@ -681,8 +852,234 @@ users can download their analysis and the generated figures directly from the we
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">RefreshError</span>                              Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[16], line 13</span>
+<span class="ansi-green-fg">      9</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> <span class="ansi-bold" style="color: rgb(0,0,255)">geopandas</span> <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> <span class="ansi-bold" style="color: rgb(0,0,255)">gpd</span>
+<span class="ansi-green-fg">     12</span> <span style="color: rgb(95,135,135)"># Initialize the Earth Engine module.</span>
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 13</span> <span class="ansi-yellow-bg">ee</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">Initialize</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">     15</span> <span style="color: rgb(95,135,135)"># Define your area of interest (AOI) using latitude and longitude</span>
+<span class="ansi-green-fg">     16</span> lat <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(98,98,98)">42.99</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\ee\_utils.py:39</span>, in <span class="ansi-cyan-fg">accept_opt_prefix.&lt;locals&gt;.opt_fixed.&lt;locals&gt;.wrapper</span><span class="ansi-blue-intense-fg ansi-bold">(*args, **kwargs)</span>
+<span class="ansi-green-fg">     37</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> new_key <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> kwargs:
+<span class="ansi-green-fg">     38</span>       kwargs[new_key] <span style="color: rgb(98,98,98)">=</span> old_key_val
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 39</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> func(<span style="color: rgb(98,98,98)">*</span>args, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs)
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\ee\__init__.py:149</span>, in <span class="ansi-cyan-fg">Initialize</span><span class="ansi-blue-intense-fg ansi-bold">(credentials, url, cloud_api_key, http_transport, project)</span>
+<span class="ansi-green-fg">    143</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> project <span class="ansi-bold" style="color: rgb(175,0,255)">and</span> oauth<span style="color: rgb(98,98,98)">.</span>is_sdk_credentials(credentials):
+<span class="ansi-green-fg">    144</span>   <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> EEException(
+<span class="ansi-green-fg">    145</span>       <span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">ee.Initialize: no project found. </span><span style="color: rgb(175,0,0)">&#39;</span>
+<span class="ansi-green-fg">    146</span>       <span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">Call with project= or see Earth Engine Authentication docs.</span><span style="color: rgb(175,0,0)">&#39;</span>
+<span class="ansi-green-fg">    147</span>   )
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 149</span> <span class="ansi-yellow-bg">data</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">initialize</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">    150</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">credentials</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">credentials</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    151</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">api_base_url</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">+</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">/api</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">if</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">else</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">None</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    152</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">tile_base_url</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    153</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">cloud_api_base_url</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    154</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">cloud_api_key</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">cloud_api_key</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    155</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">project</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">project</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    156</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">http_transport</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">http_transport</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    157</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    159</span> <span style="color: rgb(95,135,135)"># Initialize the dynamically loaded functions on the objects that want them.</span>
+<span class="ansi-green-fg">    160</span> ApiFunction<span style="color: rgb(98,98,98)">.</span>initialize()
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\ee\data.py:225</span>, in <span class="ansi-cyan-fg">initialize</span><span class="ansi-blue-intense-fg ansi-bold">(credentials, api_base_url, tile_base_url, cloud_api_base_url, cloud_api_key, project, http_transport)</span>
+<span class="ansi-green-fg">    222</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> _requests_session <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
+<span class="ansi-green-fg">    223</span>   _requests_session <span style="color: rgb(98,98,98)">=</span> requests<span style="color: rgb(98,98,98)">.</span>Session()
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 225</span> <span class="ansi-yellow-bg">_install_cloud_api_resource</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    227</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> project <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
+<span class="ansi-green-fg">    228</span>   _cloud_api_user_project <span style="color: rgb(98,98,98)">=</span> project
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\ee\data.py:312</span>, in <span class="ansi-cyan-fg">_install_cloud_api_resource</span><span class="ansi-blue-intense-fg ansi-bold">()</span>
+<span class="ansi-green-fg">    310</span> timeout <span style="color: rgb(98,98,98)">=</span> (_deadline_ms <span style="color: rgb(98,98,98)">/</span> <span style="color: rgb(98,98,98)">1000.0</span>) <span class="ansi-bold" style="color: rgb(175,0,255)">or</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-fg">    311</span> <span class="ansi-bold" style="color: rgb(0,135,0)">assert</span> _requests_session <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 312</span> _cloud_api_resource <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">_cloud_api_utils</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">build_cloud_resource</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">    313</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">_cloud_api_base_url</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    314</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">_requests_session</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    315</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">credentials</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">_credentials</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    316</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">api_key</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">_cloud_api_key</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    317</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">timeout</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">timeout</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    318</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">headers_supplier</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">_make_request_headers</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    319</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">response_inspector</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">_handle_profiling_response</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    320</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">http_transport</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">_http_transport</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    321</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    323</span> _cloud_api_resource_raw <span style="color: rgb(98,98,98)">=</span> _cloud_api_utils<span style="color: rgb(98,98,98)">.</span>build_cloud_resource(
+<span class="ansi-green-fg">    324</span>     _cloud_api_base_url,
+<span class="ansi-green-fg">    325</span>     _requests_session,
+<span class="ansi-green-intense-fg ansi-bold">   (...)</span>
+<span class="ansi-green-fg">    332</span>     raw<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>,
+<span class="ansi-green-fg">    333</span> )
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\ee\_cloud_api_utils.py:198</span>, in <span class="ansi-cyan-fg">build_cloud_resource</span><span class="ansi-blue-intense-fg ansi-bold">(api_base_url, session, api_key, credentials, timeout, headers_supplier, response_inspector, http_transport, raw)</span>
+<span class="ansi-green-fg">    193</span> resource <span style="color: rgb(98,98,98)">=</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-fg">    194</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
+<span class="ansi-green-fg">    195</span>   <span style="color: rgb(95,135,135)"># google-api-python-client made static_discovery the default in version 2,</span>
+<span class="ansi-green-fg">    196</span>   <span style="color: rgb(95,135,135)"># but it&#39;s not backward-compatible. There&#39;s no reliable way to check the</span>
+<span class="ansi-green-fg">    197</span>   <span style="color: rgb(95,135,135)"># package version, either.</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 198</span>   resource <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">build</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">static_discovery</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">False</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    199</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> <span class="ansi-bold" style="color: rgb(215,95,95)">TypeError</span>:
+<span class="ansi-green-fg">    200</span>   <span class="ansi-bold" style="color: rgb(0,135,0)">pass</span>  <span style="color: rgb(95,135,135)"># Handle fallback case outside except block, for cleaner stack traces.</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\ee\_cloud_api_utils.py:182</span>, in <span class="ansi-cyan-fg">build_cloud_resource.&lt;locals&gt;.build</span><span class="ansi-blue-intense-fg ansi-bold">(**kwargs)</span>
+<span class="ansi-green-fg">    181</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">build</span>(<span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs):
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 182</span>   <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> discovery<span style="color: rgb(98,98,98)">.</span>build(
+<span class="ansi-green-fg">    183</span>       <span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">earthengine</span><span style="color: rgb(175,0,0)">&#39;</span>,
+<span class="ansi-green-fg">    184</span>       VERSION,
+<span class="ansi-green-fg">    185</span>       discoveryServiceUrl<span style="color: rgb(98,98,98)">=</span>discovery_service_url,
+<span class="ansi-green-fg">    186</span>       developerKey<span style="color: rgb(98,98,98)">=</span>api_key,
+<span class="ansi-green-fg">    187</span>       http<span style="color: rgb(98,98,98)">=</span>http_transport,
+<span class="ansi-green-fg">    188</span>       requestBuilder<span style="color: rgb(98,98,98)">=</span>request_builder,
+<span class="ansi-green-fg">    189</span>       model<span style="color: rgb(98,98,98)">=</span>alt_model,
+<span class="ansi-green-fg">    190</span>       cache_discovery<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">False</span>,
+<span class="ansi-green-fg">    191</span>       <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs)
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\googleapiclient\_helpers.py:130</span>, in <span class="ansi-cyan-fg">positional.&lt;locals&gt;.positional_decorator.&lt;locals&gt;.positional_wrapper</span><span class="ansi-blue-intense-fg ansi-bold">(*args, **kwargs)</span>
+<span class="ansi-green-fg">    128</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> positional_parameters_enforcement <span style="color: rgb(98,98,98)">==</span> POSITIONAL_WARNING:
+<span class="ansi-green-fg">    129</span>         logger<span style="color: rgb(98,98,98)">.</span>warning(message)
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 130</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> wrapped(<span style="color: rgb(98,98,98)">*</span>args, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs)
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\googleapiclient\discovery.py:287</span>, in <span class="ansi-cyan-fg">build</span><span class="ansi-blue-intense-fg ansi-bold">(serviceName, version, http, discoveryServiceUrl, developerKey, model, requestBuilder, credentials, cache_discovery, cache, client_options, adc_cert_path, adc_key_path, num_retries, static_discovery, always_use_jwt_access)</span>
+<span class="ansi-green-fg">    284</span> requested_url <span style="color: rgb(98,98,98)">=</span> uritemplate<span style="color: rgb(98,98,98)">.</span>expand(discovery_url, params)
+<span class="ansi-green-fg">    286</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 287</span>     content <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">_retrieve_discovery_doc</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">    288</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">requested_url</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    289</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">discovery_http</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    290</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">cache_discovery</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    291</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">serviceName</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    292</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">version</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    293</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">cache</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    294</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">developerKey</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    295</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">num_retries</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">num_retries</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    296</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">static_discovery</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">static_discovery</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    297</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    298</span>     service <span style="color: rgb(98,98,98)">=</span> build_from_document(
+<span class="ansi-green-fg">    299</span>         content,
+<span class="ansi-green-fg">    300</span>         base<span style="color: rgb(98,98,98)">=</span>discovery_url,
+<span class="ansi-green-intense-fg ansi-bold">   (...)</span>
+<span class="ansi-green-fg">    309</span>         always_use_jwt_access<span style="color: rgb(98,98,98)">=</span>always_use_jwt_access,
+<span class="ansi-green-fg">    310</span>     )
+<span class="ansi-green-fg">    311</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">break</span>  <span style="color: rgb(95,135,135)"># exit if a service was created</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\googleapiclient\discovery.py:422</span>, in <span class="ansi-cyan-fg">_retrieve_discovery_doc</span><span class="ansi-blue-intense-fg ansi-bold">(url, http, cache_discovery, serviceName, version, cache, developerKey, num_retries, static_discovery)</span>
+<span class="ansi-green-fg">    419</span> <span style="color: rgb(95,135,135)"># Execute this request with retries build into HttpRequest</span>
+<span class="ansi-green-fg">    420</span> <span style="color: rgb(95,135,135)"># Note that it will already raise an error if we don&#39;t get a 2xx response</span>
+<span class="ansi-green-fg">    421</span> req <span style="color: rgb(98,98,98)">=</span> HttpRequest(http, HttpRequest<span style="color: rgb(98,98,98)">.</span>null_postproc, actual_url)
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 422</span> resp, content <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">req</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">execute</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">num_retries</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">num_retries</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    424</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
+<span class="ansi-green-fg">    425</span>     content <span style="color: rgb(98,98,98)">=</span> content<span style="color: rgb(98,98,98)">.</span>decode(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">utf-8</span><span style="color: rgb(175,0,0)">&#34;</span>)
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\googleapiclient\_helpers.py:130</span>, in <span class="ansi-cyan-fg">positional.&lt;locals&gt;.positional_decorator.&lt;locals&gt;.positional_wrapper</span><span class="ansi-blue-intense-fg ansi-bold">(*args, **kwargs)</span>
+<span class="ansi-green-fg">    128</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> positional_parameters_enforcement <span style="color: rgb(98,98,98)">==</span> POSITIONAL_WARNING:
+<span class="ansi-green-fg">    129</span>         logger<span style="color: rgb(98,98,98)">.</span>warning(message)
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 130</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> wrapped(<span style="color: rgb(98,98,98)">*</span>args, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs)
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\googleapiclient\http.py:923</span>, in <span class="ansi-cyan-fg">HttpRequest.execute</span><span class="ansi-blue-intense-fg ansi-bold">(self, http, num_retries)</span>
+<span class="ansi-green-fg">    920</span>     <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>headers[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">content-length</span><span style="color: rgb(175,0,0)">&#34;</span>] <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">str</span>(<span style="color: rgb(0,135,0)">len</span>(<span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>body))
+<span class="ansi-green-fg">    922</span> <span style="color: rgb(95,135,135)"># Handle retries for server-side errors.</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 923</span> resp, content <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">_retry_request</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">    924</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">http</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    925</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">num_retries</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    926</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">request</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    927</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_sleep</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    928</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_rand</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    929</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">str</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">uri</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    930</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">str</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    931</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">body</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">body</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    932</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">headers</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">headers</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    933</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    935</span> <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> callback <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>response_callbacks:
+<span class="ansi-green-fg">    936</span>     callback(resp)
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\googleapiclient\http.py:191</span>, in <span class="ansi-cyan-fg">_retry_request</span><span class="ansi-blue-intense-fg ansi-bold">(http, num_retries, req_type, sleep, rand, uri, method, *args, **kwargs)</span>
+<span class="ansi-green-fg">    189</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
+<span class="ansi-green-fg">    190</span>     exception <span style="color: rgb(98,98,98)">=</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 191</span>     resp, content <span style="color: rgb(98,98,98)">=</span> http<span style="color: rgb(98,98,98)">.</span>request(uri, method, <span style="color: rgb(98,98,98)">*</span>args, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs)
+<span class="ansi-green-fg">    192</span> <span style="color: rgb(95,135,135)"># Retry on SSL errors and socket timeout errors.</span>
+<span class="ansi-green-fg">    193</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> _ssl_SSLError <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> ssl_error:
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\google_auth_httplib2.py:209</span>, in <span class="ansi-cyan-fg">AuthorizedHttp.request</span><span class="ansi-blue-intense-fg ansi-bold">(self, uri, method, body, headers, redirections, connection_type, **kwargs)</span>
+<span class="ansi-green-fg">    205</span> <span style="color: rgb(95,135,135)"># Make a copy of the headers. They will be modified by the credentials</span>
+<span class="ansi-green-fg">    206</span> <span style="color: rgb(95,135,135)"># and we want to pass the original headers if we recurse.</span>
+<span class="ansi-green-fg">    207</span> request_headers <span style="color: rgb(98,98,98)">=</span> headers<span style="color: rgb(98,98,98)">.</span>copy() <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> headers <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span> <span class="ansi-bold" style="color: rgb(0,135,0)">else</span> {}
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 209</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">credentials</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">before_request</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_request</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">uri</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">request_headers</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    211</span> <span style="color: rgb(95,135,135)"># Check if the body is a file-like stream, and if so, save the body</span>
+<span class="ansi-green-fg">    212</span> <span style="color: rgb(95,135,135)"># stream position so that it can be restored in case of refresh.</span>
+<span class="ansi-green-fg">    213</span> body_stream_position <span style="color: rgb(98,98,98)">=</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\google\auth\credentials.py:228</span>, in <span class="ansi-cyan-fg">Credentials.before_request</span><span class="ansi-blue-intense-fg ansi-bold">(self, request, method, url, headers)</span>
+<span class="ansi-green-fg">    226</span>     <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_non_blocking_refresh(request)
+<span class="ansi-green-fg">    227</span> <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 228</span>     <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_blocking_refresh</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">request</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    230</span> metrics<span style="color: rgb(98,98,98)">.</span>add_metric_header(headers, <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_metric_header_for_usage())
+<span class="ansi-green-fg">    231</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>apply(headers)
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\google\auth\credentials.py:191</span>, in <span class="ansi-cyan-fg">Credentials._blocking_refresh</span><span class="ansi-blue-intense-fg ansi-bold">(self, request)</span>
+<span class="ansi-green-fg">    189</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">_blocking_refresh</span>(<span style="color: rgb(0,135,0)">self</span>, request):
+<span class="ansi-green-fg">    190</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>valid:
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 191</span>         <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">refresh</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">request</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\google\oauth2\credentials.py:390</span>, in <span class="ansi-cyan-fg">Credentials.refresh</span><span class="ansi-blue-intense-fg ansi-bold">(self, request)</span>
+<span class="ansi-green-fg">    372</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> (
+<span class="ansi-green-fg">    373</span>     <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_refresh_token <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-fg">    374</span>     <span class="ansi-bold" style="color: rgb(175,0,255)">or</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_token_uri <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-fg">    375</span>     <span class="ansi-bold" style="color: rgb(175,0,255)">or</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_client_id <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-fg">    376</span>     <span class="ansi-bold" style="color: rgb(175,0,255)">or</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_client_secret <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-fg">    377</span> ):
+<span class="ansi-green-fg">    378</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> exceptions<span style="color: rgb(98,98,98)">.</span>RefreshError(
+<span class="ansi-green-fg">    379</span>         <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">The credentials do not contain the necessary fields need to </span><span style="color: rgb(175,0,0)">&#34;</span>
+<span class="ansi-green-fg">    380</span>         <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">refresh the access token. You must specify refresh_token, </span><span style="color: rgb(175,0,0)">&#34;</span>
+<span class="ansi-green-fg">    381</span>         <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">token_uri, client_id, and client_secret.</span><span style="color: rgb(175,0,0)">&#34;</span>
+<span class="ansi-green-fg">    382</span>     )
+<span class="ansi-green-fg">    384</span> (
+<span class="ansi-green-fg">    385</span>     access_token,
+<span class="ansi-green-fg">    386</span>     refresh_token,
+<span class="ansi-green-fg">    387</span>     expiry,
+<span class="ansi-green-fg">    388</span>     grant_response,
+<span class="ansi-green-fg">    389</span>     rapt_token,
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 390</span> ) <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">reauth</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">refresh_grant</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">    391</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">request</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    392</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_token_uri</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    393</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_refresh_token</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    394</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_client_id</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    395</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_client_secret</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    396</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">scopes</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">scopes</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    397</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">rapt_token</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_rapt_token</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    398</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">enable_reauth_refresh</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_enable_reauth_refresh</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    399</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    401</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>token <span style="color: rgb(98,98,98)">=</span> access_token
+<span class="ansi-green-fg">    402</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>expiry <span style="color: rgb(98,98,98)">=</span> expiry
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\google\oauth2\reauth.py:365</span>, in <span class="ansi-cyan-fg">refresh_grant</span><span class="ansi-blue-intense-fg ansi-bold">(request, token_uri, refresh_token, client_id, client_secret, scopes, rapt_token, enable_reauth_refresh)</span>
+<span class="ansi-green-fg">    356</span>     (
+<span class="ansi-green-fg">    357</span>         response_status_ok,
+<span class="ansi-green-fg">    358</span>         response_data,
+<span class="ansi-green-intense-fg ansi-bold">   (...)</span>
+<span class="ansi-green-fg">    361</span>         request, token_uri, body, headers<span style="color: rgb(98,98,98)">=</span>metrics_header
+<span class="ansi-green-fg">    362</span>     )
+<span class="ansi-green-fg">    364</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> response_status_ok:
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 365</span>     <span class="ansi-yellow-bg">_client</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_handle_error_response</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">response_data</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">retryable_error</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    366</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> _client<span style="color: rgb(98,98,98)">.</span>_handle_refresh_grant_response(response_data, refresh_token) <span style="color: rgb(98,98,98)">+</span> (
+<span class="ansi-green-fg">    367</span>     rapt_token,
+<span class="ansi-green-fg">    368</span> )
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\akhdefov2\lib\site-packages\google\oauth2\_client.py:72</span>, in <span class="ansi-cyan-fg">_handle_error_response</span><span class="ansi-blue-intense-fg ansi-bold">(response_data, retryable_error)</span>
+<span class="ansi-green-fg">     69</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> (<span class="ansi-bold" style="color: rgb(215,95,95)">KeyError</span>, <span class="ansi-bold" style="color: rgb(215,95,95)">ValueError</span>):
+<span class="ansi-green-fg">     70</span>     error_details <span style="color: rgb(98,98,98)">=</span> json<span style="color: rgb(98,98,98)">.</span>dumps(response_data)
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 72</span> <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> exceptions<span style="color: rgb(98,98,98)">.</span>RefreshError(
+<span class="ansi-green-fg">     73</span>     error_details, response_data, retryable<span style="color: rgb(98,98,98)">=</span>retryable_error
+<span class="ansi-green-fg">     74</span> )
+
+<span class="ansi-red-intense-fg ansi-bold">RefreshError</span>: (&#39;invalid_grant: Token has been expired or revoked.&#39;, {&#39;error&#39;: &#39;invalid_grant&#39;, &#39;error_description&#39;: &#39;Token has been expired or revoked.&#39;})
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -729,6 +1126,30 @@ users can download their analysis and the generated figures directly from the we
 <br/><br/><br/></pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[17], line 28</span>
+<span class="ansi-green-fg">     25</span> sns<span style="color: rgb(98,98,98)">.</span>scatterplot(data<span style="color: rgb(98,98,98)">=</span>data, x<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">year</span><span style="color: rgb(175,0,0)">&#39;</span>, y<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">LST</span><span style="color: rgb(175,0,0)">&#39;</span>, color<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">blue</span><span style="color: rgb(175,0,0)">&#39;</span>, s<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">50</span>)
+<span class="ansi-green-fg">     27</span> <span style="color: rgb(95,135,135)"># Plotting the regression line</span>
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 28</span> sns<span style="color: rgb(98,98,98)">.</span>lineplot(x<span style="color: rgb(98,98,98)">=</span>data[<span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">year</span><span style="color: rgb(175,0,0)">&#39;</span>], y<span style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">line</span>, color<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">red</span><span style="color: rgb(175,0,0)">&#39;</span>)
+<span class="ansi-green-fg">     30</span> <span style="color: rgb(95,135,135)"># Annotating the rate of change</span>
+<span class="ansi-green-fg">     31</span> rate_of_change <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">Rate of Change: </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>slope<span class="ansi-bold" style="color: rgb(175,95,135)">:</span><span style="color: rgb(175,0,0)">.2f</span><span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)"> °C/year</span><span style="color: rgb(175,0,0)">&#34;</span>
+
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name &#39;line&#39; is not defined
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_RockGlacier_radar_29_1.png" src="../_images/notebooks_RockGlacier_radar_29_1.png" />
+</div>
+</div>
 </section>
 </section>
 
@@ -754,8 +1175,8 @@ users can download their analysis and the generated figures directly from the we
 <li><a class="reference internal" href="#Import-AkhDefo-Packages.">Import AkhDefo Packages.</a></li>
 <li><a class="reference internal" href="#Download-Data-using-EarthData-ASF-Account">Download Data using EarthData ASF Account</a></li>
 <li><a class="reference internal" href="#Extract-downloaded-zip-files">Extract downloaded zip files</a></li>
-<li><a class="reference internal" href="#Preparing-raster-for-optical-flow-and-displacement-calculation!">Preparing raster for optical flow and displacement calculation!</a></li>
-<li><a class="reference internal" href="#Applying-optical-flow-and-producing-time-series-deformation-products.">Applying optical flow and producing time-series deformation products.</a></li>
+<li><a class="reference internal" href="#Preparing-raster-for-radar-flow-and-displacement-calculation!">Preparing raster for radar flow and displacement calculation!</a></li>
+<li><a class="reference internal" href="#Applying-radar-flow-and-producing-time-series-deformation-products.">Applying radar flow and producing time-series deformation products.</a></li>
 <li><a class="reference internal" href="#Interpolate-and-Create-raster-Velocities">Interpolate and Create raster Velocities</a></li>
 <li><a class="reference internal" href="#Visualize-Displacement-Products">Visualize Displacement Products</a></li>
 <li><a class="reference internal" href="#Interactive-Time-Series-Analysis-in-a-Dash-Web-App">Interactive Time Series Analysis in a Dash Web App</a></li>

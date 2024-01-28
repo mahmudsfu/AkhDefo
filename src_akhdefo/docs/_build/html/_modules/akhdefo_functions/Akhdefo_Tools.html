@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.Akhdefo_Tools &#8212; AkhDefo Software 2.2.62 documentation</title>
+    <title>akhdefo_functions.Akhdefo_Tools &#8212; AkhDefo Software 2.2.66 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=1eda8c85"></script>
+    <script src="../../_static/documentation_options.js?v=e2ab9622"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -2066,6 +2066,39 @@
 <span class="c1">#This part is still under construction</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="partial_derivative">
+<a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.partial_derivative">[docs]</a>
+<span class="k">def</span> <span class="nf">partial_derivative</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the central difference approximation for the partial derivatives</span>
+<span class="sd">    of a 2D function with respect to x and y.</span>
+
+<span class="sd">    :param f: 2D numpy array of function values, representing the raster</span>
+<span class="sd">    :param dx: Spacing in the x-direction (assumed to be constant)</span>
+<span class="sd">    :param dy: Spacing in the y-direction (assumed to be constant)</span>
+<span class="sd">    :return: Two 2D numpy arrays, one for the partial derivative with respect to x (df_dx)</span>
+<span class="sd">             and one for the partial derivative with respect to y (df_dy)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+     <span class="c1"># Initialize arrays to store the partial derivatives</span>
+    <span class="n">df_dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">df_dy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Compute the partial derivatives for the internal points</span>
+    <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">yj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">df_dx</span><span class="p">[</span><span class="n">xi</span><span class="p">,</span> <span class="n">yj</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">xi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">yj</span><span class="p">]</span> <span class="o">-</span> <span class="n">f</span><span class="p">[</span><span class="n">xi</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">yj</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">dx</span><span class="p">)</span>
+            <span class="n">df_dy</span><span class="p">[</span><span class="n">xi</span><span class="p">,</span> <span class="n">yj</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">xi</span><span class="p">,</span> <span class="n">yj</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">f</span><span class="p">[</span><span class="n">xi</span><span class="p">,</span> <span class="n">yj</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">dy</span><span class="p">)</span>
+
+    <span class="c1"># Handle the boundaries by setting the derivative to zero or using one-sided differences</span>
+    <span class="c1"># Here we choose to set the boundary derivative to zero</span>
+    <span class="c1"># Alternatively, use forward/backward difference at the boundaries if needed</span>
+
+    <span class="k">return</span> <span class="n">df_dx</span><span class="p">,</span> <span class="n">df_dy</span></div>
+
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">rasterio</span>
 
 <div class="viewcode-block" id="calculate_slope">
@@ -2095,7 +2128,10 @@
     <span class="c1"># else:</span>
     <span class="c1">#     aspect = aspect</span>
 
+
+
     <span class="n">grad_y</span><span class="p">,</span> <span class="n">grad_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+    <span class="c1">#grad_y, grad_x=partial_derivative(dem, dx, dy)</span>
 
     <span class="k">if</span> <span class="n">grad_x</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">grad_y</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Gradient arrays have mismatched shapes.&quot;</span><span class="p">)</span>
@@ -2158,6 +2194,8 @@
     <span class="k">return</span> <span class="n">volume_change</span></div>
 
 
+<span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="kn">import</span> <span class="n">gaussian</span>
+
 <div class="viewcode-block" id="displacement_to_volume">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Tools.displacement_to_volume">[docs]</a>
 <span class="k">def</span> <span class="nf">displacement_to_volume</span><span class="p">(</span><span class="n">dem_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">aspect_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">displacement_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">slope_output_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">height_output_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">volume_output_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">pixel_area</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -2214,7 +2252,9 @@
         
         <span class="n">slope</span><span class="p">,</span> <span class="n">directional_grad</span> <span class="o">=</span> <span class="n">calculate_slope</span><span class="p">(</span><span class="n">dem</span><span class="p">,</span> <span class="n">aspect</span><span class="p">,</span> <span class="n">dx</span> <span class="p">,</span> <span class="n">dy</span> <span class="p">)</span>
         <span class="n">height_change</span>  <span class="o">=</span> <span class="n">calculate_height_change</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">directional_grad</span><span class="p">,</span> <span class="n">dem</span><span class="p">)</span>
+        <span class="c1">#height_change=gaussian(height_change, sigma=3)</span>
         <span class="n">volume_change</span> <span class="o">=</span> <span class="n">calculate_volume_change</span><span class="p">(</span><span class="n">height_change</span><span class="p">,</span> <span class="n">pixel_area</span><span class="p">)</span>
+       
        
 
         <span class="c1"># Define a function to export data to a GeoTIFF</span>

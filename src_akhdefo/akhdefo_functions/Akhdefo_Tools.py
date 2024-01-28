@@ -1989,6 +1989,36 @@ def move_files_with_string(source_dir: str ="", dest_dir: str ="", search_string
 #This part is still under construction
 
 import numpy as np
+
+def partial_derivative(f, dx, dy):
+    """
+    Calculate the central difference approximation for the partial derivatives
+    of a 2D function with respect to x and y.
+
+    :param f: 2D numpy array of function values, representing the raster
+    :param dx: Spacing in the x-direction (assumed to be constant)
+    :param dy: Spacing in the y-direction (assumed to be constant)
+    :return: Two 2D numpy arrays, one for the partial derivative with respect to x (df_dx)
+             and one for the partial derivative with respect to y (df_dy)
+    """
+     # Initialize arrays to store the partial derivatives
+    df_dx = np.zeros_like(f)
+    df_dy = np.zeros_like(f)
+
+    # Compute the partial derivatives for the internal points
+    for xi in range(1, f.shape[0] - 1):
+        for yj in range(1, f.shape[1] - 1):
+            df_dx[xi, yj] = (f[xi + 1, yj] - f[xi - 1, yj]) / (2 * dx)
+            df_dy[xi, yj] = (f[xi, yj + 1] - f[xi, yj - 1]) / (2 * dy)
+
+    # Handle the boundaries by setting the derivative to zero or using one-sided differences
+    # Here we choose to set the boundary derivative to zero
+    # Alternatively, use forward/backward difference at the boundaries if needed
+
+    return df_dx, df_dy
+
+
+import numpy as np
 import rasterio
 
 def calculate_slope(dem, aspect, dx , dy):
@@ -2016,7 +2046,10 @@ def calculate_slope(dem, aspect, dx , dy):
     # else:
     #     aspect = aspect
 
+
+
     grad_y, grad_x = np.gradient(dem, dx, dy)
+    #grad_y, grad_x=partial_derivative(dem, dx, dy)
 
     if grad_x.shape != grad_y.shape:
         raise ValueError("Gradient arrays have mismatched shapes.")
@@ -2072,6 +2105,8 @@ def calculate_volume_change(height_change, pixel_area):
     print (f'Total Volume: {np.nansum(volume_change)} cubic meter')
     return volume_change
 
+from skimage.filters import gaussian
+
 def displacement_to_volume(dem_path="", aspect_path="", displacement_path="", slope_output_path="", height_output_path="", volume_output_path="", dx=None , dy=None , pixel_area=None):
     """
     Process the DEM, aspect, and displacement rasters to calculate and export the slope, height change, and volume change.
@@ -2126,7 +2161,9 @@ def displacement_to_volume(dem_path="", aspect_path="", displacement_path="", sl
         
         slope, directional_grad = calculate_slope(dem, aspect, dx , dy )
         height_change  = calculate_height_change(slope, directional_grad, dem)
+        #height_change=gaussian(height_change, sigma=3)
         volume_change = calculate_volume_change(height_change, pixel_area)
+       
        
 
         # Define a function to export data to a GeoTIFF
