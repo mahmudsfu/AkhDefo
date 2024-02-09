@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MudCreek 2017 Landslide Optical Imagery Example &#8212; AkhDefo Software 2.2.66 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="../_static/flask.css?v=b87c8d14" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <script src="../_static/documentation_options.js?v=e2ab9622"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Morenny Rock Glacier Optical Imagery Example" href="RockGlacier_optical.html" />
+    <link rel="prev" title="akhdefo_functions package" href="../akhdefo_functions.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="RockGlacier_optical.html" title="Morenny Rock Glacier Optical Imagery Example"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../akhdefo_functions.html" title="akhdefo_functions package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Akhdefo</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">MudCreek 2017 Landslide Optical Imagery Example</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="MudCreek-2017-Landslide-Optical-Imagery-Example">
+<h1>MudCreek 2017 Landslide Optical Imagery Example<a class="headerlink" href="#MudCreek-2017-Landslide-Optical-Imagery-Example" title="Link to this heading">¶</a></h1>
+<section id="Download-data-from-planet.com-website">
+<h2>Download data from planet.com website<a class="headerlink" href="#Download-data-from-planet.com-website" title="Link to this heading">¶</a></h2>
+<p>Create an Account or Log In: To access data, you generally need an account with <a class="reference external" href="https://www.planet.com">https://www.planet.com</a> . If you don’t have one, you’ll need to sign up. Otherwise, log in with your existing credentials.</p>
+<img alt="Step 1" src="../_images/planet_screenshot1.png" />
+</section>
+<section id="Import-AkhDefo-Packages.">
+<h2>Import AkhDefo Packages.<a class="headerlink" href="#Import-AkhDefo-Packages." title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="c1">#Functions for data preparations</span>
+<span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">akhdefo_download_planet</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">read_data_prep</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">move_files_with_string</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">Crop_to_AOI</span>
+
+<span class="c1">#Functions data processing</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">scatter_area_mask</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">Raster_Correction</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">Optical_flow_akhdefo</span>
+
+<span class="c1">#Functions for shapefile point data interpolation to raster geotif</span>
+<span class="c1">#Function Autovariogram use Kriging method it fits the data to different variogram models and automatically use the best fit variogram model (Computationally Heavy but you can process data in chunks)</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">Auto_Variogram</span>
+
+<span class="c1"># interpoate_xyz uses the following interpolation methods (nearest, linear and cubic)</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">interpolate_xyz</span>
+
+<span class="c1">#Functions for data Visualization and Analysis</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">MeanProducts_plot_ts</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">plot_stackNetwork</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">akhdefo_viewer</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">akhdefo_dashApp</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Download-Data-using-Planetlab-API-Account">
+<h2>Download Data using Planetlab API Account<a class="headerlink" href="#Download-Data-using-Planetlab-API-Account" title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">First Run the below command and make sure {download=False} to see list of available dataset.</span>
+
+<span class="sd">Its highly recommended to use images from same frame number and same path number for the entire time-series for more accurate results</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="c1">#uncomment below to download data using planet lab api key</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">akhdefo_download_planet(planet_api_key=&#39;&#39;, AOI=&#39;./data/mudcreek/AOI.shp&#39;, start_date=&#39;May 1, 2018&#39;, end_date=&#39; September 30 2022&#39;, limit=5, item_type=&#39;PSScene&#39;,</span>
+<span class="sd">                        product_bundle=&#39;analytic_sr_udm2&#39;,</span>
+<span class="sd">                        clear_percent=90, cloud_filter=0.1,</span>
+<span class="sd">                        output_folder=&#39;raw_data&#39;,</span>
+<span class="sd">                        clip_flag=True, download_data=False</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="c1"># for this excecise we download data from planet labs explorer web application</span>
+<span class="c1">#Lets Navigate to the zip folder directory</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Replace &#39;your_directory_path&#39; with the path of your directory</span>
+<span class="n">zip_dir</span> <span class="o">=</span> <span class="s1">&#39;./data/mudcreek/optical/zip_folder/&#39;</span>
+
+<span class="c1"># List all files and directories in the specified path</span>
+<span class="n">contents</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">zip_dir</span><span class="p">)</span>
+
+<span class="c1"># Print the contents</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+<span class="c1"># The zip folder inside the zip folder directory inclue cropped planet lab imagery between 2018 to 2022. lets extract the data and look at the images</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Extract-downloaded-zip-files">
+<h2>Extract downloaded zip files<a class="headerlink" href="#Extract-downloaded-zip-files" title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#This functions extracts data from all the granuples zip directory.</span>
+<span class="n">read_data_prep</span><span class="p">(</span><span class="n">zip_dir</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/zip_dir/&#39;</span><span class="p">,</span>
+                                 <span class="n">image_dir</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/image_dir&#39;</span><span class="p">,</span>
+                                 <span class="n">ext_image_file</span><span class="o">=</span><span class="s1">&#39;harmonized_clip.tif&#39;</span><span class="p">,</span> <span class="n">udm_mask_dir</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/udm_mask_dir&#39;</span><span class="p">,</span> <span class="n">ext_udm_mask_file</span><span class="o">=</span><span class="s1">&#39;udm2_clip.tif&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This function will move all the data from each granules subdir to a single folder</span>
+<span class="c1"># move_files_with_string(source_dir=&#39;./data/mudcreek/optical/RS_dir_path129/&#39;, dest_dir=&#39;./data/mudcreek/optical/RS_path129&#39;, search_string=&#39;.tif&#39;)</span>
+<span class="c1"># move_files_with_string(source_dir=&#39;./data/mudcreek/optical/scatter_dir/&#39;, dest_dir=&#39;./data/mudcreek/optical/scatter_rs&#39;, search_string=&#39;.tif&#39;)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Crop all raster to Area of interest bounding box</span>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="n">Crop_to_AOI</span><span class="p">(</span><span class="n">Path_to_WorkingDir</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/image_dir&#39;</span><span class="p">,</span>
+                              <span class="n">Path_to_AOI_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/AOI.shp&#39;</span><span class="p">,</span>
+                              <span class="n">output_CroppedDir</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/image_dir_aoi&#39;</span><span class="p">,</span> <span class="n">file_ex</span><span class="o">=</span><span class="s1">&#39;.tif&#39;</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+</section>
+<section id="Preparing-raster-for-optical-flow-and-displacement-calculation!">
+<h2>Preparing raster for optical flow and displacement calculation!<a class="headerlink" href="#Preparing-raster-for-optical-flow-and-displacement-calculation!" title="Link to this heading">¶</a></h2>
+<p>The data needs to be converted to “uint8” format and be calibrated and normalized.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+
+<span class="n">Raster_Correction</span><span class="p">(</span><span class="n">input_path</span><span class="o">=</span><span class="s2">&quot;./data/mudcreek/optical/image_dir_aoi&quot;</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;./data/mudcreek/optical/image_dir_aoi_filt&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                    <span class="n">lowpass_kernel_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bilateral_win_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">bilateral_sigma_color</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span>
+                                    <span class="n">bilateral_sigma_spatial</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span>
+                                    <span class="n">clip_percentiles</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">98</span><span class="p">],</span> <span class="n">optical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                    <span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Vegetation_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Applying-optical-flow-and-producing-time-series-deformation-products.">
+<h2>Applying optical flow and producing time-series deformation products.<a class="headerlink" href="#Applying-optical-flow-and-producing-time-series-deformation-products." title="Link to this heading">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">Optical_flow_akhdefo</span>
+
+<span class="n">Optical_flow_akhdefo</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/image_dir_aoi_filt&#39;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/geo&#39;</span><span class="p">,</span> <span class="n">AOI</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/AOI.shp&#39;</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                       <span class="n">ssim_thresh</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">image_resolution</span><span class="o">=</span><span class="s1">&#39;3.125m&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="s1">&#39;kriging&#39;</span><span class="p">,</span>
+                                       <span class="n">show_figure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">smoothing_kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                       <span class="n">Vegetation_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">VEL_scale</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">VEL_Mode</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">good_match_option</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+                                       <span class="n">hillshade_option</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shapefile_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_triplet_interval</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">overlap_percentage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pyr_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+                                       <span class="n">winsize</span><span class="o">=</span><span class="mi">148</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">poly_n</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">poly_sigma</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+                                       <span class="n">flags</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">master_reference</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span>
+                                       <span class="n">selection_Mode</span><span class="o">=</span><span class="s1">&#39;pair&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;20161001&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;20170518&#39;</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span> <span class="n">spatial_ref</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_detrend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:   0%|          | 0/18 [00:00&lt;?, ?it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: JBessel and score: 0.7911666939862032
+Error with model JBessel: Internal Error.
+kriging succeed with Model: JBessel and score: 0.9272232712901561
+Error with model JBessel: Internal Error.
+kriging succeed with Model: JBessel and score: 0.8244918594585541
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:   6%|▌         | 1/18 [00:07&lt;02:11,  7.72s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Stable: Internal Error.
+kriging succeed with Model: Stable and score: 0.9368175802657305
+Error with model Stable: Internal Error.
+Error with model Stable: Internal Error.
+kriging succeed with Model: Stable and score: 0.9433280729171764
+Error with model Exponential: Internal Error.
+Error with model Exponential: Internal Error.
+kriging succeed with Model: Exponential and score: 0.8689284278038711
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  11%|█         | 2/18 [00:13&lt;01:43,  6.47s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Stable: Internal Error.
+kriging succeed with Model: Stable and score: 0.8890076035605196
+kriging succeed with Model: Stable and score: 0.9305718030531345
+kriging succeed with Model: TPLSimple and score: 0.9658434103282912
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  17%|█▋        | 3/18 [00:21&lt;01:45,  7.03s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: HyperSpherical and score: 0.7849192714243927
+kriging succeed with Model: SuperSpherical and score: 0.9130460876937811
+kriging succeed with Model: Cubic and score: 0.9039088016064223
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  22%|██▏       | 4/18 [00:28&lt;01:40,  7.21s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Exponential and score: 0.6753174313108793
+Error with model JBessel: Internal Error.
+kriging succeed with Model: JBessel and score: 0.7449936741144396
+kriging succeed with Model: TPLSimple and score: 0.5427484321985416
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  28%|██▊       | 5/18 [00:34&lt;01:29,  6.86s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Spherical and score: 0.809362456752327
+Error with model Stable: Internal Error.
+kriging succeed with Model: Stable and score: 0.9836129429909383
+kriging succeed with Model: TPLSimple and score: 0.6192852328853489
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  33%|███▎      | 6/18 [00:40&lt;01:16,  6.40s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: JBessel and score: 0.7521020408649217
+Error with model JBessel: Internal Error.
+kriging succeed with Model: JBessel and score: 0.27862532349972147
+Error with model JBessel: Internal Error.
+kriging succeed with Model: JBessel and score: 0.18375956866850418
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  39%|███▉      | 7/18 [00:48&lt;01:16,  6.99s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: SuperSpherical and score: 0.9396315799939159
+kriging succeed with Model: Stable and score: 0.991132957202952
+kriging succeed with Model: Stable and score: 0.9248459323873356
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  44%|████▍     | 8/18 [00:54&lt;01:08,  6.80s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Stable and score: 0.9979933434788121
+kriging succeed with Model: SuperSpherical and score: 0.9887526237847432
+Error with model Exponential: Internal Error.
+kriging succeed with Model: Exponential and score: 0.9647804735621562
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  50%|█████     | 9/18 [01:00&lt;00:57,  6.44s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Exponential and score: 0.9209848303306938
+kriging succeed with Model: TPLSimple and score: 0.9855681473147527
+kriging succeed with Model: TPLSimple and score: 0.9838670500330621
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  56%|█████▌    | 10/18 [01:05&lt;00:47,  5.93s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Stable: Internal Error.
+kriging succeed with Model: Stable and score: 0.9883411158799006
+Error with model Integral: Internal Error.
+kriging succeed with Model: Integral and score: 0.9095280370134993
+kriging succeed with Model: Stable and score: 0.9602221997257957
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  61%|██████    | 11/18 [01:13&lt;00:46,  6.66s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: TPLSimple and score: 0.9777866351151664
+kriging succeed with Model: TPLSimple and score: 0.9949643297030596
+kriging succeed with Model: TPLSimple and score: 0.9783516506951963
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  67%|██████▋   | 12/18 [01:18&lt;00:37,  6.26s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Cubic: Internal Error.
+Error with model Cubic: Internal Error.
+Error with model Stable: Internal Error.
+kriging succeed with Model: Cubic and score: 0.9961100824102647
+kriging succeed with Model: Exponential and score: 0.9931319329348368
+kriging succeed with Model: TPLSimple and score: 0.9942513655525196
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  72%|███████▏  | 13/18 [01:24&lt;00:29,  5.95s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Integral and score: 0.9781628826920808
+kriging succeed with Model: Cubic and score: 0.9836900108289415
+kriging succeed with Model: Integral and score: 0.9709419898227433
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  78%|███████▊  | 14/18 [01:33&lt;00:27,  6.83s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Cubic and score: 0.9959090817561956
+kriging succeed with Model: Cubic and score: 0.9869928633368054
+kriging succeed with Model: SuperSpherical and score: 0.9937471836778992
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  83%|████████▎ | 15/18 [01:37&lt;00:18,  6.19s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model HyperSpherical: Internal Error.
+kriging succeed with Model: HyperSpherical and score: 0.983379737807484
+kriging succeed with Model: Stable and score: 0.9546784399110005
+kriging succeed with Model: Stable and score: 0.9500349675807382
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  89%|████████▉ | 16/18 [01:43&lt;00:12,  6.15s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Integral and score: 0.94905615888546
+Error with model HyperSpherical: Internal Error.
+kriging succeed with Model: HyperSpherical and score: 0.9877597817166767
+Error with model Integral: Internal Error.
+Error with model Integral: Internal Error.
+kriging succeed with Model: Integral and score: 0.9503652391176667
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  94%|█████████▍| 17/18 [01:52&lt;00:06,  6.90s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Stable and score: 0.9506612160819754
+kriging succeed with Model: Integral and score: 0.7677044185394831
+kriging succeed with Model: Stable and score: 0.8974744265134706
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing: 100%|██████████| 18/18 [02:00&lt;00:00,  6.70s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Wait for processing to complete writing data into shapefile for timeseries...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Preparing GeoDataFrames: 100%|██████████| 18/18 [00:00&lt;00:00, 702.64it/s]
+Preparing GeoDataFrames: 100%|██████████| 18/18 [00:00&lt;00:00, 706.58it/s]
+Preparing GeoDataFrames: 100%|██████████| 18/18 [00:00&lt;00:00, 706.18it/s]
+100%|██████████| 18/18 [00:00&lt;00:00, 39.28it/s]          | 0/3 [00:00&lt;?, ?it/s]
+100%|██████████| 18/18 [00:00&lt;00:00, 61.39it/s]███▎      | 1/3 [00:00&lt;00:00,  2.15it/s]
+100%|██████████| 18/18 [00:00&lt;00:00, 63.73it/s]██████▋   | 2/3 [00:00&lt;00:00,  2.72it/s]
+Processing:Updating and Cropping Rasters: 100%|██████████| 3/3 [00:01&lt;00:00,  2.84it/s]
+Processing: Update Shapefiles :   0%|          | 0/3 [00:00&lt;?, ?it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+processing ./data/mudcreek/optical/geo/temp_shapefile_dir/20161002_20170516_20170516_2DVEL.shp started...
+
+6187
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing: Update Shapefiles :  33%|███▎      | 1/3 [00:57&lt;01:55, 57.74s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ReferencePoint x, y: (642173.9361877441, 3969901.969345093), VEL, VEL_STD: (1.5979221704824795, 0.30505571931912323)
+processing ./data/mudcreek/optical/geo/temp_shapefile_dir/20161002_20170516_20170516_2DVEL.shp completed...
+
+processing ./data/mudcreek/optical/geo/temp_shapefile_dir/20161002_20170516_20170516_N.shp started...
+
+6187
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing: Update Shapefiles :  67%|██████▋   | 2/3 [01:56&lt;00:58, 58.21s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ReferencePoint x, y: (642173.9361877441, 3969901.969345093), VEL, VEL_STD: (-0.30986429249440184, 0.14352543259177572)
+processing ./data/mudcreek/optical/geo/temp_shapefile_dir/20161002_20170516_20170516_N.shp completed...
+
+processing ./data/mudcreek/optical/geo/temp_shapefile_dir/20161002_20170516_20170516_E.shp started...
+
+6187
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing: Update Shapefiles : 100%|██████████| 3/3 [02:56&lt;00:00, 58.85s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ReferencePoint x, y: (642173.9361877441, 3969901.969345093), VEL, VEL_STD: (-0.23847806577109107, 0.21122558112668038)
+processing ./data/mudcreek/optical/geo/temp_shapefile_dir/20161002_20170516_20170516_E.shp completed...
+
+Total Days: 226
+file used ./data/mudcreek/optical/geo/temp_shapefile_dir\updated_shapefiles\20161002_20170516_20170516_2DVEL.shp.xml
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+start calculating aspect...
+calculating aspect completed
+</pre></div></div>
+</div>
+</section>
+<section id="Temporal-cloud-free-optical-imagery-interval">
+<h2>Temporal cloud free optical imagery interval<a class="headerlink" href="#Temporal-cloud-free-optical-imagery-interval" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Utilizing optical imagery that offered less than 5 days of cloud-free coverage, especially during April 2017, proved highly advantageous in the period preceding the landslide failure.</p></li>
+<li><p>This frequent imaging enabled more precise and prompt tracking of the site’s changing conditions, offering essential insights unattainable with less regular monitoring techniques like the 12-day data acquisition intervals of Sentinel 1.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">AkhdefoPlot</span><span class="o">.</span><span class="n">plot_stackNetwork</span><span class="p">(</span><span class="n">src_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/image_dir_aoi_filt/&#39;</span><span class="p">,</span>
+                                                <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;tab20&#39;</span><span class="p">,</span> <span class="n">date_plot_interval</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">marker_size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_15_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_15_0.png" />
+</div>
+</div>
+<section id="Example-of-Structural-Similarity-Index-Map-(SSIM)">
+<h3>Example of Structural Similarity Index Map (SSIM)<a class="headerlink" href="#Example-of-Structural-Similarity-Index-Map-(SSIM)" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">import</span> <span class="nn">cmocean.cm</span> <span class="k">as</span> <span class="nn">cmo</span>
+
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">raster_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/geo/ssim/20161002_20161112_20161112.tif&#39;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/&#39;</span><span class="p">,</span>
+                                 <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Structural Similarity Index Map (SSIM)&#39;</span><span class="p">,</span>
+                   <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_file_name</span><span class="o">=</span><span class="s2">&quot;SSIM.png&quot;</span><span class="p">,</span>
+                   <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;similarity threshold&#39;</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_17_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_17_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Visualize-Displacement-Products">
+<h2>Visualize Displacement Products<a class="headerlink" href="#Visualize-Displacement-Products" title="Link to this heading">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Visualize Mean Velocity East-West</span>
+<span class="c1"># if set batch_plot=True it will plot static time series figure for each date acquisition</span>
+<span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/geo/temp_shapefile_dir/updated_shapefiles/20161002_20170516_20170516_E.shp&#39;</span><span class="p">,</span>
+                                       <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">out_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/E&#39;</span><span class="p">,</span>
+                                       <span class="n">color_field</span><span class="o">=</span><span class="s2">&quot;VEL&quot;</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                       <span class="n">MinMaxRange</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                                       <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                       <span class="n">cbar_label</span><span class="o">=</span><span class="s1">&#39;East-West (m/year)&#39;</span><span class="p">,</span>
+                                       <span class="n">batch_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_inverse_Vel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1">#Visualize Mean Velocity North-South</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/geo/temp_shapefile_dir/updated_shapefiles/20161002_20170516_20170516_N.shp&#39;</span><span class="p">,</span>
+                                       <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">out_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/N&#39;</span><span class="p">,</span>
+                                       <span class="n">color_field</span><span class="o">=</span><span class="s2">&quot;VEL&quot;</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                       <span class="n">MinMaxRange</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                                       <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                       <span class="n">cbar_label</span><span class="o">=</span><span class="s1">&#39;North-South (m/year)&#39;</span><span class="p">,</span>
+                                       <span class="n">batch_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_inverse_Vel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1">#Visualize Mean Velocity 2D Velocity</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/geo/temp_shapefile_dir/updated_shapefiles/20161002_20170516_20170516_2DVEL.shp&#39;</span><span class="p">,</span>
+                                       <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">out_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/2D&#39;</span><span class="p">,</span>
+                                       <span class="n">color_field</span><span class="o">=</span><span class="s2">&quot;VEL&quot;</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                       <span class="n">MinMaxRange</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                                       <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                       <span class="n">cbar_label</span><span class="o">=</span><span class="s1">&#39;2D-VEL (meter/year)&#39;</span><span class="p">,</span>
+                                       <span class="n">batch_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_inverse_Vel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_19_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_19_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_19_1.png" src="../_images/notebooks_MudCreek_Landslide_optical_19_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_19_2.png" src="../_images/notebooks_MudCreek_Landslide_optical_19_2.png" />
+</div>
+</div>
+<img alt="Step 1" src="../_images/movie.gif" />
+</section>
+<section id="Interactive-Time-Series-Analysis-in-a-Dash-Web-App">
+<h2>Interactive Time Series Analysis in a Dash Web App<a class="headerlink" href="#Interactive-Time-Series-Analysis-in-a-Dash-Web-App" title="Link to this heading">¶</a></h2>
+<p>This plot is part of an interactive web application. Users have the ability to select groups of data points using either the box select or lasso tool, which are superimposed on a satellite image base map. The selected data will then be reflected in the time series chart. Additionally, users can customize the axis labels to suit their dataset; for example, if the dataset measures displacement or velocity in meters, the y-axis label can be adjusted accordingly from the default mm. Furthermore,
+users can download their analysis and the generated figures directly from the web application.</p>
+</section>
+<section id="Screenshot-of-the-dash-appp-interface">
+<h2>Screenshot of the dash appp interface<a class="headerlink" href="#Screenshot-of-the-dash-appp-interface" title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#![Step 1](./data/mudcreek/optical/screenshot.png)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="sample-exported-analysis-from-Time-series">
+<h2>sample exported analysis from Time-series<a class="headerlink" href="#sample-exported-analysis-from-Time-series" title="Link to this heading">¶</a></h2>
+<img alt="dash2d_optical output sample1" src="../_images/2dprofile2.png" />
+<img alt="dash2d_optical output sample2" src="../_images/2dvelmap1.png" />
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_dashApp</span><span class="p">(</span>
+<span class="n">Path_to_Shapefile</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/geo/temp_shapefile_dir/updated_shapefiles/20161002_20170516_20170516_2DVEL.shp&#39;</span><span class="p">,</span>
+                                  <span class="n">port</span><span class="o">=</span><span class="mi">8049</span><span class="p">,</span> <span class="n">BaseMap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">basemap_type</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_dashApp</span><span class="p">(</span>
+<span class="n">Path_to_Shapefile</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/geo/temp_shapefile_dir/updated_shapefiles/20161002_20170516_20170516_N.shp&#39;</span><span class="p">,</span>
+                                  <span class="n">port</span><span class="o">=</span><span class="mi">8056</span><span class="p">,</span> <span class="n">BaseMap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">basemap_type</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">akhdefo_dashApp</span><span class="p">(</span>
+<span class="n">Path_to_Shapefile</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/geo/temp_shapefile_dir/updated_shapefiles/20161002_20170516_20170516_E.shp&#39;</span><span class="p">,</span>
+                                  <span class="n">port</span><span class="o">=</span><span class="mi">8055</span><span class="p">,</span> <span class="n">BaseMap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">basemap_type</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Kriging-Interpolation-using-Akhdefo-workflow">
+<h2>Kriging Interpolation using Akhdefo workflow<a class="headerlink" href="#Kriging-Interpolation-using-Akhdefo-workflow" title="Link to this heading">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">Auto_Variogram</span>
+
+<span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/geo/temp_shapefile_dir/updated_shapefiles/20161002_20170516_20170516_N.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span>
+               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1&#39;</span>
+               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/AOI.shp&#39;</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span> <span class="n">detrend_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/geo/temp_shapefile_dir/updated_shapefiles/20161002_20170516_20170516_E.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span>
+               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1&#39;</span>
+               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/AOI.shp&#39;</span> <span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span> <span class="n">detrend_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+
+<span class="n">Auto_Variogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/geo/temp_shapefile_dir/updated_shapefiles/20161002_20170516_20170516_2DVEL.shp&#39;</span><span class="p">,</span> <span class="n">column_attribute</span><span class="o">=</span><span class="s1">&#39;VEL&#39;</span>
+               <span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">out_fileName</span><span class="o">=</span><span class="s1">&#39;2DVEL&#39;</span><span class="p">,</span> <span class="n">geo_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1&#39;</span><span class="p">,</span> <span class="n">plot_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1&#39;</span>
+               <span class="p">,</span> <span class="n">smoothing_kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">latlon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aoi_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/AOI.shp&#39;</span> <span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span> <span class="n">detrend_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">calculate_and_save_aspect_raster</span><span class="p">(</span><span class="n">ew_raster_path</span><span class="o">=</span> <span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/E_universal.tif&#39;</span><span class="p">,</span>
+                                                   <span class="n">ns_raster_path</span><span class="o">=</span> <span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/N_universal.tif&#39;</span><span class="p">,</span>
+                                 <span class="n">output_raster_path</span><span class="o">=</span> <span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/aspect.tif&#39;</span><span class="p">)</span>
+
+<span class="c1"># Auto_Variogram(data=&#39;./data/mudcreek/optical/geo/temp_shapefile_dir/updated_shapefiles/20161002_20170516_20170516_2DVEL.shp&#39;, column_attribute=&#39;aspect&#39;</span>
+<span class="c1">#                , pixel_size=10, num_chunks=4, out_fileName=&#39;aspect&#39;, geo_folder=&#39;./data/mudcreek/optical/interpolated_VEL_products1&#39;, plot_folder=&#39;./data/mudcreek/optical/interpolated_VEL_products1&#39;</span>
+<span class="c1">#                , smoothing_kernel=3, latlon=False, aoi_shapefile=&#39;./data/mudcreek/AOI.shp&#39; , krig_method=&#39;universal&#39;, detrend_data=True)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: SuperSpherical and score: 0.9979645564083159
+kriging succeed with Model: Integral and score: 0.9955343276407005
+kriging succeed with Model: Stable and score: 0.996670861730289
+</pre></div></div>
+</div>
+<section id="Calculating-slope-angle-map-relative-to-2D-displacement-aspect-map.">
+<h3>Calculating slope angle map relative to 2D displacement aspect map.<a class="headerlink" href="#Calculating-slope-angle-map-relative-to-2D-displacement-aspect-map." title="Link to this heading">¶</a></h3>
+<p>The vector’s magnitude (aspect), known as the directional gradient, is found using the Pythagorean theorem, which combines the gradient in both the x and y directions. Mathematically, it is expressed as: the below mathematical equations taken from the NumPy python library gradient function (Harris et al., 2020).</p>
+<p>For a digital elevation model (DEM) or any scalar field represented as a 2D array DEM, with spacing (pixel dimensions) dx in the x-direction and dy in the y-direction, the gradient is computed as follows:</p>
+<ul>
+<li><p>grade_x: This is the partial derivative of DEM with respect to x, representing the rate of change of the function along the x-axis. Mathematically, it’s expressed as:</p>
+<p>∂f/∂x= (f(x_i+1,y_j) - f(x_i-1,y_j)) / (2 * dx) where grade_x=∂f/∂x</p>
+</li>
+<li><p>grade_y: This is the partial derivative of DEM with respect to y, representing the rate of change of the function along the y-axis. Mathematically, it’s expressed as:</p>
+<p>∂f/∂y= (f(x_i,y_j+1) - f(x_i,y_j-1)) / (2 * dy) where grade_y=∂f/∂y</p>
+</li>
+</ul>
+<p>Given the aspect, gradient in x-direction(grade_x), and gradient in y-direction(grade_y), the directional gradient, representing the rate of change of the scalar field in the direction of the aspect, is given by.</p>
+<p>Directional Gradient = cos(θ) * grade_x + sin(θ) * grade_y</p>
+<ul>
+<li><p>For a given pixel, if the elevation and location before and after displacement are known (from L1 to L2), one can calculate the vertical change (rise). This vertical change is the elevation difference between the displaced position (L2) and the original position (L1). The horizontal distance (run) is the pixel dimension, which is the distance between L1 and the projected position L1’ on the horizontal plane directly beneath L2. The slope angle at pixel p is then calculated by taking the
+arctangent of the ratio of the rise to the run. The arctangent function yields the angle in radians between the line representing the rise and the horizontal distance (run), which is the angle of the slope. It is expressed as:</p>
+<p>slope angle=arctan(Directional Gradient)</p>
+</li>
+</ul>
+<p>This process is repeated across the entire DEM to produce a slope angle map, which is a representation of the terrain’s steepness at every point (pixel).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="c1">#%matplotlib widget</span>
+<span class="c1"># Constants and calculations</span>
+<span class="n">initial_elevation</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Elevation at point L1 in meters</span>
+<span class="n">distance_moved</span> <span class="o">=</span> <span class="mi">11</span>  <span class="c1"># Horizontal distance between L1 and L2 in meters</span>
+<span class="n">slope_angle_degrees</span> <span class="o">=</span> <span class="mi">35</span>  <span class="c1"># Desired slope angle in degrees</span>
+<span class="n">aspect</span> <span class="o">=</span> <span class="mi">45</span>  <span class="c1"># Aspect angle in degrees</span>
+
+<span class="c1"># Convert slope angle to radians</span>
+<span class="n">slope_angle_radians</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">slope_angle_degrees</span><span class="p">)</span>
+
+<span class="c1"># Calculate the elevation difference</span>
+<span class="n">elevation_difference</span> <span class="o">=</span> <span class="n">distance_moved</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">slope_angle_radians</span><span class="p">)</span>
+
+<span class="c1"># Elevation at point L2</span>
+<span class="n">elevation_L2</span> <span class="o">=</span> <span class="n">initial_elevation</span> <span class="o">+</span> <span class="n">elevation_difference</span>
+
+<span class="c1"># Position of L1 in 3D space</span>
+<span class="n">L1_3D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">initial_elevation</span><span class="p">])</span>
+
+<span class="c1"># Calculate horizontal components based on aspect angle</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">distance_moved</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">aspect</span><span class="p">))</span>
+<span class="n">dy</span> <span class="o">=</span> <span class="n">distance_moved</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">aspect</span><span class="p">))</span>
+
+<span class="c1"># Position of L2 in 3D space considering aspect angle</span>
+<span class="n">L2_3D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">elevation_L2</span><span class="p">])</span>
+
+<span class="c1"># Position of L1&#39; (horizontal displacement of L1)</span>
+<span class="n">L1_prime_3D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">initial_elevation</span><span class="p">])</span>
+
+<span class="c1"># Creating the 3D plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plotting points L1, L1&#39; and L2</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">L1_3D</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;L1 (Initial pixel location)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">L1_prime_3D</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;L1&#39; (adjacent pixel location in the direction of aspect displacement)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">L2_3D</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;L2 (Elevation: </span><span class="si">{</span><span class="n">elevation_L2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">m)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Drawing the triangle sides</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="s1">&#39;g--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Base[pixel width size] (L1 to L1</span><span class="se">\&#39;</span><span class="s1">) in the direction of displacement aspect&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;pixel height[magnitude] (L1</span><span class="se">\&#39;</span><span class="s1"> to L2)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Slope (L1 to L2)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Traces for df/dx and df/dy</span>
+
+
+<span class="c1"># Calculating grade_x and grade_y (the slope components in the x and y directions)</span>
+<span class="n">grade_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">slope_angle_radians</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">aspect</span><span class="p">))</span>
+<span class="n">grade_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">slope_angle_radians</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">aspect</span><span class="p">))</span>
+
+
+<span class="c1"># Extending the traces from L1 to some distance in the direction of the gradient</span>
+<span class="n">trace_length</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Adjust this as needed</span>
+<span class="n">df_dx_end</span> <span class="o">=</span> <span class="n">L1_3D</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">trace_length</span> <span class="o">*</span> <span class="n">grade_x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">df_dy_end</span> <span class="o">=</span> <span class="n">L1_3D</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">trace_length</span> <span class="o">*</span> <span class="n">grade_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df_dx_end</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">df_dx_end</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">df_dx_end</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;grade_x trace&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df_dy_end</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">df_dy_end</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">df_dy_end</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;grade_y trace&#39;</span><span class="p">)</span>
+
+<span class="c1"># Moving the labels for df/dx and df/dy next to their traces</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">df_dx_end</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df_dx_end</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">df_dx_end</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="sa">f</span><span class="s1">&#39;grade_x: </span><span class="si">{</span><span class="n">grade_x</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">df_dy_end</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df_dy_end</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">df_dy_end</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="sa">f</span><span class="s1">&#39;grade_y: </span><span class="si">{</span><span class="n">grade_y</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
+<span class="c1"># Label offsets (adjust as needed)</span>
+<span class="n">label_offset</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="c1"># Labeling the points and the slope angle</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">label_offset</span><span class="p">,</span> <span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;L1&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">label_offset</span><span class="p">,</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;L1&#39;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">L2_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">label_offset</span><span class="p">,</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L2_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;L2&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+
+<span class="c1"># Label for the slope angle</span>
+<span class="n">midpoint</span> <span class="o">=</span> <span class="p">(</span><span class="n">L1_3D</span> <span class="o">+</span> <span class="n">L2_3D</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">midpoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">label_offset</span><span class="p">,</span> <span class="n">midpoint</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">midpoint</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="sa">f</span><span class="s1">&#39;slope angle: </span><span class="si">{</span><span class="n">slope_angle_degrees</span><span class="si">}</span><span class="s1">°&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;magenta&#39;</span><span class="p">)</span>
+
+<span class="c1"># Axes labels</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;X Axis&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Y Axis&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;Elevation (m)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+<span class="c1"># Setting the viewing angle and title</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="n">elev</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">azim</span><span class="o">=-</span><span class="mi">60</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;3D Visualization of Slope and aspect with known elevation&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+<span class="c1"># Labeling dx and dy</span>
+<span class="c1"># Label offsets (adjust as needed)</span>
+<span class="n">label_offset</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">label_offset</span><span class="p">,</span> <span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;dx&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">L1_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">L1_prime_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">L1_3D</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;dy&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># Legend</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_33_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_33_0.png" />
+</div>
+</div>
+</section>
+<section id="Calculting-hight-change-from-slope-angle-map,-2D-displacement-aspect-map-and-2D-displacement-magnitude.">
+<h3>Calculting hight change from slope angle map, 2D displacement aspect map and 2D displacement magnitude.<a class="headerlink" href="#Calculting-hight-change-from-slope-angle-map,-2D-displacement-aspect-map-and-2D-displacement-magnitude." title="Link to this heading">¶</a></h3>
+<p>Once the slope angle relative to the resultant displacement aspect has been calculated, we can incorporate to find the vertical change for the resultant horizontal displacement magnitude relative to the aspect and slope angle map. Given that the slope angle (θ), aspect and the horizontal displacement (the distance from L1 to h) are known (Fig. 5b), we can use these to find the elevation difference, which is the rise in the right triangle formed by the displacement from L1 to L2. The tangent of
+the slope angle is the ratio of the rise (elevation change) over the run (horizontal displacement), expressed as: tan(θ)=Rise/Run</p>
+<p>Where “Run” is the horizontal distance from L1 to H (resultant two-dimensional horizontal displacement magnitude). and the “Rise” (elevation change, from H to L2) is calculated using the formula below. Rise=tan(θ)×Run</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1">#%matplotlib widget</span>
+<span class="c1"># Given values</span>
+<span class="n">elevation_L1</span> <span class="o">=</span> <span class="mi">200</span>  <span class="c1"># Elevation at L1 in meters</span>
+<span class="n">horizontal_distance_L1_h</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Horizontal distance from L1 to h in meters</span>
+<span class="n">slope_angle_degrees</span> <span class="o">=</span> <span class="mi">35</span>  <span class="c1"># Slope angle in degrees</span>
+<span class="n">aspect_angle_degrees</span> <span class="o">=</span> <span class="mi">45</span>  <span class="c1"># Aspect angle from L1 to h, 45 degrees NE</span>
+
+<span class="c1"># Convert the slope angle and aspect angle to radians for calculation</span>
+<span class="n">slope_angle_radians</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">slope_angle_degrees</span><span class="p">)</span>
+<span class="n">aspect_angle_radians</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">aspect_angle_degrees</span><span class="p">)</span>
+
+<span class="c1"># Calculate the height change using the tangent of the slope angle and the horizontal distance</span>
+<span class="n">height_change</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">slope_angle_radians</span><span class="p">)</span> <span class="o">*</span> <span class="n">horizontal_distance_L1_h</span>
+
+<span class="c1"># Since the aspect is 45 degrees NE, the horizontal components in both x and y directions will be the same</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">horizontal_distance_L1_h</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># Coordinates for L1, h, and L2 with 45 degrees NE aspect</span>
+<span class="n">L1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">elevation_L1</span><span class="p">])</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">elevation_L1</span><span class="p">])</span>
+<span class="n">L2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">elevation_L1</span> <span class="o">+</span> <span class="n">height_change</span><span class="p">])</span>
+
+<span class="c1"># Recreate the diagram with the updated positions and labels</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot the points L1, h, and L2</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">L1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;L1 (Elevation: 200m)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H (100m NE from L1)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">L2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;L2&#39;</span><span class="p">)</span>
+
+<span class="c1"># Draw the lines between the points</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;(Slope line)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">L1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">L1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Horizontal displacement(100m NE)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">h</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">L2</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Height Change (</span><span class="si">{</span><span class="n">height_change</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">m Rise)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Annotate the slope angle θ</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="n">L1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mf">2.3</span><span class="p">,</span> <span class="p">(</span><span class="n">L1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">elevation_L1</span> <span class="o">+</span> <span class="n">height_change</span><span class="o">/</span><span class="mf">2.5</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39; </span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> slope angle (θ) =</span><span class="si">{</span><span class="n">slope_angle_degrees</span><span class="si">}</span><span class="s1">°&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="c1"># Set labels and title</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Eastward Distance (m)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Northward Distance (m)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;Elevation (m)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;3D Analysis of Displacement and Slope&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+<span class="c1"># Display the legend</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Show plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_MudCreek_Landslide_optical_35_0.png" src="../_images/notebooks_MudCreek_Landslide_optical_35_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Calculating-Approximate-Volume-of-bedrock-from-the-displacement-and-digitial-elevation-model">
+<h2>Calculating Approximate Volume of bedrock from the displacement and digitial elevation model<a class="headerlink" href="#Calculating-Approximate-Volume-of-bedrock-from-the-displacement-and-digitial-elevation-model" title="Link to this heading">¶</a></h2>
+<p>In May 20th 2017, a catstrophic landslide occured in MudCreek, California USA. The Total removal of bedrock and materials measured from lidar and photogrammetry topography change detecion estimate about 5 million cubic yards equall to approximately 3 million cubic meters. In this example, we estimated landslide failure volume based on the time-series linear-annual velocity calulated approximately one year before landslide occur.</p>
+<section id="Our-method-gave-potential-landslide-volume-two-million-and-nine-handred-seventy-six-thousand-cubic-meter-which-is-very-close-to-the-actual-landslide-volume-measured-from-lidar-dem-change-detection.">
+<h3>Our method gave potential landslide volume two million and nine-handred seventy six thousand cubic meter which is very close to the actual landslide volume measured from lidar dem change detection.<a class="headerlink" href="#Our-method-gave-potential-landslide-volume-two-million-and-nine-handred-seventy-six-thousand-cubic-meter-which-is-very-close-to-the-actual-landslide-volume-measured-from-lidar-dem-change-detection." title="Link to this heading">¶</a></h3>
+<section id="Reference-for-actual-volume-collapse-estimation:-####-https://www.usgs.gov/publications/characterizing-catastrophic-2017-mud-creek-landslide-california-using-repeat-structure">
+<h4>Reference for actual volume collapse estimation: #### <a class="reference external" href="https://www.usgs.gov/publications/characterizing-catastrophic-2017-mud-creek-landslide-california-using-repeat-structure">https://www.usgs.gov/publications/characterizing-catastrophic-2017-mud-creek-landslide-california-using-repeat-structure</a><a class="headerlink" href="#Reference-for-actual-volume-collapse-estimation:-####-https://www.usgs.gov/publications/characterizing-catastrophic-2017-mud-creek-landslide-california-using-repeat-structure" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>All the datasets are avilable on github.</p></li>
+<li><p>For the current example, displacemnts dervied from 3 meter optical imagery and the pre collapse dem used 3 meter dem (originally 10m NED but resampled to match the source displacement measurments). it worthwhile to mention that the dem resolution has influnece in the accuracy of the volume estimation.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">displacement_to_volume</span><span class="p">(</span><span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">aspect_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/aspect.tif&#39;</span><span class="p">,</span>
+                                         <span class="n">displacement_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/2DVEL_universal.tif&#39;</span><span class="p">,</span>
+                                         <span class="n">slope_output_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/slope.tif&#39;</span><span class="p">,</span>
+                                         <span class="n">height_output_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/height.tif&#39;</span><span class="p">,</span> <span class="n">volume_output_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/volume.tif&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Total Volume: -1731906.375 cubic meter
+</pre></div></div>
+</div>
+</section>
+</section>
+</section>
+<section id="Caluclating-Plune-and-Trend-and-3D-Velocity-of-deformation">
+<h2>Caluclating Plune and Trend and 3D Velocity of deformation<a class="headerlink" href="#Caluclating-Plune-and-Trend-and-3D-Velocity-of-deformation" title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">Akhdefo_inversion</span><span class="p">(</span><span class="n">horizontal_InSAR</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/E_universal.tif&#39;</span><span class="p">,</span>
+                                    <span class="n">Vertical_InSAR</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/height.tif&#39;</span><span class="p">,</span> <span class="n">EW_Akhdefo</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/E_universal.tif&#39;</span><span class="p">,</span>
+                                    <span class="n">NS_Akhdefo</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/E_universal.tif&#39;</span><span class="p">,</span> <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span>
+                                    <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/inversion&#39;</span>
+                                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Visualizing-Products">
+<h2>Visualizing Products<a class="headerlink" href="#Visualizing-Products" title="Link to this heading">¶</a></h2>
+<ul>
+<li><p class="rubric" id="post-failure-mudcreek-orthophoto">Post failure Mudcreek orthophoto</p>
+<p><img alt="Alt text" src="../_images/MudCreek27May2017.jpg" /></p>
+</li>
+</ul>
+<img alt="velocity" src="../_images/2DVEL_WithVectorMotion1.png" />
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">import</span> <span class="nn">cmocean.cm</span> <span class="k">as</span> <span class="nn">cmo</span>
+
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">raster_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/2DVEL_universal.tif&#39;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2D Velocity with Vector Motion&#39;</span><span class="p">,</span>
+                   <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_file_name</span><span class="o">=</span><span class="s2">&quot;2DVEL_WithVectorMotion_dem_sparse.png&quot;</span><span class="p">,</span>
+                   <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;meter/year&#39;</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products1/aspect.tif&#39;</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span> <span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">import</span> <span class="nn">cmocean.cm</span> <span class="k">as</span> <span class="nn">cmo</span>
+
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">raster_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/2DVEL.tif&#39;</span><span class="p">,</span>
+                                 <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2D Velocity with Vector Motion&#39;</span><span class="p">,</span>
+                   <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_file_name</span><span class="o">=</span><span class="s2">&quot;2DVEL_WithVectorMotion_dem.png&quot;</span><span class="p">,</span>
+                   <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;hot_r&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;meter/year&#39;</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/aspect.tif&#39;</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span> <span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Plunge-of-displacement-Velocity">
+<h2>Plunge of displacement Velocity<a class="headerlink" href="#Plunge-of-displacement-Velocity" title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">import</span> <span class="nn">cmocean.cm</span> <span class="k">as</span> <span class="nn">cmo</span>
+
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">raster_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/inversion/plung_degree.tif&#39;</span><span class="p">,</span>
+                                 <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Plunge of Displacement with Aspect&#39;</span><span class="p">,</span>
+                   <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_file_name</span><span class="o">=</span><span class="s2">&quot;Plunge_VEL.png&quot;</span><span class="p">,</span>
+                   <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;degrees&#39;</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/aspect.tif&#39;</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span> <span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">import</span> <span class="nn">cmocean.cm</span> <span class="k">as</span> <span class="nn">cmo</span>
+
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">raster_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/2DVEL.tif&#39;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2D Velocity with Vector Motion&#39;</span><span class="p">,</span>
+                   <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_file_name</span><span class="o">=</span><span class="s2">&quot;2DVEL_WithVectorMotion.png&quot;</span><span class="p">,</span>
+                   <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;meter/year&#39;</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/aspect.tif&#39;</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span> <span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">import</span> <span class="nn">cmocean.cm</span> <span class="k">as</span> <span class="nn">cmo</span>
+
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/basemap.tif&#39;</span><span class="p">,</span> <span class="n">raster_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/inversion/D3D.tif&#39;</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;3D Velocity with Vector Motion&#39;</span><span class="p">,</span>
+                   <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_file_name</span><span class="o">=</span><span class="s2">&quot;3DVEL_WithVectorMotion.png&quot;</span><span class="p">,</span>
+                   <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;hot_r&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;meter/year&#39;</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/aspect.tif&#39;</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span> <span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">import</span> <span class="nn">cmocean.cm</span> <span class="k">as</span> <span class="nn">cmo</span>
+
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">raster_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/height.tif&#39;</span><span class="p">,</span>
+                                 <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;height_change with Vector Motion&#39;</span><span class="p">,</span>
+                   <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_file_name</span><span class="o">=</span><span class="s2">&quot;height_change_WithVectorMotion.png&quot;</span><span class="p">,</span>
+                   <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                   <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;meter&#39;</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/aspect.tif&#39;</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span> <span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">import</span> <span class="nn">cmocean.cm</span> <span class="k">as</span> <span class="nn">cmo</span>
+
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span><span class="n">path_to_dem_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">raster_file</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/volume.tif&#39;</span><span class="p">,</span>
+                                 <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Volume_change with Vector Motion&#39;</span><span class="p">,</span>
+                   <span class="n">pixel_resolution_meters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_file_name</span><span class="o">=</span><span class="s2">&quot;Volume_change_WithVectorMotion.png&quot;</span><span class="p">,</span>
+                   <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_data_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;cubic meter&#39;</span><span class="p">,</span> <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aspect_raster</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/interpolated_VEL_products/aspect.tif&#39;</span><span class="p">,</span> <span class="n">cmap_aspect</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span> <span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Creating-Time-series-cummulative-GIF-animation-map">
+<h2>Creating Time-series cummulative GIF animation map<a class="headerlink" href="#Creating-Time-series-cummulative-GIF-animation-map" title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">import</span> <span class="nn">cmocean.cm</span> <span class="k">as</span> <span class="nn">cmo</span>
+<span class="c1">#Visualize Mean Velocity 2D Velocity</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">MeanProducts_plot_ts</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/geo/temp_shapefile_dir/updated_shapefiles/20161002_20170516_20170516_2DVEL.shp&#39;</span><span class="p">,</span>
+                                       <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/dem.tif&#39;</span><span class="p">,</span> <span class="n">out_folder</span><span class="o">=</span><span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/2D_TS_map&#39;</span><span class="p">,</span>
+                                       <span class="n">color_field</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                       <span class="n">MinMaxRange</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+                                       <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;hot_r&#39;</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                       <span class="n">cbar_label</span><span class="o">=</span><span class="s1">&#39;2D VELOCITY in (meter)</span><span class="se">\n</span><span class="s1"> MudCreek 2017-Landslide</span><span class="se">\n</span><span class="s1"> Processed by: akhdefo software using optical imagery </span><span class="se">\n</span><span class="s1"> from 20161002 to 20170516&#39;</span><span class="p">,</span>
+                                       <span class="n">batch_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">imageio</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<span class="c1"># Parameters</span>
+<span class="n">images_folder</span> <span class="o">=</span> <span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/2D_TS_map&#39;</span>
+<span class="n">output_gif_path</span> <span class="o">=</span> <span class="s1">&#39;./data/mudcreek/optical/Figs_analysis/2D_GIFoutput1.gif&#39;</span>
+<span class="n">frame_duration</span> <span class="o">=</span> <span class="mi">750</span> <span class="c1"># seconds</span>
+<span class="n">transition_frames</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># number of frames for the transition</span>
+
+<span class="c1"># Function to create a cross-fade transition</span>
+<span class="k">def</span> <span class="nf">crossfade_images</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">steps</span><span class="p">):</span>
+    <span class="n">transition_images</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+        <span class="c1"># Calculate the alpha for each step</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+        <span class="c1"># Ensure both images have the same mode for blending</span>
+        <span class="k">if</span> <span class="n">image1</span><span class="o">.</span><span class="n">mode</span> <span class="o">!=</span> <span class="n">image2</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+            <span class="n">image2</span> <span class="o">=</span> <span class="n">image2</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">image1</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+        <span class="n">blended</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">blend</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+        <span class="n">transition_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">blended</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">transition_images</span>
+
+<span class="c1"># Load and sort images</span>
+<span class="n">image_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">images_folder</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">images_folder</span><span class="p">)</span> <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s1">&#39;.png&#39;</span><span class="p">,</span> <span class="s1">&#39;.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;.jpeg&#39;</span><span class="p">))])</span>
+<span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;RGBA&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">image_files</span><span class="p">]</span>
+
+<span class="c1"># Create frames with transitions</span>
+<span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)):</span>
+    <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  <span class="c1"># Add the original frame</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># If not the last image, create a transition to the next</span>
+        <span class="n">frames</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">crossfade_images</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">images</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">transition_frames</span><span class="p">))</span>
+
+<span class="c1"># Save frames to disk temporarily to avoid large memory usage</span>
+<span class="n">temp_files</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">images</span><span class="p">):</span>
+    <span class="n">temp_file_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;temp_frame_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">.png&#39;</span>
+    <span class="n">frame</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">temp_file_path</span><span class="p">,</span> <span class="s1">&#39;PNG&#39;</span><span class="p">)</span>
+    <span class="n">temp_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_file_path</span><span class="p">)</span>
+
+<span class="c1"># Create and save the GIF</span>
+<span class="k">with</span> <span class="n">imageio</span><span class="o">.</span><span class="n">get_writer</span><span class="p">(</span><span class="n">output_gif_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="n">frame_duration</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">temp_files</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">imageio</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">append_data</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+<span class="c1"># Clean up the temporary files</span>
+<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">temp_files</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;GIF saved to </span><span class="si">{</span><span class="n">output_gif_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p>This map is produced from InSAR Time-series by JPL</p></li>
+</ul>
+<img alt="insar_jpl" src="../_images/insar_ts_nasa.gif" />
+<ul class="simple">
+<li><p>This Map is produced by Akhdefo using Optical Imagery</p></li>
+</ul>
+<img alt="akhdefo_ts_anim" src="../_images/2D_GIFoutput1.gif" />
+</section>
+<section id="A-small-python-script-to-create-location-map-with-inset-map">
+<h2>A small python script to create location map with inset map<a class="headerlink" href="#A-small-python-script-to-create-location-map-with-inset-map" title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+
+<span class="c1">#Use  Your Mapbox access token</span>
+<span class="n">mapbox_access_token</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+<span class="c1"># Data for points</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Latitude&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">43.000364</span><span class="p">,</span> <span class="mf">35.865</span><span class="p">,</span> <span class="mf">49.68</span><span class="p">],</span>
+    <span class="s2">&quot;Longitude&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="mf">76.995878</span><span class="p">,</span> <span class="o">-</span><span class="mf">121.428</span><span class="p">,</span> <span class="o">-</span><span class="mf">123.140</span><span class="p">],</span>
+    <span class="s2">&quot;Label&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Morenny-Kazakhstan&#39;</span><span class="p">,</span> <span class="s1">&#39;Mudcreek-USA&#39;</span><span class="p">,</span> <span class="s1">&#39;Squamish Chief-Canada&#39;</span><span class="p">]</span> <span class="p">,</span> <span class="s2">&quot;point_color&quot;</span><span class="p">:[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Creating the main figure</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+<span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span> <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;point_color&#39;</span><span class="p">]))</span>
+
+<span class="c1"># Adding the main map with a 2D projection</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+    <span class="n">go</span><span class="o">.</span><span class="n">Scattergeo</span><span class="p">(</span>
+        <span class="n">lon</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">],</span>
+        <span class="n">lat</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">],</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">],</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;markers+text&#39;</span><span class="p">,</span>
+        <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">),</span>
+        <span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;top center&#39;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Main Map&quot;</span>  <span class="c1"># Name of the main trace in the legend</span>
+        <span class="p">,</span> <span class="n">textfont</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="s1">&#39;Arial, sans-serif&#39;</span><span class="p">),</span> <span class="c1"># Updated text font</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Setting the layout for the main map</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">title_text</span><span class="o">=</span><span class="s1">&#39;Main Map with Inset Maps&#39;</span><span class="p">,</span>
+    <span class="n">geo</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;world&#39;</span><span class="p">,</span>
+        <span class="n">projection_type</span><span class="o">=</span><span class="s1">&#39;equirectangular&#39;</span><span class="p">,</span>
+        <span class="n">showcountries</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">countrycolor</span><span class="o">=</span><span class="s2">&quot;DarkBlue&quot;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># Adjusted domain for the main map,</span>
+
+
+
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="c1"># Adding inset maps with Mapbox satellite imagery</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+        <span class="n">go</span><span class="o">.</span><span class="n">Scattermapbox</span><span class="p">(</span>
+            <span class="n">lat</span><span class="o">=</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">]],</span>
+            <span class="n">lon</span><span class="o">=</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">]],</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">],</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;markers+text&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">],</span>
+            <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;point_color&#39;</span><span class="p">]),</span>
+            <span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;bottom center&#39;</span><span class="p">,</span>
+            <span class="n">subplot</span><span class="o">=</span><span class="s1">&#39;mapbox&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span>  <span class="c1"># Creating a subplot for each inset map</span>
+
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">layout</span><span class="p">[</span><span class="s1">&#39;mapbox&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">accesstoken</span><span class="o">=</span><span class="n">mapbox_access_token</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>  <span class="c1"># Adjust x values for horizontal alignment</span>
+            <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]</span>  <span class="c1"># Inset maps at the bottom</span>
+        <span class="p">),</span>
+        <span class="n">center</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">],</span> <span class="n">lon</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">]),</span>
+        <span class="n">zoom</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="s1">&#39;satellite-streets&#39;</span><span class="p">,</span>  <span class="c1"># Using Mapbox satellite style</span>
+    <span class="p">)</span>
+    <span class="c1"># Set left, right, top, and bottom margins to 0)</span>
+
+<span class="c1"># Save the combined map as an HTML file</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;./data/combined_geo_map.html&quot;</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">write_html</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+<span class="c1"># Save the figure as a PNG file</span>
+<span class="c1"># Specify the file path for the PNG file</span>
+<span class="n">png_file_path</span> <span class="o">=</span> <span class="s2">&quot;./data/combined_geo_map.png&quot;</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span><span class="n">png_file_path</span><span class="p">)</span>
+<span class="c1">#fig.show()</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/akhdefo_logo.svg" alt="Logo"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">MudCreek 2017 Landslide Optical Imagery Example</a><ul>
+<li><a class="reference internal" href="#Download-data-from-planet.com-website">Download data from planet.com website</a></li>
+<li><a class="reference internal" href="#Import-AkhDefo-Packages.">Import AkhDefo Packages.</a></li>
+<li><a class="reference internal" href="#Download-Data-using-Planetlab-API-Account">Download Data using Planetlab API Account</a></li>
+<li><a class="reference internal" href="#Extract-downloaded-zip-files">Extract downloaded zip files</a></li>
+<li><a class="reference internal" href="#Preparing-raster-for-optical-flow-and-displacement-calculation!">Preparing raster for optical flow and displacement calculation!</a></li>
+<li><a class="reference internal" href="#Applying-optical-flow-and-producing-time-series-deformation-products.">Applying optical flow and producing time-series deformation products.</a></li>
+<li><a class="reference internal" href="#Temporal-cloud-free-optical-imagery-interval">Temporal cloud free optical imagery interval</a><ul>
+<li><a class="reference internal" href="#Example-of-Structural-Similarity-Index-Map-(SSIM)">Example of Structural Similarity Index Map (SSIM)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Visualize-Displacement-Products">Visualize Displacement Products</a></li>
+<li><a class="reference internal" href="#Interactive-Time-Series-Analysis-in-a-Dash-Web-App">Interactive Time Series Analysis in a Dash Web App</a></li>
+<li><a class="reference internal" href="#Screenshot-of-the-dash-appp-interface">Screenshot of the dash appp interface</a></li>
+<li><a class="reference internal" href="#sample-exported-analysis-from-Time-series">sample exported analysis from Time-series</a></li>
+<li><a class="reference internal" href="#Kriging-Interpolation-using-Akhdefo-workflow">Kriging Interpolation using Akhdefo workflow</a><ul>
+<li><a class="reference internal" href="#Calculating-slope-angle-map-relative-to-2D-displacement-aspect-map.">Calculating slope angle map relative to 2D displacement aspect map.</a></li>
+<li><a class="reference internal" href="#Calculting-hight-change-from-slope-angle-map,-2D-displacement-aspect-map-and-2D-displacement-magnitude.">Calculting hight change from slope angle map, 2D displacement aspect map and 2D displacement magnitude.</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Calculating-Approximate-Volume-of-bedrock-from-the-displacement-and-digitial-elevation-model">Calculating Approximate Volume of bedrock from the displacement and digitial elevation model</a><ul>
+<li><a class="reference internal" href="#Our-method-gave-potential-landslide-volume-two-million-and-nine-handred-seventy-six-thousand-cubic-meter-which-is-very-close-to-the-actual-landslide-volume-measured-from-lidar-dem-change-detection.">Our method gave potential landslide volume two million and nine-handred seventy six thousand cubic meter which is very close to the actual landslide volume measured from lidar dem change detection.</a><ul>
+<li><a class="reference internal" href="#Reference-for-actual-volume-collapse-estimation:-####-https://www.usgs.gov/publications/characterizing-catastrophic-2017-mud-creek-landslide-california-using-repeat-structure">Reference for actual volume collapse estimation: #### https://www.usgs.gov/publications/characterizing-catastrophic-2017-mud-creek-landslide-california-using-repeat-structure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Caluclating-Plune-and-Trend-and-3D-Velocity-of-deformation">Caluclating Plune and Trend and 3D Velocity of deformation</a></li>
+<li><a class="reference internal" href="#Visualizing-Products">Visualizing Products</a></li>
+<li><a class="reference internal" href="#Plunge-of-displacement-Velocity">Plunge of displacement Velocity</a></li>
+<li><a class="reference internal" href="#Creating-Time-series-cummulative-GIF-animation-map">Creating Time-series cummulative GIF animation map</a></li>
+<li><a class="reference internal" href="#A-small-python-script-to-create-location-map-with-inset-map">A small python script to create location map with inset map</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../index.html">Overview</a>
+    <ul>
+          <li>Previous: <a href="../akhdefo_functions.html" title="previous chapter">akhdefo_functions package</a>
+          <li>Next: <a href="RockGlacier_optical.html" title="next chapter">Morenny Rock Glacier Optical Imagery Example</a>
+    </ul>
+  </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Mahmud Mustafa Muhammad.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  <script src="../_static/version_warning_offset.js"></script>
+
+  </body>
+</html>

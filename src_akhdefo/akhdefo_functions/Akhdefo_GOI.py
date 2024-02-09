@@ -66,11 +66,12 @@ def mask_all_rasters_in_directory(directory, mask_raster_path):
     Masks all georeferenced raster files in a specified directory using a binary raster mask template.
 
     Parameters:
-    - directory (str): Path to the directory containing the georeferenced raster files.
-    - mask_raster_path (str): Path to the binary raster mask template.
+        - directory (str): Path to the directory containing the georeferenced raster files.
+        - mask_raster_path (str): Path to the binary raster mask template.
 
     Returns:
-    None. Each raster file in the specified directory will be replaced by its corresponding masked raster.
+        -Each raster file in the specified directory will be replaced by its corresponding masked raster
+        
     
     """
     
@@ -1107,6 +1108,8 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
         
     orbit_dir: str None, 'asc' , 'desc' , 'NS' , 'EW'
         if optical image set orbit_dir=None , 'EW' or 'NS' based on slope face of area of interest, if Radar image set orbit_dir to 'asc' or 'desc'
+        
+        
     Returns
     -------
     image1 : numpy.ndarray
@@ -1129,6 +1132,8 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
 
     points2 : numpy.ndarray
         Array of keypoints for the second image in the last pair.
+        
+        
 
     """
 
