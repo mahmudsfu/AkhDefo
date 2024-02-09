@@ -495,7 +495,7 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
     import rasterio
     import earthpy.plot as ep
     import rioxarray as rxr
-    
+    from scipy import signal
     
     
    ##############################
@@ -608,7 +608,8 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
         html.H1("Akhdefo Geospatial Data Analysis", className="text-center mb-4"),
         dbc.Row([
             # Left side - Plots
-            dbc.Col([dcc.Graph(id='time-series-plot'), dcc.Checklist(id='show-hide',options=[ {'label': 'Show/Hide Inverse Velocity', 'value': 'SH'} ],value=[]   ),
+            dbc.Col([dcc.Graph(id='time-series-plot'), dcc.Checklist(id='show-hide',options=[ {'label': 'Show/Hide Inverse Velocity', 'value': 'SH'} ],value=[]   ),  
+                     dcc.Checklist(id='detrend-id',options=[ {'label': 'Detrend', 'value': 'DE'} ],value=[]   ), 
                 dcc.Graph(id='map-plot', config={'staticPlot': False, 'displayModeBar': True, 'modeBarButtonsToAdd': ['select2d', 'lasso2d']}),
             #     dcc.Graph( id='map-plot',figure={'data': [go.Heatmap(z=hillshade)],
             # 'layout': go.Layout(title='Heatmap Example') }),
@@ -837,9 +838,9 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
         Input('update-plot-button', 'n_clicks')],
         [State('xaxis-label-input', 'value'),
         State('yaxis-label-input', 'value'),
-        State('plot-title-input', 'value')] , Input('show-hide', 'value')
+        State('plot-title-input', 'value')] , Input('show-hide', 'value'),  Input('detrend-id', 'value')
     )
-    def display_selected_data(selectedData, start_date, end_date, trendline_option, plot_type, n_clicks, xaxis_label, yaxis_label, plot_title, show_hide_value):
+    def display_selected_data(selectedData, start_date, end_date, trendline_option, plot_type, n_clicks, xaxis_label, yaxis_label, plot_title, show_hide_value, detrend_val):
         if not selectedData:
             raise dash.exceptions.PreventUpdate
 
@@ -849,6 +850,10 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
     
         avg_values = subset[date_cols].mean()
         df_avg = pd.DataFrame({'Date': date_objs, 'Average': avg_values.values})
+        
+        if "DE" in detrend_val:
+            # Detrend the 'Data' column
+            df_avg['Average'] = signal.detrend(df_avg['Average'])
 
         mask = (df_avg['Date'] >= start_date) & (df_avg['Date'] <= end_date)
         filtered_df = df_avg[mask]

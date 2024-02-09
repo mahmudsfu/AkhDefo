@@ -1,4 +1,98 @@
 
+'''
+#Under construction
+
+import numpy as np
+
+def los_to_vertical_ew_ns(los_asc, los_desc, los_angle_asc, los_angle_desc, heading_asc, heading_desc):
+    """
+    Converts LOS ascending and descending rasters to vertical, EW, and NS components.
+    
+    Parameters:
+    - los_asc: LOS ascending raster as a NumPy array.
+    - los_desc: LOS descending raster as a NumPy array.
+    - los_angle_asc: LOS angle for ascending track in degrees.
+    - los_angle_desc: LOS angle for descending track in degrees.
+    - heading_asc: Satellite heading for ascending track in degrees.
+    - heading_desc: Satellite heading for descending track in degrees.
+    
+    Returns:
+    - vertical: Vertical displacement component.
+    - ew: East-West displacement component.
+    - ns: North-South displacement component.
+    """
+    
+    # Convert angles from degrees to radians
+    los_angle_asc_rad = np.radians(los_angle_asc)
+    los_angle_desc_rad = np.radians(los_angle_desc)
+    heading_asc_rad = np.radians(heading_asc)
+    heading_desc_rad = np.radians(heading_desc)
+    
+    # Calculate vertical, EW, and NS components
+    # Form the system of equations based on trigonometry and solve for vertical, EW, NS components
+    A = np.array([
+        [np.sin(los_angle_asc_rad), np.cos(los_angle_asc_rad) * np.sin(heading_asc_rad), -np.cos(los_angle_asc_rad) * np.cos(heading_asc_rad)],
+        [np.sin(los_angle_desc_rad), np.cos(los_angle_desc_rad) * np.sin(heading_desc_rad), -np.cos(los_angle_desc_rad) * np.cos(heading_desc_rad)]
+    ])
+    
+    # For each pixel, solve the system
+    vertical = np.zeros_like(los_asc)
+    ew = np.zeros_like(los_asc)
+    ns = np.zeros_like(los_asc)
+    
+    for i in range(los_asc.shape[0]):
+        for j in range(los_asc.shape[1]):
+            b = np.array([los_asc[i, j], los_desc[i, j]])
+            try:
+                sol = np.linalg.lstsq(A, b, rcond=None)[0]
+                vertical[i, j] = sol[0]
+                ew[i, j] = sol[1]
+                ns[i, j] = sol[2]
+            except np.linalg.LinAlgError:
+                # Handle cases where the system cannot be solved
+                vertical[i, j] = np.nan
+                ew[i, j] = np.nan
+                ns[i, j] = np.nan
+    
+    return vertical, ew, ns
+
+#only from one orbit
+import rasterio
+import numpy as np
+
+# Load the LOS displacement raster data
+file_path = './data/morenny/radar/asc/VEL_Folder/2DVEL_simple.tif'
+
+# Assuming typical values for Sentinel-1 ascending track over mid-latitudes
+los_angle_asc = 34  # LOS angle in degrees, typical for Sentinel-1
+heading_asc = 0  # Heading angle in degrees, roughly north for ascending tracks
+
+def read_los_raster(file_path):
+    with rasterio.open(file_path) as src:
+        los_data = src.read(1)  # Read the first band
+        transform = src.transform
+        crs = src.crs
+    return los_data, transform, crs
+
+los_asc, transform, crs = read_los_raster(file_path)
+
+# Now, convert the LOS data to vertical displacement
+def los_to_vertical(los_data, los_angle):
+    los_angle_rad = np.radians(los_angle)
+    vertical = los_data / np.cos(los_angle_rad)
+    return vertical
+
+vertical_disp = los_to_vertical(los_asc, los_angle_asc)
+
+# If you want to save the vertical displacement to a new raster file
+output_path = './data/morenny/radar/asc/VEL_Folder/vertical_displacement.tif'
+with rasterio.open(output_path, 'w', driver='GTiff', height=vertical_disp.shape[0], width=vertical_disp.shape[1], count=1, dtype=vertical_disp.dtype, crs=crs, transform=transform) as dst:
+    dst.write(vertical_disp, 1)
+
+output_path
+
+
+'''
 from akhdefo_functions import utm_to_latlon
 from akhdefo_functions import akhdefo_viewer
 from osgeo import gdal

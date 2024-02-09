@@ -41,10 +41,12 @@ Tutorials!
    :maxdepth: 1
    :caption: Tutorials:
 
-   notebooks/RockGlacier_optical
-   notebooks/RockGlacier_radar
    notebooks/MudCreek_Landslide_optical
-   notebooks/Meager_radar
+   notebooks/RockGlacier_optical
+   notebooks/RockGlacier_radar_asc
+   notebooks/RockGlacier_radar_desc
+   
+   
    
 
 About!

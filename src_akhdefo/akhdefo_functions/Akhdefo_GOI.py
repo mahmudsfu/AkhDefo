@@ -87,7 +87,7 @@ import numpy as np
 import scipy.stats as stats
 from pykrige.ok import OrdinaryKriging
 from scipy.stats import zscore
-
+from scipy.ndimage import generic_filter
 
 #Calculate Linear Velocity for each data point
 def linear_VEL(df, dnames):
@@ -417,41 +417,49 @@ def process_shapefile_with_rasters(shapefile_path, rasterfile_paths):
     return gdf
 
 def find_best_match(gdf):
-    # # Check if the dataframe is empty
-    if gdf.empty:
-        print("Warning: The dataframe is empty. No data to process.")
-        return None
-     # Diagnostic: Print DataFrame summary
-    #print("DataFrame Summary:\n", gdf.describe())
-    # Check for exact match
-    min_vel_indices = gdf[gdf['VEL'] == gdf['VEL'].min()].index
-    min_vel_std_indices = gdf[gdf['VEL_STD'] == gdf['VEL_STD'].min()].index
-    # max_ssim_mean_indices = gdf[gdf['ssim_mean'] == gdf['ssim_mean'].max()].index
-    # min_ssim_std_indices = gdf[gdf['ssim_std'] == gdf['ssim_std'].min()].index
-
-    #intersection_indices = set(min_vel_indices) & set(min_vel_std_indices) & set(max_ssim_mean_indices) & set(min_ssim_std_indices)
-    intersection_indices = set(min_vel_indices) & set(min_vel_std_indices) 
-
-    if intersection_indices:
-        best_common_index = list(intersection_indices)
-        return best_common_index[0]
-
-    # Calculate score if no exact match
-    # Adjust weights as necessary
-    gdf['score'] = (
-        (gdf['VEL'] - gdf['VEL'].min()).abs() +
-        (gdf['VEL_STD'] - gdf['VEL_STD'].min()).abs() )
     
-    #(gdf['ssim_mean'].max() - gdf['ssim_mean']).abs() + (gdf['ssim_std'] - gdf['ssim_std'].min()).abs()
+    import geopandas as gpd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from sklearn.cluster import DBSCAN
+    from sklearn.preprocessing import StandardScaler
 
-     # Check if 'score' column is empty
-    if gdf['score'].empty:
-        print("Error: The score calculation resulted in an empty series.")
-        return None
+    gdf_temp=gdf
+    # Load your GeoDataFrame
+    # Assuming 'gdf' is your GeoDataFrame with a 'VEL' column and geometry
+    # gdf_temp['VEL']=gdf_temp['VEL'].abs()
+    # gdf_temp['VEL_STD']=gdf_temp['VEL_STD'].abs()
+    
+    # Extract the coordinates in meters after reprojection
+    coords = np.array(list(zip(gdf_temp.geometry.x, gdf_temp.geometry.y)))
 
-    # Find the index with minimum score
-    best_match_index = gdf['score'].idxmin()
-    print('best match', best_match_index)
+    from sklearn.cluster import KMeans
+
+    # Number of clusters
+    n_clusters = 100
+
+    # Run K-Means clustering
+    kmeans = KMeans(n_clusters=n_clusters, random_state=42)
+    gdf_temp['cluster'] = kmeans.fit_predict(coords)
+
+    # Calculate the average "VEL" for each cluster, excluding noise (cluster = -1)
+    cluster_averages_std = gdf_temp[gdf_temp['cluster'] != -1].groupby('cluster')['VEL_STD'].min()
+    cluster_averages = gdf_temp[gdf_temp['cluster'] != -1].groupby('cluster')['VEL'].min()
+    
+    # Identify the cluster with the lowest average "VEL"
+    lowest_avg_vel_cluster = cluster_averages.idxmin() & cluster_averages_std.idxmin()
+
+    # Find the point with the minimum "VEL" within the lowest average "VEL" cluster
+    min_vel_point = gdf_temp[(gdf_temp['cluster'] == lowest_avg_vel_cluster) &  (gdf_temp['VEL_STD'] == gdf_temp[gdf_temp['cluster'] == lowest_avg_vel_cluster]['VEL_STD'].min())]
+
+    # Get the index of this point
+    min_vel_point_index = min_vel_point.index.values
+
+    # If you want only the smallest index value
+    min_index = min_vel_point_index.min()
+
+    # If you want just the first index (as an example)
+    best_match_index = min_vel_point_index[0]
     
     return best_match_index
 
@@ -1016,7 +1024,8 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                           dem_path="", smoothing_kernel_size=11, Vegetation_mask=None, VEL_scale='year', VEL_Mode='linear',
                             good_match_option=0.75, hillshade_option=True, shapefile_output=False, max_triplet_interval=24,
                             pixel_size=20,num_chunks=10,overlap_percentage=0 , pyr_scale=0.5, levels=15, winsize=32,iterations= 7, poly_n=7,poly_sigma= 1.5, flags=1, 
-                            master_reference='single', selection_Mode='triplet' , start_date=None , end_date=None , krig_method='ordinary', spatial_ref=False, use_detrend=False):
+                            master_reference='single', selection_Mode='triplet' , start_date=None , end_date=None , krig_method='ordinary', spatial_ref=False, use_detrend=False, 
+                            use_zscore_krig=None, orbit_dir=None):
    
     """
     Performs feature matching and velocity/displacement calculations across a series of images.
@@ -1093,6 +1102,11 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
     krig_method: str 'ordinary' , 'simple' , 'universal'
         selection of kriging interpolation method, the workflow is based on gstools library. default is 'ordinary'  
     
+    use_zscore_krig: float 
+        default is None use this option to maintain interpolation within min max limit of data
+        
+    orbit_dir: str None, 'asc' , 'desc' , 'NS' , 'EW'
+        if optical image set orbit_dir=None , 'EW' or 'NS' based on slope face of area of interest, if Radar image set orbit_dir to 'asc' or 'desc'
     Returns
     -------
     image1 : numpy.ndarray
@@ -1191,7 +1205,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
     from scipy.stats import zscore
     from skimage.filters import gaussian
 
-    def calculate_optical_flow(image1, image2, zscore_threshold=2.0, ssim_thresh=ssim_thresh, pyr_scale=0.5, levels=15, winsize=32,iterations= 3, poly_n=5,poly_sigma= 1.5, flags=1):
+    def calculate_optical_flow(image1, image2, zscore_threshold=2.0, ssim_thresh=ssim_thresh, pyr_scale=0.5, levels=15, winsize=32,iterations= 3, poly_n=5,poly_sigma= 1.5, flags=1, orbit_dir=None):
         # Rasterio reads data as (bands, height, width)
         # OpenCV expects data as (height, width, channels)
         # So we need to transpose the data
@@ -1255,6 +1269,20 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
         magnitude[~mask_x] = 0
         magnitude[~mask_y] = 0
         
+        if orbit_dir is not None:
+            if orbit_dir=='asc':
+                
+                
+                magnitude = np.where((flowx < 0) & (np.abs(flowx) > np.abs(flowy)), -magnitude, magnitude)
+                
+            elif orbit_dir=='desc':
+                magnitude = np.where((flowx > 0) & (np.abs(flowx) > np.abs(flowy)), magnitude, -magnitude)
+                
+        if orbit_dir =='EW':
+                magnitude = np.where((flowx > 0) & (np.abs(flowx) > np.abs(flowy)), magnitude, -magnitude)
+        if orbit_dir =='NS':
+                magnitude = np.where((flowy < 0) & (np.abs(flowy) > np.abs(flowx)), -magnitude, magnitude)
+            
         # Post-process magnitude to make it negative when flowx is negative
         #magnitude = np.where(flowx < 0, -magnitude, magnitude)
        
@@ -1979,9 +2007,10 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
             good_matches13 = match_features(image1, image3, descriptors12, descriptors13, good_match_option=good_match_option)
 
             flow12, flowx12, flowy12 , ssim1= calculate_optical_flow(image1, image2, zscore_threshold=zscore_threshold, ssim_thresh=ssim_thresh ,
-                                                              pyr_scale=pyr_scale, levels=levels, winsize=winsize,iterations= iterations, poly_n=poly_n,poly_sigma= poly_sigma, flags=flags)
+                                                              pyr_scale=pyr_scale, levels=levels, winsize=winsize,iterations= iterations, poly_n=poly_n,poly_sigma= poly_sigma, flags=flags, orbit_dir=orbit_dir)
+            
             flow13, flowx13, flowy13 , ssim2= calculate_optical_flow(image1, image3, zscore_threshold=zscore_threshold, ssim_thresh=ssim_thresh,
-                                                              pyr_scale=pyr_scale, levels=levels, winsize=winsize,iterations= iterations, poly_n=poly_n,poly_sigma= poly_sigma, flags=flags)
+                                                              pyr_scale=pyr_scale, levels=levels, winsize=winsize,iterations= iterations, poly_n=poly_n,poly_sigma= poly_sigma, flags=flags, orbit_dir=orbit_dir)
 
             flow=mean_of_arrays(flow12, flow13)
             flowx=mean_of_arrays(flowx12, flowx13)
@@ -2181,7 +2210,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 try:
                     Auto_Variogram(data=gdfx, column_attribute=z_data, latlon=False, aoi_shapefile=AOI, 
                                 pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, out_fileName=fname_rasters, 
-                                plot_folder=plot_folder_x,  smoothing_kernel=smoothing_kernel_size, geo_folder=X_folder, krig_method=krig_method, detrend_data=use_detrend)
+                                plot_folder=plot_folder_x,  smoothing_kernel=smoothing_kernel_size, geo_folder=X_folder, krig_method=krig_method, detrend_data=use_detrend, use_zscore=use_zscore_krig)
                 except Exception as e:
                     print(f"Auto_Variogram failed with error: {e}")
                     save_xyz_as_geotiff(xi, yi, east_z, file_name_x, dem_path, AOI, interpolate='nearest')
@@ -2189,7 +2218,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 try:
                     Auto_Variogram(data=gdfy, column_attribute=z_data, latlon=False, aoi_shapefile=AOI,
                                 pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, out_fileName=fname_rasters, 
-                                plot_folder=plot_folder_Y, smoothing_kernel=smoothing_kernel_size, geo_folder=Y_folder, krig_method=krig_method, detrend_data=use_detrend)
+                                plot_folder=plot_folder_Y, smoothing_kernel=smoothing_kernel_size, geo_folder=Y_folder, krig_method=krig_method, detrend_data=use_detrend, use_zscore=use_zscore_krig)
                 except Exception as e:
                     print(f"Auto_Variogram failed with error: {e}")
                     save_xyz_as_geotiff(xi, yi, north_z, file_name_y, dem_path, AOI, interpolate='nearest' )
@@ -2197,7 +2226,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 try:
                     Auto_Variogram(data=gdfv, column_attribute=z_data, latlon=False, aoi_shapefile=AOI, 
                                 pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, out_fileName=fname_rasters, 
-                                plot_folder=plot_folder_VEL, smoothing_kernel=smoothing_kernel_size, geo_folder=VEL_folder, krig_method=krig_method, detrend_data=use_detrend)
+                                plot_folder=plot_folder_VEL, smoothing_kernel=smoothing_kernel_size, geo_folder=VEL_folder, krig_method=krig_method, detrend_data=use_detrend, use_zscore=use_zscore_krig)
                 except Exception as e:
                     print(f"Auto_Variogram failed with error: {e}")
                     save_xyz_as_geotiff(xi, yi, vel2D_z, file_name_vel, dem_path, AOI , interpolate='nearest')
@@ -2382,17 +2411,21 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
         gdf_crs=gdfe.crs
         
         # Calculate aspect for gdf1
-        gdfe['aspect'] = np.degrees(np.arctan2(gdfn['VEL'], gdfe['VEL']))
-        
-        gdfe['aspect']=(450-gdfe['aspect']) % 360
+        ###############
+        aspect = np.arctan2(gdfe['VEL'], gdfn['VEL'])
+        aspect_deg=np.degrees(aspect)
+        aspect_deg = (450 -aspect_deg ) % 360
+        ##############3
+       
+        gdfe['aspect']=aspect_deg
 
         # Calculate aspect for gdf2
-        gdfn['aspect'] = np.degrees(np.arctan2(gdfn['VEL'], gdfe['VEL']))
         
-        gdfn['aspect']=(450-gdfn['aspect']) % 360        
+        
+        gdfn['aspect']=aspect_deg      
         # Calculate aspect for gdf2
-        gdfv['aspect'] = np.degrees(np.arctan2(gdfn['VEL'], gdfe['VEL']))
-        gdfv['aspect']=(450-gdfv['aspect']) % 360                                    
+        
+        gdfv['aspect']=aspect_deg                                   
         
         gdfe.to_file(list_shp_paths[2], driver='ESRI Shapefile')
         gdfn.to_file(list_shp_paths[1], driver='ESRI Shapefile')

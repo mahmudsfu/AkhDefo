@@ -357,15 +357,25 @@ def Raster_Correction(input_path, output_path, limit=None, lowpass_kernel_size=5
 
     Args:
         input_path (str): Path to the directory containing input raster images.
+        
         output_path (str): Directory where corrected images and plots will be saved.
+        
         limit (int, optional): Maximum number of images to process. If None, all images are processed.
+        
         lowpass_kernel_size (int, optional): Size of the Gaussian low-pass filter kernel.
+        
         bilateral_win_size (int): Size of the bilateral filter window.
+        
         bilateral_sigma_color (int): Standard deviation for color space in bilateral filter.
+        
         bilateral_sigma_spatial (int): Standard deviation for spatial space in bilateral filter.
+        
         clip_percentiles (list): 2-element list containing lower and upper percentiles for clipping pixel values.
+        
         optical (bool): Indicates if the raster is optical imagery. Activates certain corrections specific to optical data.
+        
         scale (str): Mode of scaling ('power' for logarithmic normalization and 'amplitude' for linear).
+        
         Vegetation_mask (str, optional): Path to a raster file that represents a vegetation mask. Pixels in the input image that correspond to non-vegetation in the mask will be set to one.
 
     Returns:
@@ -457,11 +467,19 @@ def Raster_Correction(input_path, output_path, limit=None, lowpass_kernel_size=5
                     
 
                     # Step 3: Normalize to 0-255 scale
-                    normalized_data = cv2.normalize(denoise_bilateral, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
+                    #normalized_data = cv2.normalize(denoise_bilateral, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
+                    # Use rescale_intensity to stretch the intensity range to (0, 255)
+                    normalized_data = exposure.rescale_intensity(denoise_bilateral, in_range=(np.nanmin(denoise_bilateral), np.nanmax(denoise_bilateral)), out_range=(0, 255))
+
+                    # If denoise_bilateral is a float image, ensure the output is in uint8 format for proper visualization
+                    if normalized_data.dtype == np.float64:
+                        normalized_data = (normalized_data * 255).astype(np.uint8)
+                    
                        # Apply low-pass filter
                     if lowpass_kernel_size is not None:
-                        filtered = gaussian(normalized_data, sigma=lowpass_kernel_size, preserve_range =True )  # Adjust sigma according to your desired smoothing strength
+                        normalized_data = gaussian(normalized_data, sigma=lowpass_kernel_size, preserve_range =True )  # Adjust sigma according to your desired smoothing strength
                         filtered_label='Low Pass Filter'
+                        filtered=normalized_data
                     elif lowpass_kernel_size is None and optical==False:
                         #filtered=cv2.medianBlur(denoise_bilateral, 5)
                         filtered=normalized_data
@@ -479,19 +497,28 @@ def Raster_Correction(input_path, output_path, limit=None, lowpass_kernel_size=5
                     # Step 3: Normalize to 0-255 scale
                     #clipped_data = pct_clip(filtered)
                     denoise_bilateral = cv2.bilateralFilter(data, d=bilateral_win_size, sigmaColor=bilateral_sigma_color, sigmaSpace=bilateral_sigma_spatial)  
-                    normalized_data = cv2.normalize(denoise_bilateral, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX) 
+                    #normalized_data = cv2.normalize(denoise_bilateral, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX) 
+                    normalized_data = exposure.rescale_intensity(denoise_bilateral, in_range=(np.nanmin(denoise_bilateral), np.nanmax(denoise_bilateral)), out_range=(0, 255))
+
+                    # If denoise_bilateral is a float image, ensure the output is in uint8 format for proper visualization
+                    if normalized_data.dtype == np.float64:
+                        normalized_data = (normalized_data * 255).astype(np.uint8)
                     if lowpass_kernel_size is not None:
                         filtered = gaussian(normalized_data, sigma=lowpass_kernel_size, preserve_range =True )  # Adjust sigma according to your desired smoothing strength
                         filtered_label='Low Pass Filter'
+                        corrected_data=filtered
                     elif lowpass_kernel_size is None and optical==False:
                         #filtered=cv2.medianBlur(denoise_bilateral, 5)
                         filtered=normalized_data
                         filtered_label='Bilateral Filter'
+                        
+                
+                        corrected_data = normalized_data
                     else:
 
                         filtered_label='No-Filter Applied'
 
-                        normalized_data=denoise_bilateral
+                        #normalized_data=denoise_bilateral
                     
                         corrected_data = normalized_data
                         
@@ -513,7 +540,12 @@ def Raster_Correction(input_path, output_path, limit=None, lowpass_kernel_size=5
                     corrected_data = exposure.equalize_adapthist(denoise_bilateral, kernel_size=128, clip_limit=0.01, nbins=256)
                 else:
                     corrected_data=denoise_bilateral
-                normalized_data = cv2.normalize(corrected_data, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX).astype(np.uint8)
+                    #normalized_data = cv2.normalize(corrected_data, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX).astype(np.uint8)
+                    normalized_data = exposure.rescale_intensity(corrected_data, in_range=(np.nanmin(corrected_data), np.nanmax(corrected_data)), out_range=(0, 255))
+
+                    # If denoise_bilateral is a float image, ensure the output is in uint8 format for proper visualization
+                    if normalized_data.dtype == np.float64:
+                        normalized_data = (normalized_data * 255).astype(np.uint8)
                 corrected_data=normalized_data
                 filtered=normalized_data
                 filtered_label='CLAHE-Filter'
