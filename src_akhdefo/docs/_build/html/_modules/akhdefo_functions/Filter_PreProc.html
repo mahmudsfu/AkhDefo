@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.Filter_PreProc &#8212; AkhDefo Software 2.2.66 documentation</title>
+    <title>akhdefo_functions.Filter_PreProc &#8212; AkhDefo Software 2.3.125 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=e2ab9622"></script>
+    <script src="../../_static/documentation_options.js?v=cdd0b548"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -506,13 +506,15 @@
                     <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># Apply log transformation to the image</span>
                     
                     <span class="c1"># Step 2: Apply bilateral filter for denoising</span>
-                    <span class="n">denoise_bilateral</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">bilateral_win_size</span><span class="p">,</span> <span class="n">sigmaColor</span><span class="o">=</span><span class="n">bilateral_sigma_color</span><span class="p">,</span> <span class="n">sigmaSpace</span><span class="o">=</span><span class="n">bilateral_sigma_spatial</span><span class="p">)</span>
-                    
+                    <span class="k">if</span> <span class="n">bilateral_win_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">denoise_bilateral</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">bilateral_win_size</span><span class="p">,</span> <span class="n">sigmaColor</span><span class="o">=</span><span class="n">bilateral_sigma_color</span><span class="p">,</span> <span class="n">sigmaSpace</span><span class="o">=</span><span class="n">bilateral_sigma_spatial</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">denoise_bilateral</span><span class="o">=</span><span class="n">data</span>
 
                     <span class="c1"># Step 3: Normalize to 0-255 scale</span>
                     <span class="c1">#normalized_data = cv2.normalize(denoise_bilateral, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)</span>
                     <span class="c1"># Use rescale_intensity to stretch the intensity range to (0, 255)</span>
-                    <span class="n">normalized_data</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">,</span> <span class="n">in_range</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">)),</span> <span class="n">out_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+                    <span class="n">normalized_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">,</span> <span class="n">in_range</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">)),</span> <span class="n">out_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
 
                     <span class="c1"># If denoise_bilateral is a float image, ensure the output is in uint8 format for proper visualization</span>
                     <span class="k">if</span> <span class="n">normalized_data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">:</span>
@@ -539,7 +541,11 @@
                     <span class="n">data</span><span class="o">=</span><span class="n">data</span>
                     <span class="c1"># Step 3: Normalize to 0-255 scale</span>
                     <span class="c1">#clipped_data = pct_clip(filtered)</span>
-                    <span class="n">denoise_bilateral</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">bilateral_win_size</span><span class="p">,</span> <span class="n">sigmaColor</span><span class="o">=</span><span class="n">bilateral_sigma_color</span><span class="p">,</span> <span class="n">sigmaSpace</span><span class="o">=</span><span class="n">bilateral_sigma_spatial</span><span class="p">)</span>  
+                    <span class="k">if</span> <span class="n">bilateral_win_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        
+                        <span class="n">denoise_bilateral</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">bilateral_win_size</span><span class="p">,</span> <span class="n">sigmaColor</span><span class="o">=</span><span class="n">bilateral_sigma_color</span><span class="p">,</span> <span class="n">sigmaSpace</span><span class="o">=</span><span class="n">bilateral_sigma_spatial</span><span class="p">)</span>  
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">denoise_bilateral</span><span class="o">=</span><span class="n">data</span>
                     <span class="c1">#normalized_data = cv2.normalize(denoise_bilateral, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX) </span>
                     <span class="n">normalized_data</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">,</span> <span class="n">in_range</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">denoise_bilateral</span><span class="p">)),</span> <span class="n">out_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
 

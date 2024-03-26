@@ -889,15 +889,29 @@ def akhdefo_dashApp(Path_to_Shapefile: str ="" , port: int =8051 , Column_Name: 
         model.fit(valid_date_ordinals.reshape(-1, 1), valid_inverse_average_values)
 
         # Predicting over a larger range to extrapolate
-        prediction_dates = np.arange(valid_date_ordinals.min(), valid_date_ordinals.max() + 90)  # Extrapolating for 3 more year
+        prediction_dates = np.arange(valid_date_ordinals.min(), valid_date_ordinals.max() + 3000)  # Extrapolating for 3 more year
         predicted_inverse_averages = model.predict(prediction_dates.reshape(-1, 1))
+        
+        # Calculate the zero-crossing point directly from the regression line equation
+        slope = model.coef_[0]
+        intercept = model.intercept_
 
-        # Finding the zero-crossing point
-        zero_crossing = None
-        for zero_date, avg in zip(prediction_dates, predicted_inverse_averages.ravel()):
-            if avg <= 0:
-                zero_crossing = zero_date
-                break
+        if slope != 0:  # Avoid division by zero
+            zero_crossing_ordinal = -intercept / slope
+            # Ensure zero_crossing_ordinal is within a valid range
+            if zero_crossing_ordinal >= 1:
+                zero_crossing_date = datetime.fromordinal(int(zero_crossing_ordinal))
+                if valid_date_ordinals.min() <= zero_crossing_ordinal <= valid_date_ordinals.max() + 3000:  # Check within range
+                    zero_crossing=zero_crossing_ordinal
+        # if slope == 0:
+        #     print("The line is horizontal; no zero-crossing for inverse average.")
+        # else:
+        #     zero_crossing_ordinal = -intercept / slope
+        #     if valid_date_ordinals.min() <= zero_crossing_ordinal <= valid_date_ordinals.max() + 3000:  # Check within range
+               
+        #         zero_crossing=zero_crossing_ordinal
+        
+        #####
         ###################################################################################################
         # Calculate annual change based on the slope
         # Convert slope from per day to per year (assuming 365.25 days per year to account for leap years)

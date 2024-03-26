@@ -1026,7 +1026,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                             good_match_option=0.75, hillshade_option=True, shapefile_output=False, max_triplet_interval=24,
                             pixel_size=20,num_chunks=10,overlap_percentage=0 , pyr_scale=0.5, levels=15, winsize=32,iterations= 7, poly_n=7,poly_sigma= 1.5, flags=1, 
                             master_reference='single', selection_Mode='triplet' , start_date=None , end_date=None , krig_method='ordinary', spatial_ref=False, use_detrend=False, 
-                            use_zscore_krig=None, orbit_dir=None):
+                            use_zscore_krig=None, orbit_dir=None, dense_match_option=False):
    
     """
     Performs feature matching and velocity/displacement calculations across a series of images.
@@ -1175,35 +1175,122 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
         return ssim_map
 
 
-    def match_features(image1, image2, descriptor1, descriptor2, zscore_threshold=zscore_threshold, good_match_option=good_match_option):
-        good_matches = [] # Initialize an empty list for good_matches
-    
-        bf = cv2.BFMatcher()
-        matches = bf.knnMatch(descriptor1, descriptor2, k=2)
+    ####### This section is used for dense matching####################
+    def is_valid_pixel(image, x, y):
+        """
+        Check if a pixel at (x, y) is valid (not zero and not NaN).
+        """
+        return image[y, x] != 0 and not np.isnan(image[y, x])
 
-        # Calculate distances for all matches
+    def create_dense_keypoints_for_valid_pixels(image, step_size=20, size=5):
+        """
+        Create a dense grid of keypoints across the image, excluding invalid pixels.
+        """
+        keypoints = []
+        for y in range(0, image.shape[0], step_size):
+            for x in range(0, image.shape[1], step_size):
+                if is_valid_pixel(image, x, y):
+                    keypoints.append(cv2.KeyPoint(x, y, size))
+        return keypoints
+
+    def extract_descriptors(image, keypoints, patch_size=20):
+        """
+        Extract descriptors for the keypoints by using image patches.
+        :param image: The input image.
+        :param keypoints: List of keypoints.
+        :param patch_size: The size of the patch to extract around each keypoint.
+        :return: Numpy array of descriptors.
+        """
+        descriptors = []
+        half_size = patch_size // 2
+        for kp in keypoints:
+            x, y = int(kp.pt[0]), int(kp.pt[1])
+            if x - half_size < 0 or y - half_size < 0 or x + half_size > image.shape[1] or y + half_size > image.shape[0]:
+                continue  # Skip keypoints near the border
+            patch = image[y-half_size:y+half_size, x-half_size:x+half_size]
+            descriptors.append(patch.flatten())
+        return np.array(descriptors)
+
+    def correlate_descriptors(descriptors1, descriptors2):
+        """
+        Correlate descriptors between two sets and return matches.
+        :param descriptors1: Descriptors from the first image.
+        :param descriptors2: Descriptors from the second image.
+        :return: List of DMatch objects.
+        """
+        # Use a simple nearest-neighbor approach for matching
+        # This is a placeholder for more sophisticated matching methods
+        bf = cv2.BFMatcher(cv2.NORM_L2, crossCheck=False)
+        matches = bf.match(descriptors1, descriptors2)
+        #matches = bf.knnMatch(descriptors1, descriptors2, k=2)
+        return matches
+    def filter_matches_by_stability(matches, threshold=75):
+        """
+        Filter matches based on a distance threshold for stability.
+        :param matches: List of DMatch objects.
+        :param threshold: Distance threshold for filtering.
+        :return: Filtered list of DMatch objects.
+        """
         distances = [m.distance for m, n in matches]
-        
-        # Calculate mean and standard deviation of distances
-        mean_distance = np.mean(distances)
-        std_distance = np.std(distances)
-        
-        # Define a threshold based on the Z-score
-        z_score_threshold = zscore_threshold
-
-        #mean_distance + z_score_threshold * std_distance
-        
-        # Filter matches based on the Z-score
-        if good_match_option is not None:
-            good_matches = [m for m, n in matches if m.distance < good_match_option * n.distance]
-
-
-        else:
-
-            good_matches = [m for m, n in matches if m.distance < mean_distance + z_score_threshold * std_distance]
-
+        filtered_matches = [m for m in matches if m.distance < threshold]
+        return filtered_matches
+   
     
-        return good_matches
+    
+    ######################################################################
+
+    def match_features(image1, image2, descriptor1, descriptor2, keypoint1, keypoint2, zscore_threshold=zscore_threshold, good_match_option=good_match_option, dense_match_option=dense_match_option):
+        
+        if dense_match_option==False:
+            good_matches = [] # Initialize an empty list for good_matches
+            bf = cv2.BFMatcher(crossCheck=False)
+            matches = bf.knnMatch(descriptor1, descriptor2, k=2)
+            
+            # Calculate distances for all matches
+            distances = [m.distance for m, n in matches]
+            # Calculate mean and standard deviation of distances
+            mean_distance = np.mean(distances)
+            std_distance = np.std(distances)
+            # Define a threshold based on the Z-score
+            z_score_threshold = zscore_threshold
+            #mean_distance + z_score_threshold * std_distance
+            # Filter matches based on the Z-score
+            if good_match_option is not None:
+                good_matches = [m for m, n in matches if m.distance < good_match_option * n.distance]
+            else:
+                good_matches = [m for m, n in matches if m.distance < mean_distance + z_score_threshold * std_distance]
+            
+        elif dense_match_option==True:
+            
+            # Create dense keypoints for both images
+            keypoint1 = create_dense_keypoints_for_valid_pixels(image1)
+            keypoint2 = create_dense_keypoints_for_valid_pixels(image2)
+
+            # Extract descriptors from both images
+            descriptor1 = extract_descriptors(image1, keypoint1)
+            descriptor2 = extract_descriptors(image2, keypoint2)
+
+            # Correlate descriptors
+            matches = correlate_descriptors(descriptor1, descriptor2)
+           
+           # Filter matches based on stability
+            good_matches = matches
+            
+
+        descriptor12 = np.concatenate((descriptor1, descriptor2), axis=0)
+        keypoint12 = np.concatenate((keypoint1, keypoint2), axis=0)
+
+
+        # # Filter the keypoints
+        # keypoint12 = [keypoint12[m.queryIdx] for m in good_matches]
+        # # Filter the descriptors
+        # descriptor12 = np.array([descriptor12[m.queryIdx] for m in good_matches])
+            
+        
+        
+       
+        return good_matches, descriptor12, keypoint12
+        
 
     import cv2
     import numpy as np
@@ -1845,7 +1932,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
         for image_path in image_path_list:
             with rasterio.open(image_path) as src:
                 overlap_window = from_bounds(*overlap_box.bounds, transform=src.transform)
-                cropped_image = src.read(window=overlap_window)
+                cropped_image = src.read()
                 maskNan=cropped_image[cropped_image==0]
                 meta=src.meta
                  # Rasterio reads data as (bands, height, width)
@@ -1889,7 +1976,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
     VEL_scale=VEL_scale, VEL_Mode=VEL_Mode, shapefile_output=shapefile_output, 
     smoothing_kernel_size=smoothing_kernel_size, pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, 
     pyr_scale=pyr_scale, levels=levels, winsize=winsize,iterations= iterations, poly_n=poly_n,poly_sigma= poly_sigma, flags=flags,
-    master_reference=master_reference, selection_Mode=selection_Mode , start_date=start_date , end_date=end_date):
+    master_reference=master_reference, selection_Mode=selection_Mode , start_date=start_date , end_date=end_date, dense_match_option=dense_match_option):
         
         folder_path = folder_path
         
@@ -2007,9 +2094,14 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
 
             keypoints12 = np.concatenate((keypoints1, keypoints2), axis=0)
             keypoints13 = np.concatenate((keypoints1, keypoints3), axis=0)
-
-            good_matches12 = match_features(image1, image2, descriptors12, descriptors13, good_match_option=good_match_option)
-            good_matches13 = match_features(image1, image3, descriptors12, descriptors13, good_match_option=good_match_option)
+            
+            if dense_match_option==False:
+                good_matches12, descriptors12, keypoints12 = match_features(image1, image2, descriptors12, descriptors13, keypoints12, keypoints13, good_match_option=good_match_option)
+                good_matches13, descriptors13, keypoints13 = match_features(image1, image3, descriptors12, descriptors13, keypoints12, keypoints13,good_match_option=good_match_option)
+            else:
+                
+                good_matches12, descriptors12, keypoints12 = match_features(image1, image2, descriptors12, descriptors13, keypoints12, keypoints13, good_match_option=good_match_option)
+                good_matches13, descriptors13, keypoints13 = match_features(image1, image3, descriptors12, descriptors13, keypoints12, keypoints13,good_match_option=good_match_option)
 
             flow12, flowx12, flowy12 , ssim1= calculate_optical_flow(image1, image2, zscore_threshold=zscore_threshold, ssim_thresh=ssim_thresh ,
                                                               pyr_scale=pyr_scale, levels=levels, winsize=winsize,iterations= iterations, poly_n=poly_n,poly_sigma= poly_sigma, flags=flags, orbit_dir=orbit_dir)

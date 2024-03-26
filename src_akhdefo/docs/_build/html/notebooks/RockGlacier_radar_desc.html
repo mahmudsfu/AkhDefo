@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Morenney Rock Glacier Radar Descending &#8212; AkhDefo Software 2.2.66 documentation</title>
+    <title>Morenney Rock Glacier Radar Descending &#8212; AkhDefo Software 2.3.125 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../_static/flask.css?v=b87c8d14" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
-    <script src="../_static/documentation_options.js?v=e2ab9622"></script>
+    <script src="../_static/documentation_options.js?v=cdd0b548"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -241,8 +241,8 @@ users, example screenshots are provided below as a guide to navigate through the
 </section>
 <section id="Applying-Optical-flow-and-producing-time-series-deformation-products.">
 <h2>Applying Optical flow and producing time-series deformation products.<a class="headerlink" href="#Applying-Optical-flow-and-producing-time-series-deformation-products." title="Link to this heading">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
@@ -255,14 +255,629 @@ users, example screenshots are provided below as a guide to navigate through the
                                        <span class="n">hillshade_option</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shapefile_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_triplet_interval</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_chunks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">overlap_percentage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pyr_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
                                        <span class="n">winsize</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">poly_n</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">poly_sigma</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
                                        <span class="n">flags</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">master_reference</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span>
-                                       <span class="n">selection_Mode</span><span class="o">=</span><span class="s1">&#39;pair&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span> <span class="n">spatial_ref</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_detrend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_zscore_krig</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">orbit_dir</span><span class="o">=</span><span class="s1">&#39;desc&#39;</span><span class="p">)</span>
+                                       <span class="n">selection_Mode</span><span class="o">=</span><span class="s1">&#39;pair&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span> <span class="n">spatial_ref</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_detrend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_zscore_krig</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">orbit_dir</span><span class="o">=</span><span class="s1">&#39;desc&#39;</span><span class="p">,</span> <span class="n">dense_match_option</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:   0%|          | 0/28 [00:00&lt;?, ?it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Matern: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+Error with model JBessel: Internal Error.
+kriging succeed with Model: Cubic and score: 0.8355996967132857
+kriging succeed with Model: SuperSpherical and score: 0.9778089995103257
+Error with model JBessel: Internal Error.
+kriging succeed with Model: Cubic and score: 0.9209098278347365
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:   4%|▎         | 1/28 [00:05&lt;02:37,  5.83s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Rational and score: 0.8951897108128958
+kriging succeed with Model: Stable and score: 0.8492041894880199
+kriging succeed with Model: JBessel and score: 0.6465671645005084
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:   7%|▋         | 2/28 [00:13&lt;02:59,  6.92s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Integral and score: 0.9777443559463302
+kriging succeed with Model: Stable and score: 0.76599989019851
+kriging succeed with Model: Stable and score: 0.8668509544470291
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  11%|█         | 3/28 [00:19&lt;02:41,  6.45s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Stable and score: 0.9357965632567647
+kriging succeed with Model: Stable and score: 0.9076703885521303
+kriging succeed with Model: HyperSpherical and score: 0.8185286934384297
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  14%|█▍        | 4/28 [00:24&lt;02:22,  5.92s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: SuperSpherical and score: 0.9187309763680573
+kriging succeed with Model: Rational and score: 0.8480281211376207
+kriging succeed with Model: Rational and score: 0.824361534689604
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  18%|█▊        | 5/28 [00:29&lt;02:11,  5.71s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: SuperSpherical and score: 0.9376436212414725
+kriging succeed with Model: Rational and score: 0.8870437445272978
+kriging succeed with Model: JBessel and score: 0.7675384626962647
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  21%|██▏       | 6/28 [00:35&lt;02:05,  5.71s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: JBessel and score: 0.536250592575306
+kriging succeed with Model: SuperSpherical and score: 0.7482090342666599
+kriging succeed with Model: Exponential and score: 0.8488507637824972
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  25%|██▌       | 7/28 [00:39&lt;01:49,  5.21s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: TPLSimple and score: 0.9519732124793645
+kriging succeed with Model: TPLSimple and score: 0.8693275157990354
+kriging succeed with Model: Stable and score: 0.921471635935901
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  29%|██▊       | 8/28 [00:46&lt;01:55,  5.76s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: TPLSimple and score: 0.8804139465846709
+Error with model Matern: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+Error with model JBessel: Internal Error.
+kriging succeed with Model: HyperSpherical and score: 0.9247074879947984
+kriging succeed with Model: Stable and score: 0.8052924789044275
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  32%|███▏      | 9/28 [00:52&lt;01:48,  5.73s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Stable and score: 0.9866092771975752
+kriging succeed with Model: Stable and score: 0.9867910563154021
+kriging succeed with Model: Stable and score: 0.9226464593158585
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  36%|███▌      | 10/28 [00:58&lt;01:47,  5.96s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: TPLSimple and score: 0.9116468718472998
+kriging succeed with Model: JBessel and score: 0.8381297602356177
+Error with model Stable: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: Integral and score: 0.8833625100380635
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  39%|███▉      | 11/28 [01:14&lt;02:31,  8.92s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Matern and score: 0.9511382402755071
+kriging succeed with Model: Stable and score: 0.9442046452916809
+kriging succeed with Model: Rational and score: 0.9485955093848139
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  43%|████▎     | 12/28 [01:34&lt;03:17, 12.36s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Stable and score: 0.9025986207321395
+kriging succeed with Model: Rational and score: 0.8519152457291652
+kriging succeed with Model: JBessel and score: 0.7712901014052647
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  46%|████▋     | 13/28 [01:41&lt;02:39, 10.65s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: TPLSimple and score: 0.8295587833486144
+kriging succeed with Model: Stable and score: 0.9404800443947203
+kriging succeed with Model: Rational and score: 0.7786255911323795
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  50%|█████     | 14/28 [01:47&lt;02:08,  9.21s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: JBessel and score: 0.23835688212119321
+kriging succeed with Model: Stable and score: 0.7031562468455148
+kriging succeed with Model: TPLSimple and score: 0.6189875847112081
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  54%|█████▎    | 15/28 [02:58&lt;06:04, 28.03s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: JBessel and score: 0.9793050776436883
+Error with model Matern: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: Cubic and score: 0.9898013856239838
+kriging succeed with Model: HyperSpherical and score: 0.9470130428308661
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  57%|█████▋    | 16/28 [04:06&lt;07:59, 39.92s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Matern and score: 0.8763769659884111
+kriging succeed with Model: Matern and score: 0.9695483805349585
+kriging succeed with Model: TPLSimple and score: 0.8224885919180629
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  61%|██████    | 17/28 [04:15&lt;05:35, 30.50s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Rational and score: 0.7714073374238065
+kriging succeed with Model: Stable and score: 0.9329420183257262
+kriging succeed with Model: Rational and score: 0.907001785686303
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  64%|██████▍   | 18/28 [04:20&lt;03:48, 22.83s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Integral and score: 0.9673467334449444
+kriging succeed with Model: JBessel and score: 0.7986542045001844
+kriging succeed with Model: Rational and score: 0.809556963879373
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  68%|██████▊   | 19/28 [04:46&lt;03:35, 23.98s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: SuperSpherical and score: 0.946642344652201
+kriging succeed with Model: Rational and score: 0.8672877186894885
+kriging succeed with Model: Rational and score: 0.8195316122127221
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  71%|███████▏  | 20/28 [04:52&lt;02:29, 18.66s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Skipping computation for 20190924 to 20220815 as the time interval is larger than 300 days.
+kriging succeed with Model: Stable and score: 0.9180629669146289
+kriging succeed with Model: Matern and score: 0.8547009965679963
+kriging succeed with Model: HyperSpherical and score: 0.8773432550259449
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  79%|███████▊  | 22/28 [05:01&lt;01:11, 11.92s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: SuperSpherical and score: 0.9515722772141186
+kriging succeed with Model: TPLSimple and score: 0.9377556574581991
+kriging succeed with Model: TPLSimple and score: 0.9201681949773445
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  82%|████████▏ | 23/28 [05:12&lt;00:58, 11.73s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error with model Stable: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+kriging succeed with Model: Matern and score: 0.8938997517797824
+kriging succeed with Model: Integral and score: 0.9383647802479176
+kriging succeed with Model: Stable and score: 0.9076156441586125
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  86%|████████▌ | 24/28 [05:25&lt;00:48, 12.25s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: JBessel and score: 0.69629413075047
+kriging succeed with Model: TPLSimple and score: 0.9340454181942284
+kriging succeed with Model: Stable and score: 0.793564543961949
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  89%|████████▉ | 25/28 [05:36&lt;00:35, 11.87s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: TPLSimple and score: 0.9293700135565033
+kriging succeed with Model: JBessel and score: 0.8090936466368963
+kriging succeed with Model: SuperSpherical and score: 0.851590451287082
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  93%|█████████▎| 26/28 [05:49&lt;00:24, 12.15s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: TPLSimple and score: 0.9183750092551585
+kriging succeed with Model: Integral and score: 0.8733551298364879
+kriging succeed with Model: SuperSpherical and score: 0.8952416746723594
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing:  96%|█████████▋| 27/28 [06:07&lt;00:13, 13.65s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+kriging succeed with Model: Stable and score: 0.950561087962256
+kriging succeed with Model: Rational and score: 0.8565321003101916
+kriging succeed with Model: Rational and score: 0.947088598602307
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing: 100%|██████████| 28/28 [06:14&lt;00:00, 13.39s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Wait for processing to complete writing data into shapefile for timeseries...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Preparing GeoDataFrames: 100%|██████████| 27/27 [00:00&lt;00:00, 976.87it/s]
+Preparing GeoDataFrames: 100%|██████████| 27/27 [00:00&lt;00:00, 981.47it/s]
+Preparing GeoDataFrames: 100%|██████████| 27/27 [00:00&lt;00:00, 977.98it/s]
+100%|██████████| 27/27 [00:00&lt;00:00, 74.06it/s]          | 0/3 [00:00&lt;?, ?it/s]
+100%|██████████| 27/27 [00:00&lt;00:00, 77.36it/s]███▎      | 1/3 [00:00&lt;00:00,  2.68it/s]
+100%|██████████| 27/27 [00:00&lt;00:00, 75.91it/s]██████▋   | 2/3 [00:00&lt;00:00,  2.75it/s]
+Processing:Updating and Cropping Rasters: 100%|██████████| 3/3 [00:01&lt;00:00,  2.74it/s]
+Processing: Update Shapefiles :   0%|          | 0/3 [00:00&lt;?, ?it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+processing ./data/morenny/radar/desc/geo_path107/temp_shapefile_dir/20170712_20230810_20230810_2DVEL.shp started...
+
+116
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing: Update Shapefiles :  33%|███▎      | 1/3 [00:16&lt;00:32, 16.20s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ReferencePoint x, y: (662175.8168411255, 4762038.9138793945), VEL, VEL_STD: (-0.17522699, 0.11705917)
+processing ./data/morenny/radar/desc/geo_path107/temp_shapefile_dir/20170712_20230810_20230810_2DVEL.shp completed...
+
+processing ./data/morenny/radar/desc/geo_path107/temp_shapefile_dir/20170712_20230810_20230810_N.shp started...
+
+116
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing: Update Shapefiles :  67%|██████▋   | 2/3 [00:31&lt;00:15, 15.62s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ReferencePoint x, y: (662175.8168411255, 4762038.9138793945), VEL, VEL_STD: (-0.089420415, 0.056575194)
+processing ./data/morenny/radar/desc/geo_path107/temp_shapefile_dir/20170712_20230810_20230810_N.shp completed...
+
+processing ./data/morenny/radar/desc/geo_path107/temp_shapefile_dir/20170712_20230810_20230810_E.shp started...
+
+116
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing: Update Shapefiles : 100%|██████████| 3/3 [00:47&lt;00:00, 15.76s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ReferencePoint x, y: (662175.8168411255, 4762038.9138793945), VEL, VEL_STD: (-0.00849511, 0.014685612)
+processing ./data/morenny/radar/desc/geo_path107/temp_shapefile_dir/20170712_20230810_20230810_E.shp completed...
+
+Total Days: 2220
+file used ./data/morenny/radar/desc/geo_path107/temp_shapefile_dir\updated_shapefiles\20170712_20230810_20230810_2DVEL.shp.xml
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+start calculating aspect...
+calculating aspect completed
+</pre></div></div>
+</div>
 <section id="Create-custom-colormap">
 <h3>Create custom colormap<a class="headerlink" href="#Create-custom-colormap" title="Link to this heading">¶</a></h3>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -289,15 +904,8 @@ users, example screenshots are provided below as a guide to navigate through the
 <br/></pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_17_0.png" src="../_images/notebooks_RockGlacier_radar_desc_17_0.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -313,13 +921,6 @@ users, example screenshots are provided below as a guide to navigate through the
                    <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorbar_label</span><span class="o">=</span><span class="s1">&#39;meter&#39;</span><span class="p">,</span>
                    <span class="n">show_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_18_0.png" src="../_images/notebooks_RockGlacier_radar_desc_18_0.png" />
 </div>
 </div>
 </section>
@@ -361,8 +962,8 @@ users, example screenshots are provided below as a guide to navigate through the
 </section>
 <section id="Visualize-Displacement-Products">
 <h2>Visualize Displacement Products<a class="headerlink" href="#Visualize-Displacement-Products" title="Link to this heading">¶</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -377,15 +978,8 @@ users, example screenshots are provided below as a guide to navigate through the
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_22_0.png" src="../_images/notebooks_RockGlacier_radar_desc_22_0.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -400,13 +994,6 @@ users, example screenshots are provided below as a guide to navigate through the
 
 <span class="c1">#aspect_raster=&#39;./data/morenny/radar/desc/VEL_Folder/aspect_universal.tif&#39;, cmap_aspect=&#39;hsv_r&#39; , step=2</span>
 </pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_23_0.png" src="../_images/notebooks_RockGlacier_radar_desc_23_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -503,7 +1090,7 @@ users, example screenshots are provided below as a guide to navigate through the
 <h3>Simulation and projection of 3D movement and arrow pattern interpretation of the displacement products<a class="headerlink" href="#Simulation-and-projection-of-3D-movement-and-arrow-pattern-interpretation-of-the-displacement-products" title="Link to this heading">¶</a></h3>
 <img alt="animation 1" src="../_images/animation.gif" />
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Visualize Mean Velocity East-West</span>
@@ -531,9 +1118,9 @@ users, example screenshots are provided below as a guide to navigate through the
                                        <span class="n">dem_path</span><span class="o">=</span><span class="s1">&#39;./data/morenny/dem.tif&#39;</span><span class="p">,</span> <span class="n">out_folder</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/desc/Figs_analysis/2D&#39;</span><span class="p">,</span>
                                        <span class="n">color_field</span><span class="o">=</span><span class="s2">&quot;VEL&quot;</span><span class="p">,</span> <span class="n">Set_fig_MinMax</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                        <span class="n">MinMaxRange</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-                                       <span class="n">cmap</span><span class="o">=</span><span class="n">custom_colormap</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                       <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;tab10&#39;</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                        <span class="n">cbar_label</span><span class="o">=</span><span class="s1">&#39;2D-VEL (meter/year)&#39;</span><span class="p">,</span>
-                                       <span class="n">batch_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_inverse_Vel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                                       <span class="n">batch_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_inverse_Vel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -567,8 +1154,8 @@ users can download their analysis and the generated figures directly from the we
 <img alt="dash2d_radar output sample" src="../_images/dash2d11.png" />
 <img alt="dash2d_radar output sample1" src="../_images/newplot111.png" />
 <img alt="dash2d_radar output sample2" src="../_images/newplot12.png" />
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akhdefo_functions</span>
@@ -578,19 +1165,6 @@ users can download their analysis and the generated figures directly from the we
                                   <span class="n">port</span><span class="o">=</span><span class="mi">8057</span><span class="p">,</span> <span class="n">BaseMap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">basemap_type</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area rendered_html docutils container">
-<iframe
-    width="100%"
-    height="650"
-    src="http://127.0.0.1:8057/"
-    frameborder="0"
-    allowfullscreen
-
-></iframe></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -615,8 +1189,8 @@ users can download their analysis and the generated figures directly from the we
 </section>
 <section id="Plot-Mean-Land-Surface-Temperature-for-months-July-and-August-2017-to-2021">
 <h2>Plot Mean Land Surface Temperature for months July and August 2017 to 2021<a class="headerlink" href="#Plot-Mean-Land-Surface-Temperature-for-months-July-and-August-2017-to-2021" title="Link to this heading">¶</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -726,81 +1300,10 @@ users can download their analysis and the generated figures directly from the we
 <br/></pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-100%|██████████| 9/9 [00:00&lt;00:00, 82.45it/s]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_33_1.png" src="../_images/notebooks_RockGlacier_radar_desc_33_1.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_33_2.png" src="../_images/notebooks_RockGlacier_radar_desc_33_2.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_33_3.png" src="../_images/notebooks_RockGlacier_radar_desc_33_3.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_33_4.png" src="../_images/notebooks_RockGlacier_radar_desc_33_4.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_33_5.png" src="../_images/notebooks_RockGlacier_radar_desc_33_5.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_33_6.png" src="../_images/notebooks_RockGlacier_radar_desc_33_6.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_33_7.png" src="../_images/notebooks_RockGlacier_radar_desc_33_7.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_33_8.png" src="../_images/notebooks_RockGlacier_radar_desc_33_8.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_33_9.png" src="../_images/notebooks_RockGlacier_radar_desc_33_9.png" />
-</div>
-</div>
 <section id="Detrend-Land-Surface-Temperature-data">
 <h3>Detrend Land Surface Temperature data<a class="headerlink" href="#Detrend-Land-Surface-Temperature-data" title="Link to this heading">¶</a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rasterio</span>
@@ -841,8 +1344,8 @@ users can download their analysis and the generated figures directly from the we
 <br/></pre></div>
 </div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span>
@@ -866,15 +1369,8 @@ users can download their analysis and the generated figures directly from the we
 <br/></pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_36_0.png" src="../_images/notebooks_RockGlacier_radar_desc_36_0.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">akhdefo_viewer</span><span class="p">(</span>
@@ -896,13 +1392,6 @@ users can download their analysis and the generated figures directly from the we
 
 <span class="p">)</span>
 <br/></pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_37_0.png" src="../_images/notebooks_RockGlacier_radar_desc_37_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -1035,8 +1524,8 @@ users can download their analysis and the generated figures directly from the we
 </div>
 </div>
 <img alt="LST Profile" src="../_images/LST_TS.png" />
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -1087,24 +1576,6 @@ users can download their analysis and the generated figures directly from the we
 <span class="c1"># Show plot</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <br/><br/><br/></pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-c:\Users\mahmud\anaconda3\envs\akhdefov2\lib\site-packages\seaborn\_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
-c:\Users\mahmud\anaconda3\envs\akhdefov2\lib\site-packages\seaborn\_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_RockGlacier_radar_desc_40_1.png" src="../_images/notebooks_RockGlacier_radar_desc_40_1.png" />
 </div>
 </div>
 </section>

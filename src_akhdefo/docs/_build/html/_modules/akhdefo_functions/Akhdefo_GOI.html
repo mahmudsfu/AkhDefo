@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.Akhdefo_GOI &#8212; AkhDefo Software 2.2.66 documentation</title>
+    <title>akhdefo_functions.Akhdefo_GOI &#8212; AkhDefo Software 2.3.125 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=e2ab9622"></script>
+    <script src="../../_static/documentation_options.js?v=cdd0b548"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -1099,7 +1099,7 @@
                             <span class="n">good_match_option</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">hillshade_option</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shapefile_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_triplet_interval</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span>
                             <span class="n">pixel_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">num_chunks</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">overlap_percentage</span><span class="o">=</span><span class="mi">0</span> <span class="p">,</span> <span class="n">pyr_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">poly_n</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span><span class="n">poly_sigma</span><span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
                             <span class="n">master_reference</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span> <span class="n">selection_Mode</span><span class="o">=</span><span class="s1">&#39;triplet&#39;</span> <span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span> <span class="p">,</span> <span class="n">krig_method</span><span class="o">=</span><span class="s1">&#39;ordinary&#39;</span><span class="p">,</span> <span class="n">spatial_ref</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_detrend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
-                            <span class="n">use_zscore_krig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">orbit_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                            <span class="n">use_zscore_krig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">orbit_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dense_match_option</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">   </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Performs feature matching and velocity/displacement calculations across a series of images.</span>
@@ -1248,35 +1248,122 @@
         <span class="k">return</span> <span class="n">ssim_map</span>
 
 
-    <span class="k">def</span> <span class="nf">match_features</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">descriptor1</span><span class="p">,</span> <span class="n">descriptor2</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="n">zscore_threshold</span><span class="p">,</span> <span class="n">good_match_option</span><span class="o">=</span><span class="n">good_match_option</span><span class="p">):</span>
-        <span class="n">good_matches</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Initialize an empty list for good_matches</span>
-    
-        <span class="n">bf</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">BFMatcher</span><span class="p">()</span>
-        <span class="n">matches</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">knnMatch</span><span class="p">(</span><span class="n">descriptor1</span><span class="p">,</span> <span class="n">descriptor2</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c1">####### This section is used for dense matching####################</span>
+    <span class="k">def</span> <span class="nf">is_valid_pixel</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if a pixel at (x, y) is valid (not zero and not NaN).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">image</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">image</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
 
-        <span class="c1"># Calculate distances for all matches</span>
+    <span class="k">def</span> <span class="nf">create_dense_keypoints_for_valid_pixels</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a dense grid of keypoints across the image, excluding invalid pixels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">keypoints</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">step_size</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">step_size</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">is_valid_pixel</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+                    <span class="n">keypoints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">KeyPoint</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">keypoints</span>
+
+    <span class="k">def</span> <span class="nf">extract_descriptors</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">keypoints</span><span class="p">,</span> <span class="n">patch_size</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract descriptors for the keypoints by using image patches.</span>
+<span class="sd">        :param image: The input image.</span>
+<span class="sd">        :param keypoints: List of keypoints.</span>
+<span class="sd">        :param patch_size: The size of the patch to extract around each keypoint.</span>
+<span class="sd">        :return: Numpy array of descriptors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">descriptors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">half_size</span> <span class="o">=</span> <span class="n">patch_size</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">keypoints</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kp</span><span class="o">.</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">kp</span><span class="o">.</span><span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="o">-</span> <span class="n">half_size</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">-</span> <span class="n">half_size</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">+</span> <span class="n">half_size</span> <span class="o">&gt;</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">+</span> <span class="n">half_size</span> <span class="o">&gt;</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="k">continue</span>  <span class="c1"># Skip keypoints near the border</span>
+            <span class="n">patch</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="n">y</span><span class="o">-</span><span class="n">half_size</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="n">half_size</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">half_size</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">half_size</span><span class="p">]</span>
+            <span class="n">descriptors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patch</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">descriptors</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">correlate_descriptors</span><span class="p">(</span><span class="n">descriptors1</span><span class="p">,</span> <span class="n">descriptors2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Correlate descriptors between two sets and return matches.</span>
+<span class="sd">        :param descriptors1: Descriptors from the first image.</span>
+<span class="sd">        :param descriptors2: Descriptors from the second image.</span>
+<span class="sd">        :return: List of DMatch objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Use a simple nearest-neighbor approach for matching</span>
+        <span class="c1"># This is a placeholder for more sophisticated matching methods</span>
+        <span class="n">bf</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">BFMatcher</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">NORM_L2</span><span class="p">,</span> <span class="n">crossCheck</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">descriptors1</span><span class="p">,</span> <span class="n">descriptors2</span><span class="p">)</span>
+        <span class="c1">#matches = bf.knnMatch(descriptors1, descriptors2, k=2)</span>
+        <span class="k">return</span> <span class="n">matches</span>
+    <span class="k">def</span> <span class="nf">filter_matches_by_stability</span><span class="p">(</span><span class="n">matches</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">75</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Filter matches based on a distance threshold for stability.</span>
+<span class="sd">        :param matches: List of DMatch objects.</span>
+<span class="sd">        :param threshold: Distance threshold for filtering.</span>
+<span class="sd">        :return: Filtered list of DMatch objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">distances</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">distance</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">]</span>
-        
-        <span class="c1"># Calculate mean and standard deviation of distances</span>
-        <span class="n">mean_distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
-        <span class="n">std_distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
-        
-        <span class="c1"># Define a threshold based on the Z-score</span>
-        <span class="n">z_score_threshold</span> <span class="o">=</span> <span class="n">zscore_threshold</span>
-
-        <span class="c1">#mean_distance + z_score_threshold * std_distance</span>
-        
-        <span class="c1"># Filter matches based on the Z-score</span>
-        <span class="k">if</span> <span class="n">good_match_option</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">good_matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">matches</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">distance</span> <span class="o">&lt;</span> <span class="n">good_match_option</span> <span class="o">*</span> <span class="n">n</span><span class="o">.</span><span class="n">distance</span><span class="p">]</span>
-
-
-        <span class="k">else</span><span class="p">:</span>
-
-            <span class="n">good_matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">matches</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">distance</span> <span class="o">&lt;</span> <span class="n">mean_distance</span> <span class="o">+</span> <span class="n">z_score_threshold</span> <span class="o">*</span> <span class="n">std_distance</span><span class="p">]</span>
-
+        <span class="n">filtered_matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">matches</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">distance</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">filtered_matches</span>
+   
     
-        <span class="k">return</span> <span class="n">good_matches</span>
+    
+    <span class="c1">######################################################################</span>
+
+    <span class="k">def</span> <span class="nf">match_features</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">descriptor1</span><span class="p">,</span> <span class="n">descriptor2</span><span class="p">,</span> <span class="n">keypoint1</span><span class="p">,</span> <span class="n">keypoint2</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="n">zscore_threshold</span><span class="p">,</span> <span class="n">good_match_option</span><span class="o">=</span><span class="n">good_match_option</span><span class="p">,</span> <span class="n">dense_match_option</span><span class="o">=</span><span class="n">dense_match_option</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="n">dense_match_option</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+            <span class="n">good_matches</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Initialize an empty list for good_matches</span>
+            <span class="n">bf</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">BFMatcher</span><span class="p">(</span><span class="n">crossCheck</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">knnMatch</span><span class="p">(</span><span class="n">descriptor1</span><span class="p">,</span> <span class="n">descriptor2</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            
+            <span class="c1"># Calculate distances for all matches</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">distance</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">]</span>
+            <span class="c1"># Calculate mean and standard deviation of distances</span>
+            <span class="n">mean_distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+            <span class="n">std_distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+            <span class="c1"># Define a threshold based on the Z-score</span>
+            <span class="n">z_score_threshold</span> <span class="o">=</span> <span class="n">zscore_threshold</span>
+            <span class="c1">#mean_distance + z_score_threshold * std_distance</span>
+            <span class="c1"># Filter matches based on the Z-score</span>
+            <span class="k">if</span> <span class="n">good_match_option</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">good_matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">matches</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">distance</span> <span class="o">&lt;</span> <span class="n">good_match_option</span> <span class="o">*</span> <span class="n">n</span><span class="o">.</span><span class="n">distance</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">good_matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">matches</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">distance</span> <span class="o">&lt;</span> <span class="n">mean_distance</span> <span class="o">+</span> <span class="n">z_score_threshold</span> <span class="o">*</span> <span class="n">std_distance</span><span class="p">]</span>
+            
+        <span class="k">elif</span> <span class="n">dense_match_option</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+            
+            <span class="c1"># Create dense keypoints for both images</span>
+            <span class="n">keypoint1</span> <span class="o">=</span> <span class="n">create_dense_keypoints_for_valid_pixels</span><span class="p">(</span><span class="n">image1</span><span class="p">)</span>
+            <span class="n">keypoint2</span> <span class="o">=</span> <span class="n">create_dense_keypoints_for_valid_pixels</span><span class="p">(</span><span class="n">image2</span><span class="p">)</span>
+
+            <span class="c1"># Extract descriptors from both images</span>
+            <span class="n">descriptor1</span> <span class="o">=</span> <span class="n">extract_descriptors</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">keypoint1</span><span class="p">)</span>
+            <span class="n">descriptor2</span> <span class="o">=</span> <span class="n">extract_descriptors</span><span class="p">(</span><span class="n">image2</span><span class="p">,</span> <span class="n">keypoint2</span><span class="p">)</span>
+
+            <span class="c1"># Correlate descriptors</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="n">correlate_descriptors</span><span class="p">(</span><span class="n">descriptor1</span><span class="p">,</span> <span class="n">descriptor2</span><span class="p">)</span>
+           
+           <span class="c1"># Filter matches based on stability</span>
+            <span class="n">good_matches</span> <span class="o">=</span> <span class="n">matches</span>
+            
+
+        <span class="n">descriptor12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">descriptor1</span><span class="p">,</span> <span class="n">descriptor2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">keypoint12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">keypoint1</span><span class="p">,</span> <span class="n">keypoint2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+        <span class="c1"># # Filter the keypoints</span>
+        <span class="c1"># keypoint12 = [keypoint12[m.queryIdx] for m in good_matches]</span>
+        <span class="c1"># # Filter the descriptors</span>
+        <span class="c1"># descriptor12 = np.array([descriptor12[m.queryIdx] for m in good_matches])</span>
+            
+        
+        
+       
+        <span class="k">return</span> <span class="n">good_matches</span><span class="p">,</span> <span class="n">descriptor12</span><span class="p">,</span> <span class="n">keypoint12</span>
+        
 
     <span class="kn">import</span> <span class="nn">cv2</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1918,7 +2005,7 @@
         <span class="k">for</span> <span class="n">image_path</span> <span class="ow">in</span> <span class="n">image_path_list</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
                 <span class="n">overlap_window</span> <span class="o">=</span> <span class="n">from_bounds</span><span class="p">(</span><span class="o">*</span><span class="n">overlap_box</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">src</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
-                <span class="n">cropped_image</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">overlap_window</span><span class="p">)</span>
+                <span class="n">cropped_image</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
                 <span class="n">maskNan</span><span class="o">=</span><span class="n">cropped_image</span><span class="p">[</span><span class="n">cropped_image</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">meta</span><span class="o">=</span><span class="n">src</span><span class="o">.</span><span class="n">meta</span>
                  <span class="c1"># Rasterio reads data as (bands, height, width)</span>
@@ -1962,7 +2049,7 @@
     <span class="n">VEL_scale</span><span class="o">=</span><span class="n">VEL_scale</span><span class="p">,</span> <span class="n">VEL_Mode</span><span class="o">=</span><span class="n">VEL_Mode</span><span class="p">,</span> <span class="n">shapefile_output</span><span class="o">=</span><span class="n">shapefile_output</span><span class="p">,</span> 
     <span class="n">smoothing_kernel_size</span><span class="o">=</span><span class="n">smoothing_kernel_size</span><span class="p">,</span> <span class="n">pixel_size</span><span class="o">=</span><span class="n">pixel_size</span><span class="p">,</span><span class="n">num_chunks</span><span class="o">=</span><span class="n">num_chunks</span><span class="p">,</span><span class="n">overlap_percentage</span><span class="o">=</span><span class="n">overlap_percentage</span><span class="p">,</span> 
     <span class="n">pyr_scale</span><span class="o">=</span><span class="n">pyr_scale</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">poly_n</span><span class="o">=</span><span class="n">poly_n</span><span class="p">,</span><span class="n">poly_sigma</span><span class="o">=</span> <span class="n">poly_sigma</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">flags</span><span class="p">,</span>
-    <span class="n">master_reference</span><span class="o">=</span><span class="n">master_reference</span><span class="p">,</span> <span class="n">selection_Mode</span><span class="o">=</span><span class="n">selection_Mode</span> <span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span> <span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end_date</span><span class="p">):</span>
+    <span class="n">master_reference</span><span class="o">=</span><span class="n">master_reference</span><span class="p">,</span> <span class="n">selection_Mode</span><span class="o">=</span><span class="n">selection_Mode</span> <span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span> <span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end_date</span><span class="p">,</span> <span class="n">dense_match_option</span><span class="o">=</span><span class="n">dense_match_option</span><span class="p">):</span>
         
         <span class="n">folder_path</span> <span class="o">=</span> <span class="n">folder_path</span>
         
@@ -2080,9 +2167,14 @@
 
             <span class="n">keypoints12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">keypoints1</span><span class="p">,</span> <span class="n">keypoints2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">keypoints13</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">keypoints1</span><span class="p">,</span> <span class="n">keypoints3</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-            <span class="n">good_matches12</span> <span class="o">=</span> <span class="n">match_features</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">descriptors12</span><span class="p">,</span> <span class="n">descriptors13</span><span class="p">,</span> <span class="n">good_match_option</span><span class="o">=</span><span class="n">good_match_option</span><span class="p">)</span>
-            <span class="n">good_matches13</span> <span class="o">=</span> <span class="n">match_features</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image3</span><span class="p">,</span> <span class="n">descriptors12</span><span class="p">,</span> <span class="n">descriptors13</span><span class="p">,</span> <span class="n">good_match_option</span><span class="o">=</span><span class="n">good_match_option</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">dense_match_option</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+                <span class="n">good_matches12</span><span class="p">,</span> <span class="n">descriptors12</span><span class="p">,</span> <span class="n">keypoints12</span> <span class="o">=</span> <span class="n">match_features</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">descriptors12</span><span class="p">,</span> <span class="n">descriptors13</span><span class="p">,</span> <span class="n">keypoints12</span><span class="p">,</span> <span class="n">keypoints13</span><span class="p">,</span> <span class="n">good_match_option</span><span class="o">=</span><span class="n">good_match_option</span><span class="p">)</span>
+                <span class="n">good_matches13</span><span class="p">,</span> <span class="n">descriptors13</span><span class="p">,</span> <span class="n">keypoints13</span> <span class="o">=</span> <span class="n">match_features</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image3</span><span class="p">,</span> <span class="n">descriptors12</span><span class="p">,</span> <span class="n">descriptors13</span><span class="p">,</span> <span class="n">keypoints12</span><span class="p">,</span> <span class="n">keypoints13</span><span class="p">,</span><span class="n">good_match_option</span><span class="o">=</span><span class="n">good_match_option</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                
+                <span class="n">good_matches12</span><span class="p">,</span> <span class="n">descriptors12</span><span class="p">,</span> <span class="n">keypoints12</span> <span class="o">=</span> <span class="n">match_features</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">descriptors12</span><span class="p">,</span> <span class="n">descriptors13</span><span class="p">,</span> <span class="n">keypoints12</span><span class="p">,</span> <span class="n">keypoints13</span><span class="p">,</span> <span class="n">good_match_option</span><span class="o">=</span><span class="n">good_match_option</span><span class="p">)</span>
+                <span class="n">good_matches13</span><span class="p">,</span> <span class="n">descriptors13</span><span class="p">,</span> <span class="n">keypoints13</span> <span class="o">=</span> <span class="n">match_features</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image3</span><span class="p">,</span> <span class="n">descriptors12</span><span class="p">,</span> <span class="n">descriptors13</span><span class="p">,</span> <span class="n">keypoints12</span><span class="p">,</span> <span class="n">keypoints13</span><span class="p">,</span><span class="n">good_match_option</span><span class="o">=</span><span class="n">good_match_option</span><span class="p">)</span>
 
             <span class="n">flow12</span><span class="p">,</span> <span class="n">flowx12</span><span class="p">,</span> <span class="n">flowy12</span> <span class="p">,</span> <span class="n">ssim1</span><span class="o">=</span> <span class="n">calculate_optical_flow</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">zscore_threshold</span><span class="o">=</span><span class="n">zscore_threshold</span><span class="p">,</span> <span class="n">ssim_thresh</span><span class="o">=</span><span class="n">ssim_thresh</span> <span class="p">,</span>
                                                               <span class="n">pyr_scale</span><span class="o">=</span><span class="n">pyr_scale</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span> <span class="n">winsize</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">poly_n</span><span class="o">=</span><span class="n">poly_n</span><span class="p">,</span><span class="n">poly_sigma</span><span class="o">=</span> <span class="n">poly_sigma</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">flags</span><span class="p">,</span> <span class="n">orbit_dir</span><span class="o">=</span><span class="n">orbit_dir</span><span class="p">)</span>

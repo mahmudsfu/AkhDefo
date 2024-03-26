@@ -79,7 +79,7 @@ dependencies:
   - xmltodict
 
 ```
-3. Download the Python package requirement file: [pip_req.txt](pip_req.txt).
+3. Download the Python package requirement file: [pip_req.txt](https://akhdefo.readthedocs.io/en/latest/_downloads/cf683ba9d9f18b1eb9fe104d71a15cb3/pip_req.txt).
 
 4. Install required Python packages with the command:
 

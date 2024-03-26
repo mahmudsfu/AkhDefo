@@ -972,79 +972,102 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
    ###########################
    
    #Inverse Velocity
-   
-    def inverse_Velocity(path_to_shapefile=path_to_shapefile):
+    
+    def inverse_Velocity(path_to_shapefile, point_size, cmap):
         import geopandas as gpd
         import numpy as np
         import pandas as pd
-        from datetime import datetime
-        from sklearn.linear_model import LinearRegression
         import matplotlib.pyplot as plt
+        import matplotlib.dates as mdates
+        from sklearn.linear_model import LinearRegression
+        from datetime import datetime
 
-        # Load the Shapefile into a GeoPandas DataFrame
-        file_path_shp = path_to_shapefile
-        gdf = gpd.read_file(file_path_shp)
+        # Load the shapefile
+        gdf = gpd.read_file(path_to_shapefile)
 
-        # Function to safely calculate inverse velocity
-        def inverse_velocity(velocity):
-            if velocity == 0 or np.isnan(velocity):
-                return np.nan
-            else:
-                return 1 / velocity
-        # Extracting velocity columns and applying inverse velocity calculation
-        velocity_columns = [col for col in gdf.columns if col.startswith('D')]
-        
-        gdf_inverse_velocities = gdf[velocity_columns].applymap(inverse_velocity)
-        
-        
-        
-        #gdf_inverse_velocities[velocity_columns[0]]=gdf_inverse_velocities[velocity_columns[1]]
-        # Preparing date ordinals for linear regression
-        date_ordinals = np.array([datetime.strptime(col[1:], '%Y%m%d').toordinal() for col in velocity_columns])
-        reference_date = datetime.strptime(velocity_columns[0][1:], '%Y%m%d')
+        # Identify columns that start with 'D'
+        d_columns = [col for col in gdf.columns if col.startswith('D')]
+        #d_columns = d_columns[1:]  # Adjust according to your specific needs
 
-        # Function to perform linear regression and find zero crossing for each point
-        def find_zero_crossing(y):
-            valid_indices = ~np.isnan(y)
-            if not np.any(valid_indices):
-                return np.nan  # Return NaN if all values are NaN
+        # Calculate inverse velocity for each row of the 'D' columns
+        inverse_velocity_d_columns = 1 / gdf[d_columns].replace(0, np.nan)  # Replace zeros with NaN
 
-            valid_y = y[valid_indices].values.reshape(-1, 1)
-            valid_X = date_ordinals[valid_indices].reshape(-1, 1)
+        # Helper function to convert date columns to ordinal
+        def date_to_ordinal(date_str):
+            return pd.to_datetime(date_str[1:], format='%Y%m%d').toordinal()
 
-            # Linear regression
-            model = LinearRegression()
-            model.fit(valid_X, valid_y)
-            
-            # Predicting zero crossing
-            predicted = model.predict(date_ordinals.reshape(-1, 1))
-            zero_crossing = date_ordinals[predicted.ravel() <= 0]
-            return zero_crossing.min() if len(zero_crossing) > 0 else np.nan
+        # Convert 'D' column names to ordinals for regression
+        date_ordinals = np.array([date_to_ordinal(date) for date in d_columns])
 
-        # Applying the function to each row
-        zero_crossings = gdf_inverse_velocities.apply(find_zero_crossing, axis=1)
-        zero_crossing_days = [date - (np.min(date_ordinals)) if not np.isnan(date) else np.nan for date in zero_crossings]
+        # Initialize lists to store zero crossing points
+        x_coords_regression = []
+        y_coords_regression = []
+        dates_regression = []
 
-        # Creating ticks for the colorbar based on the range of zero crossing days
-        min_day = np.nanmin(zero_crossing_days)
-        max_day = np.nanmax(zero_crossing_days)
-        mid_day = (min_day + max_day) / 2
-        tick_days = [min_day, mid_day, max_day]
-        tick_dates = [reference_date + pd.to_timedelta(day, unit='D') for day in tick_days]
-        tick_labels = [date.strftime('%Y%m%d') for date in tick_dates]
-        fig=plt.figure(figsize=(12, 6))
-        # Add two subplots side by side
+        for index, row in inverse_velocity_d_columns.iterrows():
+            valid_indices = ~row.isna()
+            valid_inverse_velocities = row[valid_indices].values
+            valid_date_ordinals = date_ordinals[valid_indices]
+
+            if len(valid_inverse_velocities) >= 2:  # Ensure enough data points for regression
+                model = LinearRegression()
+                model.fit(valid_date_ordinals.reshape(-1, 1), valid_inverse_velocities)
+
+                slope = model.coef_[0]
+                intercept = model.intercept_
+
+                if slope != 0:  # Avoid division by zero
+                    zero_crossing_ordinal = -intercept / slope
+                    # Ensure zero_crossing_ordinal is within a valid range
+                    if zero_crossing_ordinal >= 1:
+                        zero_crossing_date = datetime.fromordinal(int(zero_crossing_ordinal))
+                        if valid_date_ordinals.min() <= zero_crossing_ordinal <= valid_date_ordinals.max() + 3000:  # Check within range
+                            point = gdf.at[index, 'geometry']  # Get the geometry object at the given index
+                            x_coords_regression.append(point.x)  # Append the x coordinate
+                            y_coords_regression.append(point.y)  # Append the y coordinate
+                            dates_regression.append(zero_crossing_date)
+                    else:
+                        continue
+                        #print(f"Invalid zero crossing ordinal {zero_crossing_ordinal} for index {index}")
+
+        # Convert dates for plotting
+        dates_regression_num = mdates.date2num(dates_regression)
+
+        # Plotting the zero crossings from linear regression model
+        fig = plt.figure(figsize=(20, 8))
         ax = fig.add_subplot(122)
-        scatter = ax.scatter(gdf['x'], gdf['y'], c=zero_crossing_days, cmap='hsv', marker='.')
-        divider = make_axes_locatable(ax)
-        cax = divider.append_axes('right', size='5%', pad=0.5)
-        # Adding the colorbar with formatted dates
-        cbar = plt.colorbar(scatter, ax=ax, cax=cax)
-        cbar.set_label('Zero Crossing Date')
-        cbar.set_ticks(tick_days)
-        cbar.set_ticklabels(tick_labels)
         
+        divider = make_axes_locatable(ax)
+        cax = divider.append_axes('bottom', size='3%', pad=0.1)
+        
+        scatter_regression = ax.scatter(x_coords_regression, y_coords_regression, c=dates_regression_num, cmap=cmap, s=point_size)
+
+        # Setup the colorbar with correct formatting
+        cbar_regression = fig.colorbar(scatter_regression, ax=ax, orientation='horizontal', cax=cax, extend='both')
+       
+        cbar_regression.set_label('Date of Zero Crossing')
+        
+         # Rotate colorbar labels
+        for label in cbar_regression.ax.get_xticklabels():
+            label.set_rotation(25)
+            label.set_horizontalalignment('right')
+
+        cbar_regression.ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        # ax.set_xlabel('X Coordinate')
+        # ax.set_ylabel('Y Coordinate')
+        ax.set_title('Zero Crossing Dates (Linear Regression Extrapolation)')
+        plt.grid(True)
+        
+        
+
         return fig, ax
+
+        # Example usage:
+        # path_to_shapefile = 'path/to/your/shapefile.shp'
+        # fig, ax = inverse_Velocity(path_to_shapefile)
+        # plt.show()
+
+        #########################################
    
    
    
@@ -1178,7 +1201,7 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
         
         
         if plot_inverse_Vel==True:
-            fig, ax2 =inverse_Velocity(path_to_shapefile=path_to_shapefile)
+            fig, ax2 =inverse_Velocity(path_to_shapefile=path_to_shapefile, point_size=point_size , cmap=cmap)
             
             ax1=fig.add_subplot(121)
         else:
@@ -1186,7 +1209,7 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
             ax1 = fig.add_subplot(111)
         
         divider = make_axes_locatable(ax1)
-        cax = divider.append_axes('bottom', size='5%', pad=0.5)
+        cax = divider.append_axes('bottom', size='3%', pad=0.1)
         
         def has_xy_columns(gdf):
             return 'x' in gdf.columns and 'y' in gdf.columns
@@ -1207,6 +1230,10 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
         #ax.scatter(gdf.x, gdf.y, s= 0.5, c=gdf.VEL_MEAN ,picker=1)
         cb=fig.colorbar(img_main, ax=ax1, cax=cax, extend='both', orientation='horizontal')
         cb.set_label(cbar_label, labelpad=2, x=0.5, rotation=0)
+         # Rotate colorbar labels
+        for label in cb.ax.get_xticklabels():
+            label.set_rotation(25)
+            label.set_horizontalalignment('right')
         if os.path.exists(xml_file_path):
             if x_ref is not None:
                 ax1.scatter(x_ref, y_ref, label=f"Reference VEL,VEL_STD: {vel:.2f},{vel_std:.2f}", color='k', marker='s')

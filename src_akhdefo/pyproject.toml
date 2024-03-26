@@ -7,7 +7,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "akhdefo_functions"
-version = "2.2.66"
+version = "2.4.24"
 authors = [
   { name="Mahmud Mustafa Muhammad", email="mahmud.muhamm1@gmail.com" },
 ]

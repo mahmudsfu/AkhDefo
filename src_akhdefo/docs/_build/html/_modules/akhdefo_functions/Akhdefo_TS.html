@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.Akhdefo_TS &#8212; AkhDefo Software 2.2.66 documentation</title>
+    <title>akhdefo_functions.Akhdefo_TS &#8212; AkhDefo Software 2.3.125 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=e2ab9622"></script>
+    <script src="../../_static/documentation_options.js?v=cdd0b548"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -932,15 +932,29 @@
         <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">valid_date_ordinals</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">valid_inverse_average_values</span><span class="p">)</span>
 
         <span class="c1"># Predicting over a larger range to extrapolate</span>
-        <span class="n">prediction_dates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">valid_date_ordinals</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">valid_date_ordinals</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">90</span><span class="p">)</span>  <span class="c1"># Extrapolating for 3 more year</span>
+        <span class="n">prediction_dates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">valid_date_ordinals</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">valid_date_ordinals</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3000</span><span class="p">)</span>  <span class="c1"># Extrapolating for 3 more year</span>
         <span class="n">predicted_inverse_averages</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">prediction_dates</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        
+        <span class="c1"># Calculate the zero-crossing point directly from the regression line equation</span>
+        <span class="n">slope</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">intercept</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">intercept_</span>
 
-        <span class="c1"># Finding the zero-crossing point</span>
-        <span class="n">zero_crossing</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">for</span> <span class="n">zero_date</span><span class="p">,</span> <span class="n">avg</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">prediction_dates</span><span class="p">,</span> <span class="n">predicted_inverse_averages</span><span class="o">.</span><span class="n">ravel</span><span class="p">()):</span>
-            <span class="k">if</span> <span class="n">avg</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">zero_crossing</span> <span class="o">=</span> <span class="n">zero_date</span>
-                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">slope</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Avoid division by zero</span>
+            <span class="n">zero_crossing_ordinal</span> <span class="o">=</span> <span class="o">-</span><span class="n">intercept</span> <span class="o">/</span> <span class="n">slope</span>
+            <span class="c1"># Ensure zero_crossing_ordinal is within a valid range</span>
+            <span class="k">if</span> <span class="n">zero_crossing_ordinal</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">zero_crossing_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromordinal</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">zero_crossing_ordinal</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">valid_date_ordinals</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">zero_crossing_ordinal</span> <span class="o">&lt;=</span> <span class="n">valid_date_ordinals</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3000</span><span class="p">:</span>  <span class="c1"># Check within range</span>
+                    <span class="n">zero_crossing</span><span class="o">=</span><span class="n">zero_crossing_ordinal</span>
+        <span class="c1"># if slope == 0:</span>
+        <span class="c1">#     print(&quot;The line is horizontal; no zero-crossing for inverse average.&quot;)</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     zero_crossing_ordinal = -intercept / slope</span>
+        <span class="c1">#     if valid_date_ordinals.min() &lt;= zero_crossing_ordinal &lt;= valid_date_ordinals.max() + 3000:  # Check within range</span>
+               
+        <span class="c1">#         zero_crossing=zero_crossing_ordinal</span>
+        
+        <span class="c1">#####</span>
         <span class="c1">###################################################################################################</span>
         <span class="c1"># Calculate annual change based on the slope</span>
         <span class="c1"># Convert slope from per day to per year (assuming 365.25 days per year to account for leap years)</span>

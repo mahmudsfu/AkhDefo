@@ -463,13 +463,15 @@ def Raster_Correction(input_path, output_path, limit=None, lowpass_kernel_size=5
                     data = np.log1p(data)  # Apply log transformation to the image
                     
                     # Step 2: Apply bilateral filter for denoising
-                    denoise_bilateral = cv2.bilateralFilter(data, d=bilateral_win_size, sigmaColor=bilateral_sigma_color, sigmaSpace=bilateral_sigma_spatial)
-                    
+                    if bilateral_win_size is not None:
+                        denoise_bilateral = cv2.bilateralFilter(data, d=bilateral_win_size, sigmaColor=bilateral_sigma_color, sigmaSpace=bilateral_sigma_spatial)
+                    else:
+                        denoise_bilateral=data
 
                     # Step 3: Normalize to 0-255 scale
                     #normalized_data = cv2.normalize(denoise_bilateral, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
                     # Use rescale_intensity to stretch the intensity range to (0, 255)
-                    normalized_data = exposure.rescale_intensity(denoise_bilateral, in_range=(np.nanmin(denoise_bilateral), np.nanmax(denoise_bilateral)), out_range=(0, 255))
+                    normalized_data = (exposure.rescale_intensity(denoise_bilateral, in_range=(np.nanmin(denoise_bilateral), np.nanmax(denoise_bilateral)), out_range=(0, 255))).astype(np.uint8)
 
                     # If denoise_bilateral is a float image, ensure the output is in uint8 format for proper visualization
                     if normalized_data.dtype == np.float64:
@@ -496,7 +498,11 @@ def Raster_Correction(input_path, output_path, limit=None, lowpass_kernel_size=5
                     data=data
                     # Step 3: Normalize to 0-255 scale
                     #clipped_data = pct_clip(filtered)
-                    denoise_bilateral = cv2.bilateralFilter(data, d=bilateral_win_size, sigmaColor=bilateral_sigma_color, sigmaSpace=bilateral_sigma_spatial)  
+                    if bilateral_win_size is not None:
+                        
+                        denoise_bilateral = cv2.bilateralFilter(data, d=bilateral_win_size, sigmaColor=bilateral_sigma_color, sigmaSpace=bilateral_sigma_spatial)  
+                    else:
+                        denoise_bilateral=data
                     #normalized_data = cv2.normalize(denoise_bilateral, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX) 
                     normalized_data = exposure.rescale_intensity(denoise_bilateral, in_range=(np.nanmin(denoise_bilateral), np.nanmax(denoise_bilateral)), out_range=(0, 255))
 

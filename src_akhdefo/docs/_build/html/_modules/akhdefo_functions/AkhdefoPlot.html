@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>akhdefo_functions.AkhdefoPlot &#8212; AkhDefo Software 2.2.66 documentation</title>
+    <title>akhdefo_functions.AkhdefoPlot &#8212; AkhDefo Software 2.3.125 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../../_static/flask.css?v=b87c8d14" />
-    <script src="../../_static/documentation_options.js?v=e2ab9622"></script>
+    <script src="../../_static/documentation_options.js?v=cdd0b548"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -1021,79 +1021,102 @@
    <span class="c1">###########################</span>
    
    <span class="c1">#Inverse Velocity</span>
-   
-    <span class="k">def</span> <span class="nf">inverse_Velocity</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="n">path_to_shapefile</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">inverse_Velocity</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="p">,</span> <span class="n">point_size</span><span class="p">,</span> <span class="n">cmap</span><span class="p">):</span>
         <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
         <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
         <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-        <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-        <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
         <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="k">as</span> <span class="nn">mdates</span>
+        <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+        <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-        <span class="c1"># Load the Shapefile into a GeoPandas DataFrame</span>
-        <span class="n">file_path_shp</span> <span class="o">=</span> <span class="n">path_to_shapefile</span>
-        <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">file_path_shp</span><span class="p">)</span>
+        <span class="c1"># Load the shapefile</span>
+        <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="p">)</span>
 
-        <span class="c1"># Function to safely calculate inverse velocity</span>
-        <span class="k">def</span> <span class="nf">inverse_velocity</span><span class="p">(</span><span class="n">velocity</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">velocity</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">velocity</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">velocity</span>
-        <span class="c1"># Extracting velocity columns and applying inverse velocity calculation</span>
-        <span class="n">velocity_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)]</span>
-        
-        <span class="n">gdf_inverse_velocities</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">velocity_columns</span><span class="p">]</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">inverse_velocity</span><span class="p">)</span>
-        
-        
-        
-        <span class="c1">#gdf_inverse_velocities[velocity_columns[0]]=gdf_inverse_velocities[velocity_columns[1]]</span>
-        <span class="c1"># Preparing date ordinals for linear regression</span>
-        <span class="n">date_ordinals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">toordinal</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">velocity_columns</span><span class="p">])</span>
-        <span class="n">reference_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">velocity_columns</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:],</span> <span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="c1"># Identify columns that start with &#39;D&#39;</span>
+        <span class="n">d_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)]</span>
+        <span class="c1">#d_columns = d_columns[1:]  # Adjust according to your specific needs</span>
 
-        <span class="c1"># Function to perform linear regression and find zero crossing for each point</span>
-        <span class="k">def</span> <span class="nf">find_zero_crossing</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
-            <span class="n">valid_indices</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">valid_indices</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># Return NaN if all values are NaN</span>
+        <span class="c1"># Calculate inverse velocity for each row of the &#39;D&#39; columns</span>
+        <span class="n">inverse_velocity_d_columns</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">gdf</span><span class="p">[</span><span class="n">d_columns</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>  <span class="c1"># Replace zeros with NaN</span>
 
-            <span class="n">valid_y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">valid_indices</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="n">valid_X</span> <span class="o">=</span> <span class="n">date_ordinals</span><span class="p">[</span><span class="n">valid_indices</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Helper function to convert date columns to ordinal</span>
+        <span class="k">def</span> <span class="nf">date_to_ordinal</span><span class="p">(</span><span class="n">date_str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">date_str</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">toordinal</span><span class="p">()</span>
 
-            <span class="c1"># Linear regression</span>
-            <span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
-            <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">valid_X</span><span class="p">,</span> <span class="n">valid_y</span><span class="p">)</span>
-            
-            <span class="c1"># Predicting zero crossing</span>
-            <span class="n">predicted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">date_ordinals</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-            <span class="n">zero_crossing</span> <span class="o">=</span> <span class="n">date_ordinals</span><span class="p">[</span><span class="n">predicted</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">zero_crossing</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">zero_crossing</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="c1"># Convert &#39;D&#39; column names to ordinals for regression</span>
+        <span class="n">date_ordinals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">date_to_ordinal</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">d_columns</span><span class="p">])</span>
 
-        <span class="c1"># Applying the function to each row</span>
-        <span class="n">zero_crossings</span> <span class="o">=</span> <span class="n">gdf_inverse_velocities</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">find_zero_crossing</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">zero_crossing_days</span> <span class="o">=</span> <span class="p">[</span><span class="n">date</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">date_ordinals</span><span class="p">))</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">zero_crossings</span><span class="p">]</span>
+        <span class="c1"># Initialize lists to store zero crossing points</span>
+        <span class="n">x_coords_regression</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">y_coords_regression</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dates_regression</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="c1"># Creating ticks for the colorbar based on the range of zero crossing days</span>
-        <span class="n">min_day</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">zero_crossing_days</span><span class="p">)</span>
-        <span class="n">max_day</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">zero_crossing_days</span><span class="p">)</span>
-        <span class="n">mid_day</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_day</span> <span class="o">+</span> <span class="n">max_day</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-        <span class="n">tick_days</span> <span class="o">=</span> <span class="p">[</span><span class="n">min_day</span><span class="p">,</span> <span class="n">mid_day</span><span class="p">,</span> <span class="n">max_day</span><span class="p">]</span>
-        <span class="n">tick_dates</span> <span class="o">=</span> <span class="p">[</span><span class="n">reference_date</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="n">tick_days</span><span class="p">]</span>
-        <span class="n">tick_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">tick_dates</span><span class="p">]</span>
-        <span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-        <span class="c1"># Add two subplots side by side</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">inverse_velocity_d_columns</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">valid_indices</span> <span class="o">=</span> <span class="o">~</span><span class="n">row</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span>
+            <span class="n">valid_inverse_velocities</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">valid_indices</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">valid_date_ordinals</span> <span class="o">=</span> <span class="n">date_ordinals</span><span class="p">[</span><span class="n">valid_indices</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_inverse_velocities</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># Ensure enough data points for regression</span>
+                <span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">valid_date_ordinals</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">valid_inverse_velocities</span><span class="p">)</span>
+
+                <span class="n">slope</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">intercept</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">intercept_</span>
+
+                <span class="k">if</span> <span class="n">slope</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Avoid division by zero</span>
+                    <span class="n">zero_crossing_ordinal</span> <span class="o">=</span> <span class="o">-</span><span class="n">intercept</span> <span class="o">/</span> <span class="n">slope</span>
+                    <span class="c1"># Ensure zero_crossing_ordinal is within a valid range</span>
+                    <span class="k">if</span> <span class="n">zero_crossing_ordinal</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">zero_crossing_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromordinal</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">zero_crossing_ordinal</span><span class="p">))</span>
+                        <span class="k">if</span> <span class="n">valid_date_ordinals</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">zero_crossing_ordinal</span> <span class="o">&lt;=</span> <span class="n">valid_date_ordinals</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3000</span><span class="p">:</span>  <span class="c1"># Check within range</span>
+                            <span class="n">point</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]</span>  <span class="c1"># Get the geometry object at the given index</span>
+                            <span class="n">x_coords_regression</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Append the x coordinate</span>
+                            <span class="n">y_coords_regression</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># Append the y coordinate</span>
+                            <span class="n">dates_regression</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">zero_crossing_date</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                        <span class="c1">#print(f&quot;Invalid zero crossing ordinal {zero_crossing_ordinal} for index {index}&quot;)</span>
+
+        <span class="c1"># Convert dates for plotting</span>
+        <span class="n">dates_regression_num</span> <span class="o">=</span> <span class="n">mdates</span><span class="o">.</span><span class="n">date2num</span><span class="p">(</span><span class="n">dates_regression</span><span class="p">)</span>
+
+        <span class="c1"># Plotting the zero crossings from linear regression model</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
-        <span class="n">scatter</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">zero_crossing_days</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;hsv&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
-        <span class="n">divider</span> <span class="o">=</span> <span class="n">make_axes_locatable</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
-        <span class="n">cax</span> <span class="o">=</span> <span class="n">divider</span><span class="o">.</span><span class="n">append_axes</span><span class="p">(</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;5%&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-        <span class="c1"># Adding the colorbar with formatted dates</span>
-        <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">scatter</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">)</span>
-        <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Zero Crossing Date&#39;</span><span class="p">)</span>
-        <span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="n">tick_days</span><span class="p">)</span>
-        <span class="n">cbar</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">(</span><span class="n">tick_labels</span><span class="p">)</span>
         
+        <span class="n">divider</span> <span class="o">=</span> <span class="n">make_axes_locatable</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+        <span class="n">cax</span> <span class="o">=</span> <span class="n">divider</span><span class="o">.</span><span class="n">append_axes</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;3%&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+        
+        <span class="n">scatter_regression</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_coords_regression</span><span class="p">,</span> <span class="n">y_coords_regression</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">dates_regression_num</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">)</span>
+
+        <span class="c1"># Setup the colorbar with correct formatting</span>
+        <span class="n">cbar_regression</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">scatter_regression</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+       
+        <span class="n">cbar_regression</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Date of Zero Crossing&#39;</span><span class="p">)</span>
+        
+         <span class="c1"># Rotate colorbar labels</span>
+        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">cbar_regression</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">():</span>
+            <span class="n">label</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+            <span class="n">label</span><span class="o">.</span><span class="n">set_horizontalalignment</span><span class="p">(</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+        <span class="n">cbar_regression</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">))</span>
+        <span class="c1"># ax.set_xlabel(&#39;X Coordinate&#39;)</span>
+        <span class="c1"># ax.set_ylabel(&#39;Y Coordinate&#39;)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Zero Crossing Dates (Linear Regression Extrapolation)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        
+        
+
         <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
+
+        <span class="c1"># Example usage:</span>
+        <span class="c1"># path_to_shapefile = &#39;path/to/your/shapefile.shp&#39;</span>
+        <span class="c1"># fig, ax = inverse_Velocity(path_to_shapefile)</span>
+        <span class="c1"># plt.show()</span>
+
+        <span class="c1">#########################################</span>
    
    
    
@@ -1227,7 +1250,7 @@
         
         
         <span class="k">if</span> <span class="n">plot_inverse_Vel</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">ax2</span> <span class="o">=</span><span class="n">inverse_Velocity</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="n">path_to_shapefile</span><span class="p">)</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax2</span> <span class="o">=</span><span class="n">inverse_Velocity</span><span class="p">(</span><span class="n">path_to_shapefile</span><span class="o">=</span><span class="n">path_to_shapefile</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="n">point_size</span> <span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
             
             <span class="n">ax1</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1235,7 +1258,7 @@
             <span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
         
         <span class="n">divider</span> <span class="o">=</span> <span class="n">make_axes_locatable</span><span class="p">(</span><span class="n">ax1</span><span class="p">)</span>
-        <span class="n">cax</span> <span class="o">=</span> <span class="n">divider</span><span class="o">.</span><span class="n">append_axes</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;5%&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">cax</span> <span class="o">=</span> <span class="n">divider</span><span class="o">.</span><span class="n">append_axes</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;3%&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
         
         <span class="k">def</span> <span class="nf">has_xy_columns</span><span class="p">(</span><span class="n">gdf</span><span class="p">):</span>
             <span class="k">return</span> <span class="s1">&#39;x&#39;</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="s1">&#39;y&#39;</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span>
@@ -1256,6 +1279,10 @@
         <span class="c1">#ax.scatter(gdf.x, gdf.y, s= 0.5, c=gdf.VEL_MEAN ,picker=1)</span>
         <span class="n">cb</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">img_main</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
         <span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">cbar_label</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+         <span class="c1"># Rotate colorbar labels</span>
+        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">cb</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">():</span>
+            <span class="n">label</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+            <span class="n">label</span><span class="o">.</span><span class="n">set_horizontalalignment</span><span class="p">(</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">x_ref</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_ref</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Reference VEL,VEL_STD: </span><span class="si">{</span><span class="n">vel</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">vel_std</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
