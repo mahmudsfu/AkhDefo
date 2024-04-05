@@ -37,6 +37,7 @@ dependencies:
   - statsmodels
   - tqdm
   - xmltodict
+  - pyopengl
   - pip:
     - tensorflow
     - sphinx-gallery
