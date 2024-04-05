@@ -35,10 +35,10 @@ dependencies:
   - scikit-image  # skimage
   - scikit-learn  # sklearn
   - statsmodels
-  - tensorflow
   - tqdm
   - xmltodict
   - pip:
+    - tensorflow
     - sphinx-gallery
     - sphinx-theme
     - sphinx-autopackagesummary
