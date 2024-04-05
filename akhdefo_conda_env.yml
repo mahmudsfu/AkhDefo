@@ -38,8 +38,8 @@ dependencies:
   - tqdm
   - xmltodict
   - pyopengl
+  - tensorflow
   - pip:
-    - tensorflow
     - sphinx-gallery
     - sphinx-theme
     - sphinx-autopackagesummary
