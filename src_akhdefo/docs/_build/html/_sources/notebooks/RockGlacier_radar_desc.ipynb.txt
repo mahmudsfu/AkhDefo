@@ -119,8 +119,8 @@
    "source": [
     "#This functions extracts data from all the granuples zip directory.\n",
     "import akhdefo_functions\n",
-    "akhdefo_functions.read_data_prep(zip_dir='./data./data./data/morenny/radar/desc/RockGlacier_desc_rtc/',\n",
-    "                                 image_dir='./data./data./data/morenny/radar/desc/RS_dir', \n",
+    "akhdefo_functions.read_data_prep(zip_dir='./data/morenny/radar/desc/RockGlacier_desc_rtc/',\n",
+    "                                 image_dir='./data/morenny/radar/desc/RS_dir', \n",
     "                                 ext_image_file='VV.tif', udm_mask_dir='scatter_dir', ext_udm_mask_file='area.tif', search_string=None)"
    ]
   },
@@ -134,8 +134,8 @@
     "import akhdefo_functions\n",
     "from akhdefo_functions import move_files_with_string\n",
     "\n",
-    "move_files_with_string(source_dir='./data./data./data/morenny/radar/desc/RS_dir/', dest_dir='./data./data./data/morenny/radar/desc/RS', search_string='.tif')\n",
-    "move_files_with_string(source_dir='./data./data./data/morenny/radar/desc/scatter_dir/', dest_dir='scatter_rs', search_string='.tif')\n",
+    "move_files_with_string(source_dir='./data/morenny/radar/desc/RS_dir/', dest_dir='./data./data./data/morenny/radar/desc/RS', search_string='.tif')\n",
+    "move_files_with_string(source_dir='./data/morenny/radar/desc/scatter_dir/', dest_dir='scatter_rs', search_string='.tif')\n",
     "\n"
    ]
   },
@@ -160,9 +160,9 @@
     "\n",
     "'''\n",
     "\n",
-    "input_folder = \"./data./data/morenny/radar/desc/scatter_rs\"\n",
-    "output_folder = \"./data./data/morenny/radar/desc/scatter_masks_20\"\n",
-    "plot_folder = \"./data./data/morenny/radar/desc/scatter_mask_plots_20\"\n",
+    "input_folder = \"./data/morenny/radar/desc/scatter_rs\"\n",
+    "output_folder = \"./data/morenny/radar/desc/scatter_masks_20\"\n",
+    "plot_folder = \"./data/morenny/radar/desc/scatter_mask_plots_20\"\n",
     "shapefile_path = \"./data/morenny/AOI.shp\"\n",
     "scatter_Area_threshold=5\n",
     "vegetation_mask_path=None\n",

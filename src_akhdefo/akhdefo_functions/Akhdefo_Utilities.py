@@ -2166,6 +2166,7 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
     
     ############################
     
+    import logging
 
     def set_video_bitrate(input_video_path, output_video_path, bitrate_kbps):
         """
@@ -2197,12 +2198,15 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
                 output_video_path
             ]
 
-            # Execute the FFmpeg command
             subprocess.run(command, check=True)
-
-            print(f"Video with bitrate {bitrate_kbps} kbps saved as {output_video_path}")
+            logging.info(f"Video with bitrate {bitrate_kbps} kbps saved as {output_video_path}")
+            return True
         except subprocess.CalledProcessError as e:
-            print(f"Failed to set bitrate: {e}")
+            logging.error(f"Failed to set bitrate: {e}")
+            return False
+        except Exception as e:
+            logging.error(f"An unexpected error occurred: {e}")
+            return False
     
     def delete_older_mp4(folder_path, bitrate_kbps):
         # Convert string path to Path object for easier manipulation
@@ -2224,7 +2228,7 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
             sorted_files = sorted(file_mod_times, key=lambda x: x[1], reverse=True)
             
             # Exclude the most recent file from conversion
-            files_to_convert = sorted_files[1:]  # All except the most recent
+            files_to_convert = sorted_files [1:]  # All except the most recent
             
             for file, _ in files_to_convert:
                 # Define the output path for the converted file
@@ -2257,9 +2261,11 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
                     print(f"Operation skipped after {5} attempts.")
                             
                     print(f"Converted and saved: {converted_output_path}")
-                # Optionally, delete the original file after conversion
-                os.remove(file)
-                # print(f"Deleted original file: {file.name}")
+                try:
+                    os.remove(file)
+                except Exception as e:  # Catching all exceptions
+                    pass  # If an error occurs, just skip the deletion and continue the program
+
 
     def delete_files_except_last_n(directory, n=2):
         """Delete all files in the given directory except the last n files based on modification time."""
@@ -2452,6 +2458,7 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
             shift_list_y.clear()
             profile_list.clear()
             imagescreenshot_list.clear()
+            delete_older_mp4('plots/Videos', 1500)
             
             frame_suffix = f"_{frame_count}"
         else:
@@ -2595,7 +2602,7 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
         
         #frame_gray = shift_cor(frame_gray, shift=detected_shift)
         
-        similarity_index, ssim_map = ssim(prev_frame_crop_noNan.astype('uint8'), frame_gray_crop_noNan.astype('uint8'), full=True)
+        similarity_index, ssim_map = ssim(prev_frame.astype('uint8'), frame_gray.astype('uint8'), full=True)
         
         fgMask = backSub.apply(frame_gray_crop_noNan)
         # Calculate dense optical flow
@@ -2637,13 +2644,12 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
         
         # # Get the current datetime
         current_datetime = datetime.now()
-        # if ssim_threshold is not None:
-        #     magnitude[ssim_map > ssim_threshold]=0
+        if ssim_threshold is not None:
+            magnitude[ssim_map > ssim_threshold]=0
 
         
         
         ##########
-        
         
         
         
@@ -3109,7 +3115,7 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
            
             
             #if current_hour!=last_hour:
-            delete_older_mp4('plots/Videos', 1500)
+               # delete_older_mp4('plots/Videos', 1500)
                 
                 #shutil.move(temp_file_name, save_gif_image)
                 

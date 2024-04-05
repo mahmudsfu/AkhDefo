@@ -87,7 +87,7 @@ with open("./README_pypi.md", "r", encoding="utf-8") as fh:
 # Setup configuration
 setup(
     name='akhdefo_functions',
-    version='2.4.24',
+    version='2.4.29',
     description='Land Deformation Monitoring Using Optical Satellite Imagery',
     url='https://github.com/mahmudsfu/AkhDefo',
     author='Mahmud Mustafa Muhammad',

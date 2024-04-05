@@ -8,7 +8,7 @@
     <title>Morenney Rock Glacier Radar Descending &#8212; AkhDefo Software 2.3.125 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="../_static/flask.css?v=b87c8d14" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
     <script src="../_static/documentation_options.js?v=cdd0b548"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
@@ -131,8 +131,8 @@ users, example screenshots are provided below as a guide to navigate through the
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#This functions extracts data from all the granuples zip directory.</span>
 <span class="kn">import</span> <span class="nn">akhdefo_functions</span>
-<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">read_data_prep</span><span class="p">(</span><span class="n">zip_dir</span><span class="o">=</span><span class="s1">&#39;./data./data./data/morenny/radar/desc/RockGlacier_desc_rtc/&#39;</span><span class="p">,</span>
-                                 <span class="n">image_dir</span><span class="o">=</span><span class="s1">&#39;./data./data./data/morenny/radar/desc/RS_dir&#39;</span><span class="p">,</span>
+<span class="n">akhdefo_functions</span><span class="o">.</span><span class="n">read_data_prep</span><span class="p">(</span><span class="n">zip_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/desc/RockGlacier_desc_rtc/&#39;</span><span class="p">,</span>
+                                 <span class="n">image_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/desc/RS_dir&#39;</span><span class="p">,</span>
                                  <span class="n">ext_image_file</span><span class="o">=</span><span class="s1">&#39;VV.tif&#39;</span><span class="p">,</span> <span class="n">udm_mask_dir</span><span class="o">=</span><span class="s1">&#39;scatter_dir&#39;</span><span class="p">,</span> <span class="n">ext_udm_mask_file</span><span class="o">=</span><span class="s1">&#39;area.tif&#39;</span><span class="p">,</span> <span class="n">search_string</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -145,8 +145,8 @@ users, example screenshots are provided below as a guide to navigate through the
 <span class="kn">import</span> <span class="nn">akhdefo_functions</span>
 <span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">move_files_with_string</span>
 
-<span class="n">move_files_with_string</span><span class="p">(</span><span class="n">source_dir</span><span class="o">=</span><span class="s1">&#39;./data./data./data/morenny/radar/desc/RS_dir/&#39;</span><span class="p">,</span> <span class="n">dest_dir</span><span class="o">=</span><span class="s1">&#39;./data./data./data/morenny/radar/desc/RS&#39;</span><span class="p">,</span> <span class="n">search_string</span><span class="o">=</span><span class="s1">&#39;.tif&#39;</span><span class="p">)</span>
-<span class="n">move_files_with_string</span><span class="p">(</span><span class="n">source_dir</span><span class="o">=</span><span class="s1">&#39;./data./data./data/morenny/radar/desc/scatter_dir/&#39;</span><span class="p">,</span> <span class="n">dest_dir</span><span class="o">=</span><span class="s1">&#39;scatter_rs&#39;</span><span class="p">,</span> <span class="n">search_string</span><span class="o">=</span><span class="s1">&#39;.tif&#39;</span><span class="p">)</span>
+<span class="n">move_files_with_string</span><span class="p">(</span><span class="n">source_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/desc/RS_dir/&#39;</span><span class="p">,</span> <span class="n">dest_dir</span><span class="o">=</span><span class="s1">&#39;./data./data./data/morenny/radar/desc/RS&#39;</span><span class="p">,</span> <span class="n">search_string</span><span class="o">=</span><span class="s1">&#39;.tif&#39;</span><span class="p">)</span>
+<span class="n">move_files_with_string</span><span class="p">(</span><span class="n">source_dir</span><span class="o">=</span><span class="s1">&#39;./data/morenny/radar/desc/scatter_dir/&#39;</span><span class="p">,</span> <span class="n">dest_dir</span><span class="o">=</span><span class="s1">&#39;scatter_rs&#39;</span><span class="p">,</span> <span class="n">search_string</span><span class="o">=</span><span class="s1">&#39;.tif&#39;</span><span class="p">)</span>
 <br/><br/></pre></div>
 </div>
 </div>
@@ -169,9 +169,9 @@ users, example screenshots are provided below as a guide to navigate through the
 
 <span class="sd">&#39;&#39;&#39;</span>
 
-<span class="n">input_folder</span> <span class="o">=</span> <span class="s2">&quot;./data./data/morenny/radar/desc/scatter_rs&quot;</span>
-<span class="n">output_folder</span> <span class="o">=</span> <span class="s2">&quot;./data./data/morenny/radar/desc/scatter_masks_20&quot;</span>
-<span class="n">plot_folder</span> <span class="o">=</span> <span class="s2">&quot;./data./data/morenny/radar/desc/scatter_mask_plots_20&quot;</span>
+<span class="n">input_folder</span> <span class="o">=</span> <span class="s2">&quot;./data/morenny/radar/desc/scatter_rs&quot;</span>
+<span class="n">output_folder</span> <span class="o">=</span> <span class="s2">&quot;./data/morenny/radar/desc/scatter_masks_20&quot;</span>
+<span class="n">plot_folder</span> <span class="o">=</span> <span class="s2">&quot;./data/morenny/radar/desc/scatter_mask_plots_20&quot;</span>
 <span class="n">shapefile_path</span> <span class="o">=</span> <span class="s2">&quot;./data/morenny/AOI.shp&quot;</span>
 <span class="n">scatter_Area_threshold</span><span class="o">=</span><span class="mi">5</span>
 <span class="n">vegetation_mask_path</span><span class="o">=</span><span class="kc">None</span>
