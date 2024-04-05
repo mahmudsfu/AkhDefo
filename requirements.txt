@@ -54,3 +54,4 @@ tqdm
 typing
 utm
 xmltodict
+akhdefo-functions
