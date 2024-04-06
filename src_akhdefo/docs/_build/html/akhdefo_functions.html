@@ -306,6 +306,75 @@ Velocity in Y direction(NS)</p>
 </section>
 </dd></dl>
 
+<dl class="py class" id="module-akhdefo_functions.Akhdefo_Classification">
+<dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Classification.LeNet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Classification.</span></span><span class="sig-name descname"><span class="pre">LeNet</span></span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Classification.html#LeNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Classification.LeNet" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Classification.LeNet.build">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Classification.html#LeNet.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Classification.LeNet.build" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Classification.Lenet_Model_training">
+<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Classification.</span></span><span class="sig-name descname"><span class="pre">Lenet_Model_training</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DataForTraining'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'foggy_not_foggy.model'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Model_stat_plot.png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EPOCHS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">INIT_LR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Classification.html#Lenet_Model_training"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Classification.Lenet_Model_training" title="Link to this definition">¶</a></dt>
+<dd><p>This function, Lenet_Model_train(), is designed to train a convolutional neural network (CNN) using the LeNet architecture. The network is trained on a dataset of images to classify whether they are “foggy” or “not foggy”.</p>
+<section id="id12">
+<h3>Parameters:<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
+<dl class="simple">
+<dt>dataset: str</dt><dd><p>(default=”DataForTraining”) Path to the directory containing the image data for training. The images are expected to be in separate directories named after their corresponding class (“foggy” or “not foggy”).</p>
+</dd>
+<dt>model_out: str</dt><dd><p>(default=”foggy_not_foggy.model”) The name or path for the output file where the trained model will be saved in the h5 format.</p>
+</dd>
+<dt>plot: str</dt><dd><p>(default=”Model_stat_plot.png”) The name or path for the output image file where a plot of the training loss and accuracy will be saved.</p>
+</dd>
+<dt>EPOCHS: int</dt><dd><p>(default=100)The number of epochs to use for training.</p>
+</dd>
+<dt>INIT_LR: float</dt><dd><p>(default=1e-3)The initial learning rate for the Adam optimizer.</p>
+</dd>
+<dt>BS: int</dt><dd><p>(default=32)The batch size for training.</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h3>Returns:<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Trains a LeNet model on the given dataset.</p></li>
+<li><p>Saves the trained model to disk in the h5 format.</p></li>
+<li><p>Plots the training and validation loss and accuracy as a function of epoch number, and saves the plot to disk. The plot also includes the model summary.</p></li>
+<li><p>Note: The function uses data augmentation techniques during training, including random rotations, width and height shifts, shearing, zooming, and horizontal flipping.</p></li>
+<li><p>This function uses the TensorFlow, Keras, OpenCV, and matplotlib libraries.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Classification.classification">
+<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Classification.</span></span><span class="sig-name descname"><span class="pre">classification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_imagery'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trained_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'foggy_not_foggy.model'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Classification.html#classification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Classification.classification" title="Link to this definition">¶</a></dt>
+<dd><p>Classifies images in the specified directory using a trained model.</p>
+<section id="inputs">
+<h3>Inputs:<a class="headerlink" href="#inputs" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>input_dir (str, optional): Path to the directory containing the input images. Defaults to “dataset_imagery”.</p></li>
+<li><p>trained_model (str, optional): Path to the trained model file. Defaults to “foggy_not_foggy.model”.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id14">
+<h3>Returns:<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>The function assumes that the input directory contains image files in JPG format.</p></li>
+<li><p>The function uses a trained convolutional neural network model to classify the images.</p></li>
+<li><p>It saves the classified images into separate directories based on their classification.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</dd></dl>
+
 </section>
 <section id="module-akhdefo_functions.AkhdefoPlot">
 <span id="visualization"></span><h2>Visualization<a class="headerlink" href="#module-akhdefo_functions.AkhdefoPlot" title="Link to this heading">¶</a></h2>
@@ -313,8 +382,8 @@ Velocity in Y direction(NS)</p>
 <dt class="sig sig-object py" id="akhdefo_functions.AkhdefoPlot.MeanProducts_plot_ts">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.AkhdefoPlot.</span></span><span class="sig-name descname"><span class="pre">MeanProducts_plot_ts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_shapefile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dem_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Figs_analysis'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Set_fig_MinMax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MinMaxRange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[-100,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'jet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mm/year'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_inverse_Vel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/AkhdefoPlot.html#MeanProducts_plot_ts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.AkhdefoPlot.MeanProducts_plot_ts" title="Link to this definition">¶</a></dt>
 <dd><p>This program used to plot shapefile data</p>
-<section id="id12">
-<h3>Parameters<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
+<section id="id15">
+<h3>Parameters<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h3>
 <p>path_to_shapefile : str</p>
 <p>dem_path: str</p>
 <p>out_folder: str</p>
@@ -332,8 +401,8 @@ Velocity in Y direction(NS)</p>
 </dd>
 </dl>
 </section>
-<section id="id13">
-<h3>Returns<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
+<section id="id16">
+<h3>Returns<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
 <p>Figure</p>
 </section>
 </dd></dl>
@@ -342,8 +411,8 @@ Velocity in Y direction(NS)</p>
 <dt class="sig sig-object py" id="akhdefo_functions.AkhdefoPlot.akhdefo_ts_plot">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.AkhdefoPlot.</span></span><span class="sig-name descname"><span class="pre">akhdefo_ts_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_shapefile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dem_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'turbo'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Set_fig_MinMax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MinMaxRange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[-50,</span> <span class="pre">50]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'VEL'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_data_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_saveData_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Fig_outputDir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VEL_Scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'year'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename_dates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/AkhdefoPlot.html#akhdefo_ts_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.AkhdefoPlot.akhdefo_ts_plot" title="Link to this definition">¶</a></dt>
 <dd><p>This program used for analysis time-series velocity profiles</p>
-<section id="id14">
-<h3>Parameters<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
+<section id="id17">
+<h3>Parameters<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>user_data_points: str</dt><dd><p>provide path to csv. file contains x and y coordinate for points of interest
 you can generate this file by providing path to path_saveData_points (POI.csv).
@@ -381,8 +450,8 @@ you save your profile plots in interactive html file and jpg image</p>
 </dd>
 </dl>
 </section>
-<section id="id15">
-<h3>Returns<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h3>
+<section id="id18">
+<h3>Returns<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h3>
 <p>Interactive Figures</p>
 </section>
 </dd></dl>
@@ -444,8 +513,8 @@ specific date and position reflecting the time interval.</p>
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_TS.</span></span><span class="sig-name descname"><span class="pre">Time_Series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stacked_raster_EW</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stacked_raster_NS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dates_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputFilename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VEL_Scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'year'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">master_reference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_TS.html#Time_Series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_TS.Time_Series" title="Link to this definition">¶</a></dt>
 <dd><p>This program uses candiate velocity points from stackprep function and performs linear interpolation in time-domain to calibrate
 stacked velocity. Additionally produces corrected timeseries velocity(daily) in a shapefile.</p>
-<section id="id16">
-<h3>Parameters<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
+<section id="id19">
+<h3>Parameters<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h3>
 <p>b   
 stacked_raster_EW: str</p>
 <p>stacked_raster_NS: str</p>
@@ -466,8 +535,8 @@ stacked_raster_EW: str</p>
 </dd>
 </dl>
 </section>
-<section id="id17">
-<h3>Returns<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
+<section id="id20">
+<h3>Returns<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h3>
 <p>Time-series shape file of velocity and direction EW, NS, and 2D(resultant Velocity and direction)</p>
 </section>
 </dd></dl>
@@ -538,8 +607,8 @@ Access the app in a web browser by navigating to <cite>http://127.0.0.1:&lt;port
 <dt class="sig sig-object py" id="akhdefo_functions.Stacked_Velocity.stackprep">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Stacked_Velocity.</span></span><span class="sig-name descname"><span class="pre">stackprep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_flowxnFolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_toFlowynFolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'YYYYMMDD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'YYYYMMDD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_stackedFolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VEL_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('month',</span> <span class="pre">'year')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.125</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.125</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Velocity_shapeFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Resampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Raster_stack_correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Stacked_Velocity.html#stackprep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Stacked_Velocity.stackprep" title="Link to this definition">¶</a></dt>
 <dd><p>This program collects velocity candiate points for time-series analysis.</p>
-<section id="id18">
-<h3>Parameters<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h3>
+<section id="id21">
+<h3>Parameters<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>path_to_flowxnFolder: str</dt><dd><p>path to folder include east-west velocity files</p>
 </dd>
@@ -574,8 +643,8 @@ Access the app in a web browser by navigating to <cite>http://127.0.0.1:&lt;port
 </dd>
 </dl>
 </section>
-<section id="id19">
-<h3>Returns<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h3>
+<section id="id22">
+<h3>Returns<a class="headerlink" href="#id22" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>ESRI Shapefile</dt><dd><p>This file include candiate velocity points for timeseries analysis</p>
 </dd>
@@ -586,50 +655,6 @@ Access the app in a web browser by navigating to <cite>http://127.0.0.1:&lt;port
 </section>
 <section id="module-akhdefo_functions.Akhdefo_Tools">
 <span id="utilities"></span><h2>Utilities<a class="headerlink" href="#module-akhdefo_functions.Akhdefo_Tools" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.LeNet">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">LeNet</span></span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#LeNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.LeNet" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.LeNet.build">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#LeNet.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.LeNet.build" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.Lenet_Model_training">
-<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">Lenet_Model_training</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DataForTraining'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'foggy_not_foggy.model'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Model_stat_plot.png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EPOCHS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">INIT_LR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#Lenet_Model_training"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.Lenet_Model_training" title="Link to this definition">¶</a></dt>
-<dd><p>This function, Lenet_Model_train(), is designed to train a convolutional neural network (CNN) using the LeNet architecture. The network is trained on a dataset of images to classify whether they are “foggy” or “not foggy”.</p>
-<section id="id20">
-<h3>Parameters:<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>dataset: str</dt><dd><p>(default=”DataForTraining”) Path to the directory containing the image data for training. The images are expected to be in separate directories named after their corresponding class (“foggy” or “not foggy”).</p>
-</dd>
-<dt>model_out: str</dt><dd><p>(default=”foggy_not_foggy.model”) The name or path for the output file where the trained model will be saved in the h5 format.</p>
-</dd>
-<dt>plot: str</dt><dd><p>(default=”Model_stat_plot.png”) The name or path for the output image file where a plot of the training loss and accuracy will be saved.</p>
-</dd>
-<dt>EPOCHS: int</dt><dd><p>(default=100)The number of epochs to use for training.</p>
-</dd>
-<dt>INIT_LR: float</dt><dd><p>(default=1e-3)The initial learning rate for the Adam optimizer.</p>
-</dd>
-<dt>BS: int</dt><dd><p>(default=32)The batch size for training.</p>
-</dd>
-</dl>
-</section>
-<section id="id21">
-<h3>Returns:<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h3>
-<ul class="simple">
-<li><p>Trains a LeNet model on the given dataset.</p></li>
-<li><p>Saves the trained model to disk in the h5 format.</p></li>
-<li><p>Plots the training and validation loss and accuracy as a function of epoch number, and saves the plot to disk. The plot also includes the model summary.</p></li>
-<li><p>Note: The function uses data augmentation techniques during training, including random rotations, width and height shifts, shearing, zooming, and horizontal flipping.</p></li>
-<li><p>This function uses the TensorFlow, Keras, OpenCV, and matplotlib libraries.</p></li>
-</ul>
-</section>
-</dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.akhdefo_fitPlane">
 <span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">akhdefo_fitPlane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dem_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_shapefile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_planeFolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Planes_out'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#akhdefo_fitPlane"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.akhdefo_fitPlane" title="Link to this definition">¶</a></dt>
@@ -738,31 +763,6 @@ height_change (numpy.ndarray): Array of height changes.
 pixel_area (float): Area of a single pixel.</p>
 <p>Returns:
 numpy.ndarray: Array of volume changes.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="akhdefo_functions.Akhdefo_Tools.classification">
-<span class="sig-prename descclassname"><span class="pre">akhdefo_functions.Akhdefo_Tools.</span></span><span class="sig-name descname"><span class="pre">classification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_imagery'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trained_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'foggy_not_foggy.model'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/akhdefo_functions/Akhdefo_Tools.html#classification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#akhdefo_functions.Akhdefo_Tools.classification" title="Link to this definition">¶</a></dt>
-<dd><p>Classifies images in the specified directory using a trained model.</p>
-<section id="inputs">
-<h3>Inputs:<a class="headerlink" href="#inputs" title="Link to this heading">¶</a></h3>
-<blockquote>
-<div><ul class="simple">
-<li><p>input_dir (str, optional): Path to the directory containing the input images. Defaults to “dataset_imagery”.</p></li>
-<li><p>trained_model (str, optional): Path to the trained model file. Defaults to “foggy_not_foggy.model”.</p></li>
-</ul>
-</div></blockquote>
-</section>
-<section id="id22">
-<h3>Returns:<a class="headerlink" href="#id22" title="Link to this heading">¶</a></h3>
-<blockquote>
-<div><ul class="simple">
-<li><p>The function assumes that the input directory contains image files in JPG format.</p></li>
-<li><p>The function uses a trained convolutional neural network model to classify the images.</p></li>
-<li><p>It saves the classified images into separate directories based on their classification.</p></li>
-</ul>
-</div></blockquote>
-</section>
 </dd></dl>
 
 <dl class="py function">
@@ -1792,6 +1792,12 @@ None. The input raster file will be replaced by the masked raster.</p>
 <li><a class="reference internal" href="#akhdefo_functions.Mosaic_Crop.rasterClip"><code class="docutils literal notranslate"><span class="pre">rasterClip()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.OpticalFlow.DynamicChangeDetection"><code class="docutils literal notranslate"><span class="pre">DynamicChangeDetection()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.OpticalFlow.binary_mask"><code class="docutils literal notranslate"><span class="pre">binary_mask()</span></code></a></li>
+<li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Classification.LeNet"><code class="docutils literal notranslate"><span class="pre">LeNet</span></code></a><ul>
+<li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Classification.LeNet.build"><code class="docutils literal notranslate"><span class="pre">LeNet.build()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Classification.Lenet_Model_training"><code class="docutils literal notranslate"><span class="pre">Lenet_Model_training()</span></code></a></li>
+<li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Classification.classification"><code class="docutils literal notranslate"><span class="pre">classification()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-akhdefo_functions.AkhdefoPlot">Visualization</a><ul>
@@ -1808,11 +1814,6 @@ None. The input raster file will be replaced by the masked raster.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-akhdefo_functions.Akhdefo_Tools">Utilities</a><ul>
-<li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.LeNet"><code class="docutils literal notranslate"><span class="pre">LeNet</span></code></a><ul>
-<li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.LeNet.build"><code class="docutils literal notranslate"><span class="pre">LeNet.build()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.Lenet_Model_training"><code class="docutils literal notranslate"><span class="pre">Lenet_Model_training()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.akhdefo_fitPlane"><code class="docutils literal notranslate"><span class="pre">akhdefo_fitPlane()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.assign_fake_projection"><code class="docutils literal notranslate"><span class="pre">assign_fake_projection()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.calculate_and_save_aspect_raster"><code class="docutils literal notranslate"><span class="pre">calculate_and_save_aspect_raster()</span></code></a></li>
@@ -1820,7 +1821,6 @@ None. The input raster file will be replaced by the masked raster.</p>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.calculate_slope"><code class="docutils literal notranslate"><span class="pre">calculate_slope()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.calculate_volume"><code class="docutils literal notranslate"><span class="pre">calculate_volume()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.calculate_volume_change"><code class="docutils literal notranslate"><span class="pre">calculate_volume_change()</span></code></a></li>
-<li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.classification"><code class="docutils literal notranslate"><span class="pre">classification()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.displacement_to_volume"><code class="docutils literal notranslate"><span class="pre">displacement_to_volume()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.flip_geotiff_180"><code class="docutils literal notranslate"><span class="pre">flip_geotiff_180()</span></code></a></li>
 <li><a class="reference internal" href="#akhdefo_functions.Akhdefo_Tools.move_files"><code class="docutils literal notranslate"><span class="pre">move_files()</span></code></a></li>

@@ -19,12 +19,16 @@ Data Processing
    :undoc-members:
    :show-inheritance:
 
-
 .. automodule:: akhdefo_functions.OpticalFlow
    :members:
    :undoc-members:
    :show-inheritance:
 
+
+.. automodule:: akhdefo_functions.Akhdefo_Classification
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Visualization
 -------------
