@@ -1,8 +1,11 @@
+###Start###
 import cv2
 import numpy as np
 import os
 import shutil
 from osgeo import gdal
+import os
+from arosics import COREG_LOCAL
 
 def raster_alignment(src_directory, ref_filename, delete_files=False):
     """
@@ -150,8 +153,7 @@ def Coregistration(input_Folder="", output_folder="", grid_res=20, min_reliabili
 
     """
 
-    import os
-    from arosics import COREG_LOCAL
+   
 
     def create_directory(directory):
         """Helper function to create a directory if it doesn't exist."""

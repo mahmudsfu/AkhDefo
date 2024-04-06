@@ -93,7 +93,7 @@
 
 
 # '''
-from akhdefo_functions import utm_to_latlon
+###Start###
 from akhdefo_functions import akhdefo_viewer
 from osgeo import gdal
 import numpy as np
@@ -113,6 +113,63 @@ from osgeo import osr
 import cmocean
 import geopandas as gpd
 import gstools as gs
+      
+import numpy as np
+import geopandas as gpd
+import gstools as gs
+import matplotlib.pyplot as plt
+import pykrige.kriging_tools as kt
+from pykrige.ok import OrdinaryKriging
+from pykrige.uk import UniversalKriging
+import rasterio
+from rasterio.features import geometry_mask
+from scipy.ndimage import median_filter
+from skimage.filters import gaussian
+import os
+
+import asf_search as asf
+import hyp3_sdk as sdk
+import pandas as pd
+
+
+import rasterio
+from rasterio.warp import calculate_default_transform, reproject, Resampling
+import numpy as np
+import matplotlib.pyplot as plt
+import geopandas as gpd
+from rasterio.mask import mask
+from skimage import exposure
+
+import warnings
+import time 
+from skimage.registration import phase_cross_correlation
+import matplotlib
+import pandas as pd
+import tempfile
+
+from scipy.ndimage import convolve
+import matplotlib
+matplotlib.use('Agg')
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+import subprocess
+from skimage.metrics import structural_similarity as ssim
+# import required libraries
+# from vidgear.gears import CamGear
+# from vidgear.gears import StreamGear
+import queue
+import time
+
+from osgeo import gdal, osr
+import os
+import gc
+import time
+from shapely.geometry import box
+import os
+import geopandas as gpd
+from shapely.geometry import Point
+
 
 def Akhdefo_resample(input_raster="", output_raster="" , xres=3.125 , yres=3.125, SavFig=False , convert_units=None):
     """
@@ -402,20 +459,8 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
 
 
         
-        
-import numpy as np
-import geopandas as gpd
-import gstools as gs
-import matplotlib.pyplot as plt
-import pykrige.kriging_tools as kt
-from pykrige.ok import OrdinaryKriging
-from pykrige.uk import UniversalKriging
-import rasterio
-from rasterio.features import geometry_mask
-from scipy.ndimage import median_filter
-from skimage.filters import gaussian
-import os
-from akhdefo_functions import mask_raster
+  
+#from akhdefo_functions import mask_raster
 
 def set_gdf_to_utm(gdf):
     # Ensure the GeoDataFrame has a valid CRS
@@ -1614,9 +1659,6 @@ def akhdefo_orthorectify(input_Dir: str, dem_path: str, output_path: str, ortho_
 
 
 
-import asf_search as asf
-import hyp3_sdk as sdk
-import pandas as pd
 
 def download_RTC(username: str = '', password: str = '', prompt=False, asf_datapool_results_file: str = '', save_dir: str = '',
                  job_name: str = 'rtc-test', dem_matching: bool = True, include_dem: bool = True,
@@ -1833,13 +1875,6 @@ def download_RTC(username: str = '', password: str = '', prompt=False, asf_datap
    
 
 
-import rasterio
-from rasterio.warp import calculate_default_transform, reproject, Resampling
-import numpy as np
-import matplotlib.pyplot as plt
-import geopandas as gpd
-from rasterio.mask import mask
-from skimage import exposure
 
 def reproject_raster_to_match_shapefile(src_path, dst_path, dst_crs):
 
@@ -2045,12 +2080,7 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
     
     '''
     #import datetime
-    import warnings
-    import time 
-    from skimage.registration import phase_cross_correlation
-    import matplotlib
-    import pandas as pd
-    import tempfile
+    
    
         # Suppress the Matplotlib GUI warning
     warnings.filterwarnings("ignore", category=UserWarning, message="Starting a Matplotlib GUI outside of the main thread will likely fail")
@@ -2128,7 +2158,7 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
     
     
     #############################
-    from scipy.ndimage import convolve
+    
 
     def detect_outliers(image, threshold=3):
         """Detect outliers based on deviation from local mean."""
@@ -3258,18 +3288,7 @@ def measure_displacement_from_camera_toFile(hls_url, alpha=0.1, save_output=Fals
         Video output with motion vectors and magnitude.
     
     '''
-    import matplotlib
-    matplotlib.use('Agg')
-    import cv2
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import subprocess
-    from skimage.metrics import structural_similarity as ssim
-    # import required libraries
-    # from vidgear.gears import CamGear
-    # from vidgear.gears import StreamGear
-    import queue
-    import time
+    
     # Set the new dimensions for resizing
     new_width = 1000
     new_height = 600
@@ -3586,11 +3605,6 @@ def measure_displacement_from_camera_toFile(hls_url, alpha=0.1, save_output=Fals
 
 ##########################################
 
-from osgeo import gdal, osr
-import os
-import gc
-import time
-from shapely.geometry import box
 
 def calculate_new_geotransform(overlap_box, src_transform):
     """
@@ -3715,9 +3729,7 @@ def crop_to_overlap(folder_path):
 # input_folder = 'geo/flowx'
 # crop_to_overlap(input_folder)
 
-import os
-import geopandas as gpd
-from shapely.geometry import Point
+
 
 def crop_point_shapefile_with_aoi(point_shapefile, aoi_shapefile, output_folder):
     
