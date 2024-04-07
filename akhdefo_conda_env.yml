@@ -56,7 +56,6 @@ dependencies:
     - argparse
     - asf_search
     - cmocean
-    - opencv-python
     - dash
     - dask
     - datetime
