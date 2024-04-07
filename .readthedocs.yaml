@@ -6,6 +6,8 @@ version: 2
 
 build:
   os: ubuntu-22.04
+  apt_packages:
+    - libopengl0
   tools:
     python: "mambaforge-22.9"
     nodejs: "18"
@@ -24,9 +26,9 @@ conda:
 sphinx:
   configuration: src_akhdefo/docs/conf.py
   # You can configure Sphinx to use a different builder, for instance use the dirhtml builder for simpler URLs
-  # builder: "dirhtml"
+  builder: "dirhtml"
   # Fail on all warnings to avoid broken references
-  fail_on_warning: False
+  fail_on_warning: True
 
 # Optionally build your docs in additional formats such as PDF and ePub
 formats:
