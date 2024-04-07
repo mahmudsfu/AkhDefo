@@ -139,7 +139,6 @@ dependencies:
     - nbsphinx
     - numpy
     - oauthlib
-    - opencv-python
     - opt-einsum
     - pipreq
     - pipreqs
