@@ -1,7 +1,7 @@
 from flask import Flask, render_template, Response
 import cv2
 import akhdefo_functions
-from akhdefo_functions import measure_displacement_from_camera
+from akhdefo_functions.Akhdefo_Utilities import measure_displacement_from_camera
 def run_flask_app():
     """
     Function to run the Flask app and prompt the user for input.
@@ -21,7 +21,7 @@ def run_flask_app():
    
 
     try:
-        from akhdefo_functions import measure_displacement_from_camera
+        from akhdefo_functions.Akhdefo_Utilities import measure_displacement_from_camera
     except ImportError as e:
         print(f"Error importing 'akhdefo_functions': {e}")
 
