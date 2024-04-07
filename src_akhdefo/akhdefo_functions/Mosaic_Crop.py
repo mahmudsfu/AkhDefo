@@ -1,5 +1,19 @@
 
-
+###Start###
+import glob
+from pathlib import Path
+import os
+from glob import glob
+from osgeo import gdal
+import glob
+import re
+from osgeo import gdal, ogr
+import os
+import numpy as np
+import os 
+import glob
+from pathlib import Path
+from tqdm import tqdm
 
 def Mosaic(Path_to_WorkingDir=r"", output_MosaicDir=r"" , img_mode=1,  file_ex=".tif"):
 
@@ -24,13 +38,7 @@ def Mosaic(Path_to_WorkingDir=r"", output_MosaicDir=r"" , img_mode=1,  file_ex="
     Mosaiced raster images
 
     """
-    import glob
-    from pathlib import Path
-    import os
-    from glob import glob
-    from osgeo import gdal
-    import glob
-    import re
+   
 
 
 #5851965_1062413_2022-08-12_24a4_BGRN_SR_clip.tif
@@ -134,9 +142,7 @@ def Mosaic(Path_to_WorkingDir=r"", output_MosaicDir=r"" , img_mode=1,  file_ex="
         
 
 
-from osgeo import gdal, ogr
-import os
-import numpy as np
+
 def rasterClip(rasterpath, aoi, outfilename):
     """
     Clip a raster file using an Area Of Interest (AOI) defined by a shapefile.
@@ -216,10 +222,7 @@ def Crop_to_AOI(Path_to_WorkingDir=r'', Path_to_AOI_shapefile=r"", output_Croppe
     cropped raster files
 
     """
-    import os 
-    import glob
-    from pathlib import Path
-    from tqdm import tqdm
+   
 
     if not os.path.exists(output_CroppedDir):
         os.makedirs(output_CroppedDir)

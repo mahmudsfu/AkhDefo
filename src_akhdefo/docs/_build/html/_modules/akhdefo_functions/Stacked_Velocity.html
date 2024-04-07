@@ -38,7 +38,29 @@
   <h1>Source code for akhdefo_functions.Stacked_Velocity</h1><div class="highlight"><pre>
 <span></span>
 <span class="c1">######</span>
+<span class="c1">###Start###</span>
 
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">from</span> <span class="nn">geocube.api.core</span> <span class="kn">import</span> <span class="n">make_geocube</span>
+<span class="kn">from</span> <span class="nn">geocube.rasterize</span> <span class="kn">import</span> <span class="n">rasterize_points_griddata</span>
+<span class="kn">import</span> <span class="nn">earthpy.spatial</span> <span class="k">as</span> <span class="nn">es</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">dateutil</span> <span class="kn">import</span> <span class="n">parser</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">rioxarray</span> <span class="k">as</span> <span class="nn">rxr</span>
+<span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">plotting_extent</span>
+<span class="kn">import</span> <span class="nn">earthpy.spatial</span> <span class="k">as</span> <span class="nn">es</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">colors</span>
+<span class="kn">import</span> <span class="nn">earthpy.plot</span> <span class="k">as</span> <span class="nn">ep</span>
 
 <div class="viewcode-block" id="stackprep">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Stacked_Velocity.stackprep">[docs]</a>
@@ -96,23 +118,7 @@
 <span class="sd">        </span>
 <span class="sd">    </span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-    <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
-    <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-    <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-    <span class="kn">from</span> <span class="nn">geocube.api.core</span> <span class="kn">import</span> <span class="n">make_geocube</span>
-    <span class="kn">from</span> <span class="nn">geocube.rasterize</span> <span class="kn">import</span> <span class="n">rasterize_points_griddata</span>
-    <span class="kn">import</span> <span class="nn">earthpy.spatial</span> <span class="k">as</span> <span class="nn">es</span>
-    <span class="kn">import</span> <span class="nn">rasterio</span>
-    <span class="kn">import</span> <span class="nn">glob</span>
-    <span class="kn">import</span> <span class="nn">os</span>
-    <span class="kn">from</span> <span class="nn">dateutil</span> <span class="kn">import</span> <span class="n">parser</span>
-    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-    <span class="kn">import</span> <span class="nn">rioxarray</span> <span class="k">as</span> <span class="nn">rxr</span>
-    <span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">plotting_extent</span>
-    <span class="kn">import</span> <span class="nn">earthpy.spatial</span> <span class="k">as</span> <span class="nn">es</span>
-    <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+    
     
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_stackedFolder</span><span class="p">):</span>
@@ -753,7 +759,7 @@
         <span class="n">profile</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nodata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
 
     <span class="c1">#Names for Interpolated raster</span>
-    <span class="kn">import</span> <span class="nn">earthpy.spatial</span> <span class="k">as</span> <span class="nn">es</span>
+    
     <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">dem</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
         <span class="n">elevation</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="c1"># Set masked values to np.nan</span>
@@ -765,8 +771,7 @@
     <span class="n">dem_plotting_extent</span> <span class="o">=</span> <span class="n">plotting_extent</span><span class="p">(</span><span class="n">dem</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dem</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">transform</span><span class="p">())</span>
 
 
-    <span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">colors</span>
-    <span class="kn">import</span> <span class="nn">earthpy.plot</span> <span class="k">as</span> <span class="nn">ep</span>
+   
     <span class="c1"># # #Plot figures</span>
     <span class="c1"># fig, ax=plt.subplots(nrows=2, ncols=1, figsize=(10,10))</span>
     <span class="c1"># ep.plot_bands( hillshade,cbar=False,extent=dem_plotting_extent,ax=ax[0], scale=True)</span>
@@ -790,9 +795,7 @@
     <span class="n">sv_N_S__resampled</span><span class="o">=</span> <span class="n">output_stackedFolder</span> <span class="o">+</span> <span class="s2">&quot;/resampled&quot;</span><span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">datefrom</span><span class="o">+</span> <span class="s2">&quot;_to_&quot;</span><span class="o">+</span> <span class="n">dateto</span> <span class="o">+</span> <span class="s1">&#39;_N-S&#39;</span><span class="o">+</span> <span class="s1">&#39;.tif&#39;</span>
     
     <span class="k">def</span> <span class="nf">resample</span><span class="p">(</span><span class="n">input_raster</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">output_raster</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="n">xres</span><span class="o">=</span><span class="mf">3.125</span> <span class="p">,</span> <span class="n">yres</span><span class="o">=</span><span class="mf">3.125</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
-        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        
 
         <span class="n">ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">input_raster</span><span class="p">)</span>
 

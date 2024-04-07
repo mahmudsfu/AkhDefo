@@ -1,3 +1,46 @@
+###Start###
+
+import os 
+import shutil
+from zipfile import ZipFile
+import glob
+import os
+from os import listdir
+from os.path import isfile, join
+import os 
+import shutil
+from zipfile import ZipFile
+import glob
+import os
+from os import listdir
+from os.path import isfile, join
+import os 
+import shutil
+from zipfile import ZipFile
+import glob
+import os
+from os import listdir
+from os.path import isfile, join
+import os 
+import shutil
+from zipfile import ZipFile
+import glob
+import os
+from os import listdir
+from os.path import isfile, join
+import os 
+import shutil
+from zipfile import ZipFile
+import glob
+import os
+from os import listdir
+from os.path import isfile, join
+from osgeo import gdal
+from datetime import datetime
+import re
+from tqdm import tqdm
+import os
+import shutil
 
 def unzip(zipdir, dst_dir ):
 
@@ -19,13 +62,7 @@ def unzip(zipdir, dst_dir ):
     unzip folder
 
     """
-    import os 
-    import shutil
-    from zipfile import ZipFile
-    import glob
-    import os
-    from os import listdir
-    from os.path import isfile, join
+   
     if not os.path.exists( dst_dir):
         os.makedirs( dst_dir)
     dst_dir=dst_dir
@@ -63,13 +100,7 @@ def copyImage_Data(path_to_unzipped_folders=r"", Path_to_raster_tifs="", file_ex
     rasters
 
     """
-    import os 
-    import shutil
-    from zipfile import ZipFile
-    import glob
-    import os
-    from os import listdir
-    from os.path import isfile, join
+   
 
     if not os.path.exists( Path_to_raster_tifs):
         os.makedirs( Path_to_raster_tifs)
@@ -112,13 +143,7 @@ def copyUDM2_Mask_Data(path_to_unzipped_folders=r"", Path_to_UDM2raster_tifs=r""
 
     """
     
-    import os 
-    import shutil
-    from zipfile import ZipFile
-    import glob
-    import os
-    from os import listdir
-    from os.path import isfile, join
+   
 
     if not os.path.exists( Path_to_UDM2raster_tifs):
         os.makedirs( Path_to_UDM2raster_tifs)
@@ -161,24 +186,7 @@ def read_data_prep(zip_dir="", image_dir="image_dir", ext_image_file="BGRN_SR_cl
 
     """
     
-    import os 
-    import shutil
-    from zipfile import ZipFile
-    import glob
-    import os
-    from os import listdir
-    from os.path import isfile, join
-    import os 
-    import shutil
-    from zipfile import ZipFile
-    import glob
-    import os
-    from os import listdir
-    from os.path import isfile, join
-    from osgeo import gdal
-    from datetime import datetime
-    import re
-    from tqdm import tqdm
+    
     # if not os.path.exists( unzip_dir):
     #     os.makedirs( unzip_dir)
     if not os.path.exists(image_dir):
@@ -186,8 +194,7 @@ def read_data_prep(zip_dir="", image_dir="image_dir", ext_image_file="BGRN_SR_cl
     if not os.path.exists(udm_mask_dir):
         os.makedirs(udm_mask_dir)
     #check if the folder is empty if not delete all files
-    import os
-    import shutil
+   
 
     for root, dirs, files in os.walk(image_dir):
         for f in files:

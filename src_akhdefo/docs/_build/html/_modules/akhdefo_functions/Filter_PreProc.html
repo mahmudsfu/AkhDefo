@@ -36,7 +36,31 @@
           <div class="body" role="main">
             
   <h1>Source code for akhdefo_functions.Filter_PreProc</h1><div class="highlight"><pre>
-<span></span>
+<span></span><span class="c1">###Start###</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">show</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">exposure</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">show_hist</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn_image</span> <span class="k">as</span> <span class="nn">sea_img</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">restoration</span><span class="p">,</span> <span class="n">exposure</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="kn">import</span> <span class="n">gaussian</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
 
 <div class="viewcode-block" id="Filter_PreProcess">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Filter_PreProc.Filter_PreProcess">[docs]</a>
@@ -70,18 +94,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     
-    <span class="kn">import</span> <span class="nn">glob</span>
-    <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
-    <span class="kn">import</span> <span class="nn">os</span>
-    <span class="kn">import</span> <span class="nn">rasterio</span>
-    <span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">show</span>
-    <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">exposure</span>
-    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-    <span class="kn">import</span> <span class="nn">cv2</span>
-    <span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">show_hist</span>
-    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-    <span class="kn">import</span> <span class="nn">seaborn_image</span> <span class="k">as</span> <span class="nn">sea_img</span>
+    
     
     
     <span class="n">mypath</span> <span class="o">=</span> <span class="n">unfiltered_folderPath</span>
@@ -353,10 +366,7 @@
         <span class="c1"># with rasterio.open(outpath_dir+ &quot;/&quot; + str(filename),  &#39;w+&#39;, **meta) as dst:</span>
         <span class="c1">#     dst.write(filteredimage)</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
 
 <span class="c1"># def pct_clip(array, pct=[2, 98]):</span>
 <span class="c1">#     &quot;&quot;&quot;</span>
@@ -375,15 +385,7 @@
 <span class="c1">#     clip[clip &lt; 0] = 0</span>
 <span class="c1">#     return clip</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">restoration</span><span class="p">,</span> <span class="n">exposure</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="kn">import</span> <span class="n">gaussian</span>
-<span class="kn">import</span> <span class="nn">rasterio</span>
+
 
 <div class="viewcode-block" id="Raster_Correction">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Filter_PreProc.Raster_Correction">[docs]</a>

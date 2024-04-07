@@ -36,11 +36,14 @@
           <div class="body" role="main">
             
   <h1>Source code for akhdefo_functions.Akhdefo_Coreg</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span></span><span class="c1">###Start###</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">arosics</span> <span class="kn">import</span> <span class="n">COREG_LOCAL</span>
 
 <div class="viewcode-block" id="raster_alignment">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Coreg.raster_alignment">[docs]</a>
@@ -193,8 +196,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="kn">import</span> <span class="nn">os</span>
-    <span class="kn">from</span> <span class="nn">arosics</span> <span class="kn">import</span> <span class="n">COREG_LOCAL</span>
+   
 
     <span class="k">def</span> <span class="nf">create_directory</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper function to create a directory if it doesn&#39;t exist.&quot;&quot;&quot;</span>

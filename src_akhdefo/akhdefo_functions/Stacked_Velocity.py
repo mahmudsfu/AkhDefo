@@ -1,6 +1,28 @@
 
 ######
+###Start###
 
+import geopandas as gpd
+from shapely.geometry import Point
+from functools import partial
+import geopandas as gpd
+from geocube.api.core import make_geocube
+from geocube.rasterize import rasterize_points_griddata
+import earthpy.spatial as es
+import rasterio
+import glob
+import os
+from dateutil import parser
+import numpy as np
+import matplotlib.pyplot as plt
+import rioxarray as rxr
+from rasterio.plot import plotting_extent
+import earthpy.spatial as es
+from osgeo import gdal
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.colors as colors
+import earthpy.plot as ep
 
 def stackprep(path_to_flowxnFolder=r"", path_toFlowynFolder=r"", dem=r"", print_list=False, start_date="YYYYMMDD", end_date="YYYYMMDD", output_stackedFolder=r"",
 VEL_scale=("month","year") , xres=3.125, yres=3.125, Velocity_shapeFile=False, Resampling=True, Raster_stack_correction=False ):
@@ -56,23 +78,7 @@ VEL_scale=("month","year") , xres=3.125, yres=3.125, Velocity_shapeFile=False, R
         
     
     '''
-    import geopandas as gpd
-    from shapely.geometry import Point
-    from functools import partial
-    import geopandas as gpd
-    from geocube.api.core import make_geocube
-    from geocube.rasterize import rasterize_points_griddata
-    import earthpy.spatial as es
-    import rasterio
-    import glob
-    import os
-    from dateutil import parser
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import rioxarray as rxr
-    from rasterio.plot import plotting_extent
-    import earthpy.spatial as es
-    from osgeo import gdal
+    
     
 
     if not os.path.exists(output_stackedFolder):
@@ -713,7 +719,7 @@ VEL_scale=("month","year") , xres=3.125, yres=3.125, Velocity_shapeFile=False, R
         profile.update(nodata=np.nan, dtype="float32")
 
     #Names for Interpolated raster
-    import earthpy.spatial as es
+    
     with rasterio.open(dem) as src:
         elevation = src.read(1)
         # Set masked values to np.nan
@@ -725,8 +731,7 @@ VEL_scale=("month","year") , xres=3.125, yres=3.125, Velocity_shapeFile=False, R
     dem_plotting_extent = plotting_extent(dem[0], dem.rio.transform())
 
 
-    import matplotlib.colors as colors
-    import earthpy.plot as ep
+   
     # # #Plot figures
     # fig, ax=plt.subplots(nrows=2, ncols=1, figsize=(10,10))
     # ep.plot_bands( hillshade,cbar=False,extent=dem_plotting_extent,ax=ax[0], scale=True)
@@ -750,9 +755,7 @@ VEL_scale=("month","year") , xres=3.125, yres=3.125, Velocity_shapeFile=False, R
     sv_N_S__resampled= output_stackedFolder + "/resampled"+ "/" + datefrom+ "_to_"+ dateto + '_N-S'+ '.tif'
     
     def resample(input_raster="", output_raster="" , xres=3.125 , yres=3.125):
-        from osgeo import gdal
-        import numpy as np
-        import matplotlib.pyplot as plt
+        
 
         ds = gdal.Open(input_raster)
 

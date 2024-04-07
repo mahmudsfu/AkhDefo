@@ -131,7 +131,7 @@
 
 
 <span class="c1"># &#39;&#39;&#39;</span>
-<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">utm_to_latlon</span>
+<span class="c1">###Start###</span>
 <span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">akhdefo_viewer</span>
 <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -151,6 +151,63 @@
 <span class="kn">import</span> <span class="nn">cmocean</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 <span class="kn">import</span> <span class="nn">gstools</span> <span class="k">as</span> <span class="nn">gs</span>
+      
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">gstools</span> <span class="k">as</span> <span class="nn">gs</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pykrige.kriging_tools</span> <span class="k">as</span> <span class="nn">kt</span>
+<span class="kn">from</span> <span class="nn">pykrige.ok</span> <span class="kn">import</span> <span class="n">OrdinaryKriging</span>
+<span class="kn">from</span> <span class="nn">pykrige.uk</span> <span class="kn">import</span> <span class="n">UniversalKriging</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="kn">from</span> <span class="nn">rasterio.features</span> <span class="kn">import</span> <span class="n">geometry_mask</span>
+<span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">median_filter</span>
+<span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="kn">import</span> <span class="n">gaussian</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">asf_search</span> <span class="k">as</span> <span class="nn">asf</span>
+<span class="kn">import</span> <span class="nn">hyp3_sdk</span> <span class="k">as</span> <span class="nn">sdk</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="kn">from</span> <span class="nn">rasterio.warp</span> <span class="kn">import</span> <span class="n">calculate_default_transform</span><span class="p">,</span> <span class="n">reproject</span><span class="p">,</span> <span class="n">Resampling</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">from</span> <span class="nn">rasterio.mask</span> <span class="kn">import</span> <span class="n">mask</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">exposure</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">time</span> 
+<span class="kn">from</span> <span class="nn">skimage.registration</span> <span class="kn">import</span> <span class="n">phase_cross_correlation</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">convolve</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">skimage.metrics</span> <span class="kn">import</span> <span class="n">structural_similarity</span> <span class="k">as</span> <span class="n">ssim</span>
+<span class="c1"># import required libraries</span>
+<span class="c1"># from vidgear.gears import CamGear</span>
+<span class="c1"># from vidgear.gears import StreamGear</span>
+<span class="kn">import</span> <span class="nn">queue</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">osr</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">gc</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">box</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
+
 
 <div class="viewcode-block" id="Akhdefo_resample">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Utilities.Akhdefo_resample">[docs]</a>
@@ -446,20 +503,8 @@
 
 
         
-        
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">import</span> <span class="nn">gstools</span> <span class="k">as</span> <span class="nn">gs</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pykrige.kriging_tools</span> <span class="k">as</span> <span class="nn">kt</span>
-<span class="kn">from</span> <span class="nn">pykrige.ok</span> <span class="kn">import</span> <span class="n">OrdinaryKriging</span>
-<span class="kn">from</span> <span class="nn">pykrige.uk</span> <span class="kn">import</span> <span class="n">UniversalKriging</span>
-<span class="kn">import</span> <span class="nn">rasterio</span>
-<span class="kn">from</span> <span class="nn">rasterio.features</span> <span class="kn">import</span> <span class="n">geometry_mask</span>
-<span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">median_filter</span>
-<span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="kn">import</span> <span class="n">gaussian</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">mask_raster</span>
+  
+<span class="c1">#from akhdefo_functions import mask_raster</span>
 
 <div class="viewcode-block" id="set_gdf_to_utm">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Utilities.set_gdf_to_utm">[docs]</a>
@@ -1673,9 +1718,6 @@
 
 
 
-<span class="kn">import</span> <span class="nn">asf_search</span> <span class="k">as</span> <span class="nn">asf</span>
-<span class="kn">import</span> <span class="nn">hyp3_sdk</span> <span class="k">as</span> <span class="nn">sdk</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <div class="viewcode-block" id="download_RTC">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Utilities.download_RTC">[docs]</a>
@@ -1895,13 +1937,6 @@
    
 
 
-<span class="kn">import</span> <span class="nn">rasterio</span>
-<span class="kn">from</span> <span class="nn">rasterio.warp</span> <span class="kn">import</span> <span class="n">calculate_default_transform</span><span class="p">,</span> <span class="n">reproject</span><span class="p">,</span> <span class="n">Resampling</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">from</span> <span class="nn">rasterio.mask</span> <span class="kn">import</span> <span class="n">mask</span>
-<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">exposure</span>
 
 <div class="viewcode-block" id="reproject_raster_to_match_shapefile">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Utilities.reproject_raster_to_match_shapefile">[docs]</a>
@@ -2118,12 +2153,7 @@
 <span class="sd">    </span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1">#import datetime</span>
-    <span class="kn">import</span> <span class="nn">warnings</span>
-    <span class="kn">import</span> <span class="nn">time</span> 
-    <span class="kn">from</span> <span class="nn">skimage.registration</span> <span class="kn">import</span> <span class="n">phase_cross_correlation</span>
-    <span class="kn">import</span> <span class="nn">matplotlib</span>
-    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-    <span class="kn">import</span> <span class="nn">tempfile</span>
+    
    
         <span class="c1"># Suppress the Matplotlib GUI warning</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Starting a Matplotlib GUI outside of the main thread will likely fail&quot;</span><span class="p">)</span>
@@ -2201,7 +2231,7 @@
     
     
     <span class="c1">#############################</span>
-    <span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">convolve</span>
+    
 
     <span class="k">def</span> <span class="nf">detect_outliers</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect outliers based on deviation from local mean.&quot;&quot;&quot;</span>
@@ -3334,18 +3364,7 @@
 <span class="sd">        Video output with motion vectors and magnitude.</span>
 <span class="sd">    </span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="kn">import</span> <span class="nn">matplotlib</span>
-    <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
-    <span class="kn">import</span> <span class="nn">cv2</span>
-    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-    <span class="kn">import</span> <span class="nn">subprocess</span>
-    <span class="kn">from</span> <span class="nn">skimage.metrics</span> <span class="kn">import</span> <span class="n">structural_similarity</span> <span class="k">as</span> <span class="n">ssim</span>
-    <span class="c1"># import required libraries</span>
-    <span class="c1"># from vidgear.gears import CamGear</span>
-    <span class="c1"># from vidgear.gears import StreamGear</span>
-    <span class="kn">import</span> <span class="nn">queue</span>
-    <span class="kn">import</span> <span class="nn">time</span>
+    
     <span class="c1"># Set the new dimensions for resizing</span>
     <span class="n">new_width</span> <span class="o">=</span> <span class="mi">1000</span>
     <span class="n">new_height</span> <span class="o">=</span> <span class="mi">600</span>
@@ -3663,11 +3682,6 @@
 
 <span class="c1">##########################################</span>
 
-<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">osr</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">gc</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">box</span>
 
 <div class="viewcode-block" id="calculate_new_geotransform">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Utilities.calculate_new_geotransform">[docs]</a>
@@ -3798,9 +3812,7 @@
 <span class="c1"># input_folder = &#39;geo/flowx&#39;</span>
 <span class="c1"># crop_to_overlap(input_folder)</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
+
 
 <div class="viewcode-block" id="crop_point_shapefile_with_aoi">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Akhdefo_Utilities.crop_point_shapefile_with_aoi">[docs]</a>

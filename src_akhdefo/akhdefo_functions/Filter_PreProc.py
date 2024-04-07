@@ -1,4 +1,28 @@
-
+###Start###
+import glob
+from itertools import count
+import os
+import rasterio
+from rasterio.plot import show
+from skimage import exposure
+import numpy as np
+import cv2
+from rasterio.plot import show_hist
+import matplotlib.pyplot as plt
+import seaborn_image as sea_img
+import os
+from osgeo import gdal
+import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np
+import cv2
+from osgeo import gdal
+import os
+from skimage import restoration, exposure
+import matplotlib.pyplot as plt
+from tqdm import tqdm
+from skimage.filters import gaussian
+import rasterio
 
 def Filter_PreProcess(unfiltered_folderPath=r"", UDM2_maskfolderPath=r"", outpath_dir=r"" , Udm_Mask_Option=False, plot_figure=False):
 
@@ -30,18 +54,7 @@ def Filter_PreProcess(unfiltered_folderPath=r"", UDM2_maskfolderPath=r"", outpat
 
     """
     
-    import glob
-    from itertools import count
-    import os
-    import rasterio
-    from rasterio.plot import show
-    from skimage import exposure
-    import numpy as np
-    import cv2
-    from rasterio.plot import show_hist
-    import matplotlib.pyplot as plt
-
-    import seaborn_image as sea_img
+    
     
     
     mypath = unfiltered_folderPath
@@ -312,10 +325,7 @@ def Filter_PreProcess(unfiltered_folderPath=r"", UDM2_maskfolderPath=r"", outpat
         # with rasterio.open(outpath_dir+ "/" + str(filename),  'w+', **meta) as dst:
         #     dst.write(filteredimage)
 
-import os
-from osgeo import gdal
-import numpy as np
-import matplotlib.pyplot as plt
+
 
 # def pct_clip(array, pct=[2, 98]):
 #     """
@@ -334,15 +344,7 @@ import matplotlib.pyplot as plt
 #     clip[clip < 0] = 0
 #     return clip
 
-import numpy as np
-import cv2
-from osgeo import gdal
-import os
-from skimage import restoration, exposure
-import matplotlib.pyplot as plt
-from tqdm import tqdm
-from skimage.filters import gaussian
-import rasterio
+
 
 def Raster_Correction(input_path, output_path, limit=None, lowpass_kernel_size=5,
                       bilateral_win_size=9, bilateral_sigma_color=75, bilateral_sigma_spatial=75,

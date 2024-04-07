@@ -91,7 +91,14 @@
 <span class="kn">import</span> <span class="nn">rasterio.plot</span>
 <span class="kn">import</span> <span class="nn">earthpy.spatial</span> <span class="k">as</span> <span class="nn">es</span>
 <span class="kn">import</span> <span class="nn">earthpy.plot</span> <span class="k">as</span> <span class="nn">ep</span>
-
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="k">as</span> <span class="nn">mdates</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
 <div class="viewcode-block" id="akhdefo_viewer">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.AkhdefoPlot.akhdefo_viewer">[docs]</a>
@@ -327,14 +334,7 @@
 
 
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">glob</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="k">as</span> <span class="nn">mdates</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
 
 <div class="viewcode-block" id="plot_stackNetwork">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.AkhdefoPlot.plot_stackNetwork">[docs]</a>

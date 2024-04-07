@@ -1,9 +1,92 @@
+###Start###
+
 import os
 from osgeo import gdal
 import tempfile
 import numpy as np
-
 import gc
+import os
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy.stats as stats
+from pykrige.ok import OrdinaryKriging
+from scipy.stats import zscore
+from scipy.ndimage import generic_filter
+import shutil
+import geopandas as gpd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import DBSCAN
+from sklearn.preprocessing import StandardScaler
+import cv2
+import numpy as np
+from scipy.stats import zscore
+from skimage.filters import gaussian
+import os
+import re
+from datetime import datetime
+from os import listdir
+from os.path import isfile, join
+import cv2
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import rasterio
+from matplotlib.backends.backend_pdf import PdfPages
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+from rasterio.features import geometry_mask
+from rasterio.transform import from_origin
+from scipy.interpolate import griddata
+from skimage.metrics import structural_similarity as ssim
+import geopandas as gpd
+from shapely.geometry import Point
+import pandas as pd
+from tqdm import tqdm
+import xml.etree.ElementTree as ET
+import geopandas as gpd
+import rasterio
+import numpy as np
+from pathlib import Path
+from datetime import datetime
+import pandas as pd
+import xml.etree.ElementTree as ET
+
+
+import os
+from datetime import datetime
+import numpy as np
+import rasterio
+from tqdm import tqdm
+import akhdefo_functions
+from akhdefo_functions import Crop_to_AOI
+from akhdefo_functions.Akhdefo_Utilities import Auto_Variogram
+import os
+import numpy as np
+import rasterio
+from rasterio.windows import from_bounds
+from shapely.geometry import box
+from rasterio.mask import mask
+import geopandas as gpd
+import geopandas as gpd
+import numpy as np
+import rasterio
+from rasterio.features import geometry_mask
+from rasterio.transform import from_origin
+from scipy.interpolate import griddata
+from scipy.spatial import cKDTree
+import cmocean
+import earthpy.plot as ep
+import earthpy.spatial as es
+import matplotlib.pyplot as plt
+import numpy as np
+# Import necessary packages
+import rasterio as rio
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+import re
+import xml.etree.ElementTree as ET
+
 
 def mask_raster_with_template(input_raster_path, mask_raster_path, noData_value=np.nan):
     """
@@ -54,7 +137,7 @@ def mask_raster_with_template(input_raster_path, mask_raster_path, noData_value=
     # Replace original raster with the masked raster
     # os.remove(input_raster_path)
     # os.rename(temp_file, input_raster_path)
-    import shutil
+    
     shutil.copy(temp_file, input_raster_path)
     os.remove(temp_file)
 
@@ -81,14 +164,7 @@ def mask_all_rasters_in_directory(directory, mask_raster_path):
             mask_raster_with_template(input_raster_path, mask_raster_path)
 
 
-import os
-import geopandas as gpd
-import matplotlib.pyplot as plt
-import numpy as np
-import scipy.stats as stats
-from pykrige.ok import OrdinaryKriging
-from scipy.stats import zscore
-from scipy.ndimage import generic_filter
+
 
 #Calculate Linear Velocity for each data point
 def linear_VEL(df, dnames):
@@ -419,11 +495,7 @@ def process_shapefile_with_rasters(shapefile_path, rasterfile_paths):
 
 def find_best_match(gdf):
     
-    import geopandas as gpd
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from sklearn.cluster import DBSCAN
-    from sklearn.preprocessing import StandardScaler
+   
 
     gdf_temp=gdf
     # Load your GeoDataFrame
@@ -470,13 +542,7 @@ def find_best_match(gdf):
 
 
 #############################
-import geopandas as gpd
-import rasterio
-import numpy as np
-from pathlib import Path
-from datetime import datetime
-import pandas as pd
-import xml.etree.ElementTree as ET
+
 
 def calculate_slopes_std_and_residuals(geodataframe):
     L_slopes = []
@@ -712,7 +778,7 @@ def update_nodata_values(shapefile_path='',
     # Get the CRS of the GeoDataFrame
     gdf.crs=crs_ini
     #gdf=gdf.dropna()
-    import xml.etree.ElementTree as ET
+    
     
     #####Correct displacement to a stable point############
     # try:
@@ -845,10 +911,7 @@ def update_nodata_values(shapefile_path='',
     return gdf , update_dir_shapefile
 
 ##################################################################################################
-import geopandas as gpd
-from shapely.geometry import Point
-import pandas as pd
-from tqdm import tqdm
+
 
 def merge_geodataframes_generator(gdfs):
     total_gdfs = len(gdfs)
@@ -910,23 +973,6 @@ def merge_geodataframes(gdfs):
 
 ###################################################################
 
-import os
-import re
-from datetime import datetime
-from os import listdir
-from os.path import isfile, join
-import cv2
-import geopandas as gpd
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import rasterio
-from matplotlib.backends.backend_pdf import PdfPages
-from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-from rasterio.features import geometry_mask
-from rasterio.transform import from_origin
-from scipy.interpolate import griddata
-from skimage.metrics import structural_similarity as ssim
 
 
 def mask_raster(dem_array=None, mask_path=None, no_data_value=np.nan, scatter_x=None, scatter_y=None):
@@ -1292,10 +1338,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
         return good_matches, descriptor12, keypoint12
         
 
-    import cv2
-    import numpy as np
-    from scipy.stats import zscore
-    from skimage.filters import gaussian
+   
 
     def calculate_optical_flow(image1, image2, zscore_threshold=2.0, ssim_thresh=ssim_thresh, pyr_scale=0.5, levels=15, winsize=32,iterations= 3, poly_n=5,poly_sigma= 1.5, flags=1, orbit_dir=None):
         # Rasterio reads data as (bands, height, width)
@@ -1409,9 +1452,8 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
         return velocity, flowx, flowy
 
 
-    import re
-
-    from mpl_toolkits.axes_grid1 import make_axes_locatable
+    
+    
 
     def separate_floats_letters(input_string):
         floats = re.findall(r'\d+\.\d+|\d+', input_string)
@@ -1421,13 +1463,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
     input_string = image_resolution
     unit, img_res = separate_floats_letters(input_string)
 
-    import earthpy.plot as ep
-    import earthpy.spatial as es
-    import matplotlib.pyplot as plt
-    import numpy as np
-    # Import necessary packages
-    import rasterio as rio
-    from mpl_toolkits.axes_grid1 import make_axes_locatable
+    
 
     def calculate_hillshade(dem_file_path, hillshade_option=True):
         # Open the raster data
@@ -1444,7 +1480,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
 
     
     
-    import xml.etree.ElementTree as ET
+    
     
     
     def get_values_from_xml(filename):
@@ -1593,8 +1629,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 return cmap, norm
 
         
-        import cmocean
-
+        
         
         fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(20, 10), sharey=False)
 
@@ -1719,13 +1754,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
 
     
 
-    import geopandas as gpd
-    import numpy as np
-    import rasterio
-    from rasterio.features import geometry_mask
-    from rasterio.transform import from_origin
-    from scipy.interpolate import griddata
-    from scipy.spatial import cKDTree
+    
 
     def replace_nan_with_nearest(x, y, z, width, height):
         try:
@@ -1866,13 +1895,8 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
 
         return zi
     
-    import os
-    import numpy as np
-    import rasterio
-    from rasterio.windows import from_bounds
-    from shapely.geometry import box
-    from rasterio.mask import mask
-    import geopandas as gpd
+    
+    
     def crop_to_overlap(folder_path, start_date=start_date, end_date=end_date):
         
         if start_date is not None and end_date is not None:
@@ -1962,13 +1986,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
 
 ###################################
 
-    import os
-    from datetime import datetime
-
-    import numpy as np
-    import rasterio
-    from tqdm import tqdm
-    from akhdefo_functions import Auto_Variogram
+    
     
 
     def feature_matching(folder_path=input_dir, output_dir=output_dir, zscore_threshold=zscore_threshold, 
@@ -2388,8 +2406,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
             
             del geodfs_v
            
-            import akhdefo_functions
-            from akhdefo_functions import Crop_to_AOI
+            
             # ####3Look for stable pixel###########
             # os.makedirs(ssim_outdir + '/cropped', exist_ok=True)
 

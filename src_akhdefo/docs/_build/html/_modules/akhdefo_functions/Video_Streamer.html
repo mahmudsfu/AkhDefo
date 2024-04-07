@@ -36,9 +36,13 @@
           <div class="body" role="main">
             
   <h1>Source code for akhdefo_functions.Video_Streamer</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">Response</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">measure_displacement_from_camera</span>
 <div class="viewcode-block" id="run_flask_app">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Video_Streamer.run_flask_app">[docs]</a>
-<span></span><span class="k">def</span> <span class="nf">run_flask_app</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">run_flask_app</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function to run the Flask app and prompt the user for input.</span>
 
@@ -54,9 +58,7 @@
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-    <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">Response</span>
-    <span class="kn">import</span> <span class="nn">cv2</span>
-    <span class="kn">import</span> <span class="nn">akhdefo_functions</span>
+   
 
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">measure_displacement_from_camera</span>

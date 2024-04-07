@@ -53,7 +53,14 @@ import rasterio
 import rasterio.plot
 import earthpy.spatial as es
 import earthpy.plot as ep
-
+import os
+import glob
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import re
+from datetime import datetime
 
 def akhdefo_viewer(path_to_dem_file, raster_file, output_folder, title='', 
                    pixel_resolution_meters=3.125, output_file_name="", 
@@ -286,14 +293,7 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
 
 
 
-import os
-import glob
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-import re
-from datetime import datetime
+
 
 def plot_stackNetwork(src_folder="", output_folder="", cmap='tab20', date_plot_interval=(5, 30), marker_size=15):
     
