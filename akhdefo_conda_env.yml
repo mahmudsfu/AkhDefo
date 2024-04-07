@@ -50,4 +50,5 @@ dependencies:
     - planet
     - asf-search
     - hyp3-sdk
+    - seaborn_image
     - akhdefo-functions
