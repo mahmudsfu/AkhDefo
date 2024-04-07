@@ -39,7 +39,7 @@
 <span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">Response</span>
 <span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">import</span> <span class="nn">akhdefo_functions</span>
-<span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">measure_displacement_from_camera</span>
+<span class="kn">from</span> <span class="nn">akhdefo_functions.Akhdefo_Utilities</span> <span class="kn">import</span> <span class="n">measure_displacement_from_camera</span>
 <div class="viewcode-block" id="run_flask_app">
 <a class="viewcode-back" href="../../akhdefo_functions.html#akhdefo_functions.Video_Streamer.run_flask_app">[docs]</a>
 <span class="k">def</span> <span class="nf">run_flask_app</span><span class="p">():</span>
@@ -61,7 +61,7 @@
    
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">akhdefo_functions</span> <span class="kn">import</span> <span class="n">measure_displacement_from_camera</span>
+        <span class="kn">from</span> <span class="nn">akhdefo_functions.Akhdefo_Utilities</span> <span class="kn">import</span> <span class="n">measure_displacement_from_camera</span>
     <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error importing &#39;akhdefo_functions&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 

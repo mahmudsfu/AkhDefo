@@ -44,7 +44,7 @@
             
   <section id="akhdefo">
 <h1>Akhdefo<a class="headerlink" href="#akhdefo" title="Link to this heading">¶</a></h1>
-<p><a class="reference external" href="https://akhdefo.readthedocs.io/en/latest/index.html"><img src="./_static/akhdefo_logo.svg" alt="Akhdefo Project Image" align="right" width="200px"/></a>
+<p><a class="reference external" href="https://akhdefo.readthedocs.io/en/latest/index.html"><img src="https://akhdefo.readthedocs.io/en/latest/_images/akhdefo_logo.svg" alt="Akhdefo Project Image" align="right" width="200px"/></a>
 <em align="right">Click on the Logo to Navigate to the Main Page</em></p>
 <section id="computer-vision-for-slope-stability-land-deformation-monitoring">
 <h2>Computer Vision for Slope Stability: Land Deformation Monitoring<a class="headerlink" href="#computer-vision-for-slope-stability-land-deformation-monitoring" title="Link to this heading">¶</a></h2>
@@ -71,8 +71,59 @@
 <li><p><strong>Enhancement:</strong> Orthorectification feature for satellite images.</p></li>
 </ul>
 </section>
-<section id="installation-of-akhdefo-software">
-<h2>Installation of Akhdefo Software<a class="headerlink" href="#installation-of-akhdefo-software" title="Link to this heading">¶</a></h2>
+<section id="installation-of-akhdefo-software-method-1-through-creating-a-conda-environment-from-the-yaml-file">
+<h2>Installation of AkhDefo Software Method 1 through Creating a Conda Environment from the YAML File<a class="headerlink" href="#installation-of-akhdefo-software-method-1-through-creating-a-conda-environment-from-the-yaml-file" title="Link to this heading">¶</a></h2>
+<p>This guide provides step-by-step instructions on how to create a Conda environment using the provided <a class="reference download internal" download="" href="_downloads/2effd6dcdd36b6da39ea0586783e0198/akhdefo_conda_env.yml"><span class="xref download myst">akhdefo_conda_env.yml</span></a> file. This file specifies all the necessary packages, including their versions, required for the project.</p>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Conda</strong>: Make sure you have either Anaconda or Miniconda installed on your system. If you do not have Conda installed, you can download it from the <a class="reference external" href="https://www.anaconda.com/products/individual">official Anaconda website</a> or the <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">Miniconda website</a>.</p></li>
+</ul>
+</section>
+<section id="creating-the-environment">
+<h2>Creating the Environment<a class="headerlink" href="#creating-the-environment" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Download the YAML File</strong>: Ensure you have the <code class="docutils literal notranslate"><span class="pre">akhdefo_conda_env.yml</span></code> <a class="reference download internal" download="" href="_downloads/2effd6dcdd36b6da39ea0586783e0198/akhdefo_conda_env.yml"><span class="xref download myst">Click Here to Download</span></a> file saved on your computer. This file should be in the directory where you intend to set up the environment, or you should note its path.</p></li>
+<li><p><strong>Open a Terminal</strong>: Open your terminal (or Command Prompt/PowerShell on Windows) and navigate to the directory containing the <a class="reference download internal" download="" href="_downloads/2effd6dcdd36b6da39ea0586783e0198/akhdefo_conda_env.yml"><span class="xref download myst">akhdefo_conda_env.yml</span></a> file. You can navigate to the directory using the <code class="docutils literal notranslate"><span class="pre">cd</span></code> command followed by the path to the directory.</p></li>
+<li><p><strong>Create the Environment</strong>: Execute the following command in your terminal:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>akhdefo_conda_env.yml
+</pre></div>
+</div>
+<p>This command instructs Conda to create a new environment with the name specified in the YAML file (<code class="docutils literal notranslate"><span class="pre">akhdefo_env</span></code>) and install all the listed packages along with their dependencies.</p>
+<ol class="arabic simple" start="4">
+<li><p><strong>Activate the Environment</strong>: After the environment has been successfully created, you can activate it using the following command:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>akhdefo_env
+</pre></div>
+</div>
+<p>Activating the environment will set up your terminal session to use the packages and their specific versions installed in this environment.</p>
+</section>
+<section id="verifying-the-installation">
+<h2>Verifying the Installation<a class="headerlink" href="#verifying-the-installation" title="Link to this heading">¶</a></h2>
+<p>To ensure that the environment has been set up correctly and all packages are installed, you can list the installed packages using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>list
+</pre></div>
+</div>
+<p>This command displays a list of all packages installed in the active conda environment.</p>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">¶</a></h2>
+<p>If you encounter any issues during the installation process, make sure you have the latest version of Conda installed, and try updating Conda using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>update<span class="w"> </span>conda
+</pre></div>
+</div>
+<p>If problems persist, refer to the <a class="reference external" href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file">official Conda documentation</a> for more detailed information on managing environments with YAML files.</p>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">¶</a></h2>
+<p>You now have a dedicated Conda environment for this project, containing all the necessary packages. This environment helps maintain project dependencies isolated from other projects, ensuring reproducibility and consistency.</p>
+<hr class="docutils" />
+<p>If you have any questions or need further assistance, please feel free to open an issue in this repository</p>
+</section>
+<section id="installation-of-akhdefo-software-method-2">
+<h2>Installation of AkhDefo Software Method 2<a class="headerlink" href="#installation-of-akhdefo-software-method-2" title="Link to this heading">¶</a></h2>
 <p>Follow these steps to install the Akhdefo software:</p>
 <ol class="arabic">
 <li><p>Create a new Python Anaconda environment using the command:</p>
@@ -158,7 +209,13 @@
 <li><a class="reference internal" href="#background-of-akh-defo">Background of Akh-Defo</a></li>
 <li><a class="reference internal" href="#recommended-citation">Recommended Citation</a></li>
 <li><a class="reference internal" href="#updates">Updates</a></li>
-<li><a class="reference internal" href="#installation-of-akhdefo-software">Installation of Akhdefo Software</a></li>
+<li><a class="reference internal" href="#installation-of-akhdefo-software-method-1-through-creating-a-conda-environment-from-the-yaml-file">Installation of AkhDefo Software Method 1 through Creating a Conda Environment from the YAML File</a></li>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#creating-the-environment">Creating the Environment</a></li>
+<li><a class="reference internal" href="#verifying-the-installation">Verifying the Installation</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
+<li><a class="reference internal" href="#installation-of-akhdefo-software-method-2">Installation of AkhDefo Software Method 2</a></li>
 </ul>
 </li>
 </ul>

@@ -38,7 +38,7 @@ This guide provides step-by-step instructions on how to create a Conda environme
 
 ## Creating the Environment
 
-1. **Download the YAML File**: Ensure you have the `akhdefo_conda_env.yml` file saved on your computer. This file should be in the directory where you intend to set up the environment, or you should note its path.
+1. **Download the YAML File**: Ensure you have the `akhdefo_conda_env.yml` [Click Here to Download](akhdefo_conda_env.yml) file saved on your computer. This file should be in the directory where you intend to set up the environment, or you should note its path.
 
 2. **Open a Terminal**: Open your terminal (or Command Prompt/PowerShell on Windows) and navigate to the directory containing the [akhdefo_conda_env.yml](akhdefo_conda_env.yml) file. You can navigate to the directory using the `cd` command followed by the path to the directory.
 
