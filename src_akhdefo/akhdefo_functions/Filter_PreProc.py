@@ -9,7 +9,7 @@ import numpy as np
 import cv2
 from rasterio.plot import show_hist
 import matplotlib.pyplot as plt
-import seaborn_image as sea_img
+#import seaborn_image as sea_img
 import os
 from osgeo import gdal
 import numpy as np
