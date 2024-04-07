@@ -173,4 +173,5 @@ dependencies:
     - wrapt
     - yarg
     - yarl
+    - arosics
 
