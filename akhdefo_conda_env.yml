@@ -2,6 +2,14 @@ name: akhdefo_env
 channels:
   - conda-forge
   - defaults
+  - menpo
+  - intel
+  - fastai
+  - microsoft
+  - nvidia
+  - anaconda
+  - pytorch
+  - bioconda
 dependencies:
   - python  # Assuming Python 3.8, can be changed as needed
   - cmocean

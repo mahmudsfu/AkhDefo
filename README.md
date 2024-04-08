@@ -44,8 +44,16 @@ This guide provides step-by-step instructions on how to create a Conda environme
 
 3. **Create the Environment**: Execute the following command in your terminal:
 
+***Make sure to activate conda base environment***
+
+
 ```bash
-conda env create -f akhdefo_conda_env.yml
+conda activate base # if base environment not activated
+
+conda install -c conda-forge mamba
+
+mamba env create -f akhdefo_conda_env.yml
+
 ```
 
 This command instructs Conda to create a new environment with the name specified in the YAML file (`akhdefo_env`) and install all the listed packages along with their dependencies.
