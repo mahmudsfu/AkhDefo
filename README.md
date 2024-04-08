@@ -96,7 +96,7 @@ You now have a dedicated Conda environment for this project, containing all the 
 
 If you have any questions or need further assistance, please feel free to open an issue in this repository
 
-
+---
 ## Installation of AkhDefo Software Method 2
 
 Follow these steps to install the Akhdefo software:
