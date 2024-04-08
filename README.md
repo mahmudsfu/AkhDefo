@@ -27,6 +27,7 @@ Muhammad M, Williams-Jones G, Stead D, Tortini R, Falorni G, and Donati D (2022)
 - **Integration:** Access, filter, and download capabilities for Planet Labs data using the Planet Lab API.
 - **Enhancement:** Orthorectification feature for satellite images.
 
+------
 
 ## Installation of AkhDefo Software Method 1 through Creating a Conda Environment from the YAML File
 
