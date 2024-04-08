@@ -97,10 +97,8 @@ You now have a dedicated Conda environment for this project, containing all the 
 If you have any questions or need further assistance, please feel free to open an issue in this repository
 
 ---
-<<<<<<< HEAD
-# Installation of AkhDefo Software Method 2 on Windows Operating System
 
-=======
+# Installation of AkhDefo Software Method 2 on Windows Operating System
 
 This guide provides step-by-step instructions on how to create a Conda environment using the provided [ENV_Win.yml](ENV_Win.yml) file. This file specifies all the necessary packages, including their versions, required for the project.
 
