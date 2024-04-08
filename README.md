@@ -30,6 +30,8 @@ Muhammad M, Williams-Jones G, Stead D, Tortini R, Falorni G, and Donati D (2022)
 
 ## Installation of AkhDefo Software Method 1 through Creating a Conda Environment from the YAML File
 
+**Method 1 works well on Linux Operating System** **Use method 2 to install on Windows Operating System**
+
 This guide provides step-by-step instructions on how to create a Conda environment using the provided [akhdefo_conda_env.yml](akhdefo_conda_env.yml) file. This file specifies all the necessary packages, including their versions, required for the project.
 
 ## Prerequisites

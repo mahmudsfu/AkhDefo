@@ -30,6 +30,8 @@ Muhammad M, Williams-Jones G, Stead D, Tortini R, Falorni G, and Donati D (2022)
 
 ## Installation of AkhDefo Software Method 1 through Creating a Conda Environment from the YAML File
 
+**Method 1 works well on Linux Operating System** **Use method 2 to install on Windows Operating System**
+
 This guide provides step-by-step instructions on how to create a Conda environment using the provided [akhdefo_conda_env.yml](akhdefo_conda_env.yml) file. This file specifies all the necessary packages, including their versions, required for the project.
 
 ## Prerequisites
@@ -44,8 +46,16 @@ This guide provides step-by-step instructions on how to create a Conda environme
 
 3. **Create the Environment**: Execute the following command in your terminal:
 
+***Make sure to activate conda base environment***
+
+
 ```bash
-conda env create -f akhdefo_conda_env.yml
+conda activate base # if base environment not activated
+
+conda install -c conda-forge mamba
+
+mamba env create -f akhdefo_conda_env.yml
+
 ```
 
 This command instructs Conda to create a new environment with the name specified in the YAML file (`akhdefo_env`) and install all the listed packages along with their dependencies.
