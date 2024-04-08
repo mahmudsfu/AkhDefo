@@ -1,7 +1,7 @@
 name: akhdefo_env
 channels:
+  - nodefaults
   - conda-forge
-  - defaults
   - menpo
   - intel
   - fastai
