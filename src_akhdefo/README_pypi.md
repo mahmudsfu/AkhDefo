@@ -104,6 +104,8 @@ Follow these steps to install the Akhdefo software:
 
    ```python
    conda create --name akhdefo_env
+
+   conda activate akhdefo_env
    ```
 
 2. Create  Anaconda environment and install the following libraries with Anaconda
