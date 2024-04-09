@@ -49,6 +49,7 @@ dependencies:
   - tensorflow
   - pip:
     - sphinx-gallery
+    - ipykernel
     - sphinx-theme
     - sphinx-autopackagesummary
     - autodocsumm
