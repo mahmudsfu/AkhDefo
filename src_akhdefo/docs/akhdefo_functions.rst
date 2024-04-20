@@ -32,6 +32,11 @@ Data Processing
 
 Visualization
 -------------
+.. automodule:: akhdefo_functions.backend
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 .. automodule:: akhdefo_functions.AkhdefoPlot
    :members:
    :undoc-members:

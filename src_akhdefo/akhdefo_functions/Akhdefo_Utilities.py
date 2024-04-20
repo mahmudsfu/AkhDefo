@@ -149,7 +149,7 @@ import tempfile
 
 from scipy.ndimage import convolve
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -169,6 +169,8 @@ from shapely.geometry import box
 import os
 import geopandas as gpd
 from shapely.geometry import Point
+
+
 
 
 def Akhdefo_resample(input_raster="", output_raster="" , xres=3.125 , yres=3.125, SavFig=False , convert_units=None):
@@ -486,7 +488,7 @@ def set_gdf_to_utm(gdf):
 
 def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="", pixel_size=20,num_chunks=10,overlap_percentage=0, out_fileName='interpolated_kriging', 
                    plot_folder='kriging_plots', geo_folder='geo_rasterFolder', smoothing_kernel=2, mask: [np.ndarray] = None , 
-                   UTM_Zone=None, krig_method='ordinary' , drift_functions='linear', detrend_data=None, use_zscore=None):
+                   UTM_Zone=None, krig_method='ordinary' , drift_functions='linear', detrend_data=None, use_zscore=None, binning=False):
     
      
     """
@@ -575,13 +577,53 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     
     """
     
+    import geopandas as gpd
+    import numpy as np
+    from shapely.geometry import box
+
+    def create_spatial_grid(geodataframe, grid_size):
+        crs_ini=geodata.crs
+        # Create a grid
+        # Create a grid
+        xmin, ymin, xmax, ymax = geodataframe.total_bounds
+        xgrid = np.arange(xmin, xmax + grid_size, grid_size)
+        ygrid = np.arange(ymin, ymax + grid_size, grid_size)
+        grid_cells = [box(x1, y1, x2, y2) for x1, x2 in zip(xgrid[:-1], xgrid[1:]) for y1, y2 in zip(ygrid[:-1], ygrid[1:])]
+        grid = gpd.GeoDataFrame(geometry=grid_cells, crs=geodataframe.crs)
+
+        # Spatial join points to the grid
+        joined_gdf = gpd.sjoin(geodataframe, grid, how="inner", op="within")
+        joined_gdf = joined_gdf.rename(columns={"index_right": "grid_id"})  # Rename 'index_right' to 'grid_id' to avoid ambiguity
+        joined_gdf.reset_index(drop=True, inplace=True)
+
+        # Select numeric columns to dissolve
+        numeric_cols = joined_gdf.select_dtypes(include=[np.number]).columns.tolist()
+        if 'grid_id' in numeric_cols:
+            numeric_cols.remove('grid_id')  # Ensure 'grid_id' is not included in the aggregation
+
+        # Dissolve by new grid ID and compute mean for each grid cell for numeric data only
+        binned_gdf = joined_gdf.dissolve(by="grid_id", aggfunc={col: 'mean' for col in numeric_cols})
+
+        # Calculate the centroid of each grid cell
+        binned_gdf['geometry'] = binned_gdf.geometry.centroid
+        
+        binned_gdf.crs=geodata.crs
+        return binned_gdf
+
+    
     if isinstance(data, str):
         if data[-4:] == '.shp':
             geodata = gpd.read_file(data)
             
+            
+            
             if geodata.crs == "EPSG:4326":
                 geodata=set_gdf_to_utm(geodata)
                 
+            if binning==True:
+            # Create the spatial grid
+                geodata = create_spatial_grid(geodata, pixel_size)
+            
             crs_ini=geodata.crs
            
             
@@ -589,9 +631,12 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
             raise ValueError("Unsupported file format.")
     elif isinstance(data, gpd.GeoDataFrame):
         geodata = data
+       
         if geodata.crs == "EPSG:4326":
             geodata=set_gdf_to_utm(geodata)
-        
+         # Create the spatial grid
+        if binning==True:
+            geodata = create_spatial_grid(geodata, pixel_size)
     else:
         raise ValueError("Unsupported data type.")
     
@@ -617,6 +662,9 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     else:
         x, y = geodata.geometry.x, geodata.geometry.y
 
+    
+    
+    
     z = geodata[column_attribute]
     
     # Ensure x, y, and z are float32
@@ -674,7 +722,7 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
 
     import matplotlib.gridspec as gridspec
     # Setting up a professional style
-    plt.style.use('seaborn-white')
+    #plt.style.use('seaborn-white')
     plt.rcParams.update({'font.size': 12})
     
     # Create a grid for the subplots
@@ -2018,7 +2066,7 @@ def adjust_brightness(frame, brightness=50):
 import cv2
 import numpy as np
 import matplotlib
-matplotlib.use('WebAgg')
+#matplotlib.use('WebAgg')
 import matplotlib.pyplot as plt
 import subprocess
 from skimage.metrics import structural_similarity as ssim
@@ -3779,10 +3827,29 @@ def crop_point_shapefile_with_aoi(point_shapefile, aoi_shapefile, output_folder)
     
     # Read point shapefile
     points = gpd.read_file(point_shapefile)
-   
-
-    # Read AOI polygon shapefile
+    
+    #print ('points CRS: ', points.crs)
+    
+     # Read AOI polygon shapefile
     aoi = gpd.read_file(aoi_shapefile)
+    
+    #print ('AOI CRS: ', aoi.crs)
+    
+    # Check if the CRS is not latlong (EPSG:4326)
+    if points.crs == "EPSG:4326":
+        print("The GeoDataFrame is not in latlong CRS format.")
+        points=set_gdf_to_utm(points)
+    else:
+        print("The GeoDataFrame is in latlong CRS format.")
+
+    #print ('points CRS: ', points.crs)
+    
+    
+
+
+    # Check if CRS transformation is needed
+    if points.crs != aoi.crs:
+        points = points.to_crs(aoi.crs)  # Match CRS of AOI
 
     # Dissolve the AOI polygon to a single geometry without specifying 'by'
     dissolved_aoi = aoi.dissolve()
@@ -3792,6 +3859,7 @@ def crop_point_shapefile_with_aoi(point_shapefile, aoi_shapefile, output_folder)
 
     # Use geopandas.overlay to clip points by AOI polygon
     points_in_aoi = gpd.overlay(points, dissolved_aoi, how='intersection')
+    points_in_aoi.crs=points.crs
 
     # Check if the resulting GeoDataFrame is empty
     if not points_in_aoi.empty:
@@ -3802,8 +3870,10 @@ def crop_point_shapefile_with_aoi(point_shapefile, aoi_shapefile, output_folder)
         output_filename = os.path.basename(point_shapefile).replace(".shp", "_clipped.shp")
         output_shapefile = os.path.join(output_folder, output_filename)
 
+        #print(points_in_aoi.crs, 'final crs')
+        
         # Save the clipped points to the output shapefile
-        points_in_aoi.to_file(output_shapefile)
+        points_in_aoi.to_file(output_shapefile, driver="ESRI Shapefile")
 
        
     else:

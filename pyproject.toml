@@ -12,6 +12,8 @@ authors = [
   { name="Mahmud Mustafa Muhammad", email="mahmud.muhamm1@gmail.com" },
 ]
 description = "Land Deformation Monitoring Using Optical Satellite Imagery"
+
+[tool.setuptools.dynamic]
 readme = "./README_pypi.md"
 requires-python = ">=3.7"
 

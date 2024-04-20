@@ -41,7 +41,7 @@ from ipywidgets import interact
 from ipywidgets import widgets
 import plotly.io as pio
 import re
-
+from matplotlib_scalebar.scalebar import ScaleBar
 
 import os
 import re
@@ -61,6 +61,8 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import re
 from datetime import datetime
+
+
 
 def akhdefo_viewer(path_to_dem_file, raster_file, output_folder, title='', 
                    pixel_resolution_meters=3.125, output_file_name="", 
@@ -98,7 +100,7 @@ def akhdefo_viewer(path_to_dem_file, raster_file, output_folder, title='',
         with rasterio.open(path_to_dem_file) as src:
             # Number of bands
             band_count = src.count
-                
+            xres, yres=src.res
             if band_count >2:
                 dem = src.read(masked=True)
                 dem_transform = src.transform
@@ -115,7 +117,7 @@ def akhdefo_viewer(path_to_dem_file, raster_file, output_folder, title='',
             raster = src.read(1, masked=True)
             raster_transform = src.transform
             raster_crs = src.crs
-            xres, yres=src.res
+    
 
         if no_data_mask:
             raster = np.ma.masked_where(raster == 0, raster)
@@ -282,15 +284,15 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
     #ax.grid(True, which='major')
     ax.set_title(title)
 
-    # Add scale bar
-    if pixel_resolution_meters is not None:
-        scalebar = AnchoredSizeBar(ax.transData, 100, f'{100 * pixel_resolution_meters} m', 'lower right',
-                                   pad=0.6, color='black', frameon=True, size_vertical=1)
-        ax.add_artist(scalebar)
+   
+        
+    scalebar = ScaleBar(dx=pixel_resolution_meters, location='lower right', units='m',
+                        frameon=True, scale_loc='bottom', dimension='si-length', box_color='white', color='k', border_pad=1, box_alpha=0.65)  # Adjust parameters as needed
+   
+    ax.add_artist(scalebar)
       
     # Save the plot
     plt.savefig(os.path.join(output_folder, output_file_name), dpi=100, bbox_inches='tight')
-
 
 
 
@@ -723,6 +725,7 @@ def akhdefo_ts_plot(path_to_shapefile=r"", dem_path=r"", point_size=1.0, opacity
     with rio.open(dem_path) as src:
         elevation = src.read(1)
         elevation = elevation.astype('float32')
+        xres, yres=src.res
         # Set masked values to np.nan
         elevation[elevation < 0.0] = np.nan
         
@@ -743,7 +746,6 @@ def akhdefo_ts_plot(path_to_shapefile=r"", dem_path=r"", point_size=1.0, opacity
     min=gdf[color_field].min()
     max=gdf[color_field].max()
     import matplotlib.colors as mcolors
-    from matplotlib_scalebar.scalebar import ScaleBar
     from mpl_toolkits.axes_grid1 import make_axes_locatable
     
     
@@ -783,8 +785,9 @@ def akhdefo_ts_plot(path_to_shapefile=r"", dem_path=r"", point_size=1.0, opacity
     #fig, ax1 = plt.subplots(ncols=1, nrows=1, figsize=(10,5))
     ep.plot_bands( hillshade,cbar=False,title=basename,extent=dem_plotting_extent,ax=ax1, scale=False)
     img_main=ax1.scatter(gdf.x, gdf.y, c=gdf[color_field], alpha=opacity, s=point_size, picker=1, cmap=cmap, norm=offset)
-    scalebar = ScaleBar(1, "m", length_fraction=0.25, scale_loc="right",border_pad=1,pad=0.5, box_color='white', box_alpha=0.5, location='lower right')
-    ax1.add_artist(scalebar)
+    #scalebar = ScaleBar(dx=xres, units='m', location='lower right',frameon=False, scale_loc='bottom')
+    #scalebar = ScaleBar(xres, "m", scale_loc="right",border_pad=1,pad=0.5, box_color='white', box_alpha=0.5, location='lower right', ax=ax1)
+    #ax1.add_artist(scalebar)
     plt.grid(True)
     #ax.scatter(gdf.x, gdf.y, s= 0.5, c=gdf.VEL_MEAN ,picker=1)
     cb=fig.colorbar(img_main, ax=ax1, cax=cax, extend='both', orientation='horizontal')
@@ -1149,6 +1152,7 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
 
     with rio.open(dem_path) as src:
         elevation = src.read(1)
+        xres, yres=src.res
         elevation = elevation.astype('float32')
         # Set masked values to np.nan
         elevation[elevation < 0.0] = np.nan
@@ -1172,7 +1176,6 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
         min=gdf[color_field].min()
         max=gdf[color_field].max()
         import matplotlib.colors as mcolors
-        from matplotlib_scalebar.scalebar import ScaleBar
         from mpl_toolkits.axes_grid1 import make_axes_locatable
         
         
@@ -1224,8 +1227,9 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
         ep.plot_bands( hillshade,cbar=False,title=color_field,extent=dem_plotting_extent,ax=ax1, scale=False)
         
         img_main=ax1.scatter(x, y, c=gdf[color_field], alpha=opacity, s=point_size, picker=1, cmap=cmap, norm=offset)
-        scalebar = ScaleBar(1, "m", length_fraction=0.25, scale_loc="right",border_pad=1,pad=0.5, box_color='white', box_alpha=0.5, location='lower right')
-        ax1.add_artist(scalebar)
+        #scalebar = ScaleBar(xres, "m", scale_loc="right",border_pad=1,pad=0.5, box_color='white', box_alpha=0.5, location='lower right', ax=ax1)
+        #scalebar = ScaleBar(dx=xres, units='m', location='lower right',frameon=False, scale_loc='bottom')
+        #ax1.add_artist(scalebar)
         ax1.grid(True)
         #ax.scatter(gdf.x, gdf.y, s= 0.5, c=gdf.VEL_MEAN ,picker=1)
         cb=fig.colorbar(img_main, ax=ax1, cax=cax, extend='both', orientation='horizontal')
@@ -1244,8 +1248,9 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
             #fig, ax2 =inverse_Velocity(path_to_shapefile)
             
             ep.plot_bands( hillshade,cbar=False,title=color_field,extent=dem_plotting_extent,ax=ax2, scale=False)
-            scalebar = ScaleBar(1, "m", length_fraction=0.25, scale_loc="right",border_pad=1,pad=0.5, box_color='white', box_alpha=0.5, location='lower right')
-            ax2.add_artist(scalebar)
+            #scalebar = ScaleBar(xres, "m", scale_loc="right",border_pad=1,pad=0.5, box_color='white', box_alpha=0.5, location='lower right', ax=ax2)
+            #scalebar = ScaleBar(dx=xres, units='m', location='lower right',frameon=False, scale_loc='bottom')
+            #ax2.add_artist(scalebar)
             ax2.set_title('Inverse Velocity')
             
             if os.path.exists(xml_file_path):
@@ -1273,7 +1278,6 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
             min=gdf[nd].min()
             max=gdf[nd].max()
             import matplotlib.colors as mcolors
-            from matplotlib_scalebar.scalebar import ScaleBar
             from mpl_toolkits.axes_grid1 import make_axes_locatable
             
             
@@ -1327,8 +1331,9 @@ def MeanProducts_plot_ts(path_to_shapefile="", dem_path="" , out_folder="Figs_an
             #fig, ax1 = plt.subplots(ncols=1, nrows=1, figsize=(10,5))
             ep.plot_bands( hillshade,cbar=False,title=nd,extent=dem_plotting_extent,ax=ax1, scale=False)
             img_main=ax1.scatter(x, y, c=gdf[nd], alpha=opacity, s=point_size, picker=1, cmap=cmap, norm=offset)
-            scalebar = ScaleBar(1, "m", length_fraction=0.25, scale_loc="right",border_pad=1,pad=0.5, box_color='white', box_alpha=0.5, location='lower right')
-            ax1.add_artist(scalebar)
+            #scalebar = ScaleBar(xres, "m", scale_loc="right",border_pad=1,pad=0.5, box_color='white', box_alpha=0.5, location='lower right', ax=ax1)
+            #scalebar = ScaleBar(dx=xres, units='m', location='lower right',frameon=False, scale_loc='bottom')
+            #ax1.add_artist(scalebar)
             plt.grid(True)
             #ax.scatter(gdf.x, gdf.y, s= 0.5, c=gdf.VEL_MEAN ,picker=1)
             cb=fig.colorbar(img_main, ax=ax1, cax=cax, extend='both', orientation='horizontal')

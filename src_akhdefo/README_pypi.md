@@ -176,7 +176,7 @@ You now have a dedicated Conda environment for this project, containing all the 
 ```yaml
 
 dependencies:
-  - python=3.8  # Assuming Python 3.8, can be changed as needed
+  - python  # Assuming Python 3.8, can be changed as needed
   - cmocean
   - pip
   - opencv
