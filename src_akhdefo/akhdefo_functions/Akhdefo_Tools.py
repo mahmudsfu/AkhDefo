@@ -933,11 +933,30 @@ def akhdefo_fitPlane(dem_data='', line_shapefile=None , out_planeFolder='Planes_
         return (random.uniform(0, 1), random.uniform(0, 1), random.uniform(0, 1))
 
     def read_dem(dem_file):
+        # Open the DEM file using GDAL
         ds = gdal.Open(dem_file)
-        data = ds.ReadAsArray()
+        if ds is None:
+            raise FileNotFoundError(f"File not found: {dem_file}")
+
+        # Access the first raster band from the dataset
+        band = ds.GetRasterBand(1)
+
+        # Retrieve the no data value from the band
+        no_data_value = band.GetNoDataValue()
+
+        # Read the data into a NumPy array
+        data = band.ReadAsArray()
+
+        # Check if there is a no data value defined and replace it with NaN
+        if no_data_value is not None:
+            data[data == no_data_value] = np.nan
+
+        # Get geotransformation and projection information
         transform = ds.GetGeoTransform()
         projection = ds.GetProjection()
-        ds = None  # Close the dataset
+
+        # Clean up by closing the dataset
+        ds = None
         return data, transform, projection
     
     data, transform, projection = read_dem(dem_data)
@@ -1006,8 +1025,12 @@ def akhdefo_fitPlane(dem_data='', line_shapefile=None , out_planeFolder='Planes_
         print(f"Dip Direction (Azimuth): {dip_direction} degrees")
         
         
-        
-       
+        # def normalize_array(arr, new_min, new_max):
+        #     min_val = np.min(arr)
+        #     max_val = np.max(arr)
+        #     normalized = new_min + (arr - min_val) * (new_max - new_min) / (max_val - min_val)
+        #     return normalized
+        # zz = normalize_array(zz, min_range, max_range)
         
         #  # Clip the values to the desired range
         #zz = np.clip(zz, min_range, max_range)
@@ -1114,12 +1137,15 @@ def akhdefo_fitPlane(dem_data='', line_shapefile=None , out_planeFolder='Planes_
         n = len(strikes)
 
         # Calculate the standard deviation of the data
-        std_dev = np.std(strikes)
-
+        std_dev = np.nanstd(strikes)
+        # Calculate max and min, ignoring NaN values
+        max_strike = np.nanmax(strikes)
+        min_strike = np.nanmin(strikes)
         # Calculate the bin width using Scott's Rule formula, ensuring it's not zero
         if std_dev != 0:
             bin_width = 0.5 * std_dev / (n**(1/3))  # Scott's Rule formula
-            num_bins = max(int((max(strikes) - min(strikes)) / bin_width), 1)  # Ensure num_bins is at least 1
+            #num_bins = max(int((max(strikes) - min(strikes)) / bin_width), 1)  # Ensure num_bins is at least 1
+            num_bins = max(int((max_strike - min_strike) / bin_width), 1)  # Ensure num_bins is at least 1
         else:
             num_bins = 12  # A default number of bins if std_dev is zero
         # Create a rose diagram (circular histogram)
@@ -1199,11 +1225,16 @@ def akhdefo_fitPlane(dem_data='', line_shapefile=None , out_planeFolder='Planes_
             
         
             canvas_2d.draw()
-            
+            from matplotlib.colors import LightSource
+            ls = LightSource(270, 45)
+            # To use a custom hillshading mode, override the built-in shading and pass
+            # in the rgb colors of the shaded surface calculated from "shade".
+            rgb = ls.shade(data, cmap=plt.cm.gray, vert_exag=1, blend_mode='overlay')
 
             #ax_3d.clear()
             ax_3d.set_title('3D DEM with Fitted Planes')
-            ax_3d.plot_surface(xx, yy, data, cmap='terrain', linewidth=0, antialiased=True, alpha=0.5)
+            ax_3d.plot_surface(xx, yy, data,cmap='gray',
+                       linewidth=0, antialiased=True, shade=False, alpha=0.4, facecolors=rgb)
             #for plane in planes:
             surf=ax_3d.plot_surface(xx, yy, fitted_plane, alpha=0.6, linewidth=0, antialiased=True, color=plane_color)
             
@@ -1264,49 +1295,85 @@ def akhdefo_fitPlane(dem_data='', line_shapefile=None , out_planeFolder='Planes_
         return xyz_files
 
     def create_dxf_from_xyz_files(xyz_files, output_path, single=None):
-        
-        if single is None:
-             # Create a new DXF document
-            doc = ezdxf.new()
-
-            # Create a new DXF model space
-            msp = doc.modelspace()
-            
-           
+        #import open3d as o3d
+        import pymeshlab
 
         for xyz_file in xyz_files:
             
-            if single is not None:
-                # Create a new DXF document
-                doc = ezdxf.new()
+            ms = pymeshlab.MeshSet()
+            ms.load_new_mesh(xyz_file)
+            ms.compute_normal_for_point_clouds()
+            #ms.generate_surface_reconstruction_ball_pivoting()
+            ms.generate_surface_reconstruction_screened_poisson()
+            ms.meshing_remove_unreferenced_vertices()
+            ms_1=ms
+            #ms.save_current_mesh(output_path[:-4]+'.obj')
+            ms_1.save_current_mesh(output_path[:-4]+'.ply', binary=True)
+            # pcd = o3d.io.read_point_cloud(xyz_file)
+            # pcd.estimate_normals()
 
-                # Create a new DXF model space
-                msp = doc.modelspace()
-            # Load XYZ data from a file
-            data = np.loadtxt(xyz_file)
-            
+            # # to obtain a consistent normal orientation
+            # pcd.orient_normals_towards_camera_location(pcd.get_center())
 
-            # Separate the XYZ data into individual arrays
-            x = data[:, 0]
-            y = data[:, 1]
-            z = data[:, 2]
+            # # or you might want to flip the normals to make them point outward, not mandatory
+            # pcd.normals = o3d.utility.Vector3dVector( - np.asarray(pcd.normals))
 
-            # Create a Delaunay triangulation of the points
-            tri = Delaunay(np.column_stack((x, y)))
+            # # surface reconstruction using Poisson reconstruction
+            # mesh, _ = o3d.geometry.TriangleMesh.create_from_point_cloud_poisson(pcd, depth=9)
 
-            # Add the triangles to the model space
-            for simplex in tri.simplices:
-                vertices = [(x[i], y[i], z[i]) for i in simplex]
-                msp.add_3dface(points=vertices)
-            
-            if single is not None:
-                    # Save the DXF file
-                doc.saveas(output_path)
-            
-        if single is None: 
+            # # paint uniform color to better visualize, not mandatory
+            # mesh.paint_uniform_color(np.array([0.7, 0.7, 0.7]))
 
-            # Save the DXF file
-            doc.saveas(output_path)
+            # o3d.io.write_triangle_mesh(output_path[:-4]+'.ply', mesh)
+        # doc = None
+        # msp = None
+
+        # # Function to initialize DXF document
+        # def initialize_dxf():
+        #     nonlocal doc, msp
+        #     doc = ezdxf.new('R2010')  # Specify the DXF format, e.g., 'R2010' for compatibility
+        #     msp = doc.modelspace()
+
+        # if single is None:
+        #     initialize_dxf()
+
+        # for xyz_file in xyz_files:
+        #     if single is not None:
+        #         initialize_dxf()
+
+        #     data = np.loadtxt(xyz_file)
+        #     if data.size == 0 or data.shape[1] < 3:
+        #         print(f"Skipping {xyz_file} due to insufficient data")
+        #         continue
+        #     if data.ndim == 1:
+        #         data = data[np.newaxis, :]
+
+        #     x, y, z = data[:, 0], data[:, 1], data[:, 2]
+        #     points = np.column_stack((x, y, z))
+
+        #     try:
+        #         tri = Delaunay(points, furthest_site=False, incremental=True, qhull_options='Qc')
+        #         for simplex in tri.simplices:
+        #             vertices = [tuple(points[i]) for i in simplex]  # Ensure vertices are tuples
+        #             msp.add_3dface(vertices)
+        #     except Exception as e:
+        #         print(f"Failed to process {xyz_file}: {e}")
+        #         continue
+
+        #     if single is not None:
+        #         filename = os.path.join(output_path, f"{os.path.splitext(os.path.basename(xyz_file))[0]}.dxf")
+        #         try:
+        #             doc.saveas(filename)
+        #             print(f"Saved: {filename}")
+        #         except Exception as e:
+        #             print(f"Error saving {filename}: {e}")
+
+        # if single is None and doc is not None:
+        #     try:
+        #         doc.saveas(output_path)
+        #         print(f"Saved combined DXF file: {output_path}")
+        #     except Exception as e:
+        #         print(f"Error saving combined DXF file: {e}")
         
     
     def save_planes_to_obj():
@@ -1352,8 +1419,59 @@ def akhdefo_fitPlane(dem_data='', line_shapefile=None , out_planeFolder='Planes_
                   
         print(f'zz values saved to {output_filename}')
             
+    
+    # import open3d as o3d
+
+    # def save_planes_to_obj():
+    #     x_coords = np.linspace(left, right, data.shape[1])
+    #     y_coords = np.linspace(top, bottom, data.shape[0])
+    #     xx, yy = np.meshgrid(x_coords, y_coords)
         
-   
+    #     if not planes:
+    #         print("No planes to save.")
+    #         return
+        
+    #     output_filename_dxf = f"{out_planeFolder}/planes.dxf"
+    #     for idx, plane in enumerate(planes):
+    #         output_filename_xyz = f"{out_planeFolder}/planes_{idx}.xyz"
+    #         output_filename_obj = f"{out_planeFolder}/planes_{idx}.obj"
+            
+    #         # Initialize lists to store vertices and faces
+    #         vertices = []
+            
+    #         # Sampled point interval
+    #         sample_interval = 200
+            
+    #         # Open the XYZ file for writing
+    #         with open(output_filename_xyz, 'w') as xyz_file:
+    #             for i in range(0, plane.shape[0], sample_interval):
+    #                 for j in range(0, plane.shape[1], sample_interval):
+    #                     if i < xx.shape[0] and j < xx.shape[1]:
+    #                         x = xx[i, j]
+    #                         y = yy[i, j]
+    #                         z = plane[i, j]
+
+    #                         # Check for NaN values
+    #                         if not np.isnan(x) and not np.isnan(y) and not np.isnan(z):
+    #                             # Add the vertex to the list
+    #                             vertices.append((x, y, z))
+                            
+    #                             # Write vertex data to the XYZ file
+    #                             xyz_file.write(f'{x} {y} {z}\n')
+            
+    #         # Load the XYZ file as a point cloud
+    #         pcd = o3d.io.read_point_cloud(output_filename_xyz, format='xyz')
+            
+    #         # Optionally estimate normals
+    #         pcd.estimate_normals()
+            
+    #         # Create a mesh using the point cloud (using Poisson reconstruction as an example)
+    #         radius = 10  # you may need to adjust this based on your data scale
+    #         mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_ball_pivoting(
+    #             pcd, o3d.utility.DoubleVector([radius, radius * 2]))
+            
+    #         # Save mesh as OBJ
+    #     o3d.io.write_triangle_mesh(output_filename_obj, mesh)
         
         
     def collect_points_from_line(gdf):

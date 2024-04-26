@@ -49,6 +49,8 @@ dependencies:
   - tensorflow
   - pip:
     - sphinx-gallery
+    - open3d
+    - ipympl
     - ipykernel
     - sphinx-theme
     - sphinx-autopackagesummary

@@ -62,6 +62,362 @@ import matplotlib.dates as mdates
 import re
 from datetime import datetime
 
+def create_kmz_with_overlay(image_path, raster_path, output_path, bbox=None):
+    """
+    Create a KMZ file with an image overlay based on the geographic bounds of a GeoTIFF file.
+
+    This function reads a GeoTIFF raster file to determine its geographic bounds and coordinate reference system (CRS).
+    It then uses these bounds to overlay an image on a KML file, which is subsequently saved as a KMZ file.
+    If the CRS of the raster is not EPSG:4326 (latitude and longitude), the function will transform the coordinates
+    to EPSG:4326 using pyproj.
+
+    Parameters
+    ----------
+    image_path : str
+        Path to the image file that will be overlaid on the KML. This image should ideally be a PNG or JPEG file.
+    raster_path : str
+        Path to the GeoTIFF raster file from which geographic bounds are derived.
+    output_path : str
+        Path where the output KMZ file will be saved.
+    bbox: list
+        [N,E,S,W]
+    Returns
+    -------
+    None
+        The function does not return any value but saves the KMZ file at the specified output location.
+
+    Example
+    -------
+    >>> create_kmz_with_overlay('./Figure_Analysis/East_universal.png', 
+                                './las_cropped_aoi/Sep_13th2017_lidar_crop.tif', 
+                                'output_overlay.kmz')
+    """
+    
+    import rasterio
+    from rasterio.crs import CRS
+    from pyproj import Transformer, CRS as PyProjCRS
+    import simplekml
+    # Open the GeoTIFF file to read its bounds and CRS
+    
+    with rasterio.open(raster_path) as dataset:
+        bounds = dataset.bounds
+        src_crs = dataset.crs  # Source CRS
+
+        # Manually create a CRS object for EPSG:4326 if from_epsg fails
+        epsg_4326_crs = PyProjCRS.from_proj4("+proj=longlat +datum=WGS84 +no_defs")
+
+        # Check if the source CRS is not EPSG:4326
+        if src_crs != epsg_4326_crs:
+            # Create a transformer to convert from source CRS to EPSG:4326
+            transformer = Transformer.from_crs(src_crs, epsg_4326_crs, always_xy=True)
+            
+            # Transform each corner of the bounding box
+            west, south = transformer.transform(bounds.left, bounds.bottom)
+            east, north = transformer.transform(bounds.right, bounds.top)
+        else:
+            # Use the bounds directly if they are already in EPSG:4326
+            north = bounds.top
+            south = bounds.bottom
+            east = bounds.right
+            west = bounds.left
+    
+    # import rasterio
+    # import re
+
+    
+   
+    
+    if bbox is not None:
+        # Calculate coordinates for each corner
+        north, east= bbox[0], bbox[1]    
+        south, west =  bbox[2], bbox[3]
+        # # Check if the source CRS is not EPSG:4326
+        # if src_crs != epsg_4326_crs:
+        #    east, north=convert_utm_to_latlon(east, north, crs_info['UTM Zone'], crs_info['Hemisphere'] )
+        #    west, south=convert_utm_to_latlon(west, south, crs_info['UTM Zone'], crs_info['Hemisphere'] )
+        
+    # Create a KML object
+    kml = simplekml.Kml()
+     
+
+
+    # Create a ground overlay
+    ground = kml.newgroundoverlay(name='Sample Overlay')
+    ground.icon.href = image_path
+    ground.latlonbox.north = north
+    ground.latlonbox.south = south
+    ground.latlonbox.east = east
+    ground.latlonbox.west = west
+    
+   
+    # Save to KMZ
+    kml.savekmz(output_path)
+
+
+def get_crs_info(raster_path):
+        # Open the raster file
+        with rasterio.open(raster_path) as dataset:
+            # Get CRS
+            crs = dataset.crs
+            
+            if not crs:
+                return "CRS not found."
+
+            # Initialize info dictionary
+            crs_info = {'EPSG': None, 'UTM Zone': None, 'Hemisphere': None}
+            
+            # Extract EPSG code
+            if crs.is_epsg_code:
+                crs_info['EPSG'] = crs.to_epsg()
+            
+            # Convert CRS to WKT for easier parsing
+            crs_wkt = crs.to_wkt()
+            
+            # Find UTM zone and hemisphere from WKT
+            utm_match = re.search(r'UTM zone (\d+)(N|S)', crs_wkt)
+            if utm_match:
+                crs_info['UTM Zone'] = int(utm_match.group(1))
+                crs_info['Hemisphere'] = 'north' if utm_match.group(2) == 'N' else 'south'
+
+            return crs_info
+from pyproj import Proj, transform
+
+def convert_utm_to_latlon(easting, northing, zone, hemisphere):
+    # Define the UTM projection string
+    utm_proj = Proj(proj='utm', zone=zone, ellps='WGS84', south=hemisphere==hemisphere)
+    
+    # Define the latitude/longitude projection string
+    latlon_proj = Proj(proj='latlong', ellps='WGS84')
+    
+    # Convert UTM to latitude and longitude
+    longitude, latitude = transform(utm_proj, latlon_proj, easting, northing)
+    return latitude, longitude
+
+
+import rasterio
+from rasterio.warp import transform_bounds
+from shapely.geometry import box
+from rasterio.errors import CRSError
+from pyproj import Transformer, CRS as PyProjCRS
+from rasterio.transform import from_origin
+import akhdefo_functions
+import shutil
+import tempfile
+import os
+
+def save_images_to_temp_folder(image_path1, image_path2):
+    # Create a temporary directory
+    temp_dir = tempfile.mkdtemp()
+    
+    # Define the destination paths within the temporary directory
+    dest_path1 = os.path.join(temp_dir, os.path.basename(image_path1))
+    dest_path2 = os.path.join(temp_dir, os.path.basename(image_path2))
+    
+    # Copy images to the temporary directory
+    shutil.copy(image_path1, dest_path1)
+    shutil.copy(image_path2, dest_path2)
+    
+    akhdefo_functions.crop_to_overlap(temp_dir)
+    
+    # Print the paths of the saved images
+    #print("Image 1 saved at:", dest_path1)
+    #print("Image 2 saved at:", dest_path2)
+    
+    return dest_path1, dest_path2, temp_dir
+
+def delete_temp_folder(temp_folder_path):
+    # Check if the folder exists
+    if os.path.exists(temp_folder_path):
+        # Remove the directory and all its contents
+        shutil.rmtree(temp_folder_path)
+
+def crop_rasters_and_return_info(path1, path2):
+    
+    path1, path2, temp_dir=save_images_to_temp_folder(path1, path2)
+    
+    
+    
+    #try:
+    with rasterio.open(path1) as src1, rasterio.open(path2) as src2:
+        # Use EPSG code directly for both sources if they are the same and well-defined.
+        epsg_code = 'EPSG:32610'  # Standard EPSG code for WGS 84 / UTM zone 10N
+        src_crs=src2.crs
+        bbox1 = box(*src1.bounds)
+        bbox2 = box(*src2.bounds)
+
+        intersection = bbox1.intersection(bbox2)
+        if intersection.is_empty:
+            return "No overlapping area found."
+
+        window1 = rasterio.windows.from_bounds(*intersection.bounds, src1.transform)
+        window2 = rasterio.windows.from_bounds(*intersection.bounds, src2.transform)
+
+        data1 = src1.read(1, window=window1, masked=True)
+        data2 = src2.read(1, window=window2, masked=True)
+       
+        
+            # Mask no data values
+        if src1.nodata is not None:
+            data1 = np.where(data1 == src1.nodata, np.nan, data1)
+        else:
+            data1 = data1  # Use original data if no no_data_value defined
+            
+              # Mask no data values
+        if src2.nodata is not None:
+            data2 = np.where(data2 == src2.nodata, np.nan, data2)
+        else:
+            data2 = data2  # Use original data if no no_data_value defined
+        
+        
+        
+        crs_info = get_crs_info(path2)
+        utm_zone=crs_info['UTM Zone']
+        hemisphere=crs_info['Hemisphere']
+        
+        # Convert intersection bounds to geographic coordinates
+        west, south = src1.xy(intersection.bounds[1], intersection.bounds[0])
+        east, north = src1.xy(intersection.bounds[3], intersection.bounds[2])
+
+        # Calculate the width and height of the bounding box
+        width = intersection.bounds[2] - intersection.bounds[0]
+        height = intersection.bounds[3] - intersection.bounds[1]
+        
+        #Transform of the subset intersection
+        subset_transform=src1.window_transform(window1)
+        # Extracting values from the transform
+        west = subset_transform.c
+        north = subset_transform.f
+        pixel_size_x = subset_transform.a
+        pixel_size_y = -subset_transform.e 
+        
+        # Calculating the east and south boundaries
+        east = west + (width * pixel_size_x)
+        south = north - (height * pixel_size_y)
+
+        #print(north, south, east, west)
+        
+        # east, north=convert_utm_to_latlon(east, north, crs_info['UTM Zone'], crs_info['Hemisphere'] )
+        # west, south=convert_utm_to_latlon(west, south, crs_info['UTM Zone'], crs_info['Hemisphere'] )
+        
+            # Manually create a CRS object for EPSG:4326 if from_epsg fails
+        epsg_4326_crs = PyProjCRS.from_proj4("+proj=longlat +datum=WGS84 +no_defs")
+
+        # Check if the source CRS is not EPSG:4326
+        if src_crs != epsg_4326_crs:
+            # # Create a transformer to convert from source CRS to EPSG:4326
+            # transformer = Transformer.from_crs(src_crs, epsg_4326_crs, always_xy=True)
+            
+            # # Transform each corner of the bounding box
+            # west, south = transformer.transform(intersection.bounds[2], intersection.bounds[0])
+            # east, north = transformer.transform(intersection.bounds[3], intersection.bounds[2])
+            # Assume transformation is needed to WGS84
+            target_crs = PyProjCRS.from_epsg(4326)
+            # transformer = Transformer.from_crs(src1.crs, target_crs, always_xy=True)
+            # # Perform the transformation
+            # west, south = transformer.transform(west, south)
+            # east, north = transformer.transform(east, north)
+            west, south, east, north = transform_bounds(src1.crs, target_crs, *intersection.bounds)
+            ####################
+            import math
+            # Constants
+            meters_per_degree_latitude = 111320  # meters per degree of latitude
+            latitude = north
+            # Conversion formulas
+            pixel_size_y_in_degrees = pixel_size_y / meters_per_degree_latitude
+            pixel_size_x_in_degrees = pixel_size_x / (meters_per_degree_latitude * math.cos(math.radians(latitude)))
+            pixel_size_x_in_degrees, pixel_size_y_in_degrees
+            subset_transform_updated=from_origin(west, north, pixel_size_x_in_degrees, pixel_size_y_in_degrees)
+        else:
+            west, south , east, north 
+            subset_transform_updated=subset_transform
+        
+        #print(north, south, east, west)
+        from rasterio.coords import BoundingBox
+        
+        
+        
+        import math
+        # Constants
+        meters_per_degree_latitude = 111320  # meters per degree of latitude
+        latitude = north
+        # Conversion formulas
+        pixel_size_y_in_degrees = pixel_size_y / meters_per_degree_latitude
+        pixel_size_x_in_degrees = pixel_size_x / (meters_per_degree_latitude * math.cos(math.radians(latitude)))
+        pixel_size_x_in_degrees, pixel_size_y_in_degrees
+        subset_transform_updated=from_origin(west, north, pixel_size_x_in_degrees, pixel_size_y_in_degrees)
+        
+        
+        
+        
+        # Define the custom bounds
+        bounds = BoundingBox(left=west, bottom=south, right=east, top=north)
+        print('bounds: ', bounds)
+
+        from scipy.ndimage import zoom
+        data2 = np.where(data2 == -32767, np.nan, data2)
+        data1 = np.where(data1 == -32767, np.nan, data1)
+        # Calculate the zoom factor
+        zoom_factor = len(data1) / len(data2)
+         # Get the no-data value from the dataset's metadata
+        
+        # Use the zoom function to resize array1
+        data2 = zoom(data2, zoom_factor, order=1)
+        data2 = np.where(data2 == src2.nodata, np.nan, data2)
+        
+        
+        
+        
+        
+            # Prepare the return information including pixel dimensions and bounding box size
+        info1 = {
+            'array': data1,
+            'transform': src1.window_transform(window1),
+            'crs': src1.crs,
+            'resolution': (src1.res[0], src1.res[0]),
+            'bbox_size': {'width': width, 'height': height},
+            'bounds_latlong': {'north': north, 'south': south, 'east': east, 'west': west} , 'utm_zone':utm_zone,
+            'trasnform_latlon':subset_transform_updated, 'resolution_latlon':(pixel_size_x_in_degrees, pixel_size_y_in_degrees)
+        }
+        info2 = {
+            'array': data2,
+            'transform': src2.window_transform(window2),
+            'crs':src2.crs,
+            'resolution': (src1.res[0], src1.res[1]),
+            'bbox_size': {'width': width, 'height': height},
+            'bounds_latlong': {'north': north, 'south': south, 'east': east, 'west': west}, 'utm_zone':utm_zone, 
+            'trasnform_latlon':subset_transform_updated, 'resolution_latlon':(pixel_size_x_in_degrees, pixel_size_y_in_degrees)
+        }
+        
+    
+        
+    src1.close()
+    src2.close()
+    delete_temp_folder(temp_dir)
+    return info1, info2
+        
+        
+        
+    # except CRSError as e:
+    #     raise RuntimeError(f"CRS transformation error: {e}")
+    # except Exception as e:
+    #     raise RuntimeError(f"An unexpected error occurred: {e}")
+    
+    
+
+# Usage
+# info1, info2 = crop_rasters_and_return_info(path_to_raster1, path_to_raster2)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def akhdefo_viewer(path_to_dem_file, raster_file, output_folder, title='', 
@@ -97,28 +453,66 @@ def akhdefo_viewer(path_to_dem_file, raster_file, output_folder, title='',
     """
     try:
         
-        with rasterio.open(path_to_dem_file) as src:
-            # Number of bands
-            band_count = src.count
-            xres, yres=src.res
-            if band_count >2:
-                dem = src.read(masked=True)
-                dem_transform = src.transform
-                hillshade=dem
+        # with rasterio.open(path_to_dem_file) as src_dem:
+        #     # Number of bands
+        #     band_count = src_dem.count
+        #     xres, yres=src_dem.res
+        #     if band_count >2:
+        #         dem = src_dem.read(masked=True)
+        #         dem_transform = src_dem.transform
+        #         hillshade=dem
                 
-            else:
-                dem = src.read(1, masked=True)
-                dem_transform = src.transform
+        #     else:
+        #         dem = src_dem.read(1, masked=True)
+        #         dem_transform = src_dem.transform
             
-                hillshade = es.hillshade(dem)
+        #         hillshade = es.hillshade(dem)
                 
 
-        with rasterio.open(raster_file) as src:
-            raster = src.read(1, masked=True)
-            raster_transform = src.transform
-            raster_crs = src.crs
+        # with rasterio.open(raster_file) as src_raster:
+        #     raster = src_raster.read(1, masked=True)
+        #     raster_transform = src_raster.transform
+        #     raster_crs = src_raster.crs
     
 
+        dem_data, raster_data=crop_rasters_and_return_info(path_to_dem_file, raster_file)
+        
+        if aspect_raster is not None:
+            
+            _, aspect_data=crop_rasters_and_return_info(path_to_dem_file, aspect_raster)
+            aspect_arr=aspect_data['array']
+            aspect_transform=aspect_data['trasnform_latlon'] 
+        else:
+            aspect_arr=None
+            aspect_transform=None
+            
+        dem_arr=dem_data['array']
+        dem_transform=dem_data['transform'] 
+        dem_res=dem_data['resolution']
+        dem_crs=dem_data['crs']
+        utm_zone=dem_data['utm_zone']
+        raster=raster_data['array']
+        raster_transform=raster_data['transform']
+        raster_res=raster_data['resolution']
+        raster_crs=raster_data['crs']
+        xres=dem_res[0]
+        hillshade = es.hillshade(dem_arr)
+        
+        with rasterio.open(path_to_dem_file) as src_dem:
+            # Number of bands
+            band_count = src_dem.count
+            if band_count >2:
+                hillshade=dem_arr
+        
+        # Assuming you've already executed the function and have the results stored in cropped_info1 and cropped_info2
+        width = dem_data['bbox_size']['width']
+        height = dem_data['bbox_size']['height']
+        
+        west=dem_data['bounds_latlong']['west']
+        south=dem_data['bounds_latlong']['south']
+        east=dem_data['bounds_latlong']['east']
+        north=dem_data['bounds_latlong']['north']
+        
         if no_data_mask:
             raster = np.ma.masked_where(raster == 0, raster)
 
@@ -133,16 +527,38 @@ def akhdefo_viewer(path_to_dem_file, raster_file, output_folder, title='',
         if not output_file_name:
             output_file_name = os.path.splitext(os.path.basename(raster_file))[0] + ".png"
 
-        _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs, alpha, colormap, normalize,
-                     title, output_folder, output_file_name, colorbar_label, pixel_resolution_meters, min_value, max_value, aspect_raster, cmap_aspect, step)
+        _create_plot(hillshade=hillshade, raster=raster, dem_transform=dem_transform, raster_transform=raster_transform, raster_crs=raster_crs, alpha=alpha, colormap=colormap, normalize=normalize,
+                     title=title, output_folder=output_folder, output_file_name=output_file_name, colorbar_label=colorbar_label, pixel_resolution_meters=pixel_resolution_meters,
+                     min_value=min_value, max_value=max_value, aspect_raster=aspect_arr, cmap_aspect=cmap_aspect, step=step, UTM_zone=utm_zone)
+        
+        
+        create_kmz_overlay(hillshade=hillshade, raster=raster, colormap=colormap, alpha=alpha, west=west,south=south,east=east,north=north,output_folder= output_folder, 
+                           output_file_name=output_file_name+'.kmz', colorbar_label=colorbar_label, normalize=normalize, min_value=min_value, max_value=max_value, title=title, 
+                           aspect_raster=aspect_arr, step=step, cmap_aspect=cmap_aspect, transform=aspect_transform)
+
+        
+       
+       
+    
+        
+        
 
         if show_figure:
             plt.show()
         else:
             plt.close()
+            
+            
+        # create_kmz_with_overlay(image_path=os.path.join(output_folder, output_file_name),raster_path=raster_file, output_path=os.path.join(output_folder, output_file_name[:-4]+'.kmz'),
+        #                         bbox= None )
 
     except Exception as e:
         raise RuntimeError(f"An error occurred: {e}")
+
+
+
+
+
 
 def _separate_floats_letters(input_string):
     """
@@ -177,28 +593,33 @@ def _normalize_raster(raster, min_value, max_value):
 
 
 def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs, alpha, colormap, normalize,
-                 title, output_folder, output_file_name, colorbar_label, pixel_resolution_meters, min_value, max_value , aspect_raster=None, cmap_aspect=None, step=10):
+                 title, output_folder, output_file_name, colorbar_label, pixel_resolution_meters, min_value, max_value , aspect_raster=None, cmap_aspect=None, step=10 , UTM_zone=None):
     """
     Creates and saves a plot of hillshade and raster overlay.
     """
     
     basemap_dimensions = hillshade.ndim
-    fig, ax = plt.subplots(figsize=(10, 10))
-
+  
+        
+    fig, ax = plt.subplots(figsize=(15, 10))
+    
     # Plot the hillshade layer using dem_transform for its extent
     if basemap_dimensions > 2:
         #ep.plot_rgb(hillshade, rgb=(0, 1, 2), str_clip=2, ax=ax, extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform))
         rasterio.plot.show(hillshade, transform=dem_transform, ax=ax)
     else:
-        rasterio.plot.show(hillshade,extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform), ax=ax , cmap='gray')
+        
+           
+        #rasterio.plot.show(hillshade,extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform), ax=ax , cmap='gray')
+        ax.imshow(hillshade,extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform), cmap='gray')
         # ep.plot_bands(
         #     hillshade,
         #     ax=ax,
         #     cmap='gray',
-        #     scale=False,
+        #     scale=True,
         #     cbar=False,
-        #     extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform)  # ensure correct transform
-        # )
+        #     extent=rasterio.plot.plotting_extent(raster, transform=raster_transform))  # ensure correct transform
+        # # )
 
     if aspect_raster is not None:
         alpha_basemap=0.45
@@ -210,9 +631,10 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
         
     if normalize==True:
     # Overlay the raster with alpha for transparency using raster_transform for its extent
-        img = ax.imshow(raster, alpha=alpha_basemap, cmap=colormap, norm=norm,
-                    extent=rasterio.plot.plotting_extent(raster, transform=raster_transform))  # ensure correct transform
-    
+      
+        
+        img = ax.imshow(raster, alpha=alpha_basemap, cmap=colormap, norm=norm, 
+                    extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform))  # ensure correct transform
     if normalize==False:
         
         if min_value is None and max_value is None:
@@ -221,11 +643,11 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
         else:
             min_value=min_value
             max_value=max_value
-        
-        # Overlay the raster with alpha for transparency using raster_transform for its extent
-        img = ax.imshow(raster, alpha=alpha_basemap, cmap=colormap, vmin=min_value , vmax=max_value,
-                    extent=rasterio.plot.plotting_extent(raster, transform=raster_transform))  # ensure correct transform
-        
+       
+      
+                 # Overlay the raster with alpha for transparency using raster_transform for its extent
+        img = ax.imshow(raster, alpha=alpha_basemap, cmap=colormap, vmin=min_value , vmax=max_value, 
+                        extent=rasterio.plot.plotting_extent(hillshade, transform=dem_transform))  # ensure correct transform
     if aspect_raster is not None:
         def aspect_to_uv(aspect):
             """
@@ -235,17 +657,18 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
             u = np.sin(aspect_rad)
             v = np.cos(aspect_rad)
             return u, v
-        # Load the raster file
-        with rasterio.open(aspect_raster) as dataset:
-            # Read the aspect data
-            aspect_data = dataset.read(1)
+        # # Load the raster file
+        # with rasterio.open(aspect_raster) as dataset:
+        #     # Read the aspect data
+        #     aspect_data = dataset.read(1)
             
-            # Get the geotransformation data
-            transform = dataset.transform
+        #     # Get the geotransformation data
+        #     transform = dataset.transform
 
-            # Get the shape of the data
-            data_shape = aspect_data.shape
-
+        #     # Get the shape of the data
+        #     data_shape = aspect_data.shape
+        aspect_data=aspect_raster
+        data_shape=aspect_data.shape
         # Generate a grid of points every 10 pixels
         step=step
         x_positions = np.arange(0, data_shape[1], step)
@@ -258,7 +681,7 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
         u_subset, v_subset = aspect_to_uv(aspect_subset)
 
         # Convert grid positions to real world coordinates
-        x_grid_world, y_grid_world = transform * (x_grid, y_grid)
+        x_grid_world, y_grid_world = dem_transform * (x_grid, y_grid)
         if cmap_aspect is None:
             cmap_aspect='hsv'
         quiver = ax.quiver(x_grid_world, y_grid_world, u_subset, v_subset, aspect_subset, scale=20, cmap=cmap_aspect , angles='xy', norm=norm, alpha=alpha)
@@ -286,15 +709,230 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
 
    
         
-    scalebar = ScaleBar(dx=pixel_resolution_meters, location='lower right', units='m',
+    scalebar = ScaleBar(1, location='lower right', units='m',
                         frameon=True, scale_loc='bottom', dimension='si-length', box_color='white', color='k', border_pad=1, box_alpha=0.65)  # Adjust parameters as needed
    
     ax.add_artist(scalebar)
-      
+    
+
     # Save the plot
     plt.savefig(os.path.join(output_folder, output_file_name), dpi=100, bbox_inches='tight')
 
 
+
+
+
+from simplekml import Kml, OverlayXY, ScreenXY, Units, RotationXY, AltitudeMode, Camera
+
+def gearth_fig(west, south, east, north, pixels=1024):
+    aspect = np.cos(np.mean([south, north]) * np.pi/180.0)
+    xsize = np.ptp([east, west]) * aspect
+    ysize = np.ptp([north, south])
+    aspect = ysize / xsize
+
+    if aspect > 1.0:
+        figsize = (10.0 / aspect, 10.0)
+    else:
+        figsize = (10.0, 10.0 * aspect)
+
+    fig = plt.figure(figsize=figsize, frameon=False, dpi=pixels // 10)
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.set_xlim(west, east)
+    ax.set_ylim(south, north)
+    return fig, ax
+
+def make_kml(west, south, east, north,
+             figs, colorbar=None, **kw):
+    """TODO: LatLon bbox, list of figs, optional colorbar figure,
+    and several simplekml kw..."""
+
+    kml = Kml()
+    altitude = kw.pop('altitude', 2e7)
+    roll = kw.pop('roll', 0)
+    tilt = kw.pop('tilt', 0)
+    altitudemode = kw.pop('altitudemode', AltitudeMode.relativetoground)
+    camera = Camera(latitude=np.mean([north, south]),
+                    longitude=np.mean([east, west]),
+                    altitude=altitude, roll=roll, tilt=tilt,
+                    altitudemode=altitudemode)
+
+    #kml.document.camera = camera
+    draworder = 0
+    for fig in figs:  # NOTE: Overlays are limited to the same bbox.
+        draworder += 1
+        ground = kml.newgroundoverlay(name='GroundOverlay')
+        ground.draworder = draworder
+        # ground.visibility = kw.pop('visibility', 1)
+        # #ground.name = kw.pop('name', 'overlay')
+        ground.color = kw.pop('color', '9effffff')
+        ground.atomauthor = kw.pop('author', 'ocefpaf')
+        ground.latlonbox.rotation = kw.pop('rotation', 0)
+        ground.description = kw.pop('description', 'Matplotlib figure')
+        ground.gxaltitudemode = kw.pop('gxaltitudemode',
+                                       'clampToSeaFloor')
+        ground.icon.href = fig
+        ground.latlonbox.east = east
+        ground.latlonbox.south = south
+        ground.latlonbox.north = north
+        ground.latlonbox.west = west
+
+    if colorbar:  # Options for colorbar are hard-coded (to avoid a big mess).
+        screen = kml.newscreenoverlay(name='Legend')
+        screen.icon.href = colorbar
+        screen.overlayxy = OverlayXY(x=0, y=0,
+                                     xunits=Units.fraction,
+                                     yunits=Units.fraction)
+        screen.screenxy = ScreenXY(x=0.015, y=0.075,
+                                   xunits=Units.fraction,
+                                   yunits=Units.fraction)
+        screen.rotationXY = RotationXY(x=0.5, y=0.5,
+                                       xunits=Units.fraction,
+                                       yunits=Units.fraction)
+        screen.size.x = 0
+        screen.size.y = 0
+        screen.size.xunits = Units.fraction
+        screen.size.yunits = Units.fraction
+        screen.visibility = 1
+
+    kmzfile = kw.pop('kmzfile', 'overlay.kmz')
+    
+    
+    kml.savekmz(kmzfile)
+  
+
+def create_kmz_overlay(hillshade, raster, colormap, alpha, west, south, east, north, output_folder, output_file_name, pixels=2030, colorbar_label='colorbar_label',
+                       normalize=True, min_value= None, max_value=None, title='title', aspect_raster=None, step=10, cmap_aspect='hsv', transform=None):
+    
+    fig_ov, ax = gearth_fig(west, south, east, north, pixels)
+    ax.imshow(hillshade, alpha=0.85,cmap='gray', extent=[west, east, south, north])
+    
+   
+    if normalize:
+        raster, norm = _normalize_raster(raster, min_value, max_value)
+    img = ax.imshow(raster, cmap=colormap, alpha=0.75, extent=[west, east, south, north], norm=norm)
+    ax.set_axis_off()
+    fig_path = os.path.join(output_folder, 'overlay' + '.jpg')
+    
+    
+    ########ADD qquiver plot############
+    if aspect_raster is not None:
+        def aspect_to_uv(aspect):
+            """
+            Convert aspect data to U and V components for arrows.
+            """
+            aspect_rad = np.deg2rad(aspect)
+            u = np.sin(aspect_rad)
+            v = np.cos(aspect_rad)
+            return u, v
+        aspect_data=aspect_raster
+        data_shape=aspect_data.shape
+        # Generate a grid of points every 10 pixels
+        step=step
+        x_positions = np.arange(0, data_shape[1], step)
+        y_positions = np.arange(0, data_shape[0], step)
+        x_grid, y_grid = np.meshgrid(x_positions, y_positions)
+
+        # Subset the aspect data to match the grid
+        aspect_subset = aspect_data[y_positions[:, None], x_positions]
+        aspect_subset, norm = _normalize_raster(aspect_subset, min_value=None, max_value=None)
+        u_subset, v_subset = aspect_to_uv(aspect_subset)
+
+        # Convert grid positions to real world coordinates
+        x_grid_world, y_grid_world = transform * (x_grid, y_grid)
+        
+        if cmap_aspect is None:
+            cmap_aspect='hsv'
+    if aspect_raster is not None:
+        quiver = ax.quiver(x_grid_world, y_grid_world, u_subset, v_subset, aspect_subset, scale=20, cmap=cmap_aspect , angles='xy', norm=norm, alpha=1)
+        
+    
+    fig_ov.savefig(fig_path, dpi=fig_ov.dpi, transparent=False, bbox_inches='tight')
+    plt.close(fig_ov)
+        ##############################
+
+    if aspect_raster is not None:
+        figsize=(4.0, 2.0)
+        colorbar_path=os.path.join(output_folder, 'legend' + '.jpg')
+    else:
+        figsize=(4.0, 1.0)
+        colorbar_path=os.path.join(output_folder, 'legend' + '.jpg')
+        
+        
+        
+    if aspect_raster is not None:
+        
+        fig_cb = plt.figure(figsize=figsize, facecolor='white', frameon=True)
+
+        # First Colorbar
+        ax_cb1 = fig_cb.add_axes([0.05, 0.8, 0.9, 0.1])  # Adjusted the position of the axes for the first colorbar
+        cb1 = plt.colorbar(img, cax=ax_cb1, orientation='horizontal', extend='both')  # First colorbar
+        cb1.set_label(colorbar_label, color='k', labelpad=1)  # Adjusted labelpad
+        
+        # Second Colorbar
+        ax_cb2 = fig_cb.add_axes([0.05, 0.3, 0.9, 0.1])  # Adjusted the position of the axes for the second colorbar
+        cb2 = plt.colorbar(quiver, cax=ax_cb2, orientation='horizontal', extend='both')  # Second colorbar
+        cb2.set_label('Aspect-Colorbar(degrees)', color='k', labelpad=1)  # Adjusted labelpad
+        #plt.tight_layout()  # Ensures all elements are included with tight layout
+        fig_cb.savefig(colorbar_path, transparent=False)
+        plt.close(fig_cb)
+        make_kml(west, south, east, north, [fig_path], kmzfile=os.path.join(output_folder, output_file_name[:-4] + '.kmz'), colorbar=colorbar_path, name=title)
+    
+    else:
+        fig_cb = plt.figure(figsize=figsize, facecolor='white', frameon=True)
+        # First Colorbar
+        ax_cb1 = fig_cb.add_axes([0.05, 0.6, 0.9, 0.2])  # Adjusted the position of the axes for the first colorbar
+        cb1 = plt.colorbar(img, cax=ax_cb1, orientation='horizontal', extend='both')  # First colorbar
+        cb1.set_label(colorbar_label, color='k', labelpad=1)  # Adjusted labelpad
+        #plt.tight_layout()  # Ensures all elements are included with tight layout
+        fig_cb.savefig(colorbar_path, transparent=False) 
+        plt.close(fig_cb)
+        
+        make_kml(west, south, east, north, [fig_path], kmzfile=os.path.join(output_folder, output_file_name[:-4] + '.kmz'), colorbar=colorbar_path, name=title)
+        
+    #Delete temp files  
+    os.remove(fig_path)
+    os.remove(colorbar_path)
+        
+        
+        
+
+    
+       
+    
+    
+    
+    
+    
+    
+    # fig_cb = plt.figure(figsize=(4.0, 1.0), facecolor='white', frameon=True)
+    # ax_cb = fig_cb.add_axes([0.05, 0.6, 0.9, 0.2])  # Adjusted the position of the axes
+    # cb = plt.colorbar(img, cax=ax_cb, orientation='horizontal', extend='both')  # Changed orientation and extended both ends
+    # cb.set_label(colorbar_label, color='k', labelpad=10)  # Adjusted labelpad
+    
+    # ###second colorbar##
+    # if aspect_raster is not None:
+    #     # Adding a second colorbar in a horizontal position
+    #     cbar_ax2 = fig_cb.add_axes([0.25, 0.2, 0.5, 0.02])  # Position for the horizontal colorbar
+    #     cbar2 = fig_cb.colorbar(quiver, cax=cbar_ax2, orientation='horizontal',  extend='both')  # Using the ScalarMappable created earlier
+    #     cbar2.set_label('Aspect-Colorbar(degrees)')
+        
+    # plt.tight_layout()
+    # fig_cb.savefig(colorbar_path, transparent=False)
+    # plt.close(fig_cb)
+   
+    # fig_cb = plt.figure(figsize=(1.0, 4.0), facecolor='white', frameon=True)
+    # ax_cb = fig_cb.add_axes([0.0, 0.05, 0.2, 0.9])
+    # cb = plt.colorbar(img, cax=ax_cb)
+    # cb.set_label(colorbar_label, rotation=90, color='k', labelpad=20)
+    
+    # fig_cb.savefig(colorbar_path, transparent=False)
+    # plt.close(fig_cb)
+
+   
+
+    
+    
+   
 
 
 def plot_stackNetwork(src_folder="", output_folder="", cmap='tab20', date_plot_interval=(5, 30), marker_size=15):
