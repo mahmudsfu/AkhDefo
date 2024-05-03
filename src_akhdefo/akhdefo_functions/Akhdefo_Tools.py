@@ -945,7 +945,7 @@ def akhdefo_fitPlane(dem_data='', line_shapefile=None , out_planeFolder='Planes_
         no_data_value = band.GetNoDataValue()
 
         # Read the data into a NumPy array
-        data = band.ReadAsArray()
+        data = band.ReadAsArray().astype(np.float32)
 
         # Check if there is a no data value defined and replace it with NaN
         if no_data_value is not None:
