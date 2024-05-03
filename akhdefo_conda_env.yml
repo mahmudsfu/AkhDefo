@@ -50,6 +50,7 @@ dependencies:
   - pip:
     - sphinx-gallery
     - simplekml
+    - pymeshlab
     - open3d
     - ipympl
     - ipykernel
@@ -112,7 +113,6 @@ dependencies:
     - absl-py
     - aiohttp
     - aiosignal
-    - akhdefo-functions
     - alabaster
     - apscheduler
     - astunparse
