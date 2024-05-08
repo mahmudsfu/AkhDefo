@@ -2543,7 +2543,7 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
             release_flag==False
         ###################################################################################################################
         label_plot = os.path.join(plot_folder, f"frame_{now.strftime('%Y-%m-%d')}.jpg")
-        file_path_data_csv = os.path.join(data_folder, f"frame_{now.strftime('%Y-%m-%d')}.csv")
+        file_path_data_csv = os.path.join(data_folder, f"frame_{now.strftime('%Y-%m-%d_%H')}.csv")
         
         image_sequence_label=os.path.join(full_path_img, f"frame_{current_time.strftime('%Y-%m-%d_%H-%M-%S')}_{frame_count}.jpg")
         stats_sequence_label=os.path.join(base_directory, f"frame_{current_time.strftime('%Y-%m-%d_%H')}.jpg")
@@ -2808,7 +2808,7 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
         colors = (colormap(normalized_magnitudes)[:, :, :3] * 255).astype(np.uint8)
         ########################################################################3#
        
-        plt.style.use('seaborn-notebook')
+        #plt.style.use('seaborn-notebook')
         
         fig, ax = plt.subplots(1, 1, figsize=(7, 7))
 
@@ -2903,7 +2903,7 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
         
         total_time=np.cumsum(processing_times)
         total_time=total_time[-1]
-        ax1.plot(datetimes_from_frame, Y_trendline, label=f'(Mean-Displacement Rate: {slope:.4f}) m/{total_minutes:.4f}minutes', color='red', linestyle='-')
+        ax1.plot(datetimes_from_frame, Y_trendline, label=f'(Mean-Displacement Rate:\n {slope:.4f}) m/{total_minutes:.4f}minutes', color='red', linestyle='-')
         
         # Calculate the mean square error (MSE) of the residuals
         residuals = mean_displacement - (slope * datetimes_from_frame + intercept)
@@ -2992,7 +2992,7 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
         labels = labels1 + labels3
 
         # Creating a single legend
-        ax1.legend(handles, labels, loc='upper right', fontsize=12, framealpha=0.85)
+        ax1.legend(handles, labels, loc='center left', fontsize=12, framealpha=0.85, bbox_to_anchor=(1.1, 0.5))
         
         ###ax2##########
         cumulative_processing_times=np.cumsum(processing_times)
@@ -3016,7 +3016,7 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
         ax2.fill_between(frame_numbers, latency_times, 0, where=(latency_times <= 0), color='green', alpha=0.3, label='Within Real-time Threshold')
 
         # Adding a legend
-        ax2.legend(loc="lower right", fontsize=12)
+        ax2.legend(loc="center left", fontsize=12, bbox_to_anchor=(1, 0.5))
 
         # Styling the ticks
         ax2.tick_params(axis='x', which='both', bottom=True, top=False, labelbottom=True, color='green', direction='in')
@@ -3026,8 +3026,9 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
         ax2.minorticks_on()
         #ax2.grid(True)
         # Styling the plot background
-        plt.style.use('seaborn-notebook')
-        
+        #plt.style.use('seaborn-notebook')
+        # Adjust plot layout so it doesn't cut off the legend
+        plt.tight_layout(rect=[0, 0, 0.85, 1])
         #########
         
        #######################
