@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Akhdefo Live Optical Flow</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 5px solid #28a745;
+        }
+
+        .live-camera {
+            margin: 50px auto;
+            max-width: 1200px; /* Increased max-width */
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .info {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1><i class="fas fa-camera"></i> Akhdefo Live Optical Flow Monitoring</h1>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">  <!-- Changed from col-lg-8 to col-lg-9 -->
+                <div class="live-camera mb-4">
+                    <h2 class="text-center bg-dark text-white py-2">Live Camera 1</h2>
+                    <img src="{{ url_for('video1') }}" alt="Live Camera Feed 1" class="w-100">
+                </div>
+
+                <div class="live-camera">
+                    <h2 class="text-center bg-dark text-white py-2">Live Camera 2</h2>
+                    <img src="{{ url_for('video2') }}" alt="Live Camera Feed 2" class="w-100">
+                </div>
+            </div>
+
+            <div class="col-lg-3">  <!-- Changed from col-lg-4 to col-lg-3 -->
+                <div class="info">
+                    <h3><i class="fas fa-info-circle"></i> Project Information</h3>
+                    <p>This is a demo project using Akhdefo software to monitor rockfall with real-time optical flow processing from live camera feeds. 
+                    <a href="https://pypi.org/project/akhdefo-functions/">Download Akhdefo software</a>.</p>
+                </div>
+                <h4><i class="fas fa-info-circle"></i> September 20th, 2021 RockFall</h4>
+                <div class="embed-responsive embed-responsive-16by9 mt-4">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/2_fdLSoqCFM" title="RockFall September 2021" allowfullscreen></iframe>
+                </div>
+                <div class="embed-responsive embed-responsive-16by9 mt-4">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/68JtB5va4dM" title="RockFall Sep.2021" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Akhdefo - All Rights Reserved. Email: mahmudm@sfu.ca</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

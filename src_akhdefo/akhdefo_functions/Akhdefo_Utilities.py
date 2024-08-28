@@ -831,6 +831,8 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
             OK(return_var=True, store="vel")
             OK(only_mean=True, store="mean_vel")
             z_grid=OK["vel"]
+             # Flip the raster data vertically
+            z_grid = np.flipud(z_grid)
             
     
         elif krig_method=='simple':
@@ -840,7 +842,8 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
             SK(return_var=True, store="vel")
             SK(only_mean=True, store="mean_vel")
             z_grid=SK["vel"]
-            
+             # Flip the raster data vertically
+            z_grid = np.flipud(z_grid)
           
         
         elif krig_method=='universal':   
@@ -860,9 +863,14 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
                                  pseudo_inv=True, pseudo_inv_type='pinvh', fit_normalizer=False, fit_variogram=True, drift_functions=drift)
             
             uk.set_pos((gridy, gridx), mesh_type="structured")
+           
             uk(return_var=True, store="vel")
             uk(only_mean=True, store="mean_vel")
             z_grid=uk["vel"]
+            
+            # Flip the raster data vertically
+            z_grid = np.flipud(z_grid)
+            
             #uk1.structured((gridx, gridy))
             # z_grid=z_grid[0]
             
@@ -1040,17 +1048,14 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
 
             # Create a combined section of the overlapping regions from both chunks
             combined_overlap = np.hstack((z_grids[i-1][:, -overlap_cols:], z_grids[i][:, :overlap_cols]))
-
-            # if smoothing_kernel is not None:
-                
-            # # Apply gaussian filter to the combined overlap
-            #     filtered_overlap = gaussian(combined_overlap, sigma=smoothing_kernel)
-            # else:
-            #     filtered_overlap=combined_overlap
             filtered_overlap=combined_overlap
             # Assign the filtered overlap back to the respective chunks
             z_grids[i-1][:, -overlap_cols:] = filtered_overlap[:, :overlap_cols]
             z_grids[i][:, :overlap_cols] = filtered_overlap[:, overlap_cols:]
+            
+           
+            ######################################
+            
     
     
     
@@ -1119,10 +1124,38 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     norm = create_norm(z_grid)
         
    
+    from scipy.ndimage import zoom
+
+    def resize_array_nearest_neighbor(array, new_height, new_width):
+        """
+        Resize a 2D array using nearest-neighbor interpolation.
+
+        Parameters:
+        array (numpy.ndarray): The input 2D array.
+        new_height (int): The desired height of the resized array.
+        new_width (int): The desired width of the resized array.
+
+        Returns:
+        numpy.ndarray: The resized array.
+        """
+        # Calculate the zoom factors for height and width
+        zoom_factors = (new_height / array.shape[0], new_width / array.shape[1])
+
+        # Use scipy.ndimage.zoom with order=0 to perform nearest-neighbor interpolation
+        resized_array = zoom(array, zoom_factors, order=0)
+
+        return resized_array
+
+    
+    z_grid=resize_array_nearest_neighbor(z_grid, height, width)
+   
+   
+   
     ax2 = plt.subplot(grid_fig[1,0])
     plt.colorbar(ax2.imshow(z_grid, cmap='rainbow', extent=extent, norm=norm), ax=ax2)
     ax2.set_title(f'Interpolation: Krige-Method: {krig_method} kriging and Best Variogram Model: {successful_model} ')
 
+    
     
 
     meta = {
@@ -1143,7 +1176,9 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
     
     out_fileName_reg=out_fileName +"_"+ krig_method
     geo_folder_reg=geo_folder+"/"+ out_fileName_reg
-        
+    
+    
+
     with rasterio.open(os.path.join(geo_folder_reg + '.tif'), 'w', **meta) as dst:
         dst.write(z_grid, 1)
 
@@ -3170,27 +3205,28 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
         imagescreenshot_list.append(combined_frame)
         
         if save_output:
+            if release_flag==True:
         
-            # # Create a temporary file and close it immediately to use its name
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4',  dir='plots/Videos/temp') as temp_file:
-                temp_file_name = temp_file.name
-                
-            fps = 30  # or any other frame rate you want
-            frame_size = (imagescreenshot_list[0].shape[1], imagescreenshot_list[0].shape[0])  # width, height from the first image
-            out_v = cv2.VideoWriter(temp_file_name, fourcc, fps, frame_size)
+                # # Create a temporary file and close it immediately to use its name
+                with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4',  dir='plots/Videos/temp') as temp_file:
+                    temp_file_name = temp_file.name
+                    
+                fps = 30  # or any other frame rate you want
+                frame_size = (imagescreenshot_list[0].shape[1], imagescreenshot_list[0].shape[0])  # width, height from the first image
+                out_v = cv2.VideoWriter(temp_file_name, fourcc, fps, frame_size)
 
-            # temp_count=0 
-            # if release_flag== True : 
+                # temp_count=0 
+                # if release_flag== True : 
+                    
+                for img in imagescreenshot_list:
+                    # Assuming the images are in BGR format, if not, convert them
+                    out_v.write(img)
+                    
+                out_v.release()   
+                # Release everything when done
                 
-            for img in imagescreenshot_list:
-                # Assuming the images are in BGR format, if not, convert them
-                out_v.write(img)
                 
-            out_v.release()   
-            # Release everything when done
-            
-            
-            os.replace(temp_file_name, save_gif_image)
+                os.replace(temp_file_name, save_gif_image)
            
             
             #if current_hour!=last_hour:
@@ -3220,28 +3256,28 @@ def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, outp
        
        # Path to the custom directory
         custom_dir = 'plots/Videos/temp'
-
-        try:
-            # List all files in the directory
-            files = [os.path.join(custom_dir, f) for f in os.listdir(custom_dir) if os.path.isfile(os.path.join(custom_dir, f))]
-            
-            # Sort the files by modification time, most recent last
-            files.sort(key=lambda x: os.path.getmtime(x))
-            
-            # Remove the last file from the list to exclude it from deletion
-            files_to_delete = files[:-5]
-            
-            for file in files_to_delete:
-                try:
-                    os.remove(file)
-                except OSError as e:
-                    # Check if the error is WinError 32
-                    if e.winerror == 32:
-                        continue
-                    else:
-                        raise  # Re-raise the exception if it's not related to the file being in use
-        except Exception as e:
-            print(f"Error processing directory cleanup: {e}")
+        if release_flag==True:
+            try:
+                # List all files in the directory
+                files = [os.path.join(custom_dir, f) for f in os.listdir(custom_dir) if os.path.isfile(os.path.join(custom_dir, f))]
+                
+                # Sort the files by modification time, most recent last
+                files.sort(key=lambda x: os.path.getmtime(x))
+                
+                # Remove the last file from the list to exclude it from deletion
+                files_to_delete = files[:-5]
+                
+                for file in files_to_delete:
+                    try:
+                        os.remove(file)
+                    except OSError as e:
+                        # Check if the error is WinError 32
+                        if e.winerror == 32:
+                            continue
+                        else:
+                            raise  # Re-raise the exception if it's not related to the file being in use
+            except Exception as e:
+                print(f"Error processing directory cleanup: {e}")
             
        
         cv2.imwrite(save_image,combined_frame, [int(cv2.IMWRITE_JPEG_QUALITY), 80] )

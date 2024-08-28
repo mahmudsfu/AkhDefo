@@ -436,6 +436,7 @@ def process_shapefile_with_rasters(shapefile_path, rasterfile_paths):
 
     # Extract 'D' columns
     d_columns = [col for col in gdf.columns if col.startswith('D')]
+   
 
     # Map rasters to 'D' columns
     if len(rasters) == 1 and len(d_columns) <= rasters[0].count:
@@ -539,6 +540,100 @@ def find_best_match(gdf):
 
 ######################################3
 
+# if best match failed use below approach or update fiona and scikit-learn libraries
+# import numpy as np
+# import pandas as pd
+# from sklearn.cluster import DBSCAN
+# from sklearn.neighbors import NearestNeighbors
+# from sklearn.preprocessing import StandardScaler
+# import matplotlib.pyplot as plt
+
+# def find_best_match(gdf):
+#     """
+#     This function identifies the best match point in a GeoDataFrame based on the minimum 'VEL' and 'VEL_STD' 
+#     values within clusters formed by DBSCAN clustering. If no point meets the criteria in the best cluster, 
+#     it finds the best match across the entire dataset. If no match is found, it returns the point closest to zero 'VEL' but not zero.
+
+#     Parameters:
+#     gdf (GeoDataFrame): A GeoDataFrame containing 'VEL', 'VEL_STD', and geometry columns.
+
+#     Returns:
+#     int: The index of the point with the lowest 'VEL' in the cluster with the lowest average 'VEL' and 'VEL_STD',
+#          or the best match in the entire dataset if the primary criteria fail, or the closest to zero 'VEL' but not zero if no match.
+#     """
+    
+#     def calculate_optimal_eps(coords):
+#         neighbors = NearestNeighbors(n_neighbors=5)
+#         neighbors_fit = neighbors.fit(coords)
+#         distances, indices = neighbors_fit.kneighbors(coords)
+#         distances = np.sort(distances[:, 4], axis=0)
+#         plt.plot(distances)
+#         plt.ylabel('Distance to 5th Nearest Neighbor')
+#         plt.xlabel('Points sorted by distance')
+#         plt.title('KNN Distance Plot for DBSCAN eps')
+#         plt.show()
+#         # Find the elbow point which is typically used as the optimal `eps`
+#         # This is a heuristic, so you might need to adjust based on the plot
+#         optimal_eps = distances[int(len(distances) * 0.05)]
+#         return optimal_eps
+
+#     # Extract coordinates and scale them
+#     coords = np.column_stack((gdf.geometry.x, gdf.geometry.y))
+#     coords = StandardScaler().fit_transform(coords)
+
+#     # Calculate the optimal eps value
+#     optimal_eps = calculate_optimal_eps(coords)
+
+#     # Perform DBSCAN clustering with the optimal eps
+#     dbscan = DBSCAN(eps=optimal_eps, min_samples=10)
+#     gdf['cluster'] = dbscan.fit_predict(coords)
+
+#     # Filter out noise points (cluster label -1)
+#     clustered_gdf = gdf[gdf['cluster'] != -1]
+
+#     # Filter out clusters with less than 10 points
+#     cluster_counts = clustered_gdf['cluster'].value_counts()
+#     valid_clusters = cluster_counts[cluster_counts >= 10].index
+#     valid_clustered_gdf = clustered_gdf[clustered_gdf['cluster'].isin(valid_clusters)]
+
+#     # Calculate the minimum 'VEL' and 'VEL_STD' for each valid cluster
+#     cluster_min_vel = valid_clustered_gdf.groupby('cluster')['VEL'].min()
+#     cluster_min_vel_std = valid_clustered_gdf.groupby('cluster')['VEL_STD'].min()
+
+#     # Identify the cluster with the lowest 'VEL' and 'VEL_STD'
+#     if not cluster_min_vel.empty and not cluster_min_vel_std.empty:
+#         best_cluster_vel = cluster_min_vel.idxmin()
+#         best_cluster_vel_std = cluster_min_vel_std.idxmin()
+
+#         if best_cluster_vel == best_cluster_vel_std:
+#             best_cluster = best_cluster_vel
+#             min_vel_point = gdf[(gdf['cluster'] == best_cluster) & 
+#                                 (gdf['VEL'] == gdf[gdf['cluster'] == best_cluster]['VEL'].min()) &
+#                                 (gdf['VEL_STD'] == gdf[gdf['cluster'] == best_cluster]['VEL_STD'].min())]
+
+#             # Get the index of this point
+#             if not min_vel_point.empty:
+#                 best_match_index = min_vel_point.index[0]
+#             else:
+#                 best_match_index = None
+#         else:
+#             best_match_index = None
+#     else:
+#         best_match_index = None
+
+#     # Fallback: Find the point with the minimum 'VEL' and 'VEL_STD' in the entire dataset if necessary
+#     if best_match_index is None:
+#         fallback_point = gdf[(gdf['VEL'] == gdf['VEL'].min()) & 
+#                              (gdf['VEL_STD'] == gdf['VEL_STD'].min())]
+
+#         if not fallback_point.empty:
+#             best_match_index = fallback_point.index[0]
+#         else:
+#             # If no point meets the criteria, find the point closest to zero 'VEL' but not zero
+#             closest_to_zero_point = gdf[gdf['VEL'] != 0].iloc[(gdf[gdf['VEL'] != 0]['VEL']).abs().argsort()[:1]]
+#             best_match_index = closest_to_zero_point.index[0]
+
+#     return best_match_index
 
 
 #############################
@@ -2154,8 +2249,11 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
             #     date1 = (extract_date_from_filename(image_files[lf])).replace("-", "")
             date1 = (extract_date_from_filename(image_files[lf])).replace("-", "")
             start_date_init=(extract_date_from_filename(image_files[0])).replace("-", "")
-            date2 = (extract_date_from_filename(image_files[lf + loop_flag])).replace("-", "")
+            date2 = (extract_date_from_filename(image_files[i + 1])).replace("-", "")
             date3= (extract_date_from_filename(image_files[lf + loop_flag])).replace("-", "")
+            
+            
+            print(f'Date1: {date1} , Date2: {date2} , Date3: {date3}')
             
              ############################
             if selection_Mode=='pair':
@@ -2163,25 +2261,30 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
             elif selection_Mode=='triplet':
                 date3=date3
             
+            
             ############################
             
-            lf=lf+1
+            #lf=lf+1
 
             time_interval_1_2 = (datetime.strptime(date2, '%Y%m%d') - datetime.strptime(date1, '%Y%m%d')).days
             time_interval_1_3 = (datetime.strptime(date3, '%Y%m%d') - datetime.strptime(date1, '%Y%m%d')).days
             if time_interval_1_2 == 0:
                 print(f"Skipping computation for {date1} to {date2} as the time interval is zero.")
+                lf=lf+1
                 continue  # Skip the rest of this loop iteration
             
-            if time_interval_1_2 > max_triplet_interval:
+            elif time_interval_1_2 > max_triplet_interval:
                 print(f"Skipping computation for {date1} to {date2} as the time interval is larger than {max_triplet_interval} days.")
+                lf=lf+1
                 continue  # Skip the rest of this loop iteration
             
-            if time_interval_1_3 > max_triplet_interval:
+            elif time_interval_1_3 > max_triplet_interval:
                 print(f"Skipping computation for {date1} to {date3} as the time interval is larger than {max_triplet_interval} days.")
+                lf=lf+1
                 continue  # Skip the rest of this loop iteration
-        
-            
+            else:
+                
+                lf=lf+1
             conversion_factor = float(img_res[0])  # 1 pixel = 0.1 centimeter, meter, or mm etc..
 
             ############################
@@ -2216,6 +2319,9 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
             file_name_y=Y_folder+ str(date1) + "_" + str(date2)+ "_" +str(date3)
             file_name_vel=VEL_folder+ str(date1)+ "_" + str(date2)+ "_" +str(date3)
             plot_name=plot_folder+ str(date1)+"_" + str(date2)+ "_" + str(date3)
+            
+            
+            
 
             dates_names_list.append(str(date1) + "_" + str(date2)+ "_" + str(date3))
             
@@ -2320,12 +2426,12 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 
                 fname_rasters=str(date1)+"_" + str(date2)+ "_" + str(date3)
                 
-                
+                bin==True if num_chunks==1 else bin==False 
                 
                 try:
                     Auto_Variogram(data=gdfx, column_attribute=z_data, latlon=False, aoi_shapefile=AOI, 
                                 pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, out_fileName=fname_rasters, 
-                                plot_folder=plot_folder_x,  smoothing_kernel=smoothing_kernel_size, geo_folder=X_folder, krig_method=krig_method, detrend_data=use_detrend, use_zscore=use_zscore_krig)
+                                plot_folder=plot_folder_x,  smoothing_kernel=smoothing_kernel_size, geo_folder=X_folder, krig_method=krig_method, detrend_data=use_detrend, use_zscore=use_zscore_krig, binning=bin)
                 except Exception as e:
                     print(f"Auto_Variogram failed with error: {e}")
                     save_xyz_as_geotiff(xi, yi, east_z, file_name_x, dem_path, AOI, interpolate='nearest')
@@ -2333,7 +2439,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 try:
                     Auto_Variogram(data=gdfy, column_attribute=z_data, latlon=False, aoi_shapefile=AOI,
                                 pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, out_fileName=fname_rasters, 
-                                plot_folder=plot_folder_Y, smoothing_kernel=smoothing_kernel_size, geo_folder=Y_folder, krig_method=krig_method, detrend_data=use_detrend, use_zscore=use_zscore_krig)
+                                plot_folder=plot_folder_Y, smoothing_kernel=smoothing_kernel_size, geo_folder=Y_folder, krig_method=krig_method, detrend_data=use_detrend, use_zscore=use_zscore_krig, binning=bin)
                 except Exception as e:
                     print(f"Auto_Variogram failed with error: {e}")
                     save_xyz_as_geotiff(xi, yi, north_z, file_name_y, dem_path, AOI, interpolate='nearest' )
@@ -2341,7 +2447,7 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
                 try:
                     Auto_Variogram(data=gdfv, column_attribute=z_data, latlon=False, aoi_shapefile=AOI, 
                                 pixel_size=pixel_size,num_chunks=num_chunks,overlap_percentage=overlap_percentage, out_fileName=fname_rasters, 
-                                plot_folder=plot_folder_VEL, smoothing_kernel=smoothing_kernel_size, geo_folder=VEL_folder, krig_method=krig_method, detrend_data=use_detrend, use_zscore=use_zscore_krig)
+                                plot_folder=plot_folder_VEL, smoothing_kernel=smoothing_kernel_size, geo_folder=VEL_folder, krig_method=krig_method, detrend_data=use_detrend, use_zscore=use_zscore_krig, binning=bin)
                 except Exception as e:
                     print(f"Auto_Variogram failed with error: {e}")
                     save_xyz_as_geotiff(xi, yi, vel2D_z, file_name_vel, dem_path, AOI , interpolate='nearest')
@@ -2491,62 +2597,62 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
             
            
         
-        print(f'Total Days: {Total_days}')
-        with open(output_dir+"/Names.txt", "w") as file:
-            for item in dates_names_list:
-                # write each item on a new line
-                file.write("%s\n" % item)
+            print(f'Total Days: {Total_days}')
+            with open(output_dir+"/Names.txt", "w") as file:
+                for item in dates_names_list:
+                    # write each item on a new line
+                    file.write("%s\n" % item)
 
+            
+            def find_file(shapefile_temp_dir, suffix):
+                for root, dirs, files in os.walk(shapefile_temp_dir):
+                    for file in files:
+                        if file.endswith(suffix):
+                            return os.path.join(root, file)
+                return None
+            
+            xml_file_path=find_file(shapefile_temp_dir, "_2DVEL.shp.xml")
+            
         
-        def find_file(shapefile_temp_dir, suffix):
-            for root, dirs, files in os.walk(shapefile_temp_dir):
-                for file in files:
-                    if file.endswith(suffix):
-                        return os.path.join(root, file)
-            return None
+            print("file used", xml_file_path)
+        # Check if the file exists
+            if xml_file_path is not None:
+                plot_reference_point(xml_file_path, list_figs, figure_paths)
+                
+                
+            print ("start calculating aspect...")
+            
         
-        xml_file_path=find_file(shapefile_temp_dir, "_2DVEL.shp.xml")
-        
-       
-        print("file used", xml_file_path)
-       # Check if the file exists
-        if xml_file_path is not None:
-            plot_reference_point(xml_file_path, list_figs, figure_paths)
+            gdfe=gpd.read_file(list_shp_paths[2])
+            gdfn=gpd.read_file(list_shp_paths[1])
+            gdfv=gpd.read_file(list_shp_paths[0])
             
             
-        print ("start calculating aspect...")
+            gdf_crs=gdfe.crs
+            
+            # Calculate aspect for gdf1
+            ###############
+            aspect = np.arctan2(gdfe['VEL'], gdfn['VEL'])
+            aspect_deg=np.degrees(aspect)
+            aspect_deg = (450 -aspect_deg ) % 360
+            ##############3
         
-       
-        gdfe=gpd.read_file(list_shp_paths[2])
-        gdfn=gpd.read_file(list_shp_paths[1])
-        gdfv=gpd.read_file(list_shp_paths[0])
-        
-        
-        gdf_crs=gdfe.crs
-        
-        # Calculate aspect for gdf1
-        ###############
-        aspect = np.arctan2(gdfe['VEL'], gdfn['VEL'])
-        aspect_deg=np.degrees(aspect)
-        aspect_deg = (450 -aspect_deg ) % 360
-        ##############3
-       
-        gdfe['aspect']=aspect_deg
+            gdfe['aspect']=aspect_deg
 
-        # Calculate aspect for gdf2
-        
-        
-        gdfn['aspect']=aspect_deg      
-        # Calculate aspect for gdf2
-        
-        gdfv['aspect']=aspect_deg                                   
-        
-        gdfe.to_file(list_shp_paths[2], driver='ESRI Shapefile')
-        gdfn.to_file(list_shp_paths[1], driver='ESRI Shapefile')
-        gdfv.to_file(list_shp_paths[0], driver='ESRI Shapefile')
-        
-        
-        print ("calculating aspect completed")
+            # Calculate aspect for gdf2
+            
+            
+            gdfn['aspect']=aspect_deg      
+            # Calculate aspect for gdf2
+            
+            gdfv['aspect']=aspect_deg                                   
+            
+            gdfe.to_file(list_shp_paths[2], driver='ESRI Shapefile')
+            gdfn.to_file(list_shp_paths[1], driver='ESRI Shapefile')
+            gdfv.to_file(list_shp_paths[0], driver='ESRI Shapefile')
+            
+            
+            print ("calculating aspect completed")
         
         #print(f'Dates: {dates_list}')
 
@@ -2559,7 +2665,8 @@ def Optical_flow_akhdefo(input_dir="", output_dir="", AOI=None, zscore_threshold
         #image1, image3, mean_vel_list, mean_flowx_list, mean_flowy_list, points1_i, points2, dates_list[0], dates_list[len(dates_list)-1]
         
         #return 
-
+        
+    
     feature_matching(folder_path=input_dir, output_dir=output_dir, zscore_threshold=zscore_threshold, AOI=AOI, conversion_factor=float(img_res[0]), ssim_thresh=ssim_thresh)
 
    

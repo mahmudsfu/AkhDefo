@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath('..'))
 project = 'AkhDefo Software'
 copyright = '2024, Mahmud Mustafa Muhammad'
 author = 'Mahmud Mustafa Muhammad'
-release = '2.5.5'
+release = '2.5.63'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

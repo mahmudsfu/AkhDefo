@@ -626,10 +626,10 @@ def _create_plot(hillshade, raster, dem_transform, raster_transform, raster_crs,
     else:
         alpha_basemap=alpha
     
-    if normalize:
+    if normalize==True:
         raster, norm = _normalize_raster(raster, min_value, max_value)
         
-    if normalize==True:
+    #if normalize==True:
     # Overlay the raster with alpha for transparency using raster_transform for its extent
       
         
@@ -809,7 +809,9 @@ def create_kmz_overlay(hillshade, raster, colormap, alpha, west, south, east, no
    
     if normalize:
         raster, norm = _normalize_raster(raster, min_value, max_value)
-    img = ax.imshow(raster, cmap=colormap, alpha=0.75, extent=[west, east, south, north], norm=norm)
+        img = ax.imshow(raster, cmap=colormap, alpha=0.75, extent=[west, east, south, north], norm=norm)
+    
+    img = ax.imshow(raster, cmap=colormap, alpha=0.75, extent=[west, east, south, north])
     ax.set_axis_off()
     fig_path = os.path.join(output_folder, 'overlay' + '.jpg')
     
