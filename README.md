@@ -176,42 +176,43 @@ You now have a dedicated Conda environment for this project, containing all the 
 
 ```yaml
 
-dependencies:
-  - python=3.8  # Assuming Python 3.8, can be changed as needed
-  - cmocean
-  - pip
-  - opencv
-  - earthpy
-  - flask
-  - geopandas
-  - glob2
-  - gstools
-  - hyp3_sdk
-  - ipywidgets
-  - json5
-  - matplotlib
-  - numpy
-  - gdal
-  - pandas
-  - recommonmark
-  - sphinx
-  - nbsphinx
-  - sphinx-book-theme
-  - myst-parser
-  - plotly
-  - pykrige
-  - rasterio
-  - requests
-  - rioxarray
-  - scipy
-  - seaborn
-  - shapely
-  - scikit-image  # skimage
-  - scikit-learn  # sklearn
-  - statsmodels
-  - tensorflow
-  - tqdm
-  - xmltodict
+# Install Python 3.8 and essential packages
+#!conda install python=3.8 pip -y
+
+# Install scientific and plotting libraries
+!conda install -c conda-forge numpy matplotlib pandas scipy seaborn statsmodels plotly tqdm -y
+
+# Install geospatial libraries
+!conda install -c conda-forge geopandas shapely gdal rasterio rioxarray pykrige gstools -y
+
+# Install additional tools for geospatial analysis and visualization
+!pip install opencv-python earthpy cmocean -y
+
+# Install web frameworks and general libraries
+!conda install flask requests -y
+
+# Install Sphinx and documentation tools
+!conda install -c conda-forge recommonmark sphinx nbsphinx sphinx-book-theme myst-parser -y
+
+# Install machine learning libraries
+!conda install -c conda-forge scikit-learn scikit-image  -y
+
+!pip install -U tensorflow -y
+
+# Install widget and interface tools
+!conda install -c conda-forge ipywidgets json5 -y
+
+# Install miscellaneous libraries
+!conda install -c conda-forge hyp3_sdk glob2 xmltodict -y
+
+
+! pip install akhdefo_functions arosics asf_search cmocean datetime earthpy flask geocube geopandas glob2 
+! pip install gstools hyp3_sdk imutils ipywidgets json3 matplotlib matplotlib_scalebar numpy opencv-python pandas 
+! pip install pathlib pillow planet plotly pykrige pyproj python-dateutil rasterio regex requests 
+! pip install rioxarray scikit-image scikit-learn scipy seaborn shapely shutils simplekml statsmodels 
+! pip install subprocess32 tensorflow
+
+
 
 ```
 3. Download the Python package requirement file: [pip_req.txt](pip_req.txt).
