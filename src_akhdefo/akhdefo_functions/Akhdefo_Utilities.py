@@ -592,7 +592,7 @@ def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="",
         grid = gpd.GeoDataFrame(geometry=grid_cells, crs=geodataframe.crs)
 
         # Spatial join points to the grid
-        joined_gdf = gpd.sjoin(geodataframe, grid, how="inner", op="within")
+        joined_gdf = gpd.sjoin(geodataframe, grid, how="inner", predicate="within")
         joined_gdf = joined_gdf.rename(columns={"index_right": "grid_id"})  # Rename 'index_right' to 'grid_id' to avoid ambiguity
         joined_gdf.reset_index(drop=True, inplace=True)
 
