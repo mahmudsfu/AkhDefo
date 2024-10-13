@@ -258,6 +258,8 @@ dependencies:
   - zlib-ng=2.0.7=h0b41bf4_0
   - zstandard=0.23.0=py310ha39cb0e_1
   - zstd=1.5.6=ha6fb4c9_0
+  - pyproj
+  - arosics
   - pip:
       - absl-py==2.1.0
       - affine==2.4.0
@@ -363,4 +365,41 @@ dependencies:
       - wrapt==1.16.0
       - xarray==2024.9.0
       - zope-interface==7.0.3
+      - akhdefo_functions
+      - asf_search
+      - cmocean
+      - datetime
+      - earthpy
+      - flask
+      - geocube
+      - geopandas
+      - glob2
+      - gstools
+      - hyp3_sdk
+      - imutils
+      - json3
+      - matplotlib_scalebar
+      - numpy
+      - opencv-python
+      - pandas
+      - pillow
+      - planet
+      - plotly
+      - pykrige
+      - pyproj
+      - python-dateutil
+      - rasterio regex
+      - requests
+      - rioxarray
+      - scikit-image
+      - scikit-learn
+      - scipy
+      - seaborn
+      - shapely
+      - shutils
+      - simplekml
+      - statsmodels
+      - geopandas
+      - elevation
+      - gitpython
 prefix: /usr/local/envs/akhdefo_colab_env
