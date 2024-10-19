@@ -546,10 +546,11 @@ def Raster_Correction(input_path, output_path, limit=None, lowpass_kernel_size=5
                 denoise_bilateral = clipped_data
                 if CLAHE_filter:
                     corrected_data = exposure.equalize_adapthist(denoise_bilateral, kernel_size=128, clip_limit=0.01, nbins=256)
+                    normalized_data = cv2.normalize(corrected_data, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX).astype(np.uint8)
                 else:
                     corrected_data=denoise_bilateral
-                    #normalized_data = cv2.normalize(corrected_data, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX).astype(np.uint8)
-                    normalized_data = exposure.rescale_intensity(corrected_data, in_range=(np.nanmin(corrected_data), np.nanmax(corrected_data)), out_range=(0, 255))
+                    normalized_data = cv2.normalize(corrected_data, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX).astype(np.uint8)
+                    #normalized_data = exposure.rescale_intensity(corrected_data, in_range=(np.nanmin(corrected_data), np.nanmax(corrected_data)), out_range=(0, 255))
 
                     # If denoise_bilateral is a float image, ensure the output is in uint8 format for proper visualization
                     if normalized_data.dtype == np.float64:
