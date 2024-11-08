@@ -17,7 +17,14 @@
 
 ## Recommended Citation
 
+**To cite AkhDefo version 2**
+
+Mahmud Muhammad and Maqsad Suriev (2025) Optical Flow: A Multifaceted Approach for Analyzing and Observing Mass Movements through Optical and Radar Images, (Accepted Manuscript)Progress in Landslide Research and Technology, Volume 4 Issue 1, 2025. Progress in Landslide Research and Technology. Springer
+
+**To cite AkhDefo Version 1**
+
 Muhammad M, Williams-Jones G, Stead D, Tortini R, Falorni G, and Donati D (2022) Applications of Image-Based Computer Vision for Remote Surveillance of Slope Instability. *Front. Earth Sci.* 10:909078. doi: [10.3389/feart.2022.909078](https://doi.org/10.3389/feart.2022.909078)
+
 
 ## Updates
 
