@@ -95,40 +95,35 @@
 # '''
 ###Start###
 from akhdefo_functions import akhdefo_viewer
-from osgeo import gdal
+from osgeo import gdal # type: ignore
 import numpy as np
 import matplotlib.pyplot as plt
 import rasterio
 import os
 import rasterio as rio
 import requests
-from datetime import datetime, timedelta
-import planet
+from datetime import datetime
+import planet # type: ignore
 import json
-from planet import Session, data_filter
-from planet import Session, OrdersClient
+from planet import Session, data_filter # type: ignore
+from planet import Session, OrdersClient # type: ignore
 from pathlib import Path
 import shutil
-from osgeo import osr
-import cmocean
+from osgeo import osr # type: ignore
+import cmocean # type: ignore
 import geopandas as gpd
-import gstools as gs
+import gstools as gs # type: ignore
       
 import numpy as np
 import geopandas as gpd
-import gstools as gs
 import matplotlib.pyplot as plt
-import pykrige.kriging_tools as kt
-from pykrige.ok import OrdinaryKriging
-from pykrige.uk import UniversalKriging
 import rasterio
 from rasterio.features import geometry_mask
-from scipy.ndimage import median_filter
 from skimage.filters import gaussian
 import os
 
 import asf_search as asf
-import hyp3_sdk as sdk
+import hyp3_sdk as sdk # type: ignore
 import pandas as pd
 
 
@@ -142,7 +137,6 @@ from skimage import exposure
 
 import warnings
 import time 
-from skimage.registration import phase_cross_correlation
 import matplotlib
 import pandas as pd
 import tempfile
@@ -158,17 +152,15 @@ from skimage.metrics import structural_similarity as ssim
 # import required libraries
 # from vidgear.gears import CamGear
 # from vidgear.gears import StreamGear
-import queue
 import time
 
-from osgeo import gdal, osr
+from osgeo import gdal, osr # type: ignore
 import os
 import gc
 import time
 from shapely.geometry import box
 import os
 import geopandas as gpd
-from shapely.geometry import Point
 
 
 
@@ -465,29 +457,97 @@ def Akhdefo_inversion(horizontal_InSAR="", Vertical_InSAR="", EW_Akhdefo="", NS_
 #from akhdefo_functions import mask_raster
 
 def set_gdf_to_utm(gdf):
+    """
+    Reprojects a GeoDataFrame to either the most appropriate UTM (Universal Transverse Mercator) CRS or to
+    WGS 84 / Pseudo-Mercator (EPSG:3857) if the region spans multiple UTM zones.
+    
+    This function determines if the input GeoDataFrame (`gdf`) spans more than one UTM zone based on the centroids 
+    of its geometries. If it does, the GeoDataFrame is reprojected to EPSG:3857 (Pseudo-Mercator) to minimize 
+    distortion across multiple UTM zones. Otherwise, it uses the UTM zone derived from the median centroid.
+
+    Parameters:
+    ----------
+    gdf : geopandas.GeoDataFrame
+        A GeoDataFrame containing geometries that need to be reprojected. If the CRS of `gdf` 
+        is undefined, it defaults to the WGS 84 geographic coordinate system (EPSG:4326).
+
+    Returns:
+    -------
+    geopandas.GeoDataFrame
+        A new GeoDataFrame reprojected to either EPSG:3857 or the most appropriate UTM CRS.
+
+    Raises:
+    ------
+    ValueError
+        If the calculated UTM zone is out of the valid range (1-60) or if the generated EPSG code is outside 
+        the valid UTM EPSG code range (32601–32660 for northern hemisphere and 32701–32760 for southern hemisphere).
+
+    Notes:
+    ------
+    - If the input GeoDataFrame spans multiple UTM zones, the output is reprojected to EPSG:3857.
+    - The UTM zone is determined by the median longitude of the geometries' centroids, while the hemisphere 
+      (north or south) is decided based on the median latitude.
+    - The EPSG codes for UTM zones follow the structure:
+        - Northern Hemisphere: EPSG:32601 to EPSG:32660
+        - Southern Hemisphere: EPSG:32701 to EPSG:32760
+
+    Example:
+    -------
+    >>> import geopandas as gpd
+    >>> # Assuming `gdf` is a GeoDataFrame with geometries in WGS 84 CRS
+    >>> gdf = set_gdf_to_utm(gdf)
+    >>> gdf.crs
+    <Projected CRS: EPSG:3857> # if gdf spans multiple UTM zones
+    
+    """
+    import numpy as np
+    import warnings
+    
     # Ensure the GeoDataFrame has a valid CRS
     if gdf.crs is None:
         gdf.crs = "EPSG:4326"  # WGS 84
-    
-    # Calculate the median longitude to estimate the UTM zone
-    median_lon = gdf.geometry.x.median()
+
+    # Calculate the centroid of geometries to get median longitude and latitude
+    gdf_centroids = gdf.geometry.centroid
+
+    # Calculate the median longitude and latitude from the centroids
+    median_lon = gdf_centroids.x.median()
+    median_lat = gdf_centroids.y.median()
 
     # Determine the UTM zone from the median longitude
     utm_zone = int(np.floor((median_lon + 180) / 6) + 1)
+
+    # Identify unique UTM zones within the GeoDataFrame
+    gdf['utm_zone'] = ((gdf_centroids.x + 180) // 6 + 1).astype(int)
+    unique_zones = gdf['utm_zone'].unique()
+    if len(unique_zones) > 1:
+        warnings.warn(
+            f"The GeoDataFrame spans multiple UTM zones ({unique_zones}). "
+            f"Using WGS 84 / Pseudo-Mercator (EPSG:3857) for re-projection."
+        )
+        gdf = gdf.to_crs("EPSG:3857")  # Reproject to EPSG:3857
+    else:
+        # Check if it's in the northern or southern hemisphere
+        hemisphere = 'north' if median_lat >= 0 else 'south'
+
+        # Construct the EPSG code for the UTM zone, handling both hemispheres
+        epsg_code = 32600 + utm_zone if hemisphere == 'north' else 32700 + utm_zone
+
+        # Ensure that the calculated EPSG code is valid within UTM limits (EPSG:32601–32660 for north, 32701–32760 for south)
+        if not (32601 <= epsg_code <= 32660 or 32701 <= epsg_code <= 32760):
+            raise ValueError("Calculated EPSG code is outside valid UTM range. Check coordinate values.")
+
+        # Set the GeoDataFrame to the calculated UTM CRS
+        gdf = gdf.to_crs(f"EPSG:{epsg_code}")
+
+    # Drop the temporary 'utm_zone' column
+    gdf = gdf.drop(columns=['utm_zone'])
     
-    # Check if it's in the northern or southern hemisphere
-    median_lat = gdf.geometry.y.median()
-    hemisphere = 'north' if median_lat >= 0 else 'south'
-    
-    # Construct the EPSG code for the UTM zone
-    epsg_code = f"EPSG:{32600 + utm_zone if hemisphere == 'north' else 32700 + utm_zone}"
-    
-    # Set the GeoDataFrame to the calculated UTM CRS
-    gdf.to_crs(epsg_code, inplace=True)
-    return gdf 
+    return gdf
+
 
 def Auto_Variogram(data="", column_attribute="", latlon=False, aoi_shapefile="", pixel_size=20,num_chunks=10,overlap_percentage=0, out_fileName='interpolated_kriging', 
-                   plot_folder='kriging_plots', geo_folder='geo_rasterFolder', smoothing_kernel=2, mask: [np.ndarray] = None , 
+                   plot_folder='kriging_plots', geo_folder='geo_rasterFolder', smoothing_kernel=2, mask: [np.ndarray] = None ,  # type: ignore
                    UTM_Zone=None, krig_method='ordinary' , drift_functions='linear', detrend_data=None, use_zscore=None, binning=False):
     
      
@@ -1481,7 +1541,7 @@ async def akhdefo_download_planet(planet_api_key="", AOI="plinth.json", start_da
         }
 
     output_folder=output_folder+"_"+task_name
-    from planet import Auth, reporting
+    from planet import Auth, reporting # type: ignore
     async def poll_and_download(order):
         async with Session() as sess:
             cl = OrdersClient(sess)
@@ -2108,7 +2168,6 @@ from skimage.metrics import structural_similarity as ssim
 # import required libraries
 #from vidgear.gears import CamGear
 import time
-from scipy.ndimage import shift as shift_cor
 
 # Function to measure displacement using Dense Optical Flow
 def measure_displacement_from_camera(hls_url, alpha=0.1, save_output=False, output_filename=None, ssim_threshold=0.4, 
