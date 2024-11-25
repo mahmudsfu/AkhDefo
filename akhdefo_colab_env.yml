@@ -1,6 +1,7 @@
 name: akhdefo_colab_env
 channels:
   - conda-forge
+  - default
 dependencies:
   - _libgcc_mutex
   - _openmp_mutex
