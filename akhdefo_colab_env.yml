@@ -18,7 +18,7 @@ dependencies:
   - brotli
   - brotli-bin
   - brotli-python
-  - brunsli
+  #- brunsli
   - bzip2
   - c-ares
   - c-blosc2
@@ -82,13 +82,13 @@ dependencies:
   - jsonpointer
   - jxrlib
   - kealib
-  - keyutils
+  #- keyutils
   - kiwisolver
   - krb5
   - lazy-loader
   - lazy_loader
   - lcms2
-  - ld_impl_linux-64
+  #- ld_impl_linux-64
   - lerc
   - libabseil
   - libaec
@@ -105,17 +105,17 @@ dependencies:
   - libcrc32c
   - libcurl
   - libdeflate
-  - libedit
-  - libev
+  #- libedit
+  #- libev
   - libexpat
   - libffi
   - libgcc
-  - libgcc-ng
+  #- libgcc-ng
   - libgdal
   - libgettextpo
   - libgettextpo-devel
   - libgfortran
-  - libgfortran-ng
+  #- libgfortran-ng
   - libgfortran5
   - libglib
   - libgomp
@@ -131,7 +131,7 @@ dependencies:
   - libmambapy
   - libnetcdf
   - libnghttp2
-  - libnsl
+  #- libnsl
   - libopenblas
   - libpng
   - libpq
@@ -143,9 +143,9 @@ dependencies:
   - libsqlite
   - libssh2
   - libstdcxx
-  - libstdcxx-ng
+  #- libstdcxx-ng
   - libtiff
-  - libuuid
+  #- libuuid
   - libwebp-base
   - libxcb
   - libxml2
@@ -165,10 +165,10 @@ dependencies:
   - menuinst
   - minizip
   - munkres
-  - ncurses
+  #- ncurses
   - networkx
-  - nspr
-  - nss
+  #- nspr
+  #- nss
   - numpy
   - openjpeg
   - openssl
@@ -205,7 +205,7 @@ dependencies:
   - qhull
   - rav1e
   - re2
-  - readline
+  #- readline
   - reproc
   - reproc-cpp
   - requests
@@ -228,7 +228,7 @@ dependencies:
   - tqdm
   - truststore
   - typing_extensions
-  - tzcode
+  #- tzcode
   - tzdata
   - uc-micro-py
   - unicodedata2
