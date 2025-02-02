@@ -205,6 +205,7 @@ import shutil
 import tempfile
 import os
 
+#############################################################
 def save_images_to_temp_folder(image_path1, image_path2):
     # Create a temporary directory
     temp_dir = tempfile.mkdtemp()
@@ -224,6 +225,12 @@ def save_images_to_temp_folder(image_path1, image_path2):
     #print("Image 2 saved at:", dest_path2)
     
     return dest_path1, dest_path2, temp_dir
+
+###################################################3
+
+
+
+################################################
 
 def delete_temp_folder(temp_folder_path):
     # Check if the folder exists
