@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - default
 dependencies:
+  - python=3.10
   - _libgcc_mutex
   - _openmp_mutex
   - aom
